@@ -24,7 +24,7 @@
         app:cornerStyle="small"
         app:stateBgColor="@color/theme_color_pressed" />
 
-    <android.support.v4.widget.Space
+    <androidx.legacy.widget.Space
         android:layout_width="36dp"
         android:layout_height="wrap_content" />
 
