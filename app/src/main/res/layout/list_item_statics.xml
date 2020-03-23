@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/tv_custNo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_weight="1.4"
+        android:gravity="center"
+        android:textColor="@color/content_text_gray"
+        android:textSize="@dimen/content_text_size" />
+
+    <TextView
+        android:id="@+id/tv_custName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textColor="@color/content_text_gray"
+        android:textSize="@dimen/content_text_size" />
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="行动日期"
+        android:textColor="@color/content_text_gray"
+        android:textSize="@dimen/content_text_size" />
+
+    <TextView
+        android:id="@+id/tv_oprateOfficer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="4dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/content_text_gray"
+        android:textSize="@dimen/content_text_size" />
+
+</LinearLayout>

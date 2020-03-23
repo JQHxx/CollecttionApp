@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:background="@drawable/welcomepage_bg"
+    android:orientation="vertical"
+    android:gravity="center">
+    
+    <TextView style="@style/welcomepage_one_textstyle" android:gravity="center" android:text="@string/welcomepage_one_text"/>
+    <Button android:id="@+id/welcomebutton" android:text="@string/start_use"
+         android:background="@drawable/ht_button_style" style="@style/welcomepage_button"/>
+    
+</LinearLayout>

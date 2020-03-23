@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_view"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/transparent"
+    android:gravity="center"
+    android:minHeight="60dp"
+    android:minWidth="180dp"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <com.huateng.fm.ui.view.loading.titanic.FmTitanicTextView
+        android:id="@+id/tv_titanic"
+        android:text="loading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="#212121"
+        android:textSize="40sp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"/>
+
+</LinearLayout>

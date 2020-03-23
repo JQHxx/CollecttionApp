@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/CommonBackgroundStyle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <com.tools.view.RxTitle xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rx_title"
+        style="@style/CommontRxToolBarStyle"
+        app:rxRightText="保存"
+        app:rxRightTextVisibility="true"
+        app:rxTitle="API Setting" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rx_title"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="0.3"
+                android:text="API模式"
+                android:textColor="@color/black_text"
+                android:textSize="16sp" />
+
+            <com.tools.view.spinner.NiceSpinner
+                android:id="@+id/sp_appMode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingLeft="16dp"
+                android:paddingTop="5dp"
+                android:spinnerMode="dropdown"
+                app:textTint="#333333" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_IpPortRoot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="0.15"
+                    android:text="host:"
+                    android:textColor="@color/black_text"
+                    android:textSize="16sp" />
+
+                <com.tools.view.FmAutoCompleteTextView
+                    android:id="@+id/actv_host"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:textSize="12sp"
+                    android:textColor="@color/black_text" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="0.15"
+                    android:text="port:"
+                    android:textColor="@color/black_text"
+                    android:textSize="16sp" />
+
+                <com.tools.view.FmAutoCompleteTextView
+                    android:id="@+id/actv_port"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:inputType="number"
+                    android:textColor="@color/black_text"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="0.15"
+                    android:text="root:"
+                    android:textColor="@color/black_text"
+                    android:textSize="16sp" />
+
+                <com.tools.view.FmAutoCompleteTextView
+                    android:id="@+id/actv_root"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/black_text"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="0.15"
+                android:text="api:"
+                android:textColor="@color/black_text"
+                android:textSize="14sp" />
+
+            <com.tools.view.FmAutoCompleteTextView
+                android:id="@+id/tv_hostname"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:textColor="@color/black_text"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

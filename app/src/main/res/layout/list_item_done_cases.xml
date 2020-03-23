@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:background="@drawable/selector"
+    android:descendantFocusability="blocksDescendants"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingBottom="12dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="12dp">
+
+    <com.huateng.fm.ui.widget.FmCheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:checkedDrawable="@drawable/checkbox_thumb_un"
+        app:totalSize="56dp"
+        app:unCheckedDrawable="@drawable/checkbox_thumb" />
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_hostName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="户主姓名："
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/tv_hostName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="张晓"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <com.huateng.collection.widget.CaseFillReminder
+            android:id="@+id/csv_fillReminder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/ll_hostName"
+            android:layout_alignParentRight="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_hostName"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/v_caseNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="客户姓名："
+                    android:textColor="#666666"
+                    android:textSize="@dimen/case_summary_text_size" />
+
+                <TextView
+                    android:id="@+id/tv_custName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="3658468995255"
+                    android:textColor="#666666"
+                    android:textSize="@dimen/case_summary_text_size" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/v_caseAmt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="委案金额："
+                    android:textColor="#666666"
+                    android:textSize="@dimen/case_summary_text_size" />
+
+                <TextView
+                    android:id="@+id/tv_amt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20000.5 元"
+                    android:textColor="#666666"
+                    android:textSize="@dimen/case_summary_text_size" />
+
+            </LinearLayout>
+
+
+            <!--<LinearLayout-->
+                <!--android:id="@+id/v_date"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="8dp"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="委案日期："-->
+                    <!--android:textColor="#999999"-->
+                    <!--android:textSize="@dimen/case_summary_text_size" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_date"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="2016/11/6"-->
+                    <!--android:textColor="#999999"-->
+                    <!--android:textSize="@dimen/case_summary_text_size" />-->
+
+            <!--</LinearLayout>-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="地址类型："
+                    android:textColor="#999999"
+                    android:textSize="@dimen/case_summary_text_size" />
+
+                <TextView
+                    android:id="@+id/tv_addressType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#999999"
+                    android:textSize="@dimen/case_summary_text_size" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/v_uploadState"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/v_date"
+                android:layout_marginTop="3dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <com.huateng.fm.ui.view.FmNumericProgressBar
+                    android:id="@+id/csv_uploadProgress"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:max="100" />
+
+                <TextView
+                    android:id="@+id/tv_uploadState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="等待上传"
+                    android:textColor="@color/uploading"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

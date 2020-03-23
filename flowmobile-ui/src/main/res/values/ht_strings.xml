@@ -1,0 +1,135 @@
+<resources>
+
+    <string name="app_name">flowmobile-pad-ui</string>
+    <string name="dialog_default_title">这是一个信息!</string>
+    <string name="dialog_ok">确定</string>
+    <string name="dialog_cancel">取消</string>
+    <string name="pull_to_refresh">下拉刷新</string>
+    <string name="release_to_refresh">释放立即刷新</string>
+    <string name="refreshing">正在刷新...</string>
+    <string name="refresh_succeed">刷新成功</string>
+    <string name="refresh_fail">刷新失败</string>
+    <string name="pullup_to_load">上拉加载更多</string>
+    <string name="release_to_load">释放立即加载</string>
+    <string name="loading">正在加载...</string>
+    <string name="load_succeed">加载成功</string>
+    <string name="load_fail">加载失败</string>
+    <!-- Accessibility description sent when user starts drawing a lock pattern. [CHAR LIMIT=NONE] -->
+    <string name="lockscreen_access_pattern_start">Pattern started</string>
+    <!-- Accessibility description sent when the pattern times out and is cleared. [CHAR LIMIT=NONE] -->
+    <string name="lockscreen_access_pattern_cleared">Pattern cleared</string>
+    <!-- Accessibility description sent when user adds a cell to the pattern. [CHAR LIMIT=NONE] -->
+    <string name="lockscreen_access_pattern_cell_added">Cell added</string>
+    <!-- Accessibility description sent when user completes drawing a pattern. [CHAR LIMIT=NONE] -->
+    <string name="lockscreen_access_pattern_detected">Pattern completed</string>
+    <!-- PullToRefresh -->
+    <string name="pull_to_refresh_pull_label">下拉刷新…</string>
+    <string name="pull_to_refresh_release_label">释放刷新…</string>
+    <string name="pull_to_refresh_refreshing_label">加载中…</string>
+
+    <!-- Just use standard Pull Down String when pulling up. These can be set for languages which require it -->
+    <string name="pull_to_refresh_from_bottom_pull_label">@string/pull_to_refresh_pull_label</string>
+    <string name="pull_to_refresh_from_bottom_release_label">@string/pull_to_refresh_release_label</string>
+    <string name="pull_to_refresh_from_bottom_refreshing_label">@string/pull_to_refresh_refreshing_label</string>
+    <string name="welcomepage_one_text">测试测试，
+        测试测试测试测试测试</string>
+    <string name="start_use">开始使用</string>
+    <string name="no_network_connection_toast">No network connection found</string>
+
+    <!-- for HTCalendarPickerView -->
+    <string name="day_name_format">EEE</string>
+    <string name="invalid_date">时间范围必须在 %1$s and %2$s.</string>
+    <string name="month_name_format">MMMM yyyy</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="pwd_keyboard_shield_symbol">●</string>
+    
+    
+    <!-- For BaiduMap -->
+    <string name="required_field">必填</string>
+    <string name="optional_field">可选</string>
+    
+    <!-- Button -->
+    <string name="btn_cloudsearch">云检索</string>
+    <string name="btn_cloudstorage">云存储</string>
+    
+    <!-- cloudsearch -->
+    <string name="btn_cloudstorage_localsearch">本地搜索</string>
+    <string name="btn_cloudstorage_nearbysearch">周边搜索</string>
+    <string name="btn_cloudstorage_boundsearch">矩形搜索</string>
+    <string name="btn_cloudstorage_detailsearch">详情搜索</string>
+
+    <!-- labels -->
+    <string name="create_table_label">创建表</string>
+    <string name="detail_table_label">表信息</string>
+    <string name="list_column_label">列信息</string>
+    <string name="list_poi_label">数据信息</string>
+    <string name="create_poi_label">创建数据</string>
+    <string name="update_poi_label">修改数据</string>
+    <string name="cloudsearch_label">云检索</string>
+    
+    <!-- reminder information -->
+    <string name="confire">确认</string>
+    <string name="delete">删除</string>
+    <string name="modify">修改</string>
+    
+    <!-- menu -->
+    <string name="create_table">创建表</string>
+    <string name="create_poi">创建数据</string>
+    <string name="update_poi">修改数据</string>
+
+    <!-- table -->
+    <string name="table_name_label">表            名</string>
+    <string name="table_type_label">表类型</string>
+    <string name="table_published_label">是否发布到检索</string>
+    <string name="table_timestamp_label">时间戳</string>
+    <string name="table_ak_label">访问权限key</string>
+    <string name="table_sn_label">签名</string>
+    <string name="create_label">创建</string>
+    <string name="giveup_label">放弃</string>
+    <string name="delete_label">删除</string>
+    <string name="modify_label">修改</string>
+    <string name="confirm_delete_table">确认要删除该表吗？</string>
+    <string name="on_delete_table">正在删除表</string>
+
+    <!-- column -->
+    <string name="column_name_label">列            名</string>
+    <string name="confirm_delete_poi">确认要删除该条数据吗？</string>
+    <string name="on_delete_poi">正在删除数据</string>
+
+    <!-- table options -->
+    <string name="url_create_table">http://api.map.baidu.com/geodata/v3/geotable/create</string>
+    <string name="url_list_table">http://api.map.baidu.com/geodata/v3/geotable/list</string>
+    <string name="url_detail_table">http://api.map.baidu.com/geodata/v3/geotable/detail</string>
+    <string name="url_update_table">http://api.map.baidu.com/geodata/v3/geotable/update</string>
+    <string name="url_delete_table">http://api.map.baidu.com/geodata/v3/geotable/delete</string>
+
+    <!-- column options -->
+    <string name="url_create_column">http://api.map.baidu.com/geodata/v3/column/create</string>
+    <string name="url_list_column">http://api.map.baidu.com/geodata/v3/column/list</string>
+    <string name="url_detail_column">http://api.map.baidu.com/geodata/v3/column/detail</string>
+    <string name="url_update_column">http://api.map.baidu.com/geodata/v3/column/update</string>
+    <string name="url_delete_column">http://api.map.baidu.com/geodata/v3/column/delete</string>
+
+    <!-- poi options -->
+    <string name="url_create_poi">http://api.map.baidu.com/geodata/v3/poi/create</string>
+    <string name="url_list_poi">http://api.map.baidu.com/geodata/v3/poi/list</string>
+    <string name="url_detail_poi">http://api.map.baidu.com/geodata/v3/poi/detail</string>
+    <string name="url_update_poi">http://api.map.baidu.com/geodata/v3/poi/update</string>
+    <string name="url_delete_poi">http://api.map.baidu.com/geodata/v3/poi/delete</string>
+    <string name="url_upload_poi">http://api.map.baidu.com/geodata/v3/poi/upload</string>
+
+    <!-- job options -->
+    <string name="url_listimportdata_job">http://api.map.baidu.com/geodata/v3/job/listimportdata</string>
+    <string name="url_list_job">http://api.map.baidu.com/geodata/v3/job/list</string>
+    <string name="url_detail_job">http://api.map.baidu.com/geodata/v3/job/detail</string>
+
+    <!-- search -->
+    <string name="url_local_search">http://api.map.baidu.com/geosearch/v3/local</string>
+    <string name="url_nearby_search">http://api.map.baidu.com/geosearch/v3/nearby</string>
+    <string name="url_bound_search">http://api.map.baidu.com/geosearch/v3/bound</string>
+    <string name="url_detail_search">http://api.map.baidu.com/geosearch/v3/detail</string>
+    
+    <!-- ak -->
+    <string name="ak">qS3w3Szl7W7feGgiIswUTUuf</string>
+</resources>

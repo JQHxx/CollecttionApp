@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_gray_bg"
+    android:orientation="vertical">
+
+    <com.tools.view.RxTitle xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rx_title"
+        style="@style/CommontRxToolBarStyle"
+        app:rxRightIconVisibility="false"
+        app:rxTitle="拍照"
+        app:rxTitleVisibility="true" />
+
+    <TextView
+        android:id="@+id/tv_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="拍下可以证明你身份的照片,以便完成催收任务"
+        android:textColor="@color/gray_textcolor"
+        android:textSize="14sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="5dp"
+        android:overScrollMode="never" />
+
+</LinearLayout>

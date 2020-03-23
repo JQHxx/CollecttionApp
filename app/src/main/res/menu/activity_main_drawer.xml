@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_pwd"
+            android:icon="@drawable/icon_password_black_2"
+            android:title="修改密码" />
+        <item
+            android:id="@+id/nav_clearCache"
+            android:icon="@drawable/icon_trash"
+            android:title="清除缓存" />
+        <item
+            android:id="@+id/nav_update"
+            android:icon="@drawable/icon_version_update"
+            android:title="软件更新" />
+    </group>
+
+    <item android:title="test">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_logout"
+                android:title="退出登录" />
+        </menu>
+    </item>
+</menu>

@@ -1,0 +1,56 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_gray_bg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <com.tools.view.RxTitle xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rx_title"
+        style="@style/CommontRxToolBarStyle"
+        app:rxRightIconVisibility="false"
+        app:rxTitle="录音"
+        app:rxTitleVisibility="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="60dp"
+        android:paddingTop="20dp">
+
+        <com.huateng.collection.widget.RecordView
+            android:id="@+id/csv_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/shape_bg_round_white"
+            android:paddingBottom="20dp"
+            android:paddingLeft="120dp"
+            android:paddingRight="120dp"
+            android:paddingTop="20dp"
+            android:text="没有录音记录，快去录音吧！"
+            android:textColor="@color/gray_textcolor"
+            android:textSize="20sp"
+            android:visibility="gone" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/shape_bg_round_white"
+            android:clipToPadding="true"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

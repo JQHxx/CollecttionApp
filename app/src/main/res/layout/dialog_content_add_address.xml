@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dialog_margin"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical">
+
+        <com.huateng.collection.widget.UniversalInput
+            android:id="@+id/csv_caseNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black_text"
+            android:textSize="@dimen/dialog_item_text_size"
+            app:inputType="text"
+            app:labelText="案件号:" />
+
+        <com.huateng.collection.widget.UniversalInput
+            android:id="@+id/csv_custNo"
+            style="@style/CommonInputItem"
+            app:inputType="text"
+            app:labelText="客户号：" />
+
+        <com.huateng.collection.widget.UniversalInput
+            android:id="@+id/csv_addressType"
+            style="@style/CommonInputItem"
+            app:inputType="spinner"
+            app:labelText="地址类型：" />
+
+        <com.huateng.collection.widget.UniversalInput
+            android:id="@+id/csv_city"
+            style="@style/CommonInputItem"
+            app:inputType="editText"
+            app:labelText="城市：" />
+
+        <com.huateng.collection.widget.UniversalInput
+            android:id="@+id/csv_address"
+            style="@style/CommonInputItem"
+            app:inputType="editText"
+            app:labelText="地址：" />
+
+        <com.huateng.collection.widget.UniversalInput
+            android:id="@+id/csv_postCode"
+            style="@style/CommonInputItem"
+            app:inputType="editText"
+            app:labelText="邮编：" />
+
+        <com.huateng.collection.widget.UniversalInput
+            android:id="@+id/csv_name"
+            style="@style/CommonInputItem"
+            app:inputType="editText"
+            app:labelText="姓名：" />
+
+        <com.huateng.collection.widget.UniversalInput
+            android:id="@+id/csv_custRel"
+            style="@style/CommonInputItem"
+            app:inputType="spinner"
+            app:labelText="与客户关系：" />
+
+</LinearLayout>

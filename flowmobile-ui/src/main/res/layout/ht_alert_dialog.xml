@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ht="http://schemas.android.com/apk/res-auto"
+     android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    >
+<LinearLayout
+    android:id="@+id/parent_panel"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/title_panel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:visibility="visible" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="56dp"
+            android:layout_marginRight="16dp" >
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="5dp"
+                android:layout_height="38dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                />
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                                android:layout_marginLeft="30dp"
+                android:layout_centerVertical="true"
+                android:scaleType="fitCenter"
+                android:src="@null" />
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@id/icon"
+                android:gravity="center_vertical"
+                android:paddingRight="16dp"
+                android:singleLine="true"
+                android:text="标题"
+                android:textColor="@color/black_light"
+                android:textSize="17sp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="@color/gray_diliver" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/content_panel"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:orientation="vertical" >
+
+        <ScrollView
+            android:id="@+id/message_panel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:fadeScrollbars="true"
+            android:minHeight="60dp" >
+
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="22dp"
+                android:textColor="@color/black_light"
+                android:textSize="18sp" />
+        </ScrollView>
+
+        <ListView
+            android:id="@+id/lv"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:divider="@color/gray_diliver"
+            android:dividerHeight="1dp"
+            android:fadeScrollbars="true" >
+        </ListView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/button_panel"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="visible" >
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1.5dp"
+            android:background="@color/gray_diliver" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_white_bg"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal" >
+
+            <com.huateng.fm.ui.widget.FmButton
+                android:id="@+id/leftBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="30dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                ht:cornerStyle="none" />
+            <!--
+            <View
+                android:id="@+id/view_divider_left"
+                android:layout_width="1.5dp"
+                android:layout_height="fill_parent"
+                android:background="@color/gray_diliver" />
+            -->
+
+            <com.huateng.fm.ui.widget.FmButton
+                android:id="@+id/centerBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                 android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_weight="1"
+                                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:visibility="visible"
+                ht:cornerStyle="none" />
+
+            <!--
+            <View
+                android:id="@+id/view_divider_right"
+                android:layout_width="1.5dp"
+                android:layout_height="fill_parent"
+                android:background="@color/gray_diliver" />
+            -->
+
+            <com.huateng.fm.ui.widget.FmButton
+                android:id="@+id/rightBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="30dp"
+                 android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:maxLines="2"
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                ht:cornerStyle="none" />
+        </LinearLayout>
+    </LinearLayout>
+    </LinearLayout>
+    
+</LinearLayout>

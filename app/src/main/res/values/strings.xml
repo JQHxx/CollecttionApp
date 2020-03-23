@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">外访清收</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string-array name="segment_control_titles">
+        <item>基础信息</item>
+        <item>账户信息</item>
+        <item>电话簿</item>
+        <item>地址簿</item>
+        <item>行动流水</item>
+    </string-array>
+    <integer name="dialogplus_animation_default_duration">300</integer>
+
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_gray_bg"
+    android:orientation="vertical">
+
+    <com.tools.view.RxTitle xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rx_title"
+        style="@style/CommontRxToolBarStyle"
+        app:rxRightIconVisibility="false"
+        app:rxTitle="录音"
+        app:rxTitleVisibility="true" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:overScrollMode="never" />
+
+</LinearLayout>

@@ -1,0 +1,199 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.alibaba.arouter'
+
+android {
+    compileSdkVersion Integer.parseInt(COMPILE_SDK_VERSION)
+    buildToolsVersion BUILDTOOLS_VERSION
+
+    defaultConfig {
+        applicationId "com.huateng.phone.collection"
+        minSdkVersion Integer.parseInt(MIN_SDK_VERSION)
+        targetSdkVersion Integer.parseInt(TARGET_SDK_VERSION)
+        versionCode 1
+        versionName "1.0.0"
+        multiDexEnabled true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
+    }
+
+    signingConfigs {
+        demo {
+            storeFile file("../huateng-android.jks")
+            storePassword "1234567"
+            keyAlias "collections_hejun"
+            keyPassword "123456"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.demo
+        }
+
+        debug {
+            minifyEnabled true
+            shrinkResources true
+            debuggable true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.demo
+        }
+
+//        debug {
+//            minifyEnabled false
+//            shrinkResources false
+//            debuggable true
+//            signingConfig signingConfigs.demo
+//        }
+    }
+
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "和君纵达-外访催收" + "-v" + defaultConfig.versionName + ".apk"
+//            outputFileName = "和君纵达-外访催收" + "-v" + defaultConfig.versionName +"(可选文件)"+ ".apk"
+        }
+    }
+
+    // 解决butterknife和lombok的冲突：Duplicate files copied in APK META-INF/services/javax.annotation.processing.Processor
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java', 'src/main/java-gen']
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
+}
+
+dependencies {
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    //    compile(name: 'flowmobile-ui-release', ext: 'aar')
+    api project(':flowmobile-ui')
+    androidTestImplementation 'junit:junit:4.12'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.4-beta1'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta1'
+    //appcompat-v7
+    api 'com.android.support:appcompat-v7:' + SUPPORT_LIB_VERSION
+    //design
+    api 'com.android.support:design:' + SUPPORT_LIB_VERSION
+    //support-v4
+    //    compile "com.android.support:support-v4:${SUPPORT_LIB_VERSION}"
+    //cardview-v7
+    api 'com.android.support:cardview-v7:' + SUPPORT_LIB_VERSION
+    //support-annotations
+    api "com.android.support:support-annotations:${SUPPORT_LIB_VERSION}"
+    //
+    api('com.google.android:flexbox:0.2.7') {
+        exclude group: 'com.android.support', module: 'compat'
+    }
+    api 'com.android.support:multidex:1.0.1'
+//    implementation "com.google.guava:guava:23.0"
+
+    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'io.reactivex:rxandroid:1.2.1'
+    implementation 'io.reactivex:rxjava:1.2.1'
+    implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.0.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.0.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.0.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.8.1'
+    //sql
+    implementation 'com.github.satyan:sugar:1.4'
+    implementation 'org.litepal.android:core:1.5.1'
+    implementation 'org.apache.poi:poi:3.16'
+    //    compile 'zhou.widget:richtext:1.0.4'
+
+    //    compile 'com.commit451:PhotoView:1.2.4'
+    implementation 'com.jakewharton:butterknife:8.0.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.0.1'
+    implementation 'com.github.Aspsine:SwipeToLoadLayout:1.0.3'
+    implementation 'com.lsjwzh:materialloadingprogressbar:0.5.8-RELEASE'
+    implementation 'com.github.hotchemi:permissionsdispatcher:3.1.0'
+    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:3.1.0"
+    implementation 'cn.aigestudio.datepicker:DatePicker:2.2.0'
+    implementation 'com.appeaser.sublimepickerlibrary:sublimepickerlibrary:2.1.1'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+    //fragmentation
+    implementation 'me.yokeyword:fragmentation:1.3.6'
+    implementation 'me.yokeyword:eventbus-activity-scope:1.1.0'
+    //eventbus
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    //SwitchButton
+    implementation 'com.kyleduo.switchbutton:library:2.0.0'
+    //Secure key-value
+    implementation 'com.scottyab:secure-preferences-lib:0.1.4'
+    //compile project(':flowmobile-ui')
+    implementation('com.github.afollestad.material-dialogs:core:0.8.5.5@aar') {
+        transitive = true
+    }
+    //tablayout
+    implementation('com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar') {
+        exclude module: 'appcompat-v7'
+        exclude module: 'support-v4'
+    }
+    //对话框
+    implementation 'com.flyco.dialog:FlycoDialog_Lib:1.3.2@aar'
+    //arouter
+    implementation "com.alibaba:arouter-api:${arouter_api_version}"
+    annotationProcessor "com.alibaba:arouter-compiler:${arouter_compiler_version}"
+    //okhttp 工具类
+    implementation 'com.qianwen:okhttp-utils:3.8.0'
+    //Log日志格式美化包
+    implementation 'com.orhanobut:logger:2.1.1'
+    //水印框架
+    implementation('com.huangyz0918:androidwm-light:0.1.2') {
+        exclude module: 'appcompat-v7'
+        exclude module: 'support-v4'
+    }
+    //网络相关库
+    implementation project(':Net-library')
+    //工具库
+    implementation project(':Tools-library')
+    //腾讯地图
+    implementation files('libs/TencentMapSearch_v1.1.7.1.3e04ee1.jar')
+    implementation files('libs/TencentLocationSdk_v7.1.4.3_r4aa8ac63_20180911_165428.jar')
+    implementation files('libs/TencentMapSDK_Raster_v_1.3.2.jar')
+    implementation project(':picture_library')
+    implementation project(':uploadservice-okhttp')
+    implementation project(':lib.uploadservice')
+
+    // Debugging
+    debugImplementation "com.facebook.stetho:stetho:1.4.2"
+    debugImplementation "com.facebook.stetho:stetho-okhttp3:1.4.2"
+    releaseImplementation "net.igenius:stetho-no-op:1.1"
+
+    implementation 'com.tencent.bugly:crashreport:latest.release'
+    //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
+
+}

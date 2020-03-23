@@ -1,0 +1,88 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_gray_bg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <com.tools.view.RxTitle xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rx_title"
+        style="@style/CommontRxToolBarStyle"
+        app:rxRightIconVisibility="false"
+        app:rxTitle="拍照"
+        app:rxTitleVisibility="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="案件编号:"
+                android:textColor="#727273"
+                android:textSize="18sp" />
+
+
+            <TextView
+                android:id="@+id/tv_CaseId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#333333"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="拍下可以证明你身份的照片,以便完成催收任务"
+            android:textColor="#A3A3A4"
+            android:textSize="14sp" />
+
+        <GridView
+            android:id="@+id/image_taker"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:clipToPadding="false"
+            android:horizontalSpacing="12dp"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="2"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="2dp"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="12dp" />
+
+        <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/image_taker"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:choiceMode="singleChoice"-->
+        <!--android:divider="@null"-->
+        <!--android:fadingEdge="none"-->
+        <!--android:listSelector="@android:color/transparent"-->
+        <!--android:scrollbarStyle="outsideOverlay"-->
+        <!--app:layoutManager="android.support.v7.widget.GridLayoutManager"-->
+        <!--app:spanCount="3" />-->
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

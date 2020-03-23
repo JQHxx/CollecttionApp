@@ -1,0 +1,31 @@
+apply from: "config.gradle"
+
+buildscript {
+    repositories {
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.0'
+        classpath 'com.github.dcendents:android-maven-plugin:1.2'
+
+        classpath "com.alibaba:arouter-register:1.0.2"
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        mavenLocal()
+        mavenCentral()
+
+        maven { url "https://jitpack.io" }
+        google()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.tools.view.RxTitle xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rx_title"
+        style="@style/CommontRxToolBarStyle"
+        app:rxLeftIconVisibility="false"
+        app:rxLeftTextVisibility="false"
+        app:rxTitleIcon="@drawable/app_name"
+        app:rxTitleIconVisibility="true"
+        app:rxTitleVisibility="false" />
+
+    <!-- MAIN CONTENT -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.tencent.tencentmap.mapsdk.map.MapView
+            android:id="@+id/tracing_mapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true" />
+
+        <LinearLayout
+            android:id="@+id/layout_trace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_half_transparent_bg"
+            android:orientation="vertical"
+            android:padding="4dp">
+
+            <ImageView
+                android:id="@+id/iv_more"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:padding="2dp"
+                android:src="@drawable/ic_more" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
+

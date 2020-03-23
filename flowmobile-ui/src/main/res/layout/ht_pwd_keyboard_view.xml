@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="@color/gray"
+    android:padding="3dp"
+    android:orientation="vertical"
+    android:weightSum="4.0" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.0"
+        android:orientation="horizontal"
+        android:weightSum="3.0" >
+
+        <com.huateng.fm.ui.widget.FmButton
+            android:id="@+id/btn01"
+            style="@style/HTPwdKeyBoardSideButtonStyle" />
+
+        <com.huateng.fm.ui.widget.FmButton
+            android:id="@+id/btn02"
+            style="@style/HTPwdKeyBoardCenterButtonStyle" />
+
+        <com.huateng.fm.ui.widget.FmButton
+            android:id="@+id/btn03"
+            style="@style/HTPwdKeyBoardSideButtonStyle" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
+        android:layout_weight="1.0"
+        android:orientation="horizontal"
+        android:weightSum="3.0" >
+
+        <com.huateng.fm.ui.widget.FmButton
+            android:id="@+id/btn04"
+            style="@style/HTPwdKeyBoardSideButtonStyle" />
+
+        <com.huateng.fm.ui.widget.FmButton
+            android:id="@+id/btn05"
+            style="@style/HTPwdKeyBoardCenterButtonStyle" />
+
+        <com.huateng.fm.ui.widget.FmButton
+            android:id="@+id/btn06"
+            style="@style/HTPwdKeyBoardSideButtonStyle" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="2dp"
+        android:layout_weight="1.0"
+        android:orientation="horizontal"
+        android:weightSum="3.0" >
+
+        <com.huateng.fm.ui.widget.FmButton
+            android:id="@+id/btn07"
+            style="@style/HTPwdKeyBoardSideButtonStyle" />
+
+        <com.huateng.fm.ui.widget.FmButton
+            android:id="@+id/btn08"
+            style="@style/HTPwdKeyBoardCenterButtonStyle" />
+
+        <com.huateng.fm.ui.widget.FmButton
+            android:id="@+id/btn09"
+            style="@style/HTPwdKeyBoardSideButtonStyle" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.0"
+        android:orientation="horizontal"
+        android:weightSum="3.0" >
+
+        <!-- 12删除单个字符 -->
+
+        <com.huateng.fm.ui.widget.FmImageButton
+            android:id="@+id/btnDelete"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:clickable="true"
+            android:scaleType="center"
+            android:src="@drawable/keyboard_btn_src_x" />
+
+        <com.huateng.fm.ui.widget.FmButton
+            android:id="@+id/btn11"
+            style="@style/HTPwdKeyBoardCenterButtonStyle" />
+
+        <com.huateng.fm.ui.widget.FmButton
+            android:id="@+id/btnConfirm"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:clickable="true"
+            android:scaleType="fitXY"
+            android:text="@string/confirm"
+            android:textSize="30sp" />
+    </LinearLayout>
+
+</LinearLayout>

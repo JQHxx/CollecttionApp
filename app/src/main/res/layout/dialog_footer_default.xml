@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingBottom="40dp"
+    android:paddingTop="8dp">
+
+
+    <com.huateng.fm.ui.widget.FmButton
+        android:id="@+id/btn_left"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minHeight="0dp"
+        android:singleLine="true"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:bgColor="@color/theme_color"
+        app:cornerStyle="small"
+        app:stateBgColor="@color/theme_color_pressed" />
+
+    <android.support.v4.widget.Space
+        android:layout_width="36dp"
+        android:layout_height="wrap_content" />
+
+    <com.huateng.fm.ui.widget.FmButton
+        android:id="@+id/btn_right"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minHeight="0dp"
+        android:singleLine="true"
+        android:text="取消"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:bgColor="@color/gray_bg"
+        app:cornerStyle="small"
+        app:stateBgColor="@color/theme_color_pressed" />
+
+</LinearLayout>

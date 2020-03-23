@@ -1,0 +1,55 @@
+<resources>
+    <dimen name="load_more_footer_height_classic">60dp</dimen>
+
+    <dimen name="refresh_header_height_twitter">80dp</dimen>
+    <dimen name="load_more_footer_height_twitter">60dp</dimen>
+
+    <!-- google -->
+    <dimen name="refresh_header_height_google">100dp</dimen>
+    <dimen name="refresh_trigger_offset_google">100dp</dimen>
+    <dimen name="refresh_final_offset_google">150dp</dimen>
+    <dimen name="refresh_drawable_size_google">40dp</dimen>
+
+    <dimen name="load_more_footer_height_google">72dp</dimen>
+    <dimen name="load_more_trigger_offset_google">88dp</dimen>
+    <dimen name="load_more_final_offset_google">80dp</dimen>
+    <dimen name="load_more_drawable_size_google">36dp</dimen>
+
+    <!-- yalantis -->
+    <dimen name="refresh_header_height_yalantis">136dp</dimen>
+
+    <!-- jd -->
+    <dimen name="refresh_header_height_jd">100dp</dimen>
+
+
+    <dimen name="title_text_size">16sp</dimen>
+    <dimen name="content_text_size">14sp</dimen>
+
+    <dimen name="content_margin_left">8dp</dimen>
+
+    <dimen name="reference_width">620dp</dimen>
+    <dimen name="grid_reference_gap">50dp</dimen>
+    <dimen name="middle_area_reference_width">320dp</dimen>
+
+    <dimen name="universal_input_icon_size_default">14dp</dimen>
+    <dimen name="universal_input_icon_size_larger">20dp</dimen>
+
+    <dimen name="dialogplus_default_center_margin">16dp</dimen>
+
+    <dimen name="item_margin_top">24dp</dimen>
+    <dimen name="item_margin_left">36dp</dimen>
+    <dimen name="item_image_size_h">30dp</dimen>
+    <dimen name="item_image_size_v">20dp</dimen>
+
+
+    <dimen name="dialog_item_text_size">14sp</dimen>
+    <dimen name="dialog_item_margin_top">12dp</dimen>
+    <dimen name="dialog_margin">8dp</dimen>
+    <dimen name="case_summary_text_size">16sp</dimen>
+
+    <dimen name="drawer_text_size">18sp</dimen>
+    <dimen name="drawer_icon_size">24dp</dimen>
+    <dimen name="drawer_item_padding">12dp</dimen>
+
+
+</resources>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--image picker -->
+    <string name="all_images">全部图片</string>
+    <string name="preview_image_count">%1$s/%2$s</string>
+
+    <string name="info_empty_tips">信息未填写完整或未正确填写！</string>
+
+    <!--地图 -->
+    <string name="no_result">对不起，没有搜索到相关数据！</string>
+    <string name="agent_name">姓名：%1$s</string>
+    <string name="agent_amt">委案金额：%1$s元</string>
+    <string name="agent_addr">地址：%1$s</string>
+    <string name="agent_addrId">地址编号：%1$s</string>
+    <string name="agent_caseId">案件编号：%1$s</string>
+
+    <!-- 报警通知标题 -->
+    <string name="alarm_push_title">鹰眼报警推送</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="empty_network_error">网络繁忙,点击重试</string>
+    <string name="empty_no_data">没有数据,点击刷新</string>
+
+    <string name="phloginid">请输入您的ID</string>
+    <string name="phloginpsd">请输入您的密码</string>
+
+</resources>

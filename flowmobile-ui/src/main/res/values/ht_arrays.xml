@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="orange">
+        <item>@color/orange_darker</item>
+        <item>@color/orange_dark</item>
+        <item>@color/orange_primary</item>
+        <item>@color/orange_light</item>
+    </integer-array>
+    
+       <integer-array name="grape">
+        <item>@color/grape_darker</item>
+        <item>@color/grape_dark</item>
+        <item>@color/grape_primary</item>
+        <item>@color/grape_light</item>
+    </integer-array>
+    
+         <integer-array name="blue">
+        <item>@color/blue_darker</item>
+        <item>@color/blue_dark</item>
+        <item>@color/blue_primary</item>
+        <item>@color/blue_light</item>
+    </integer-array>
+    
+           <integer-array name="smooth_progressbar_colors">
+        <item>@color/holo_blue_dark</item>
+        <item>@color/holo_yellow_dark</item>
+        <item>@color/holo_green_dark</item>
+        <item>@color/holo_purple_dark</item>
+        <item>@color/holo_red_dark</item>
+    </integer-array>
+</resources>

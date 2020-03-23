@@ -1,0 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="@color/white"
+    >
+    <com.huateng.collection.module.inbox.TodoCasesChooser
+        android:id="@+id/csv_todoCasesChooser"
+        android:layout_width="@dimen/middle_area_reference_width"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        />
+
+    <LinearLayout
+        android:id="@+id/root"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:layout_height="match_parent">
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="labelPadding" format="dimension"></attr>
+    <attr name="labelText" format="string"></attr>
+    <attr name="required" format="boolean"></attr>
+    <attr name="text" format="string"></attr>
+    <attr name="optionIcon" format="reference"></attr>
+
+
+    <declare-styleable name="PacManRefreshHead">
+        <attr name="pacIconColor" format="color|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ThreePointLoadingView">
+        <attr name="pointColor" format="color|reference" />
+    </declare-styleable>
+
+
+    <declare-styleable name="GoogleCircleProgressView">
+        <attr name="gcp_inner_radius" format="dimension" />
+        <attr name="gcp_background_color" format="color" />
+        <attr name="gcp_progress_color" format="color" />
+        <attr name="gcp_progress_stoke_width" format="dimension" />
+        <attr name="gcp_show_arrow" format="boolean" />
+        <attr name="gcp_enable_circle_background" format="boolean" />
+        <attr name="gcp_arrow_width" format="dimension" />
+        <attr name="gcp_arrow_height" format="dimension" />
+
+        <attr name="gcp_progress" format="integer" />
+        <attr name="gcp_max" format="integer" />
+
+
+        <attr name="gcp_progress_text_size" format="dimension" />
+        <attr name="gcp_progress_text_color" format="color" />
+
+        <!--<attr name="gcp_progress_text_offset" format="dimension"/>-->
+
+        <attr name="gcp_progress_text_visibility" format="enum">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+        </attr>
+    </declare-styleable>
+
+
+    <declare-styleable name="SegmentControl">
+        <attr name="scv_BackgroundSelectedColor" format="reference|color" />
+        <attr name="scv_BackgroundNormalColor" format="reference|color" />
+        <attr name="scv_TextSelectedColor" format="reference|color" />
+        <attr name="scv_TextNormalColor" format="reference|color" />
+        <attr name="scv_FrameColor" format="reference|color" />
+        <attr name="scv_FrameWidth" format="reference|dimension" />
+        <attr name="scv_FrameCornerRadius" format="reference|dimension" />
+        <attr name="scv_TextSize" format="reference|dimension" />
+        <attr name="scv_TextArray" format="reference" />
+        <attr name="scv_SelectedIndex" format="reference|integer" />
+        <attr name="scv_SegmentPaddingHorizontal" format="reference|dimension" />
+        <attr name="scv_SegmentPaddingVertical" format="reference|dimension" />
+        <attr name="scv_Gradient" format="reference|boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="ShrinkableTextView">
+        <attr name="etv_MaxLinesOnShrink" format="reference|integer" />
+        <attr name="etv_EllipsisHint" format="reference|string" /><!--default is ..-->
+        <attr name="etv_ToExpandHint" format="reference|string" /><!--"to expand" hint string, default is "Expand"-->
+        <attr name="etv_ToShrinkHint" format="reference|string" /><!--"to shrink" hint string, default is "Shrink"-->
+        <attr name="etv_GapToExpandHint" format="reference|string" /><!--gap between "toExpandHint" and "trimmed text"-->
+        <attr name="etv_GapToShrinkHint" format="reference|string" /><!--gap between "toShrinkHint" and "trimmed text"-->
+        <attr name="etv_EnableToggle" format="reference|boolean" /><!--if toggle the state when click ExpandTextView-->
+        <attr name="etv_ToExpandHintShow" format="reference|boolean" /><!--if show "toExpandHint"-->
+        <attr name="etv_ToShrinkHintShow" format="reference|boolean" /><!--if show "toShrinkHint"-->
+        <attr name="etv_ToExpandHintColor" format="reference|color" /><!--text color of "toExpandHint"-->
+        <attr name="etv_ToShrinkHintColor" format="reference|color" /><!--text color of "toShrinkHint"-->
+        <attr name="etv_ToExpandHintColorBgPressed" format="reference|color" /><!--background color if "toExpandHint" pressed-->
+        <attr name="etv_ToShrinkHintColorBgPressed" format="reference|color" /><!--background color if "toShrinkHint" pressed-->
+        <attr name="etv_InitState" format="enum"><!--init state, default is shrink-->
+            <enum name="shrink" value="0" />
+            <enum name="expand" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <!-- EditText -->
+    <declare-styleable name="UniversalInput">
+        <attr name="labelPadding" />
+        <attr name="labelText" />
+        <attr name="labelTextSize" />
+        <attr name="bgColor" />
+        <attr name="normalColor" format="reference|color" />
+        <attr name="labelColor" />
+        <attr name="lineHeight" format="dimension" />
+        <attr name="labelWidth" format="dimension" />
+        <attr name="required" />
+        <attr name="optionIcon" />
+        <attr name="inputType" format="enum">
+            <enum name="text" value="0" />
+            <enum name="spinner" value="1" />
+            <enum name="date" value="2" />
+            <enum name="time" value="4" />
+            <enum name="image" value="5" />
+
+            <enum name="editText" value="10" />
+            <enum name="editTel" value="11" />
+            <enum name="editDecimal" value="12" />
+            <enum name="editNumber" value="13" />
+            <enum name="editPwd" value="14" />
+        </attr>
+        <attr name="bgStyle" format="enum">
+            <enum name="line" value="0" />
+            <enum name="retangle" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="LoadingBalls">
+        <attr name="balls" format="integer" />
+        <attr name="movement_cycle_time" format="integer" />
+        <attr name="size_cycle_time" format="integer" />
+        <attr name="ball_colors" format="reference" />
+        <attr name="ball_size" format="dimension" />
+        <attr name="enable_size_animation" format="boolean" />
+        <attr name="min_ball_size" format="dimension" />
+        <attr name="max_ball_size" format="dimension" />
+        <attr name="path" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="rtl_RecyclerTabLayout">
+        <attr name="rtl_tabIndicatorColor" format="color" />
+        <attr name="rtl_tabIndicatorHeight" format="dimension" />
+
+        <attr name="rtl_tabBackground" format="reference" />
+
+        <attr name="rtl_tabTextAppearance" format="reference" />
+        <attr name="rtl_tabSelectedTextColor" format="color" />
+
+        <attr name="rtl_tabOnScreenLimit" format="integer" />
+        <attr name="rtl_tabMinWidth" format="dimension" />
+        <attr name="rtl_tabMaxWidth" format="dimension" />
+
+        <attr name="rtl_tabPaddingStart" format="dimension" />
+        <attr name="rtl_tabPaddingTop" format="dimension" />
+        <attr name="rtl_tabPaddingEnd" format="dimension" />
+        <attr name="rtl_tabPaddingBottom" format="dimension" />
+        <attr name="rtl_tabPadding" format="dimension" />
+
+        <attr name="rtl_scrollEnabled" format="boolean" />
+
+    </declare-styleable>
+
+    <declare-styleable name="PasswordView">
+        <attr name="useStrikeThrough" format="boolean" />
+    </declare-styleable>
+
+</resources>

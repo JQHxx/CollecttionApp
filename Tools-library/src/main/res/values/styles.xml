@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- shapeDialog style-->
+    <style name="custom_dialog" parent="android:Theme.DeviceDefault.Light.Dialog.NoActionBar">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.6</item>
+    </style>
+
+    <!-- shapeDialog style-->
+    <style name="tran_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:backgroundDimAmount">0.6</item>
+        <item name="android:windowTitleStyle">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+    </style>
+
+    <style name="TickerTextAppearance">
+        <item name="android:textColor">@color/f0</item>
+        <item name="android:textSize">50sp</item>
+    </style>
+
+    <style name="CommonBackgroundStyle">
+        <item name="android:background">@color/colorBackground</item>
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
+
+    <style name="CommontRxToolBarStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="rxLeftIcon">@drawable/ic_arrow</item>
+        <item name="rxLeftIconVisibility">true</item>
+        <item name="rxLeftText">返回</item>
+        <item name="rxLeftTextSize">@dimen/toolbar_left_text_size</item>
+        <item name="rxLeftTextColor">@color/white</item>
+        <item name="rxLeftTextVisibility">true</item>
+        <item name="rxRightTextSize">@dimen/toolbar_right_text_size</item>
+        <item name="rxRightTextVisibility">false</item>
+        <item name="rxRightTextColor">@color/white</item>
+        <item name="rxTitleSize">@dimen/toolbar_middle_text_size</item>
+        <item name="rxTitleColor">@color/white</item>
+        <item name="android:typeface">serif</item>
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
+
+</resources>

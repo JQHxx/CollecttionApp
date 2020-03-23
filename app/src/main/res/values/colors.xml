@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="cardView_textColor">#bfbfbf</color>
+    <color name="page_color">#fff5f6f5</color>
+
+    <!-- hotEntity detail -->
+
+    <color name="blue_text">#242736</color>
+    <color name="orange_focus">#F95B05</color>
+    <color name="light_gray_textcolor">#727272</color>
+    <color name="gray_text_light">#555555</color>
+    <color name="layout_background_alpha">#eee7e7e7</color>
+
+    <!--hot topic -->
+    <color name="common_dark">#ff3a3c48</color>
+    <!-- Gym-->
+    <color name="orange_text_color">#F7502F</color>
+    <color name="dark_orange_text_color">#DEB500</color>
+    <color name="light_orange_text_bg">#E9CB4F</color>
+    <color name="gym_text_color">#323139</color>
+
+    <color name="common_text_color">#333333</color>
+
+    <!--menu popup -->
+    <color name="menu_bg">#FFFFFF</color>
+    <color name="menu_click_bg">#c7c7c7</color>
+    <color name="comment_popup_tx_bg">#272636</color>
+    <color name="popup_bg">#8f000000</color>
+
+    <!-- list popup-->
+    <color name="click_gray">#c7c7c7</color>
+
+    <!-- picker -->
+    <color name="status_bar">#303135</color>
+
+    <!-- Ranger -->
+    <color name="default_days_container_background_color">#000000</color>
+    <color name="default_selected_day_background_color">#aaaaaa</color>
+    <color name="default_day_text_color">#ffffff</color>
+    <color name="default_selected_day_text_color">#111111</color>
+
+    <!--<color name="colorTabSelected">#FFFFFF</color>-->
+    <!--&lt;!&ndash;<color name="colorTabNormal">#587095</color>&ndash;&gt;-->
+    <!--<color name="colorTabNormal">#597195</color>-->
+
+
+    <color name="colorTabSelected">#039AE6</color>
+    <!--<color name="colorTabNormal">#587095</color>-->
+    <color name="colorTabNormal">#626262</color>
+
+    <color name="card_text_gray">#5B5E62</color>
+    <color name="light_grey">#FAFAFA</color>
+    <color name="gray_item">#FCFCFC</color>
+    <color name="orange_light">#FE510C</color>
+
+    <color name="body_black">#cc22292c</color>
+
+    <color name="gray_bg">#CDCDCD</color>
+    <color name="white">#ffffff</color>
+    <color name="line_form">#1f7e92</color>
+    <color name="red">#ff0000</color>
+    <color name="black">#000000</color>
+    <color name="lightblue">#ff0191cd</color>
+    <color name="gray_textcolor2">#e3e3e3</color>
+    <color name="gray_line_background">#e8e8e8</color>
+    <color name="white_gray">#F8F8F8</color>
+    <color name="secret_gray">#eae9e8</color>
+    <color name="gray_listitem">#ececec</color>
+    <color name="transparent">#00000000</color>
+    <color name="transelent">#60000000</color>
+    <color name="transelent_dark">#20000000</color>
+    <color name="transelent_lighter">#10000000</color>
+    <color name="gray_line">#cbcbcb</color>
+    <color name="light_red">#FF7070</color>
+    <color name="black_qian">#353535</color>
+    <color name="white_transcent">#50ffffff</color>
+    <color name="dark_white_transcent">#90ffffff</color>
+    <color name="tab_gray_bg">#F7F7F7</color>
+    <color name="sea_blue">#4BCCE1</color>
+    <color name="sea_blue_primary">#4BCCE1</color>
+    <color name="sea_blue_stated">#EC4BCCE1</color>
+    <color name="black_blue">#242736</color>
+    <color name="qr_head">#272A3B</color>
+    <color name="finace_head_text_left">#FCA845</color>
+    <color name="finace_head_text_middle">#4199D8</color>
+    <color name="finace_head_text_right">#1ADDEF</color>
+    <color name="good_cart_bar_background">#F7F7F7</color>
+    <color name="restraurant_detail_item_pressed">#EDEDED</color>
+    <color name="restraurant_detail_item_normal">#FFFFFF</color>
+    <color name="page_gray_bg">#EFEFF4</color>
+    <color name="gray_textcolor">#858585</color>
+    <color name="gray_textcolor3">#999999</color>
+    <color name="gray_bg_lighter">#F3F4F6</color>
+
+    <!-- app message -->
+    <color name="error">#e84f0f</color>
+    <color name="confirm">#FF8800</color>
+    <color name="info">#669900</color>
+    <color name="normal">#2795F6</color>
+
+    <color name="grey1">#F5F5F5</color>
+    <color name="grey2">#787878</color>
+    <color name="grey_white">#CECECE</color>
+    <color name="green">#06d606</color>
+    <color name="yellow">#f6d744</color>
+    <color name="white_60">#60FFFFFF</color>
+    <color name="pay_qrcode_tv">#CECCCC</color>
+    <color name="pay_qrcode_view">#858899</color>
+    <color name="pay_qrcode_tv_code">#409DE5</color>
+    <color name="white_5">#F5F5F5</color>
+    <color name="black_43">#434343</color>
+    <color name="grey_69">#696969</color>
+    <color name="red_61">#E61A5F</color>
+    <color name="gery_f3">#F3F3F3</color>
+    <color name="gery_C8">#C8C8C8</color>
+    <color name="gray_hint">#CDCDCD</color>
+    <color name="yellow_dark">#CC8D43</color>
+
+    <color name="black_content">#ff424342</color>
+
+    <color name="lime_green">#24BE75</color>
+    <!--  #2A9FF6  #2B9FF7-->
+    <color name="theme_color">#FF049BE6</color>
+
+    <color name="theme_color_pressed">#8A8A8A</color>
+
+    <color name="negative_button_color">#999999</color>
+
+    <color name="theme_color_content">#FFC456</color>
+    <!--dd7110  theme_color 》ECCD50-->
+    <color name="theme_color_sea">#3DB39D</color>
+
+    <color name="theme_color_dark">#2F3243</color>
+    <color name="tab_selected_bg_color">#502F3243</color>
+
+    <!-- Background color for light CardView. -->
+    <color name="cardview_light_background">#FFFAFAFA</color>
+    <!-- Background color for dark CardView. -->
+    <color name="cardview_dark_background">#FF202020</color>
+    <!-- Shadow color for the first pixels around CardView. -->
+    <color name="cardview_shadow_start_color">#37000000</color>
+    <!-- Shadow color for the furthest pixels around CardView. -->
+    <color name="cardview_shadow_end_color">#03000000</color>
+
+    <!-- dropdown menu -->
+    <color name="drop_down_selected">@color/theme_color</color>
+    <color name="drop_down_unselected">@color/black_content</color>
+
+    <color name="mask_color">#88888888</color>
+    <color name="check_bg">#f2f2f2</color>
+    <color name="un_press_color">#9C27B0</color>
+
+    <color name="title_color">#ff000000</color>
+    <color name="darkgray">#ff4d4d4d</color>
+    <color name="light_gray">#ff999999</color>
+    <color name="change_mobile_bt_gray">#ffe6e6e6</color>
+    <color name="whitegray">#fff5f6f5</color>
+    <color name="text_hint_color">#ffd6d6d6</color>
+    <color name="profile_light_gray">#ffdcdcdc</color>
+
+    <color name="pull_bg">@color/white</color>
+
+
+    <color name="google_blue">#4285F4</color>
+    <color name="google_red">#EA4335</color>
+    <color name="google_green">#34A853</color>
+    <color name="google_yellow">#FBBC05</color>
+
+    <color name="yalantis_saffron">#F4B63E</color>
+    <color name="yalantis_eggplant">#663D4E</color>
+    <color name="yalantis_sienna">#EB6460</color>
+
+
+    <color name="content_text_black">#333333</color>
+    <color name="content_text_gray">#666666</color>
+
+    <color name="dialogplus_card_shadow">#D4D4D4</color>
+    <color name="dialogplus_black_overlay">#60000000</color>
+
+
+    <color name="ball1">#FFD91C</color>
+    <color name="ball2">#FF4B4A</color>
+    <color name="ball3">#3D8EFF</color>
+
+    <integer-array name="colors">
+        <item>@color/ball1</item>
+        <item>@color/ball2</item>
+        <item>@color/ball3</item>
+    </integer-array>
+
+    <!--上传案件-->
+    <color name="upload_error">#E0483E</color>
+    <color name="upload_warn">#FFC456</color>
+    <color name="uploading">#2B9FF6</color>
+
+    <!--  按钮-->
+    <color name="colorBlue">#29B6FC</color>
+
+    <color name="iconTextTabNormal">#7B7C7C</color>
+    <color name="iconTextTabSelect">#2B9EF5</color>
+
+
+    <color name="color_f6">#f6f6f6</color>
+
+    <color name="accent_color">#E98A52</color>
+
+</resources>

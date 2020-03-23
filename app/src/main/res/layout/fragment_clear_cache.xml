@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F4F4"
+    android:fitsSystemWindows="true"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <com.tools.view.RxTitle xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rx_title"
+        style="@style/CommontRxToolBarStyle"
+        app:rxTitle="清除缓存"
+        app:rxTitleVisibility="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="确定要清除缓存吗？"
+        android:textColor="@color/black_text"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="此操作不会清除未传回的案件文件"
+        android:textColor="#999999"
+        android:textSize="14sp" />
+
+    <com.huateng.fm.ui.widget.FmButton
+        android:id="@+id/btn_confirm"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:minHeight="0dp"
+        android:singleLine="true"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:bgColor="@color/theme_color"
+        app:cornerStyle="round"
+        app:stateBgColor="@color/lightblue" />
+
+</LinearLayout>

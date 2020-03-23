@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="#F4F4F4"
+    android:orientation="vertical">
+
+    <com.tools.view.RxTitle xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rx_title"
+        style="@style/CommontRxToolBarStyle"
+        app:rxTitle="版本更新"
+        app:rxTitleVisibility="true" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="40dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/tv_appVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/black_text"
+            android:textSize="16sp" />
+
+        <com.huateng.fm.ui.widget.FmButton
+            android:id="@+id/btn_check"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:minHeight="0dp"
+            android:singleLine="true"
+            android:text="检查更新"
+            android:textColor="@color/white_gray"
+            android:textSize="17sp"
+            app:bgColor="@color/gray"
+            app:cornerStyle="round"
+            app:stateBgColor="@color/card_light_text" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

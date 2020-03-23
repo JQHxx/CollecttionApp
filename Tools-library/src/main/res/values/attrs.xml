@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <attr name="labelPadding" format="dimension" />
+    <attr name="labelText" format="string" />
+    <attr name="labelTextSize" format="dimension" />
+    <attr name="required" format="boolean" />
+    <attr name="optionIcon" format="reference" />
+    <attr name="labelColor" format="color|reference" />
+    <attr name="bgColor" format="color|reference" />
+
+
+    <declare-styleable name="RxShapeLoadingView">
+
+        <attr name="loadingText" format="string" />
+        <attr name="loadingTextAppearance" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="RxRoundProgress">
+        <attr name="rxRoundColor" format="color" />
+        <attr name="rxRoundProgressColor" format="color" />
+        <attr name="rxRoundWidth" format="dimension" />
+        <attr name="rxTextColor" format="color" />
+        <attr name="rxTextSize1" format="dimension" />
+        <attr name="rxMax" format="integer" />
+        <attr name="rxTextIsDisplayable" format="boolean" />
+        <attr name="rxStyle">
+            <enum name="STROKE" value="0" />
+            <enum name="FILL" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="AbstractWheelView">
+        <attr name="visibleItems" format="integer" />
+        <attr name="isAllVisible" format="boolean" />
+        <attr name="itemOffsetPercent" format="integer" />
+        <attr name="itemsPadding" format="dimension" />
+        <attr name="selectionDividerDimmedAlpha" format="integer" />
+        <attr name="selectionDividerActiveAlpha" format="integer" />
+        <attr name="selectionDivider" format="reference" />
+        <attr name="itemsDimmedAlpha" format="integer" />
+        <attr name="isCyclic" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="WheelHorizontalView">
+        <attr name="selectionDividerWidth" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="WheelVerticalView">
+        <attr name="selectionDividerHeight" format="dimension" />
+    </declare-styleable>
+
+    <attr name="abstractWheelViewStyle" format="reference" />
+
+    <declare-styleable name="RxAutoImageView">
+        <attr name="ImageSrc" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="RxTitle">
+        <attr name="rxTitle" format="string" />
+        <attr name="rxTitleIcon" format="reference" />
+        <attr name="rxTitleColor" format="color" />
+        <attr name="rxTitleSize" format="dimension" />
+        <attr name="rxTitleVisibility" format="boolean" />
+        <attr name="rxTitleIconVisibility" format="boolean" />
+
+        <attr name="rxLeftText" format="string" />
+        <attr name="rxLeftTextColor" format="color" />
+        <attr name="rxLeftTextSize" format="dimension" />
+        <attr name="rxLeftTextVisibility" format="boolean" />
+
+        <attr name="rxRightText" format="string" />
+        <attr name="rxRightTextColor" format="color" />
+        <attr name="rxRightTextSize" format="dimension" />
+        <attr name="rxRightTextVisibility" format="boolean" />
+
+        <attr name="rxLeftIcon" format="reference" />
+        <attr name="rxLeftIconVisibility" format="boolean" />
+
+        <attr name="rxRightIcon" format="reference" />
+        <attr name="rxRightIconVisibility" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="RxNetSpeedView">
+        <attr name="RxTextColor" format="color" />
+        <attr name="RxTextSize" format="dimension" />
+        <attr name="isMulti" format="boolean" />
+    </declare-styleable>
+
+
+    <declare-styleable name="FlikerProgressBar">
+        <attr name="fpTextSize" format="dimension" />
+        <attr name="fpLoadingColor" format="color" />
+        <attr name="fpStopColor" format="color" />
+        <attr name="fpFinishColor" format="color" />
+        <attr name="fpRadius" format="dimension" />
+        <attr name="fpBorderWidth" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="RoundCornerProgress">
+        <attr name="rcReverse" format="boolean" />
+        <attr name="rcProgress" format="float" />
+        <attr name="rcMax" format="float" />
+        <attr name="rcSecondaryProgress" format="float" />
+        <attr name="rcBackgroundPadding" format="dimension" />
+        <attr name="rcRadius" format="dimension" />
+        <attr name="rcProgressColor" format="color" />
+        <attr name="rcSecondaryProgressColor" format="color" />
+        <attr name="rcBackgroundColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="IconRoundCornerProgress">
+        <attr name="rcIconSrc" format="integer" />
+        <attr name="rcIconSize" format="dimension" />
+        <attr name="rcIconWidth" format="dimension" />
+        <attr name="rcIconHeight" format="dimension" />
+        <attr name="rcIconPadding" format="dimension" />
+        <attr name="rcIconPaddingLeft" format="dimension" />
+        <attr name="rcIconPaddingRight" format="dimension" />
+        <attr name="rcIconPaddingTop" format="dimension" />
+        <attr name="rcIconPaddingBottom" format="dimension" />
+        <attr name="rcIconBackgroundColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="TextRoundCornerProgress">
+        <attr name="rcTextProgressColor" format="color" />
+        <attr name="rcTextProgressSize" format="dimension" />
+        <attr name="rcTextProgressMargin" format="dimension" />
+        <attr name="rcTextProgress" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="lwvWheelView">
+        <attr name="lwvHighlightColor" format="color|reference" />
+        <attr name="lwvMarkColor" format="color|reference" />
+        <attr name="lwvMarkTextColor" format="color|reference" />
+        <attr name="lwvIntervalFactor" format="float" />
+        <attr name="lwvMarkRatio" format="float" />
+        <attr name="lwvCursorSize" format="dimension" />
+        <attr name="lwvMarkTextSize" format="dimension" />
+        <attr name="lwvCenterMarkTextSize" format="dimension" />
+        <attr name="lwvAdditionalCenterMark" format="string|reference" />
+    </declare-styleable>
+
+    <declare-styleable name="RxShineButton">
+        <attr name="btn_color" format="color" />
+        <attr name="btn_fill_color" format="color" />
+        <attr name="shine_count" format="integer" />
+        <attr name="shine_turn_angle" format="float" />
+        <attr name="small_shine_offset_angle" format="float" />
+        <attr name="enable_flashing" format="boolean" />
+        <attr name="allow_random_color" format="boolean" />
+        <attr name="small_shine_color" format="color" />
+        <attr name="big_shine_color" format="color" />
+        <attr name="shine_animation_duration" format="integer" />
+        <attr name="click_animation_duration" format="integer" />
+        <attr name="shine_distance_multiple" format="float" />
+        <attr name="shine_size" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="RxPorterImageView">
+        <attr name="siShape" format="integer|reference" />
+    </declare-styleable>
+
+
+    <declare-styleable name="RxCardStackView">
+        <attr name="stackOverlapGaps" format="dimension" />
+        <attr name="stackOverlapGapsCollapse" format="dimension" />
+        <attr name="stackHeaderHeight" format="dimension" />
+        <attr name="stackDuration" format="integer" />
+        <attr name="stackNumBottomShow" format="integer" />
+        <attr name="stackAnimationType">
+            <flag name="allDown" value="0" />
+            <flag name="upDown" value="1" />
+            <flag name="upDownStack" value="2" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="RxSwipeCaptcha">
+        <attr name="captchaWidth" format="dimension" />
+        <attr name="captchaHeight" format="dimension" />
+        <attr name="matchDeviation" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="WaveSideBarView">
+        <attr name="sidebarTextColor" format="color|reference" />
+        <attr name="sidebarBackgroundColor" format="color|reference" />
+        <attr name="sidebarChooseTextColor" format="color|reference" />
+        <attr name="sidebarTextSize" format="dimension" />
+        <attr name="sidebarLargeTextSize" format="dimension" />
+        <attr name="sidebarRadius" format="dimension" />
+        <attr name="sidebarBallRadius" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="RxSeekBar">
+        <attr name="rxMaxProgress" format="float" />
+        <attr name="rxMinProgress" format="float" />
+        <attr name="rxReserve" format="float" />
+        <attr name="rxCells" format="integer" />
+        <attr name="rxHideProgressHint" format="boolean" />
+        <attr name="rxIsHintHolder" format="boolean" />
+        <attr name="rxLineColorSelected" format="color" />
+        <attr name="rxLineColorEdge" format="color" />
+        <attr name="rxThumbPrimaryColor" format="color" />
+        <attr name="rxThumbSecondaryColor" format="color" />
+        <attr name="rxMarkTextArray" format="reference" />
+        <attr name="rxSeekBarResId" format="reference" />
+        <!-- must use 9 path ！！！-->
+        <attr name="rxProgressHintResId" format="reference" />
+        <attr name="rxTextPadding" format="dimension" />
+        <attr name="rxTextSize2" format="dimension" />
+        <attr name="rxHintBGHeight" format="dimension" />
+        <attr name="rxHintBGWith" format="dimension" />
+        <attr name="rxHintBGPadding" format="dimension" />
+        <attr name="rxSeekBarHeight" format="dimension" />
+        <attr name="rxThumbSize" format="dimension" />
+        <attr name="rxCellMode" format="enum">
+            <enum name="number" value="0" />
+            <enum name="other" value="1" />
+        </attr>
+        <attr name="seekBarMode" format="enum">
+            <enum name="single" value="1" />
+            <enum name="range" value="2" />
+        </attr>
+
+    </declare-styleable>
+
+    <declare-styleable name="RxScaleImageView">
+        <attr name="src" format="reference" />
+        <attr name="assetName" format="string" />
+        <attr name="panEnabled" format="boolean" />
+        <attr name="zoomEnabled" format="boolean" />
+        <attr name="quickScaleEnabled" format="boolean" />
+        <attr name="tileBackgroundColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="NiceSpinner">
+        <attr name="arrowTint" format="color" />
+        <attr name="hideArrow" format="boolean" />
+        <attr name="backgroundSelector" format="integer" />
+        <attr name="textTint" format="color" />
+    </declare-styleable>
+
+    <!-- AutoCompleteTextView -->
+    <declare-styleable name="ht_AutoCompleteTextView">
+        <attr name="labelPadding" />
+        <attr name="labelText" />
+        <attr name="labelTextSize" />
+        <attr name="required" />
+        <attr name="optionIcon" />
+    </declare-styleable>
+
+    <declare-styleable name="SlidingUpPanelLayout">
+        <attr name="umanoPanelHeight" format="dimension" />
+        <attr name="umanoShadowHeight" format="dimension" />
+        <attr name="umanoParallaxOffset" format="dimension" />
+        <attr name="umanoFadeColor" format="color" />
+        <attr name="umanoFlingVelocity" format="integer" />
+        <attr name="umanoDragView" format="reference" />
+        <attr name="umanoScrollableView" format="reference" />
+        <attr name="umanoOverlay" format="boolean" />
+        <attr name="umanoClipPanel" format="boolean" />
+        <attr name="umanoAnchorPoint" format="float" />
+        <attr name="umanoInitialState" format="enum">
+            <enum name="expanded" value="0" />
+            <enum name="collapsed" value="1" />
+            <enum name="anchored" value="2" />
+            <enum name="hidden" value="3" />
+        </attr>
+        <attr name="umanoScrollInterpolator" format="reference" />
+    </declare-styleable>
+
+</resources>

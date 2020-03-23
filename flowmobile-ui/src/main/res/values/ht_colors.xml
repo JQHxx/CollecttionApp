@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="white">#ffffff</color>
+    <color name="red">#ff0000</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="transelent">#60000000</color>
+    <color name="black_gray">#353535</color>
+    <color name="gray_diliver">#ececec</color>
+    <color name="gray_button_border">#DBDFE4</color>
+    <color name="gray">#aaaaaa</color>
+    <color name="gray_white">#868686</color>
+    <!-- orange -->
+    <color name="orange_darker">#994628</color>
+    <color name="orange_dark">#cc5d35</color>
+    <color name="orange_primary">#ff7342</color> <!-- right color  "#ff7342" -->
+    <color name="orange_light">#ffbfa8</color>
+
+    <!-- grape -->
+    <color name="grape_darker">#362f4a</color>
+    <color name="grape_dark">#4f456b</color>
+    <color name="grape_primary">#695b8e</color>
+    <color name="grape_light">#b1a2db</color>
+
+    <!-- blue   -->
+    <color name="blue_darker">#4988f2</color>
+    <color name="blue_dark">#4996f2</color>
+    <color name="blue_light">#49aef2</color>
+
+    <color name="blue_state">#42A2F2</color>
+    <color name="blue_primary">#49aef2</color>
+    <color name="blue_special">#4988f2</color>
+
+    <color name="nav_text_unchecked">#435571</color>
+
+    <color name="stroke">#dddddd</color>
+    <color name="text_light">#66000000</color>
+    <color name="card_text">#ff8d8d8d</color>
+    <color name="card_title_text">#ff707070</color>
+    <color name="card_light_text">#ffb5b5b5</color>
+    <color name="card_grid_text">#ff707070</color>
+    <color name="card_separator">#ffe5e5e5</color>
+    <color name="card_border">#ffdedede</color>
+    <color name="black_light">#353535</color>
+    <color name="sides_menu_bg_gray">#F4F4F4</color>
+    <color name="gray_textcolor">#858585</color>
+    <color name="smooth_progressbar_default_color">#33b5e5</color>
+    <color name="holo_blue_dark">#0099cc</color>
+    <color name="holo_yellow_dark">#ff8800</color>
+    <color name="holo_green_dark">#669900</color>
+    <color name="holo_purple_dark">#9933cc</color>
+    <color name="holo_red_dark">#cc0000</color>
+
+    <!-- sweetDialog -->
+    <color name="float_transparent">#66000000</color>
+    <color name="sweet_dialog_bg_color">#FFFFFF</color>
+    <color name="button_text_color">#FFFFFF</color>
+    <color name="gray_btn_bg_color">#D0D0D0</color>
+    <color name="gray_btn_bg_pressed_color">#B6B6B6</color>
+    <color name="blue_btn_bg_color">#AEDEF4</color>
+    <color name="blue_btn_bg_pressed_color">#96BFD2</color>
+    <color name="red_btn_bg_color">#DD6B55</color>
+    <color name="red_btn_bg_pressed_color">#CD5B55</color>
+    <color name="error_stroke_color">#F27474</color>
+    <color name="success_stroke_color">#A5DC86</color>
+    <color name="trans_success_stroke_color">#33A5DC86</color>
+    <color name="warning_stroke_color">#F8BB86</color>
+
+    <!-- ViewPagerIndicator -->
+    <color name="vpi__background_holo_dark">#ff000000</color>
+    <color name="vpi__background_holo_light">#fff3f3f3</color>
+    <color name="vpi__bright_foreground_holo_dark">@color/vpi__background_holo_light</color>
+    <color name="vpi__bright_foreground_holo_light">@color/vpi__background_holo_dark</color>
+    <color name="vpi__bright_foreground_disabled_holo_dark">#ff4c4c4c</color>
+    <color name="vpi__bright_foreground_disabled_holo_light">#ffb2b2b2</color>
+    <color name="vpi__bright_foreground_inverse_holo_dark">
+        @color/vpi__bright_foreground_holo_light
+    </color>
+    <color name="vpi__bright_foreground_inverse_holo_light">
+        @color/vpi__bright_foreground_holo_dark
+    </color>
+    <!-- lock pattern -->
+    <color name="lock_pattern_view_regular_color">#FF33B5E5</color>
+    <color name="lock_pattern_view_success_color">#FF66CC00</color>
+    <color name="lock_pattern_view_error_color">#FFFF4444</color>
+    <color name="lock_pattern_view_path_color">#FFFFBB33</color>
+
+    <!-- for CalendarPickerView -->
+    <color name="calendar_active_month_bg">#fff5f7f9</color>
+    <color name="calendar_bg">#ffffffff</color>
+    <color name="calendar_divider">#ffbababa</color>
+    <color name="calendar_inactive_month_bg">#ffd7d9db</color>
+    <color name="calendar_selected_day_bg">#ff379bff</color>
+    <color name="calendar_selected_range_bg">#ff96caff</color>
+    <color name="calendar_text_inactive">#40778088</color>
+    <color name="calendar_text_active">#ff778088</color>
+    <color name="calendar_text_selected">#ffffffff</color>
+    <color name="calendar_text_unselectable">#7f778088</color>
+
+    <!-- rolling pager -->
+    <color name="indicator_hint">#FF33B5E5</color>
+    <color name="indicator">#FF99CC00</color>
+
+    <!-- start qrcode -->
+    <color name="viewfinder_frame">#2477ab</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
+    <color name="result_view">#b0000000</color>
+
+</resources>

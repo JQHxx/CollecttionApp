@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="themeName" format="string" />
+    <attr name="totalSize" format="dimension" />
+    <attr name="dotMargin" format="dimension" />
+    <attr name="textSize" format="dimension" />
+    <attr name="fmBackground" format="reference" />
+    <attr name="t_color" format="reference" />
+    <attr name="bgColor" format="color|reference" />
+    <attr name="borderColor" format="color|reference" />
+    <attr name="labelColor" format="color|reference" />
+    <attr name="textColor" format="color" />
+    <attr name="labelPadding" format="dimension"></attr>
+    <attr name="labelText" format="string"></attr>
+    <attr name="required" format="boolean"></attr>
+    <attr name="text" format="string"></attr>
+    <attr name="optionIcon" format="reference"></attr>
+    <attr name="bgDrawable" format="reference" />
+    <attr name="checkedDrawable" format="reference" />
+    <attr name="unCheckedDrawable" format="reference" />
+    <attr name="labelTextSize" format="reference|dimension"></attr>
+
+
+    <!-- Switch -->
+    <declare-styleable name="ht_Switch">
+        <attr name="thumb" format="reference" />
+        <attr name="t_track" format="reference" />
+        <attr name="textOn" format="string" />
+        <attr name="textOff" format="string" />
+        <attr name="t_thumbTextPadding" format="dimension" />
+        <attr name="t_switchTextAppearance" format="reference" />
+        <attr name="t_switchMinWidth" format="dimension" />
+        <attr name="cornerStyle" />
+        <attr name="t_switchPadding" format="dimension" />
+    </declare-styleable>
+
+    <attr name="textAppearance" format="reference" />
+
+    <declare-styleable name="ht_TextAppearanceSwitch">
+        <attr name="textColor" />
+        <attr name="textSize" />
+        <attr name="textStyle" format="reference" />
+        <attr name="typeface" format="reference" />
+        <attr name="ht_fontFamily" format="reference" />
+        <attr name="textColorHighlight" format="color" />
+        <attr name="textColorHint" format="color" />
+        <attr name="textColorLink" format="color" />
+        <attr name="t_textAllCaps" format="boolean" />
+    </declare-styleable>
+
+    <attr name="cornerStyle" format="enum">
+        <enum name="none" value="0x1" />
+        <enum name="small" value="0x2" />
+        <enum name="round" value="0x3" />
+    </attr>
+    <attr name="checkStyle" format="enum">
+        <enum name="hook" value="0x1" />
+        <enum name="dot" value="0x2" />
+    </attr>
+    <attr name="hasShadow" format="boolean" />
+
+    <!-- ToggleButton -->
+    <declare-styleable name="ht_ToggleButton">
+        <attr name="cornerStyle"></attr>
+    </declare-styleable>
+
+    <!-- EditText -->
+    <declare-styleable name="ht_EditText">
+        <attr name="cornerStyle"></attr>
+        <attr name="labelPadding"></attr>
+        <attr name="labelText"></attr>
+        <attr name="labelTextSize"></attr>
+        <attr name="bgColor"></attr>
+        <attr name="labelColor"></attr>
+        <attr name="required"></attr>
+        <attr name="optionIcon"></attr>
+    </declare-styleable>
+
+    <!-- AutoCompleteTextView -->
+    <declare-styleable name="ht_AutoCompleteTextView">
+        <attr name="cornerStyle"></attr>
+        <attr name="labelPadding"></attr>
+        <attr name="labelText"></attr>
+        <attr name="labelTextSize"></attr>
+
+        <attr name="required"></attr>
+        <attr name="optionIcon"></attr>
+    </declare-styleable>
+
+    <!-- Button -->
+    <declare-styleable name="ht_Button">
+        <attr name="cornerStyle" />
+        <attr name="bgColor" />
+        <attr name="stateBgColor" format="color|reference" />
+
+    </declare-styleable>
+
+    <!-- TextView -->
+    <declare-styleable name="ht_TextView">
+        <attr name="cornerStyle" />
+        <attr name="bgColor" />
+        <attr name="h_borderColor" format="color|reference"/>
+        <attr name="h_borderWidth" format="dimension" />
+    </declare-styleable>
+
+    <!-- ImageButton -->
+    <declare-styleable name="ht_ImageButton">
+        <attr name="cornerStyle" />
+        <attr name="hasShadow" />
+    </declare-styleable>
+
+    <!-- Spinner -->
+    <declare-styleable name="ht_Spinner">
+        <attr name="cornerStyle" />
+        <attr name="labelPadding"></attr>
+        <attr name="bgColor" />
+        <attr name="labelText"></attr>
+        <attr name="required"></attr>
+        <attr name="text"></attr>
+    </declare-styleable>
+
+    <!-- CheckBox -->
+    <declare-styleable name="ht_CheckBox">
+        <attr name="cornerStyle" />
+        <attr name="totalSize" />
+        <attr name="unCheckedDrawable" />
+        <attr name="checkedDrawable" />
+        <attr name="borderColor" />
+
+        <attr name="dotMargin" />
+        <attr name="checkStyle" />
+    </declare-styleable>
+
+    <!-- RadioButton -->
+    <declare-styleable name="ht_RadioButton">
+        <attr name="totalSize" />
+        <attr name="dotMargin" />
+        <attr name="checkedDrawable" />
+        <attr name="unCheckedDrawable" />
+        <attr name="cornerStyle" />
+        <attr name="borderColor" />
+
+        <attr name="checkStyle" />
+    </declare-styleable>
+
+    <!-- SeekBar -->
+    <declare-styleable name="ht_SeekBar">
+        <attr name="totalSize" />
+    </declare-styleable>
+
+    <!-- RatingBar -->
+    <declare-styleable name="ht_RatingBar">
+        <attr name="space" format="dimension" />
+        <attr name="radius" format="dimension" />
+        <attr name="size" format="dimension" />
+        <attr name="thumbColor" format="color|reference" />
+        <attr name="bgColor" />
+
+        <attr name="thumbDrawable" format="reference" />
+        <attr name="bgDrawable" />
+    </declare-styleable>
+    <!-- TagGroup -->
+    <declare-styleable name="ht_TagGroup">
+        <attr name="isAppendMode" format="boolean" />
+        <attr name="inputTagHint" format="string" />
+        <attr name="brightColor" format="color" />
+        <attr name="textSize" />
+
+        <attr name="dimColor" format="color" />
+        <attr name="borderStrokeWidth" format="dimension" />
+        <attr name="horizontalSpacing" format="dimension" />
+        <attr name="verticalSpacing" format="dimension" />
+        <attr name="horizontalPadding" format="dimension" />
+        <attr name="verticalPadding" format="dimension" />
+    </declare-styleable>
+    <!-- HTRippleView -->
+    <declare-styleable name="ht_RippleView">
+        <attr name="r_alpha" format="integer" />
+        <attr name="framerate" format="integer" />
+        <attr name="rippleDuration" format="integer" />
+        <attr name="zoomDuration" format="integer" />
+        <attr name="h_color" format="color"/>
+        <attr name="centered" format="boolean" />
+        <attr name="type" format="enum">
+            <enum name="simpleRipple" value="0" />
+            <enum name="doubleRipple" value="1" />
+            <enum name="rectangle" value="2" />
+        </attr>
+        <attr name="ripplePadding" format="dimension" />
+        <attr name="zoom" format="boolean" />
+    </declare-styleable>
+
+    <!-- HTMarqueeView -->
+    <declare-styleable name="ht_MarqueeView">
+        <attr name="marqueeSpeed" format="integer" />
+        <attr name="pause" format="integer" />
+        <attr name="autoStart" format="boolean" />
+    </declare-styleable>
+
+    <!-- HTNumericProgressBar -->
+    <declare-styleable name="ht_NumericProgressBar">
+        <attr name="progressNum" format="integer" />
+        <attr name="max" format="integer" />
+        <attr name="unreachedColor" format="color" />
+        <attr name="reachedColor" format="color" />
+        <attr name="reachedBarHeight" format="dimension" />
+        <attr name="unreachedBarHeight" format="dimension" />
+        <attr name="textSize" />
+        <attr name="textColor" />
+        <attr name="textOffset" format="dimension" />
+        <attr name="textVisibility" format="enum">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <!-- SweetDialog -->
+    <declare-styleable name="Rotate3dAnimation">
+        <attr name="rollType" format="enum">
+            <enum name="x" value="0" />
+            <enum name="y" value="1" />
+            <enum name="z" value="2" />
+        </attr>
+        <attr name="fromDeg" format="float" />
+        <attr name="toDeg" format="float" />
+        <attr name="pivotX" format="fraction" />
+        <attr name="pivotY" format="fraction" />
+    </declare-styleable>
+
+    <!-- HTComboSeekBar -->
+    <declare-styleable name="ht_ComboSeekBar">
+        <attr name="multiline" format="boolean" />
+        <attr name="color4" format="color"/>
+        <attr name="textUnselectedColor" format="color" />
+        <attr name="textSelectedColor" format="color" />
+        <attr name="lineColor" format="color" />
+
+        <attr name="textSize" />
+    </declare-styleable>
+
+    <!-- HTRoundImageView -->
+    <declare-styleable name="ht_RoundImageView">
+        <attr name="outterBorderColor" format="color" />
+        <attr name="innerBorderColor" format="color" />
+        <attr name="outterBorderWidth" format="dimension" />
+        <attr name="innerBorderWidth" format="dimension" />
+    </declare-styleable>
+
+    <!-- HTSmoothProgressBar -->
+    <declare-styleable name="ht_SmoothProgressBar">
+        <attr name="style" format="reference" />
+        <attr name="color3" format="color"/>
+        <attr name="strokeWidth" format="dimension" />
+        <attr name="strokeSeparatorlength" format="dimension" />
+        <attr name="sectionsCount" format="integer" />
+        <attr name="speed" format="float" />
+        <attr name="progressiveStartSpeed" format="float" />
+        <attr name="progressiveStopSpeed" format="float" />
+        <attr name="interpolator" format="enum">
+            <enum name="spb_interpolator_accelerate" value="0" />
+            <enum name="spb_interpolator_linear" value="1" />
+            <enum name="spb_interpolator_acceleratedecelerate" value="2" />
+            <enum name="spb_interpolator_decelerate" value="3" />
+        </attr>
+        <attr name="reversed" format="boolean" />
+        <attr name="mirrorMode" format="boolean" />
+        <attr name="colors" format="reference" />
+        <attr name="progressiveStartActivated" format="boolean" />
+        <attr name="fmBackground" />
+        <attr name="generateBackgroundWithColors" format="boolean" />
+    </declare-styleable>
+
+    <!-- HTHintSeekBar -->
+    <declare-styleable name="ht_hintSeekBar">
+        <attr name="progress" format="integer" />
+        <attr name="max" />
+        <attr name="progress_unreached_color" format="color" />
+        <attr name="progress_reached_color" format="color" />
+        <attr name="progress_reached_bar_height" format="dimension" />
+        <attr name="progress_unreached_bar_height" format="dimension" />
+        <attr name="progress_text_size" format="dimension" />
+        <attr name="progress_text_color" format="color" />
+        <attr name="progress_text_offset" format="dimension" />
+        <attr name="progress_text_visibility" format="enum">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <!--&lt;!&ndash; HTSwipeLayout &ndash;&gt;-->
+    <!--<declare-styleable name="ht_SwipeLayout">-->
+        <!--<attr name="drag_edge" format="enum">-->
+            <!--<enum name="left" value="0" />-->
+            <!--<enum name="right" value="1" />-->
+            <!--<enum name="top" value="2" />-->
+            <!--<enum name="bottom" value="3" />-->
+        <!--</attr>-->
+        <!--<attr name="show_mode" format="enum">-->
+            <!--<enum name="lay_down" value="0" />-->
+            <!--<enum name="pull_out" value="1" />-->
+        <!--</attr>-->
+    <!--</declare-styleable>-->
+
+    <!-- HTSlideLayout -->
+    <declare-styleable name="ht_SliderLayout">
+
+        <!-- indicator visibility -->
+        <attr name="indicatorVisibility" format="enum">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+        </attr>
+        <attr name="autoCycle" format="boolean" />
+
+        <!-- page animation -->
+        <attr name="pagerAnimation" format="enum">
+            <enum name="defaults" value="0">Default</enum>
+            <enum name="accordion" value="1">Accordion</enum>
+            <enum name="background2Foreground" value="2">Background2Foreground</enum>
+            <enum name="cubeIn" value="3">CubeIn</enum>
+            <enum name="depthPage" value="4">DepthPage</enum>
+            <enum name="fade" value="5">Fade</enum>
+            <enum name="flipHorizontal" value="6">FlipHorizontal</enum>
+            <enum name="flipPage" value="7">FlipPage</enum>
+            <enum name="foreground2Background" value="8">Foreground2Background</enum>
+            <enum name="rotateDown" value="9">RotateDown</enum>
+            <enum name="rotateUp" value="10">RotateUp</enum>
+            <enum name="stack" value="11">Stack</enum>
+            <enum name="tablet" value="12">Tablet</enum>
+            <enum name="zoomIn" value="13">ZoomIn</enum>
+            <enum name="zoomOutSlide" value="14">ZoomOutSlide</enum>
+            <enum name="zoomOut" value="15">ZoomOut</enum>
+        </attr>
+
+        <!-- page animation time span -->
+        <attr name="pagerAnimationSpan" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="ht_PagerIndicator">
+
+        <!-- indicator visibility -->
+        <attr name="visibility" format="enum">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+        </attr>
+        <attr name="shape" format="enum">
+            <enum name="oval" value="0" />
+            <enum name="rect" value="1" />
+        </attr>
+        <attr name="selectedColor" format="color" />
+        <attr name="unselectedColor" format="color" />
+
+        <!-- indicator style -->
+        <attr name="selectedDrawable" format="reference" />
+        <attr name="unselectedDrawable" format="reference" />
+        <attr name="selectedWidth" format="dimension" />
+        <attr name="selectedHeight" format="dimension" />
+        <attr name="unselectedWidth" format="dimension" />
+        <attr name="unselectedHeight" format="dimension" />
+        <attr name="paddingLeft" format="dimension" />
+        <attr name="paddingRight" format="dimension" />
+        <attr name="paddingTop" format="dimension" />
+        <attr name="paddingBottom" format="dimension" />
+        <attr name="selectedPaddingLeft" format="dimension" />
+        <attr name="selectedPaddingRight" format="dimension" />
+        <attr name="selectedPaddingTop" format="dimension" />
+        <attr name="selectedPaddingBottom" format="dimension" />
+        <attr name="unselectedPaddingLeft" format="dimension" />
+        <attr name="unselectedPaddingRight" format="dimension" />
+        <attr name="unselectedPaddingTop" format="dimension" />
+        <attr name="unselectedPaddingBottom" format="dimension" />
+    </declare-styleable>
+
+    <!-- ViewPagerIndicator -->
+    <declare-styleable name="ht_ViewPagerIndicator">
+
+        <!-- Style of the circle indicator. -->
+        <attr name="vpiCirclePageIndicatorStyle" format="reference" />
+        <!-- Style of the icon indicator's views. -->
+        <attr name="vpiIconPageIndicatorStyle" format="reference" />
+        <!-- Style of the line indicator. -->
+        <attr name="vpiLinePageIndicatorStyle" format="reference" />
+        <!-- Style of the title indicator. -->
+        <attr name="vpiTitlePageIndicatorStyle" format="reference" />
+        <!-- Style of the tab indicator's tabs. -->
+        <attr name="vpiTabPageIndicatorStyle" format="reference" />
+        <!-- Style of the underline indicator. -->
+        <attr name="vpiUnderlinePageIndicatorStyle" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="ht_CirclePageIndicator">
+
+        <!-- Whether or not the indicators should be centered. -->
+        <attr name="centered" />
+        <!-- Color of the filled circle that represents the current page. -->
+        <attr name="fillColor" format="color" />
+        <!-- Color of the filled circles that represents pages. -->
+        <attr name="pageColor" format="color" />
+        <!-- Orientation of the indicator. -->
+        <attr name="android:orientation" />
+        <!-- Radius of the circles. This is also the spacing between circles. -->
+        <attr name="radius" />
+        <!-- Whether or not the selected indicator snaps to the circles. -->
+        <attr name="snap" format="boolean" />
+        <!-- Color of the open circles. -->
+        <attr name="strokeColor" format="color" />
+        <!-- Width of the stroke used to draw the circles. -->
+        <attr name="strokeWidth" />
+        <!-- View background -->
+        <attr name="android:background" />
+    </declare-styleable>
+    <declare-styleable name="ht_LinePageIndicator">
+
+        <!-- Whether or not the indicators should be centered. -->
+        <attr name="centered" />
+        <!-- Color of the unselected lines that represent the pages. -->
+        <attr name="unselectedColor" />
+        <!-- Color of the selected line that represents the current page. -->
+        <attr name="selectedColor" />
+        <!-- Width of each indicator line. -->
+        <attr name="lineWidth" format="dimension" />
+        <!-- Width of each indicator line's stroke. -->
+        <attr name="strokeWidth" />
+        <!-- Width of the gap between each indicator line. -->
+        <attr name="gapWidth" format="dimension" />
+        <!-- View background -->
+        <attr name="android:background" />
+    </declare-styleable>
+    <declare-styleable name="ht_TitlePageIndicator">
+
+        <!-- Screen edge padding. -->
+        <attr name="clipPadding" format="dimension" />
+        <!-- Color of the footer line and indicator. -->
+        <attr name="footerColor" format="color" />
+        <!-- Height of the footer line. -->
+        <attr name="footerLineHeight" format="dimension" />
+        <!-- Style of the indicator. Default is triangle. -->
+        <attr name="footerIndicatorStyle">
+            <enum name="none" value="0" />
+            <enum name="triangle" value="1" />
+            <enum name="underline" value="2" />
+        </attr>
+        <!-- Height of the indicator above the footer line. -->
+        <attr name="footerIndicatorHeight" format="dimension" />
+        <!-- Left and right padding of the underline indicator. -->
+        <attr name="footerIndicatorUnderlinePadding" format="dimension" />
+        <!-- Padding between the bottom of the title and the footer. -->
+        <attr name="footerPadding" format="dimension" />
+        <!-- Position of the line. -->
+        <attr name="linePosition">
+            <enum name="bottom" value="0" />
+            <enum name="top" value="1" />
+        </attr>
+        <!-- Color of the selected title. -->
+        <attr name="selectedColor" />
+        <!-- Whether or not the selected item is displayed as bold. -->
+        <attr name="selectedBold" format="boolean" />
+        <!-- Color of regular titles. -->
+        <attr name="android:textColor" />
+        <!-- Size of title text. -->
+        <attr name="android:textSize" />
+        <!-- Padding between titles when bumping into each other. -->
+        <attr name="titlePadding" format="dimension" />
+        <!-- Padding between titles and the top of the View. -->
+        <attr name="topPadding" format="dimension" />
+        <!-- View background -->
+        <attr name="android:background" />
+    </declare-styleable>
+    <declare-styleable name="ht_UnderlinePageIndicator">
+
+        <!-- Whether or not the selected indicator fades. -->
+        <attr name="fades" format="boolean" />
+        <!-- Length of the delay to fade the indicator. -->
+        <attr name="fadeDelay" format="integer" />
+        <!-- Length of the indicator fade to transparent. -->
+        <attr name="fadeLength" format="integer" />
+        <!-- Color of the selected line that represents the current page. -->
+        <attr name="selectedColor" />
+        <!-- View background -->
+        <attr name="android:background" />
+    </declare-styleable>
+    <declare-styleable name="ht_LockPatternView">
+
+        <!--
+             Aspect to use when drawing LockPatternView. Choices are "square"(default), "lock_width"
+             or "lock_height"
+
+
+
+
+        -->
+        <attr name="aspect" format="string" />
+        <!-- Color to use when drawing LockPatternView paths. -->
+        <attr name="pathColor" format="color|reference" />
+        <!-- The regular pattern color -->
+        <attr name="regularColor" format="color|reference" />
+        <!-- The error color -->
+        <attr name="errorColor" format="color|reference" />
+        <!-- The success color -->
+        <attr name="successColor" format="color|reference" />
+        <!-- The dot line width -->
+        <attr name="dotLineWidth" format="dimension|reference" />
+        <!-- The dot size -->
+        <attr name="dotSize" format="dimension|reference" />
+        <!-- The dot size actuvated -->
+        <attr name="dotSizeActivated" format="dimension|reference" />
+    </declare-styleable>
+
+    <!-- PullToRefresh -->
+    <declare-styleable name="ht_PullToRefresh">
+
+        <!-- A drawable to use as the background of the Refreshable View -->
+        <attr name="ptrRefreshableViewBackground" format="reference|color" />
+
+        <!-- A drawable to use as the background of the Header and Footer Loading Views -->
+        <attr name="ptrHeaderBackground" format="reference|color" />
+
+        <!-- Text Color of the Header and Footer Loading Views -->
+        <attr name="ptrHeaderTextColor" format="reference|color" />
+
+        <!-- Text Color of the Header and Footer Loading Views Sub Header -->
+        <attr name="ptrHeaderSubTextColor" format="reference|color" />
+
+        <!-- Mode of Pull-to-Refresh that should be used -->
+        <attr name="ptrMode">
+            <flag name="disabled" value="0x0" />
+            <flag name="pullFromStart" value="0x1" />
+            <flag name="pullFromEnd" value="0x2" />
+            <flag name="both" value="0x3" />
+            <flag name="manualOnly" value="0x4" />
+
+            <!-- These last two are depreacted -->
+            <flag name="pullDownFromTop" value="0x1" />
+            <flag name="pullUpFromBottom" value="0x2" />
+        </attr>
+
+        <!-- Whether the Indicator overlay(s) should be used -->
+        <attr name="ptrShowIndicator" format="reference|boolean" />
+
+        <!-- Drawable to use as Loading Indicator. Changes both Header and Footer. -->
+        <attr name="ptrDrawable" format="reference" />
+
+        <!-- Drawable to use as Loading Indicator in the Header View. Overrides value set in ptrDrawable. -->
+        <attr name="ptrDrawableStart" format="reference" />
+
+        <!-- Drawable to use as Loading Indicator in the Footer View. Overrides value set in ptrDrawable. -->
+        <attr name="ptrDrawableEnd" format="reference" />
+
+        <!-- Whether Android's built-in Over Scroll should be utilised for Pull-to-Refresh. -->
+        <attr name="ptrOverScroll" format="reference|boolean" />
+
+        <!-- Base text color, typeface, size, and style for Header and Footer Loading Views -->
+        <attr name="ptrHeaderTextAppearance" format="reference" />
+
+        <!-- Base text color, typeface, size, and style for Header and Footer Loading Views Sub Header -->
+        <attr name="ptrSubHeaderTextAppearance" format="reference" />
+
+        <!-- Style of Animation should be used displayed when pulling. -->
+        <attr name="ptrAnimationStyle">
+            <flag name="rotate" value="0x0" />
+            <flag name="flip" value="0x1" />
+        </attr>
+
+        <!-- Whether the user can scroll while the View is Refreshing -->
+        <attr name="ptrScrollingWhileRefreshingEnabled" format="reference|boolean" />
+
+        <!--
+        	Whether PullToRefreshListView has it's extras enabled. This allows the user to be 
+        	able to scroll while refreshing, and behaves better. It acheives this by adding
+        	Header and/or Footer Views to the ListView.
+
+
+
+
+        -->
+        <attr name="ptrListViewExtrasEnabled" format="reference|boolean" />
+
+        <!--
+        	Whether the Drawable should be continually rotated as you pull. This only
+        	takes effect when using the 'Rotate' Animation Style.
+
+
+
+
+        -->
+        <attr name="ptrRotateDrawableWhilePulling" format="reference|boolean" />
+
+        <!-- BELOW HERE ARE DEPRECEATED. DO NOT USE. -->
+        <attr name="ptrAdapterViewBackground" format="reference|color" />
+        <attr name="ptrDrawableTop" format="reference" />
+        <attr name="ptrDrawableBottom" format="reference" />
+    </declare-styleable>
+
+    <!-- for CalendarPickerView -->
+    <declare-styleable name="calendar_cell">
+        <attr name="state_selectable" format="boolean" />
+        <attr name="state_current_month" format="boolean" />
+        <attr name="state_today" format="boolean" />
+        <attr name="state_range_first" format="boolean" />
+        <attr name="state_range_middle" format="boolean" />
+        <attr name="state_range_last" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="CordovaWebView">
+        <attr name="url" format="string" />
+    </declare-styleable>
+    <declare-styleable name="FmCircleLoadingView">
+        <attr name="radius" />
+        <attr name="textColor" />
+        <attr name="ringWidth" format="dimension|reference" />
+        <attr name="ringColor" format="color|reference" />
+        <attr name="progressColor" format="color|reference" />
+        <attr name="textSize" />
+    </declare-styleable>
+
+    <declare-styleable name="FmCircularProgressView">
+        <attr name="progress" />
+        <attr name="maxProgress" format="float" />
+        <attr name="animDuration" format="integer" />
+        <attr name="animSwoopDuration" format="integer" />
+        <attr name="animSyncDuration" format="integer" />
+        <attr name="h_color2" format="color|reference"/>
+        <attr name="t_thickness" format="dimension" />
+        <attr name="indeterminate" format="boolean" />
+        <attr name="animAutostart" format="boolean" />
+        <attr name="animSteps" format="integer" />
+    </declare-styleable>
+
+</resources>

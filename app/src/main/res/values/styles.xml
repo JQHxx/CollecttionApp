@@ -1,0 +1,122 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowContentOverlay">@null</item>
+        <!--<item name="android:windowBackground">@mipmap/ic_splash</item>-->
+        <item name="android:windowDisablePreview">true</item>
+
+    </style>
+
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!--去掉所有跳转动画-->
+    <style name="noAnimation">
+        <item name="android:activityOpenEnterAnimation">@null
+        </item><!--当启动一个新的界面时，启动的界面使用的动画（进入屏幕）-->
+        <item name="android:activityOpenExitAnimation">@null
+        </item><!--当启动一个新的界面时，之前的界面使用的动画（退出屏幕）-->
+        <item name="android:activityCloseEnterAnimation">@null
+        </item><!--当关闭当前的界面时,进来的界面使用的动画（进入屏幕）-->
+        <item name="android:activityCloseExitAnimation">@null
+        </item><!--当关闭当前的界面时,当前关闭的界面使用的动画（退出屏幕）-->
+        <item name="android:taskOpenEnterAnimation">@null</item><!--当在新的栈启动界面，新的栈启动的界面使用的动画（进入屏幕）-->
+        <item name="android:taskOpenExitAnimation">@null</item><!--当在新的栈启动界面，旧的栈的界面使用的动画（退出屏幕）-->
+        <item name="android:taskCloseEnterAnimation">@null</item><!---->
+        <item name="android:taskCloseExitAnimation">@null</item>
+        <item name="android:taskToFrontEnterAnimation">@null</item>
+        <item name="android:taskToFrontExitAnimation">@null</item>
+        <item name="android:taskToBackEnterAnimation">@null</item>
+        <item name="android:taskToBackExitAnimation">@null</item>
+    </style>
+
+
+    <!--SuperCheckbox的样式-->
+    <style name="SuperCheckboxTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/selector_item_checked</item>
+    </style>
+
+    <style name="ImagePickerTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
+
+    <style name="ImagePickerThemeFullScreen" parent="ImagePickerTheme">
+        <item name="android:fitsSystemWindows">false</item>
+    </style>
+
+    <style name="SelectableItem">
+        <item name="android:background">@android:drawable/list_selector_background</item>
+    </style>
+
+    <style name="map_route_divider">
+        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_width">0.6dp</item>
+        <item name="android:background">#DFDFDF</item>
+    </style>
+
+    <style name="map_route_item">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="CommonInputItem">
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_marginTop">@dimen/dialog_item_margin_top</item>
+        <item name="android:textSize">@dimen/dialog_item_text_size</item>
+        <item name="android:textColor">@color/black_text</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="rtl_RecyclerTabLayout">
+        <item name="rtl_tabMinWidth">72dp</item>
+        <item name="rtl_tabMaxWidth">264dp</item>
+        <item name="rtl_tabIndicatorColor">?attr/colorAccent</item>
+        <item name="rtl_tabIndicatorHeight">2dp</item>
+        <item name="rtl_tabPaddingStart">12dp</item>
+        <item name="rtl_tabPaddingEnd">12dp</item>
+        <item name="rtl_tabBackground">?attr/selectableItemBackground</item>
+        <item name="rtl_tabTextAppearance">@style/rtl_RecyclerTabLayout.Tab</item>
+        <item name="rtl_tabSelectedTextColor">?android:textColorPrimary</item>
+    </style>
+
+    <style name="rtl_RecyclerTabLayout.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
+
+    <style name="PopupAnimaFade" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/basepopup_fade_in</item>
+        <item name="android:windowExitAnimation">@anim/basepopup_fade_out</item>
+    </style>
+
+    <style name="CommonItemText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:textColor">@color/black_text</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+</resources>

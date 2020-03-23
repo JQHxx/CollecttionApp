@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dialog_margin"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.huateng.collection.widget.UniversalInput
+        android:id="@+id/csv_visitAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black_text"
+        android:textSize="@dimen/dialog_item_text_size"
+        app:inputType="text"
+        app:labelText="外访地址：" />
+
+    <com.huateng.collection.widget.UniversalInput
+        android:id="@+id/csv_visitDate"
+        style="@style/CommonInputItem"
+        app:inputType="date"
+        app:labelText="外访时间："
+        app:required="true" />
+
+    <com.huateng.collection.widget.UniversalInput
+        android:id="@+id/csv_visitOfficer"
+        style="@style/CommonInputItem"
+        android:singleLine="true"
+        app:inputType="text"
+        app:labelText="催收员：" />
+
+    <com.huateng.collection.widget.UniversalInput
+        android:id="@+id/csv_visitResult"
+        style="@style/CommonInputItem"
+        app:inputType="spinner"
+        app:labelText="外访结论："
+        app:required="true" />
+
+    <com.huateng.collection.widget.UniversalInput
+        android:id="@+id/csv_visitOhterOfficer"
+        style="@style/CommonInputItem"
+        app:inputType="editText"
+        app:labelText="协同人员：" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp">
+
+        <com.huateng.collection.widget.UniversalInput
+            android:id="@+id/csv_visitInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dialog_item_margin_top"
+            android:gravity="top|left"
+            android:inputType="textMultiLine"
+            android:maxLength="999"
+            android:minLines="2"
+            android:scrollbars="vertical"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dialog_item_text_size"
+            app:bgStyle="line"
+            app:inputType="editText"
+            app:labelText="外访情况："
+            app:required="true" />
+
+    </LinearLayout>
+
+</LinearLayout>

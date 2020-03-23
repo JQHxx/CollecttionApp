@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">NetLibrary</string>
+
+    <string-array name="app_mode">
+        <item>发布版API</item>
+        <item>开发测试API</item>
+        <item>自定义URL</item>
+    </string-array>
+
+</resources>

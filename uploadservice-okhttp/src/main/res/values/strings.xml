@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="http_methods">
+        <item>POST</item>
+        <item>PUT</item>
+        <item>PATCH</item>
+        <item>OPTIONS</item>
+    </string-array>
+
+    <string name="cancel_all_uploads">取消上传</string>
+    <string name="uploading">上传[[UPLOADED_FILES]]  进度： [[UPLOAD_RATE]] - [[PROGRESS]]</string>
+    <string name="upload_success">[[FILE_NAME]]上传成功，共耗时:[[ELAPSED_TIME]]</string>
+    <string name="upload_error">上传中发生错误</string>
+    <string name="upload_cancelled">上传任务被取消</string>
+    <string name="multipart_upload">案件上传</string>
+    <string name="cancel_upload">取消</string>
+
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ThemeGroup defaultTheme="HTTheme_0"> <!-- defaultTheme 为设置默认皮肤颜色 -->
+<Theme name="HTTheme_0">
+     <PrimaryColor>theme_color</PrimaryColor> <!-- 正常初始颜色 -->
+    <StatedColor>theme_color_pressed</StatedColor>  <!-- 按下、获得焦点等状态颜色 -->
+    <SpecialColor>theme_color_pressed</SpecialColor> <!-- 特殊状态颜色，用于备用 -->
+</Theme>
+<Theme name="HTTheme_1">
+   <PrimaryColor>theme_main_color1</PrimaryColor>
+    <StatedColor>blue_dark</StatedColor>
+    <SpecialColor>blue_light</SpecialColor>
+</Theme>
+<Theme name="HTTheme_2">
+    <PrimaryColor>grape_primary</PrimaryColor>
+    <StatedColor>grape_dark</StatedColor>
+    <SpecialColor>grape_light</SpecialColor>
+</Theme>
+
+<Theme name="HTTheme_3">
+    <PrimaryColor>orange_primary</PrimaryColor> 
+    <StatedColor>orange_dark</StatedColor> 
+    <SpecialColor>orange_light</SpecialColor>
+</Theme>
+</ThemeGroup>

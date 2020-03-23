@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical" 
+    android:background="@color/sides_menu_bg_gray"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+         >
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="菜单"
+            android:textColor="@color/black"
+            android:textSize="23dp" />
+
+       
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/homeBlock"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp" >
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/home" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="首页"
+            android:textColor="@color/black_light"
+            android:textSize="23dp" />
+    </LinearLayout>
+
+    <ExpandableListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="#00000000"
+                android:listSelector="@color/red"  
+        android:divider="@color/transparent"
+        android:dividerHeight="0dp"
+        android:drawSelectorOnTop="false" />
+
+</LinearLayout>

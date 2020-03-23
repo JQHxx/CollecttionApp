@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:paddingBottom="12dp"
+    android:paddingTop="12dp">
+
+    <TextView
+        android:id="@+id/tv_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="录音打开时间"
+        android:textColor="#999999"
+        android:textSize="@dimen/content_text_size" />
+
+    <com.huateng.collection.widget.UniversalInput
+        android:id="@+id/csv_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="#333333"
+        android:textSize="18sp"
+        app:bgStyle="line"
+        app:bgColor="@color/transparent"
+        app:normalColor="#d7d7db" />
+
+</LinearLayout>

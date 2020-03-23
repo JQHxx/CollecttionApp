@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 圆角 radius-->
+    <corners android:radius="30dp" />
+
+    <!--&lt;!&ndash; 渐变 gradient&ndash;&gt;-->
+    <!--<gradient-->
+    <!--android:startColor="@android:color/white"-->
+    <!--android:centerColor="@android:color/black"-->
+    <!--android:endColor="@android:color/black"-->
+    <!--android:useLevel="true"-->
+    <!--android:angle="45"-->
+    <!--android:type="radial"-->
+    <!--android:centerX="0"-->
+    <!--android:centerY="0"-->
+    <!--android:gradientRadius="90"/>-->
+
+    <!-- 间隔 padding-->
+    <!--<padding-->
+        <!--android:bottom="2dp"-->
+        <!--android:left="2dp"-->
+        <!--android:right="2dp"-->
+        <!--android:top="2dp" />&lt;!&ndash; 各方向的间隔 &ndash;&gt;-->
+
+    <!-- 大小 size-->
+    <size
+        android:width="200dp"
+        android:height="50dp" /><!-- 宽度和高度 -->
+
+    <!-- 填充 solid-->
+    <solid android:color="#C0E2FD" /><!-- 填充的颜色 -->
+
+</shape>

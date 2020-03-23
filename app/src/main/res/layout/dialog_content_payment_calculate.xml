@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/dialog_margin"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <com.huateng.collection.widget.UniversalInput
+        android:id="@+id/csv_accountNo"
+        style="@style/CommonInputItem"
+        app:inputType="spinner"
+        app:labelText="账户："
+        app:labelTextSize="16sp"
+        app:normalColor="@color/gray_textcolor" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.huateng.collection.widget.UniversalInput
+            android:id="@+id/csv_currencyType"
+            style="@style/CommonInputItem"
+            android:layout_width="0dp"
+            android:layout_weight="0.6"
+            app:inputType="spinner"
+            app:labelText="币种："
+            app:labelTextSize="16sp"
+            app:normalColor="@color/gray_textcolor" />
+
+        <com.huateng.collection.widget.UniversalInput
+            android:id="@+id/csv_date"
+            style="@style/CommonInputItem"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            app:inputType="date"
+            app:labelText="付清日期："
+            app:labelTextSize="16sp"
+            app:normalColor="@color/gray_textcolor" />
+
+    </LinearLayout>
+
+    <com.huateng.fm.ui.widget.FmButton
+        android:id="@+id/btn_query"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:minHeight="0dp"
+        android:singleLine="true"
+        android:text="查询"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:bgColor="@color/theme_color"
+        app:cornerStyle="small"
+        app:stateBgColor="@color/theme_color_pressed" />
+
+    <View
+        android:layout_marginTop="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_listitem" />
+
+    <TextView
+        android:id="@+id/tv_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="选择账户、币种、日期查询计算结果"
+        android:textColor="@color/gray_textcolor"
+        android:textSize="18sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:clipToPadding="false" />
+
+</LinearLayout>

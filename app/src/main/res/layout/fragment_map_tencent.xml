@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.tools.view.RxTitle xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rx_title"
+        style="@style/CommontRxToolBarStyle"
+        app:rxLeftIconVisibility="false"
+        app:rxLeftTextVisibility="false"
+        app:rxTitleIcon="@drawable/app_name"
+        app:rxTitleIconVisibility="true"
+        app:rxTitleVisibility="false" />
+
+    <com.tools.view.slidinguppanel.SlidingUpPanelLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:sothree="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/sliding_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        sothree:umanoDragView="@+id/dragView"
+        sothree:umanoOverlay="true"
+        sothree:umanoPanelHeight="68dp"
+        sothree:umanoParallaxOffset="100dp"
+        sothree:umanoScrollableView="@+id/list"
+        sothree:umanoShadowHeight="4dp">
+
+        <!-- MAIN CONTENT -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.tencent.tencentmap.mapsdk.map.MapView
+                android:id="@+id/tracing_mapView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true" />
+
+            <LinearLayout
+                android:id="@+id/layout_trace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/shape_half_transparent_bg"
+                android:orientation="vertical"
+                android:padding="4dp">
+
+                <ImageView
+                    android:id="@+id/iv_more"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_gravity="center"
+                    android:padding="2dp"
+                    android:src="@drawable/ic_more" />
+
+                <!--<com.kyleduo.switchbutton.SwitchButton-->
+                <!--android:id="@+id/sb_trace"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--app:kswAnimationDuration="300"-->
+                <!--app:kswBackDrawable="@drawable/back_drawable"-->
+                <!--app:kswThumbDrawable="@drawable/thumb_selector"-->
+                <!--app:kswThumbMarginBottom="-8dp"-->
+                <!--app:kswThumbMarginLeft="-5dp"-->
+                <!--app:kswThumbMarginRight="-5dp"-->
+                <!--app:kswThumbMarginTop="-2.5dp" />-->
+
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:text="轨迹"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="12sp" />-->
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <!-- SLIDING LAYOUT -->
+        <LinearLayout
+            android:id="@+id/dragView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            android:clickable="true"
+            android:focusable="false"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="2dp"
+                android:paddingTop="2dp">
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/iv_arrow"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_arrow_up" />
+
+            </RelativeLayout>
+
+            <ListView
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"></ListView>
+
+        </LinearLayout>
+    </com.tools.view.slidinguppanel.SlidingUpPanelLayout>
+</LinearLayout>
+

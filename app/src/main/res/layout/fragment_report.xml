@@ -1,0 +1,42 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.tools.view.RxTitle
+        android:id="@+id/rx_title"
+        style="@style/CommontRxToolBarStyle"
+        app:rxTitle="外访报告"
+        app:rxRightText="保存"
+        app:rxRightTextVisibility="true"
+        app:rxTitleVisibility="true" />
+
+    <FrameLayout
+        android:id="@+id/fl_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_bg_lighter"
+        android:orientation="vertical">
+
+        <com.huateng.collection.widget.tab.RecyclerTabLayout
+            android:id="@+id/recycler_tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/white"
+            app:rtl_tabIndicatorHeight="0dp"
+            app:rtl_tabMaxWidth="100dp"
+            app:rtl_tabMinWidth="100dp" />
+    </LinearLayout>
+
+
+</LinearLayout>

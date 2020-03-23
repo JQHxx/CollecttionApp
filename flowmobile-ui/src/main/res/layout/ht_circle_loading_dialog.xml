@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:ht="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dialog_view"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/transparent"
+    android:gravity="center"
+    android:minHeight="60dp"
+    android:minWidth="180dp"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <com.huateng.fm.ui.view.FmCircleLoadingView
+        android:id="@+id/circleLoadingView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        ht:ringColor="@color/white"
+        ht:radius="30dp"
+        ht:textColor="@color/white"
+        ht:ringWidth="3dp"
+        ht:progressColor="@color/orange_primary"
+        ht:textSize="19sp"
+         />
+
+   
+
+</LinearLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ht="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dialog_view"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/transparent"
+    android:gravity="center"
+    android:minHeight="60dp"
+    android:minWidth="180dp"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+   <com.huateng.fm.ui.view.loading.circular.FmCircularProgressView
+        android:id="@+id/progressView"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="0dp"
+        ht:animAutostart="true"
+        ht:indeterminate="true"
+        ht:t_thickness="3.5dp" />
+
+</LinearLayout>

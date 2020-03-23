@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/selector"
+    android:orientation="horizontal"
+    android:paddingBottom="16dp"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
+    android:paddingTop="16dp">
+
+    <TextView
+        android:id="@+id/tv_phoneType"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/content_margin_left"
+        android:layout_weight="0.8"
+        android:gravity="center"
+        android:text="电话类型"
+        android:textColor="@color/content_text_gray"
+        android:textSize="@dimen/content_text_size" />
+
+    <TextView
+        android:id="@+id/tv_phoneNo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/content_margin_left"
+        android:layout_weight="1.6"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="电话号码"
+        android:textColor="@color/content_text_gray"
+        android:textSize="@dimen/content_text_size" />
+
+    <TextView
+        android:id="@+id/tv_userName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/content_margin_left"
+        android:layout_weight="0.8"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="姓名"
+        android:textColor="@color/content_text_gray"
+        android:textSize="@dimen/content_text_size" />
+
+    <TextView
+        android:id="@+id/tv_relationship"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/content_margin_left"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="与客户关系"
+        android:textColor="@color/content_text_gray"
+        android:textSize="@dimen/content_text_size" />
+
+</LinearLayout>
