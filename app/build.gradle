@@ -98,7 +98,7 @@ buildscript {
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     //    compile(name: 'flowmobile-ui-release', ext: 'aar')
-    api project(':flowmobile-ui')
+    api project(':lib.flowmobile')
     androidTestImplementation 'junit:junit:4.12'
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.4-beta1'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta1'
@@ -177,14 +177,14 @@ dependencies {
         exclude module: 'support-v4'
     }
     //网络相关库
-    implementation project(':Net-library')
+    implementation project(':lib.net')
     //工具库
-    implementation project(':Tools-library')
+    implementation project(':lib.common')
     //腾讯地图
     implementation files('libs/TencentMapSearch_v1.1.7.1.3e04ee1.jar')
     implementation files('libs/TencentLocationSdk_v7.1.4.3_r4aa8ac63_20180911_165428.jar')
     implementation files('libs/TencentMapSDK_Raster_v_1.3.2.jar')
-    implementation project(':picture_library')
+    implementation project(':lib.picture')
     implementation project(':lib.uploadservice')
    // implementation project(':lib.uploadservice1')
 

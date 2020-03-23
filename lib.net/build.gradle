@@ -41,7 +41,7 @@ dependencies {
     //okhttp
     implementation 'com.squareup.okhttp3:okhttp:3.8.1'
     implementation files('libs/BASE64Decoder.jar')
-    implementation project(':Tools-library')
+    implementation project(':lib.common')
     implementation files('libs/mpush-client-java-0.0.6.jar')
     implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
 
