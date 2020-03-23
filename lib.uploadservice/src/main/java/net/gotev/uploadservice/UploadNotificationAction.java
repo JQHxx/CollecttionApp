@@ -74,7 +74,7 @@ public class UploadNotificationAction implements Parcelable {
         }
     }
 
-    public static final Parcelable.Creator<UploadNotificationAction> CREATOR = new Parcelable.Creator<UploadNotificationAction>() {
+    public static final Creator<UploadNotificationAction> CREATOR = new Creator<UploadNotificationAction>() {
         @Override
         public UploadNotificationAction createFromParcel(Parcel source) {
             return new UploadNotificationAction(source);

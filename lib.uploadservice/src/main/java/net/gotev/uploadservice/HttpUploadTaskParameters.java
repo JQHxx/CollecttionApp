@@ -26,8 +26,8 @@ public final class HttpUploadTaskParameters implements Parcelable {
 
     // This is used to regenerate the object.
     // All Parcelables must have a CREATOR that implements these two methods
-    public static final Parcelable.Creator<HttpUploadTaskParameters> CREATOR =
-            new Parcelable.Creator<HttpUploadTaskParameters>() {
+    public static final Creator<HttpUploadTaskParameters> CREATOR =
+            new Creator<HttpUploadTaskParameters>() {
                 @Override
                 public HttpUploadTaskParameters createFromParcel(final Parcel in) {
                     return new HttpUploadTaskParameters(in);

@@ -1,5 +1,5 @@
 include ':app', ':Tools-library', 'flowmobile-ui'
 include ':Net-library'
 include ':picture_library'
+//include ':lib.uploadservice1'
 include ':lib.uploadservice'
-include ':uploadservice-okhttp'

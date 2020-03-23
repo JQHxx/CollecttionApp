@@ -116,7 +116,7 @@ public final class UploadNotificationConfig implements Parcelable {
      * Sets the same intent to be executed when the user taps on the notification
      * for all the notification statuses.
      *
-     * @param clickIntent {@link android.app.PendingIntent} containing the user's action
+     * @param clickIntent {@link PendingIntent} containing the user's action
      * @return {@link UploadNotificationConfig}
      */
     public final UploadNotificationConfig setClickIntentForAllStatuses(PendingIntent clickIntent) {

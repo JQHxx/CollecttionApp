@@ -54,8 +54,8 @@ public class UploadInfo implements Parcelable {
 
     // This is used to regenerate the object.
     // All Parcelables must have a CREATOR that implements these two methods
-    public static final Parcelable.Creator<UploadInfo> CREATOR =
-            new Parcelable.Creator<UploadInfo>() {
+    public static final Creator<UploadInfo> CREATOR =
+            new Creator<UploadInfo>() {
                 @Override
                 public UploadInfo createFromParcel(final Parcel in) {
                     return new UploadInfo(in);

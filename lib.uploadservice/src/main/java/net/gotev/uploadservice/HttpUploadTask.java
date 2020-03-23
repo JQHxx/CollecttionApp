@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import net.gotev.uploadservice.http.BodyWriter;
 import net.gotev.uploadservice.http.HttpConnection;
+import net.gotev.uploadservice.okhttp.BuildConfig;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

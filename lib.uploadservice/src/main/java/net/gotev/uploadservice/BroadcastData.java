@@ -37,8 +37,8 @@ class BroadcastData implements Parcelable {
 
     // This is used to regenerate the object.
     // All Parcelables must have a CREATOR that implements these two methods
-    public static final Parcelable.Creator<BroadcastData> CREATOR =
-            new Parcelable.Creator<BroadcastData>() {
+    public static final Creator<BroadcastData> CREATOR =
+            new Creator<BroadcastData>() {
                 @Override
                 public BroadcastData createFromParcel(final Parcel in) {
                     return new BroadcastData(in);

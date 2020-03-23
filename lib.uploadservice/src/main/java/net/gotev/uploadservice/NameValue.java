@@ -50,8 +50,8 @@ public final class NameValue implements Parcelable {
 
     // This is used to regenerate the object.
     // All Parcelables must have a CREATOR that implements these two methods
-    public static final Parcelable.Creator<NameValue> CREATOR =
-            new Parcelable.Creator<NameValue>() {
+    public static final Creator<NameValue> CREATOR =
+            new Creator<NameValue>() {
                 @Override
                 public NameValue createFromParcel(final Parcel in) {
                     return new NameValue(in);

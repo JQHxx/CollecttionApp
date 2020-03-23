@@ -8,9 +8,9 @@ android {
     buildToolsVersion BUILDTOOLS_VERSION
 
     defaultConfig {
-        minSdkVersion  Integer.parseInt(MIN_SDK_VERSION)
+        minSdkVersion Integer.parseInt(MIN_SDK_VERSION)
         targetSdkVersion TARGET_SDK_VERSION
-        versionCode 30
+        versionCode 14
         versionName version
     }
     buildTypes {
@@ -25,6 +25,9 @@ android {
 }
 
 dependencies {
+    implementation 'com.squareup.okhttp3:okhttp:3.8.1'
+    //comment the previous line and uncomment the next line for development (it uses the local lib)
+   // implementation project(':lib.uploadservice1')
     api "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
     api "com.android.support:support-v4:${SUPPORT_LIB_VERSION}"
 }

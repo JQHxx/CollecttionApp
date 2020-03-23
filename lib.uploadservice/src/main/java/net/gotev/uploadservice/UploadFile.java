@@ -97,8 +97,8 @@ public class UploadFile implements Parcelable {
 
     // This is used to regenerate the object.
     // All Parcelables must have a CREATOR that implements these two methods
-    public static final Parcelable.Creator<UploadFile> CREATOR =
-            new Parcelable.Creator<UploadFile>() {
+    public static final Creator<UploadFile> CREATOR =
+            new Creator<UploadFile>() {
         @Override
         public UploadFile createFromParcel(final Parcel in) {
             return new UploadFile(in);

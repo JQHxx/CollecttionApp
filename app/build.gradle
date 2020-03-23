@@ -185,8 +185,8 @@ dependencies {
     implementation files('libs/TencentLocationSdk_v7.1.4.3_r4aa8ac63_20180911_165428.jar')
     implementation files('libs/TencentMapSDK_Raster_v_1.3.2.jar')
     implementation project(':picture_library')
-    implementation project(':uploadservice-okhttp')
     implementation project(':lib.uploadservice')
+   // implementation project(':lib.uploadservice1')
 
     // Debugging
     debugImplementation "com.facebook.stetho:stetho:1.4.2"

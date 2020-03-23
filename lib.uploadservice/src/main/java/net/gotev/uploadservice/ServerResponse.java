@@ -17,8 +17,8 @@ public class ServerResponse implements Parcelable {
 
     // This is used to regenerate the object.
     // All Parcelables must have a CREATOR that implements these two methods
-    public static final Parcelable.Creator<ServerResponse> CREATOR =
-            new Parcelable.Creator<ServerResponse>() {
+    public static final Creator<ServerResponse> CREATOR =
+            new Creator<ServerResponse>() {
                 @Override
                 public ServerResponse createFromParcel(final Parcel in) {
                     return new ServerResponse(in);
