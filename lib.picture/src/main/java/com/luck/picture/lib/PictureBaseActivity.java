@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
 import com.luck.picture.lib.compress.CompressConfig;
@@ -33,6 +32,8 @@ import com.luck.picture.lib.tools.PictureFileUtils;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.fragment.app.FragmentActivity;
 
 public class PictureBaseActivity extends FragmentActivity {
     protected Context mContext;

@@ -2,7 +2,6 @@ package com.huateng.collection.ui.fragment.setting;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,7 @@ import com.huateng.fm.ui.widget.FmButton;
 import com.tools.view.RxTitle;
 import com.tools.view.RxToast;
 
+import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;

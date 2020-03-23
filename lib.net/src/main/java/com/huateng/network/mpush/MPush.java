@@ -24,7 +24,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.support.annotation.Nullable;
 
 import com.mpush.api.Client;
 import com.mpush.api.ClientListener;
@@ -36,6 +35,8 @@ import com.mpush.client.ClientConfig;
 import com.mpush.util.DefaultLogger;
 
 import java.util.concurrent.Future;
+
+import androidx.annotation.Nullable;
 
 /**
  * mpush入口工具类，提供mpush配置项设置

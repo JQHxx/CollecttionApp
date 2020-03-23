@@ -2,7 +2,6 @@ package com.huateng.collection.ui.adapter;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.LayoutRes;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -16,6 +15,8 @@ import com.huateng.collection.bean.api.RespPhone;
 import com.huateng.collection.bean.orm.Dic;
 
 import java.util.List;
+
+import androidx.annotation.LayoutRes;
 
 
 /**

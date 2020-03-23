@@ -1,8 +1,6 @@
 package com.huateng.collection.ui.dialog;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +11,7 @@ import com.huateng.collection.bean.api.RespPaymentCalItem;
 
 import java.util.List;
 
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -55,7 +54,7 @@ public class PaymentCalculateAdapter extends RecyclerView.Adapter<PaymentCalcula
     }
 
 
-    class VH extends ViewHolder {
+    class VH extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_tag)
         TextView tvTag;
         @BindView(R.id.tv_value)

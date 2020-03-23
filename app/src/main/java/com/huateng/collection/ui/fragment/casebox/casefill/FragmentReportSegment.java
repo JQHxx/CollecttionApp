@@ -1,9 +1,6 @@
 package com.huateng.collection.ui.fragment.casebox.casefill;
 
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +21,6 @@ import com.huateng.collection.ui.base.BaseFragment;
 import com.huateng.fm.util.FmValueUtil;
 import com.orhanobut.logger.Logger;
 import com.orm.SugarRecord;
-import com.tools.view.RxToast;
 
 import org.greenrobot.eventbus.Subscribe;
 
@@ -34,10 +30,12 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
-import me.yokeyword.fragmentation.anim.DefaultNoAnimator;
 
 /**
  * 外访报告

@@ -1,6 +1,5 @@
 package com.huateng.collection.ui.dialog;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,6 +18,8 @@ import com.huateng.collection.ui.dialog.dm.WrongEndCaseDM;
 import com.huateng.collection.widget.UniversalInput;
 import com.huateng.collection.widget.dialogplus.DialogPlus;
 import com.huateng.fm.ui.widget.FmButton;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @author dengzh

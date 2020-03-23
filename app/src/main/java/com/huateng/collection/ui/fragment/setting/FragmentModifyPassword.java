@@ -1,7 +1,6 @@
 package com.huateng.collection.ui.fragment.setting;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +20,9 @@ import com.tools.view.RxToast;
 
 import java.util.HashMap;
 
+import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
-import me.yokeyword.fragmentation.anim.DefaultNoAnimator;
 
 /**
  * Created by shanyong on 2016/12/13.

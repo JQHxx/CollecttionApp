@@ -8,7 +8,6 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 
 import com.huateng.collection.app.Config;
 import com.huateng.collection.app.Perference;
@@ -23,6 +22,8 @@ import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.mapsdk.raster.model.LatLng;
 import com.tools.utils.StringUtils;
 import com.tools.utils.TimeUtils;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by shanyong 2018/11/29

@@ -1,9 +1,6 @@
 package com.huateng.collection.ui.adapter;
 
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
 import android.view.View;
-
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -29,6 +26,9 @@ import com.tools.view.RxToast;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
 
 
 /**

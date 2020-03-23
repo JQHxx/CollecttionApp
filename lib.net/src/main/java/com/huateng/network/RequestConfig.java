@@ -1,10 +1,10 @@
 package com.huateng.network;
 
-import com.huateng.network.api.RequestStructure;
-import com.huateng.network.api.RequestStructure.QueryTableBean;
-import com.huateng.network.api.RequestStructure.QueryTableBean.ScubeBodyBean;
-import com.huateng.network.api.RequestStructure.QueryTableBean.ScubeBodyBean.ContextDataBean;
-import com.huateng.network.api.RequestStructure.QueryTableBean.ScubeHeaderBean;
+import com.huateng.network.bean.RequestStructure;
+import com.huateng.network.bean.RequestStructure.QueryTableBean;
+import com.huateng.network.bean.RequestStructure.QueryTableBean.ScubeBodyBean;
+import com.huateng.network.bean.RequestStructure.QueryTableBean.ScubeBodyBean.ContextDataBean;
+import com.huateng.network.bean.RequestStructure.QueryTableBean.ScubeHeaderBean;
 
 
 /**

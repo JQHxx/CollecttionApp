@@ -1,4 +1,4 @@
-package com.huateng.network.api;
+package com.huateng.network.bean;
 
 
 /**

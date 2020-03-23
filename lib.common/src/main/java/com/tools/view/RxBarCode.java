@@ -1,13 +1,14 @@
 package com.tools.view;
 
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by vondear on 2017/2/17.

@@ -1,13 +1,10 @@
 package com.huateng.network;
 
 
-import android.support.annotation.NonNull;
-
 import com.baronzhang.retrofit2.converter.FastJsonConverterFactory;
-import com.huateng.network.api.RequestStructure;
-import com.huateng.network.api.ResponseStructure;
+import com.huateng.network.bean.RequestStructure;
+import com.huateng.network.bean.ResponseStructure;
 import com.huateng.network.cache.CacheManager;
-import com.huateng.network.utils.SignUtil;
 import com.orhanobut.logger.Logger;
 import com.tools.CommonUtils;
 import com.tools.utils.GsonUtils;
@@ -19,6 +16,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.NonNull;
 import okhttp3.Cache;
 import okhttp3.CacheControl;
 import okhttp3.Headers;
@@ -33,10 +31,7 @@ import okio.Buffer;
 import okio.BufferedSource;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func1;
 
 /**
  * api接口相关的网络请求

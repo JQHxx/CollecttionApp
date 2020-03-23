@@ -2,10 +2,10 @@ package com.huateng.collection.ui.base;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
-import com.flyco.systembar.SystemBarHelper;
 import com.huateng.collection.widget.LoadingDialog;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * ActivityBase

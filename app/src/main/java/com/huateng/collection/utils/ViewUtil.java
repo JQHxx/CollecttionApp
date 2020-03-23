@@ -5,15 +5,17 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 
+import com.google.android.material.tabs.TabLayout;
+
 import java.lang.reflect.Field;
+
+import androidx.core.graphics.drawable.DrawableCompat;
 
 /**
  * ClassName: ViewUtil<p>

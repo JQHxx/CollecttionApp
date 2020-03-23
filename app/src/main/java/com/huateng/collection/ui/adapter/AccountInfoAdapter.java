@@ -1,7 +1,5 @@
 package com.huateng.collection.ui.adapter;
 
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -9,17 +7,19 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.huateng.collection.R;
 import com.huateng.collection.bean.api.RespAccount;
 import com.huateng.collection.bean.api.RespPaymentCalItem;
-import com.huateng.collection.ui.dialog.DialogCenter;
-import com.huateng.collection.ui.dialog.dm.PaymentCalculateDM;
 import com.huateng.collection.network.CommonInteractor;
 import com.huateng.collection.network.RequestCallbackImpl;
 import com.huateng.collection.ui.base.BaseFragment;
+import com.huateng.collection.ui.dialog.dm.PaymentCalculateDM;
 import com.huateng.network.ApiConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
 
 
 /**

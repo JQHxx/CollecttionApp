@@ -1,22 +1,16 @@
 package com.huateng.fm.ui.toolbar;
 
-import com.huateng.flowMobile.R;
-import com.huateng.fm.ui.view.BadgeView;
-import com.huateng.fm.ui.view.FmBadgeView;
-
 import android.app.Activity;
-import android.graphics.Color;
-import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.Toolbar.LayoutParams;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.huateng.flowMobile.R;
+
+import androidx.appcompat.widget.Toolbar;
 
 /**
  * author: Devin
@@ -295,7 +289,7 @@ public class ToolbarBuilder extends ToolBarPrototype {
         return this;
     }
 
-    public ToolbarBuilder setLayoutParams(LayoutParams lp) {
+    public ToolbarBuilder setLayoutParams(Toolbar.LayoutParams lp) {
         this.mLayoutParams = lp;
         return this;
     }

@@ -3,14 +3,15 @@ package com.huateng.collection.widget.pulltoload.header;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
 import com.aspsine.swipetoloadlayout.SwipeRefreshTrigger;
 import com.aspsine.swipetoloadlayout.SwipeTrigger;
-import com.huateng.collection.widget.pulltoload.GoogleCircleProgressView;
 import com.huateng.collection.R;
+import com.huateng.collection.widget.pulltoload.GoogleCircleProgressView;
+
+import androidx.core.view.ViewCompat;
 
 /**
  * Created by aspsine on 15/11/7.

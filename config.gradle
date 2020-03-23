@@ -1,14 +1,14 @@
 ext {
     cfgs = [
             compileSdkVersion    : 28,
-            buildToolsVersion    : "28.0.2",
+            buildToolsVersion    : "28.0.3",
             minSdkVersion        : 19,
             targetSdkVersion     : 27,
             versionCode          : 10,
             versionName          : "2.0.0",
 
             //open version control
-            androidSupportVersion: "28.0.2",
+            androidSupportVersion: "28.0.3",
             glide                : "4.0.0",
             rxjava               : "2.0.5",
             rxandroid            : "2.0.1"

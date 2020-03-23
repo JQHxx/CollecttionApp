@@ -2,7 +2,6 @@ package com.luck.picture.lib.config;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.StyleRes;
 
 import com.luck.picture.lib.R;
 import com.luck.picture.lib.compress.Luban;
@@ -11,6 +10,8 @@ import com.luck.picture.lib.tools.DebugUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.StyleRes;
 
 /**
  * author：luck

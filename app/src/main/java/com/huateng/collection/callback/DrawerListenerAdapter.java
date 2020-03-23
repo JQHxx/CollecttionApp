@@ -1,7 +1,8 @@
 package com.huateng.collection.callback;
 
-import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+
+import androidx.drawerlayout.widget.DrawerLayout;
 
 /**
  * ClassName: DrawerListenerAdapter<p>

@@ -1,10 +1,11 @@
 package com.huateng.network.update;
 
-import android.support.annotation.NonNull;
 
 import java.io.File;
 import java.io.Serializable;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 /**
  * app版本更新接口

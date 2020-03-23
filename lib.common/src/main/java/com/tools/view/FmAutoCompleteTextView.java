@@ -11,7 +11,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
-import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +26,8 @@ import com.tools.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 
 /**
  * AutoCompleteTextView

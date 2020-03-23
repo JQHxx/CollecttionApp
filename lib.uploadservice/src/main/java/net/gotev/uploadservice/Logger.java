@@ -1,5 +1,7 @@
 package net.gotev.uploadservice;
 
+import net.gotev.uploadservice.okhttp.BuildConfig;
+
 import java.lang.ref.WeakReference;
 
 /**

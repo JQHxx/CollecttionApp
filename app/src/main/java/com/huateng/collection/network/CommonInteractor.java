@@ -4,7 +4,7 @@ import com.huateng.collection.bean.api.RespBase;
 import com.huateng.network.ApiConstants;
 import com.huateng.network.NetworkConfig;
 import com.huateng.network.RetrofitManager;
-import com.huateng.network.api.ResponseStructure;
+import com.huateng.network.bean.ResponseStructure;
 import com.huateng.network.cache.CacheManager;
 import com.huateng.network.callback.RequestCallback;
 import com.huateng.network.error.ExceptionHandle;
@@ -25,7 +25,7 @@ import rx.schedulers.Schedulers;
  * 用于匹配后端scube协议框架的通用rxjava+retrofit 网络请求与响应处理
  * 请求json报文结构对应:
  *
- * @see com.huateng.network.api.RequestStructure
+ * @see com.huateng.network.bean.RequestStructure
  * <p>
  * authRequest(RequestStructure)
  * {

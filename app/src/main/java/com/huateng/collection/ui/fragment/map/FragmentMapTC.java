@@ -2,7 +2,6 @@ package com.huateng.collection.ui.fragment.map;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +19,9 @@ import com.huateng.collection.app.Config;
 import com.huateng.collection.bean.api.RespCaseSummary;
 import com.huateng.collection.bean.orm.Outbound;
 import com.huateng.collection.ui.base.BaseFragment;
-import com.huateng.collection.utils.cases.CaseManager;
 import com.huateng.collection.utils.CommonUtils;
 import com.huateng.collection.utils.OutboundManager;
+import com.huateng.collection.utils.cases.CaseManager;
 import com.huateng.collection.utils.map.MapUtil;
 import com.orhanobut.logger.Logger;
 import com.orm.SugarRecord;
@@ -48,11 +47,6 @@ import com.tencent.mapsdk.raster.model.MarkerOptions;
 import com.tencent.mapsdk.raster.model.PolylineOptions;
 import com.tencent.tencentmap.mapsdk.map.MapView;
 import com.tencent.tencentmap.mapsdk.map.TencentMap;
-//import com.tencent.tencentmap.mapsdk.map.model.BitmapDescriptorFactory;
-//import com.tencent.tencentmap.mapsdk.maps.model.CameraPosition;
-//import com.tencent.tencentmap.mapsdk.maps.model.LatLng;
-//import com.tencent.tencentmap.mapsdk.maps.model.Marker;
-//import com.tencent.tencentmap.mapsdk.maps.model.MarkerOptions;
 import com.tools.utils.TimeUtils;
 import com.tools.view.RxTitle;
 import com.tools.view.RxToast;
@@ -62,6 +56,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import androidx.annotation.Nullable;
+
+//import com.tencent.tencentmap.mapsdk.map.model.BitmapDescriptorFactory;
+//import com.tencent.tencentmap.mapsdk.maps.model.CameraPosition;
+//import com.tencent.tencentmap.mapsdk.maps.model.LatLng;
+//import com.tencent.tencentmap.mapsdk.maps.model.Marker;
+//import com.tencent.tencentmap.mapsdk.maps.model.MarkerOptions;
 
 /**
  * Created by shanyong on 2018/1/22.

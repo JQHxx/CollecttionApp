@@ -24,16 +24,20 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-
-    api 'com.android.support:design:' + SUPPORT_LIB_VERSION
+    api 'com.google.android.material:material:1.0.0-rc01'
+    //api 'com.android.support:design:' + SUPPORT_LIB_VERSION
     //design包
-    api 'com.android.support:cardview-v7:' + SUPPORT_LIB_VERSION
+    api 'com.google.android.material:material:1.0.0'
+    //api 'com.android.support:cardview-v7:' + SUPPORT_LIB_VERSION
     //cardView包
-    api 'com.android.support:appcompat-v7:' + SUPPORT_LIB_VERSION
+    api 'androidx.appcompat:appcompat:1.0.0'
+   // api 'com.android.support:appcompat-v7:' + SUPPORT_LIB_VERSION
     //appcompat包
-    api 'com.android.support:recyclerview-v7:' + SUPPORT_LIB_VERSION
+    api 'androidx.recyclerview:recyclerview:1.0.0'
+   // api 'com.android.support:recyclerview-v7:' + SUPPORT_LIB_VERSION
     //recyclerview包
-    api 'com.android.support:support-annotations:' + SUPPORT_LIB_VERSION
+   // api 'com.android.support:support-annotations:' + SUPPORT_LIB_VERSION
+    api 'androidx.annotation:annotation:1.0.0'
     //流式布局
     api 'com.google.android:flexbox:0.2.7'
     //动画向下版本兼容 nineold包
@@ -58,9 +62,6 @@ dependencies {
     //Secure key-value
     api 'com.scottyab:secure-preferences-lib:0.1.4'
     //glide 图片加载
-//    provided 'com.github.bumptech.glide:glide:3.8.0'
-//    provided 'com.github.bumptech.glide:okhttp3-integration:1.5.0@aar'
-
     //pickerView
     implementation 'com.contrarywind:Android-PickerView:4.1.4'
 }

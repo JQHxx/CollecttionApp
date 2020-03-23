@@ -1,8 +1,9 @@
 package com.huateng.collection.utils.slidr.model;
 
 import android.graphics.Color;
-import android.support.annotation.ColorInt;
-import android.support.annotation.FloatRange;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.FloatRange;
 
 /**
  * This class contains the configuration information for all the options available in

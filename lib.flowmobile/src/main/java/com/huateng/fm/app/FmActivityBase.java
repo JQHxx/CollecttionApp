@@ -1,11 +1,8 @@
 package com.huateng.fm.app;
 
-import com.huateng.fm.core.app.FmActivityManager;
-
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.EditText;
+
+import com.huateng.fm.core.app.FmActivityManager;
 
 public class FmActivityBase extends FmToolBarActivity implements
         FmUInterface {

@@ -1,13 +1,14 @@
 package com.huateng.collection.ui.adapter;
 
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.huateng.collection.R;
 import com.huateng.collection.bean.api.RespLog;
 
 import java.util.List;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
 
 /**
  * 行动流水

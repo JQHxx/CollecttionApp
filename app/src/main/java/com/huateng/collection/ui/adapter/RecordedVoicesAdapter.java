@@ -1,7 +1,6 @@
 package com.huateng.collection.ui.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,16 +10,14 @@ import android.widget.TextView;
 import com.huateng.collection.R;
 import com.huateng.collection.bean.orm.FileData;
 import com.huateng.collection.utils.CommonUtils;
-import com.huateng.collection.utils.prettytime.PrettyTime;
 import com.huateng.collection.widget.AudioPlayer;
 import com.huateng.collection.widget.AudioView;
 import com.tools.utils.TimeUtils;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Random;
 
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

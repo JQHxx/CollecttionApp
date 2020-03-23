@@ -1,7 +1,6 @@
 package com.tools.view.tooltips;
 
 import android.content.Context;
-import android.support.annotation.IntDef;
 import android.text.Spannable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,8 @@ import com.tools.R;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import androidx.annotation.IntDef;
 
 public class RxToolTip {
 

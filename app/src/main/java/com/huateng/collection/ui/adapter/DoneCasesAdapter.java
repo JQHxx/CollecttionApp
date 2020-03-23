@@ -2,8 +2,6 @@ package com.huateng.collection.ui.adapter;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
@@ -30,6 +28,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
 
 import static me.yokeyword.fragmentation.ISupportFragment.SINGLETASK;
 

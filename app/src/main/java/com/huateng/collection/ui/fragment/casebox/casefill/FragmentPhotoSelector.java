@@ -6,9 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +17,8 @@ import com.huateng.collection.bean.orm.FileData;
 import com.huateng.collection.event.BusEvent;
 import com.huateng.collection.ui.adapter.GridImageAdapter;
 import com.huateng.collection.ui.base.BaseFragment;
-import com.huateng.collection.utils.cases.AttachmentProcesser;
 import com.huateng.collection.utils.Utils;
+import com.huateng.collection.utils.cases.AttachmentProcesser;
 import com.huateng.collection.widget.pictureselector.FullyGridLayoutManager;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -43,6 +40,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 
 /**

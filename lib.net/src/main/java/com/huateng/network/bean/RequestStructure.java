@@ -1,4 +1,4 @@
-package com.huateng.network.api;
+package com.huateng.network.bean;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.google.gson.annotations.SerializedName;

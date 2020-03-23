@@ -37,8 +37,6 @@ import android.os.Build.VERSION;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.support.annotation.AnyThread;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -48,13 +46,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewParent;
 
-import com.tools.view.scaleimage.decoder.SkiaImageRegionDecoder;
 import com.tools.R;
 import com.tools.view.scaleimage.decoder.CompatDecoderFactory;
 import com.tools.view.scaleimage.decoder.DecoderFactory;
 import com.tools.view.scaleimage.decoder.ImageDecoder;
 import com.tools.view.scaleimage.decoder.ImageRegionDecoder;
 import com.tools.view.scaleimage.decoder.SkiaImageDecoder;
+import com.tools.view.scaleimage.decoder.SkiaImageRegionDecoder;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
@@ -66,6 +64,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.Executor;
+
+import androidx.annotation.AnyThread;
+import androidx.annotation.NonNull;
 
 /**
  * Displays an image subsampled as necessary to avoid loading too much image data into memory. After a pinch to zoom in,

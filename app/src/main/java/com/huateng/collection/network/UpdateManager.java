@@ -1,6 +1,5 @@
 package com.huateng.collection.network;
 
-import android.support.annotation.NonNull;
 
 import com.huateng.network.NetworkConfig;
 import com.huateng.network.update.HttpManager;
@@ -13,6 +12,7 @@ import com.zhy.http.okhttp.callback.StringCallback;
 import java.io.File;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.Request;

@@ -3,8 +3,6 @@ package com.huateng.collection.ui.base;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.flyco.systembar.SystemBarHelper;
@@ -12,6 +10,8 @@ import com.huateng.collection.R;
 import com.huateng.collection.widget.LoadingDialog;
 import com.huateng.collection.widget.appmsg.AppMsg;
 
+import androidx.annotation.IdRes;
+import androidx.annotation.Nullable;
 import me.yokeyword.fragmentation.SupportFragment;
 
 import static android.view.Gravity.BOTTOM;

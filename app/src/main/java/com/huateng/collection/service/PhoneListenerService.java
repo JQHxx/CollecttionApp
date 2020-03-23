@@ -4,7 +4,6 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -21,6 +20,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
+import androidx.annotation.Nullable;
 import cafe.adriel.androidaudiorecorder.AndroidAudioRecorder;
 import cafe.adriel.androidaudiorecorder.AudioChannel;
 import cafe.adriel.androidaudiorecorder.AudioSampleRate;

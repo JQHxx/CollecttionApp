@@ -23,8 +23,8 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-
-    api 'com.android.support:appcompat-v7:' + SUPPORT_LIB_VERSION
+    api 'androidx.appcompat:appcompat:1.0.0'
+   // api 'com.android.support:appcompat-v7:' + SUPPORT_LIB_VERSION
     //Log日志格式美化包
     implementation 'com.orhanobut:logger:2.1.1'
     //RXjava

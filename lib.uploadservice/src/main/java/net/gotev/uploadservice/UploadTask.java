@@ -9,8 +9,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
-import android.support.v4.app.NotificationCompat;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -18,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
+import androidx.core.app.NotificationCompat;
 
 /**
  * Base class to subclass when creating upload tasks. It contains the logic common to all the tasks,

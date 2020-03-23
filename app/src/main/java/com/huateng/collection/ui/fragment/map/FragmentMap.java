@@ -2,7 +2,6 @@ package com.huateng.collection.ui.fragment.map;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +47,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
+
+import androidx.annotation.Nullable;
 
 //import com.tencent.tencentmap.mapsdk.map.model.BitmapDescriptorFactory;
 //import com.tencent.tencentmap.mapsdk.maps.model.CameraPosition;

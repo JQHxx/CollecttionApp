@@ -15,7 +15,6 @@ package com.luck.picture.lib.compress;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.annotation.IntDef;
 import android.util.Log;
 
 import java.io.File;
@@ -28,6 +27,7 @@ import java.lang.annotation.Target;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.annotation.IntDef;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;

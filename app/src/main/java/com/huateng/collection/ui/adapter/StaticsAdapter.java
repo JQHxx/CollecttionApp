@@ -1,7 +1,5 @@
 package com.huateng.collection.ui.adapter;
 
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -10,6 +8,9 @@ import com.huateng.collection.bean.api.RespStaticsItem;
 import com.tools.utils.TimeUtils;
 
 import java.util.List;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
 
 /**
  * 外访统计

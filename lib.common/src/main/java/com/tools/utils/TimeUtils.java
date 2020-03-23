@@ -1,8 +1,6 @@
 package com.tools.utils;
 
 import android.annotation.SuppressLint;
-import android.support.annotation.NonNull;
-
 
 import com.tools.utils.constants.TimeConstants;
 
@@ -12,6 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
 
 /**
  * <pre>

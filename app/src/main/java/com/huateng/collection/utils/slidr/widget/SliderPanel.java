@@ -8,9 +8,6 @@ package com.huateng.collection.utils.slidr.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewGroupCompat;
-import android.support.v4.widget.ViewDragHelper;
 import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +15,10 @@ import android.widget.FrameLayout;
 
 import com.huateng.collection.utils.slidr.model.SlidrConfig;
 import com.orhanobut.logger.Logger;
+
+import androidx.core.view.ViewCompat;
+import androidx.core.view.ViewGroupCompat;
+import androidx.customview.widget.ViewDragHelper;
 
 
 /**

@@ -1,6 +1,5 @@
 package com.huateng.collection.ui.adapter;
 
-import android.support.annotation.LayoutRes;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -13,17 +12,19 @@ import com.huateng.collection.app.Perference;
 import com.huateng.collection.bean.api.RespAddress;
 import com.huateng.collection.bean.api.RespBase;
 import com.huateng.collection.bean.orm.Dic;
-import com.huateng.collection.ui.dialog.DialogCenter;
-import com.huateng.collection.ui.dialog.dm.BaseDM;
-import com.huateng.collection.ui.dialog.dm.VisitSummarizeDM;
 import com.huateng.collection.network.CommonInteractor;
 import com.huateng.collection.network.RequestCallbackImpl;
 import com.huateng.collection.ui.base.BaseFragment;
+import com.huateng.collection.ui.dialog.DialogCenter;
+import com.huateng.collection.ui.dialog.dm.BaseDM;
+import com.huateng.collection.ui.dialog.dm.VisitSummarizeDM;
 import com.huateng.network.ApiConstants;
 import com.tools.view.RxToast;
 
 import java.util.List;
 import java.util.Map;
+
+import androidx.annotation.LayoutRes;
 
 
 /**

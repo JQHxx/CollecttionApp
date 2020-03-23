@@ -9,8 +9,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Binder;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -21,6 +19,9 @@ import com.huateng.network.update.utils.AppUpdateUtils;
 import com.tools.utils.RegexUtils;
 
 import java.io.File;
+
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 
 
 /**

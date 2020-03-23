@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -16,6 +15,8 @@ import android.view.View;
 import com.huateng.collection.R;
 
 import java.lang.reflect.Field;
+
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * an SegmentControlView inspired by the UISegmentControl on IOS platform.

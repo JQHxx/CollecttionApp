@@ -1,21 +1,24 @@
 package com.huateng.fm.app;
-import com.huateng.flowMobile.R;
-import com.huateng.fm.ui.toolbar.ToolbarHelper;
 
-/**  
- * @author Devin
- * @date 2016年1月11日 下午6:23:31 
- * @Description
- * @version 
-*/
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+
+import com.huateng.flowMobile.R;
+import com.huateng.fm.ui.toolbar.ToolbarHelper;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+/**
+ * @author Devin
+ * @date 2016年1月11日 下午6:23:31
+ * @Description
+ * @version
+ */
 
 /**
  * Created by moon.zhong on 2015/6/12.

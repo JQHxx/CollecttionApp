@@ -1,7 +1,6 @@
 package com.huateng.collection.app;
 
 import android.content.Context;
-import android.support.multidex.MultiDex;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.facebook.stetho.Stetho;
@@ -24,6 +23,7 @@ import net.gotev.uploadservice.okhttp.OkHttpStack;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import androidx.multidex.MultiDex;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

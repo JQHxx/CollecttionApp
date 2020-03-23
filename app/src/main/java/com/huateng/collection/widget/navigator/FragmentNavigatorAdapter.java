@@ -1,8 +1,9 @@
 package com.huateng.collection.widget.navigator;
 
-import android.support.v4.app.Fragment;
 
 import java.util.List;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by aspsine on 16/3/30.

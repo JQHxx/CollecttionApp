@@ -1,7 +1,6 @@
 package com.huateng.collection.ui.fragment.home;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +19,9 @@ import com.huateng.collection.ui.dialog.dm.CommonContentDM;
 import com.huateng.collection.ui.fragment.casebox.FragmentDoneCaseChooser;
 import com.huateng.collection.ui.fragment.casebox.FragmentTodoCaseChooser;
 import com.huateng.collection.ui.fragment.map.FragmentMap;
-import com.huateng.collection.ui.fragment.map.FragmentMapTC;
 import com.huateng.collection.ui.fragment.setting.FragmentCheckVersion;
 import com.huateng.collection.ui.fragment.setting.FragmentClearCache;
 import com.huateng.collection.ui.fragment.setting.FragmentModifyPassword;
-import com.huateng.collection.ui.fragment.statics.FragmentStatics;
 import com.huateng.collection.widget.tab.NavigatorView;
 import com.huateng.collection.widget.tab.TabEntity;
 
@@ -32,6 +29,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
+import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.yokeyword.eventbusactivityscope.EventBusActivityScope;

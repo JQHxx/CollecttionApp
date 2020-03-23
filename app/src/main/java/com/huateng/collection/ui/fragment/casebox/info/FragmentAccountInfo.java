@@ -1,9 +1,6 @@
 package com.huateng.collection.ui.fragment.casebox.info;
 
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +8,14 @@ import android.view.ViewGroup;
 import com.huateng.collection.R;
 import com.huateng.collection.app.Constants;
 import com.huateng.collection.bean.api.RespAccount;
-import com.huateng.collection.ui.dialog.PaymentCalculateAdapter;
 import com.huateng.collection.ui.adapter.AccountInfoAdapter;
 import com.huateng.collection.ui.base.BaseFragment;
 
 import java.util.List;
 
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

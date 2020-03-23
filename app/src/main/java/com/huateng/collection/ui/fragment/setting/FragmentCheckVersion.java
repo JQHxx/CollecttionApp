@@ -1,7 +1,6 @@
 package com.huateng.collection.ui.fragment.setting;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +14,9 @@ import com.huateng.fm.ui.widget.FmButton;
 import com.tools.utils.AppUtils;
 import com.tools.view.RxTitle;
 
+import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
-import me.yokeyword.fragmentation.anim.DefaultNoAnimator;
 
 /**
  * Created by sumincy on 2016/12/13.

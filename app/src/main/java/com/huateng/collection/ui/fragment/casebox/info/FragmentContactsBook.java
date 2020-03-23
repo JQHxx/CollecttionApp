@@ -1,8 +1,6 @@
 package com.huateng.collection.ui.fragment.casebox.info;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +10,13 @@ import com.huateng.collection.R;
 import com.huateng.collection.app.Constants;
 import com.huateng.collection.app.Perference;
 import com.huateng.collection.bean.api.RespPhone;
-import com.huateng.collection.ui.dialog.DialogCenter;
-import com.huateng.collection.ui.dialog.dm.AddPhoneDM;
-import com.huateng.collection.ui.dialog.dm.BaseDM;
 import com.huateng.collection.network.CommonInteractor;
 import com.huateng.collection.network.RequestCallbackImpl;
 import com.huateng.collection.ui.adapter.ContactsPhoneAdapter;
 import com.huateng.collection.ui.base.BaseFragment;
+import com.huateng.collection.ui.dialog.DialogCenter;
+import com.huateng.collection.ui.dialog.dm.AddPhoneDM;
+import com.huateng.collection.ui.dialog.dm.BaseDM;
 import com.huateng.collection.utils.cases.CaseManager;
 import com.huateng.collection.widget.DividerItemDecoration;
 import com.huateng.network.ApiConstants;
@@ -29,6 +27,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

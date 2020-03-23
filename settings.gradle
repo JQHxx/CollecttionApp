@@ -1,4 +1,4 @@
-include ':app', ':lib.common', 'flowmobile-ui'
+include ':app', ':lib.common', ':lib.flowmobile'
 include ':lib.net'
 include ':lib.picture'
 include ':lib.uploadservice'

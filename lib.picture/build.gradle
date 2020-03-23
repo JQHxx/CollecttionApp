@@ -20,8 +20,10 @@ android {
 }
 
 dependencies {
-    api 'com.android.support:appcompat-v7:' + SUPPORT_LIB_VERSION
-    api 'com.android.support:recyclerview-v7:' + SUPPORT_LIB_VERSION
+    api 'androidx.appcompat:appcompat:1.0.0'
+    api 'androidx.recyclerview:recyclerview:1.0.0'
+    //api 'com.android.support:appcompat-v7:' + SUPPORT_LIB_VERSION
+   // api 'com.android.support:recyclerview-v7:' + SUPPORT_LIB_VERSION
     api 'com.github.chrisbanes.photoview:library:1.2.4'
     implementation 'io.reactivex:rxandroid:1.2.1'
     implementation 'io.reactivex:rxjava:1.2.1'
@@ -34,5 +36,5 @@ dependencies {
     implementation 'com.cleveroad:audiovisualization:1.0.0'
     //Log日志格式美化包
     implementation 'com.orhanobut:logger:2.1.1'
-    implementation project(':Tools-library')
+    implementation project(':lib.common')
 }

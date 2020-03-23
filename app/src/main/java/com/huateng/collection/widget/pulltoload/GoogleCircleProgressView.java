@@ -12,15 +12,15 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
-import android.support.annotation.ColorRes;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.animation.Animation;
 
 import com.huateng.collection.R;
-
 import com.lsjwzh.widget.materialloadingprogressbar.MaterialProgressDrawable;
+
+import androidx.annotation.ColorRes;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.view.ViewCompat;
 
 /**
  * Private class created to work around issues with AnimationListeners being

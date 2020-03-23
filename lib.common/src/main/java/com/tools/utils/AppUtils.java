@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.pm.Signature;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.File;
@@ -18,6 +17,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 import static com.tools.utils.Utils.getActivityList;
 import static com.tools.utils.Utils.getApp;

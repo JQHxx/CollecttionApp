@@ -1,16 +1,17 @@
 package com.huateng.collection.widget;
 
-import java.io.IOException;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaRecorder;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.widget.Toast;
 
 import com.huateng.collection.R;
+
+import java.io.IOException;
+
+import androidx.appcompat.widget.AppCompatImageView;
 
 
 @SuppressLint("NewApi")

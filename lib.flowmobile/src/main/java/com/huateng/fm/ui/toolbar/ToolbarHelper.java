@@ -1,19 +1,7 @@
 package com.huateng.fm.ui.toolbar;
-import java.lang.reflect.Field;
 
-import com.huateng.flowMobile.R;
-import com.huateng.fm.core.util.FmScreenUtil;
-
-/**  
- * @author Devin
- * @date 2016年1月11日 下午6:24:43 
- * @Description
- * @version 
-*/
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.Toolbar.LayoutParams;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +9,19 @@ import android.view.View.OnSystemUiVisibilityChangeListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+
+import com.huateng.flowMobile.R;
+
+import java.lang.reflect.Field;
+
+import androidx.appcompat.widget.Toolbar;
+
+/**
+ * @author Devin
+ * @date 2016年1月11日 下午6:24:43
+ * @Description
+ * @version
+ */
 
 /**
  * Created by moon.zhong on 2015/6/12.

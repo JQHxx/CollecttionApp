@@ -1,11 +1,9 @@
 package com.tools.view;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PaintFlagsDrawFilter;
-import android.support.annotation.NonNull;
 import android.widget.ImageView;
 
 import com.google.zxing.BarcodeFormat;
@@ -15,6 +13,8 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
 import java.util.Hashtable;
+
+import androidx.annotation.NonNull;
 
 /**
  * @author by vondear on 2017/2/17.
@@ -168,7 +168,7 @@ public class RxQRCode {
             canvas.scale(scaleFactor, scaleFactor, srcWidth / 2, srcHeight / 2);
             canvas.drawBitmap(logo, (srcWidth - logoWidth) / 2, (srcHeight - logoHeight) / 2, null);
 
-            canvas.save(Canvas.ALL_SAVE_FLAG);
+            canvas.save();//Canvas.ALL_SAVE_FLAG
             canvas.restore();
         } catch (Exception e) {
             bitmap = null;

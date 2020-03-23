@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
-import android.support.annotation.NonNull;
 
 import com.luck.picture.lib.config.PictureMimeType;
 
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-
+import androidx.annotation.NonNull;
 import rx.Observable;
 import rx.functions.FuncN;
 import rx.schedulers.Schedulers;

@@ -1,14 +1,15 @@
 package com.huateng.collection.widget.pulltoload.footer;
 
 import android.content.Context;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
 import com.aspsine.swipetoloadlayout.SwipeLoadMoreTrigger;
 import com.aspsine.swipetoloadlayout.SwipeTrigger;
-import com.huateng.collection.widget.pulltoload.GoogleCircleProgressView;
 import com.huateng.collection.R;
+import com.huateng.collection.widget.pulltoload.GoogleCircleProgressView;
+
+import androidx.core.view.ViewCompat;
 
 /**
  * Created by aspsine on 16/1/27.

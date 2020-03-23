@@ -2,18 +2,17 @@ package com.tools.view.dialog;
 
 import android.Manifest;
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
 import com.tbruyelle.rxpermissions.RxPermissions;
-import com.tools.RxPhotoUtils;
-import com.tools.interfaces.onRequestPermissionsListener;
 import com.tools.R;
+import com.tools.RxPhotoUtils;
 import com.tools.view.RxToast;
 
+import androidx.fragment.app.Fragment;
 import rx.functions.Action1;
 
 

@@ -2,7 +2,6 @@ package com.huateng.collection.ui.fragment.casebox;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import com.huateng.collection.ui.base.BaseFragment;
 import com.huateng.collection.widget.RecordView;
 import com.tools.view.RxTitle;
 
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

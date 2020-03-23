@@ -27,12 +27,13 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 
 import com.huateng.network.BuildConfig;
 import com.mpush.api.Client;
 import com.mpush.api.ClientListener;
 import com.orhanobut.logger.Logger;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by yxx on 2016/2/13.

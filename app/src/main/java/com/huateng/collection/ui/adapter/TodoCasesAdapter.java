@@ -1,8 +1,6 @@
 package com.huateng.collection.ui.adapter;
 
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
@@ -15,9 +13,9 @@ import com.huateng.collection.app.Constants;
 import com.huateng.collection.app.MainApplication;
 import com.huateng.collection.bean.api.RespCaseSummary;
 import com.huateng.collection.bean.orm.Dic;
+import com.huateng.collection.ui.base.BaseFragment;
 import com.huateng.collection.ui.dialog.DialogCenter;
 import com.huateng.collection.ui.dialog.dm.CommonContentDM;
-import com.huateng.collection.ui.base.BaseFragment;
 import com.huateng.collection.ui.fragment.casebox.FragmentCaseDetail;
 import com.huateng.collection.utils.cases.CaseManager;
 import com.huateng.collection.widget.CaseFillReminder;
@@ -26,6 +24,9 @@ import com.tools.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
 
 import static me.yokeyword.fragmentation.ISupportFragment.SINGLETASK;
 

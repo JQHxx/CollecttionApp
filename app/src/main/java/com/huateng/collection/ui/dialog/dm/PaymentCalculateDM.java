@@ -1,7 +1,5 @@
 package com.huateng.collection.ui.dialog.dm;
 
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -11,6 +9,9 @@ import com.huateng.collection.widget.UniversalInput;
 
 import java.util.HashMap;
 import java.util.List;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @author dengzh

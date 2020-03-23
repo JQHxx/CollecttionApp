@@ -5,19 +5,21 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.AttrRes;
-import android.support.annotation.ColorInt;
-import android.support.annotation.DrawableRes;
-import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.widget.AppCompatEditText;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 
 import com.huateng.collection.R;
+
+import androidx.annotation.AttrRes;
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.ColorUtils;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 
 /**
  * An EditText implementing the material design guidelines for password input:
@@ -173,7 +175,7 @@ public class PasswordView extends AppCompatEditText {
 
     public static boolean isDark(@ColorInt int color) {
         float[] hsl = new float[3];
-        android.support.v4.graphics.ColorUtils.colorToHSL(color, hsl);
+        ColorUtils.colorToHSL(color, hsl);
         return isDark(hsl);
     }
 }
