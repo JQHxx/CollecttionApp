@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/ll_receivables"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:padding="16dp"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_project_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#343434"
+            android:textSize="16sp"
+            android:text="白领通授信额度： "/>
+
+        <TextView
+            android:id="@+id/tv_business_type"
+            android:layout_toRightOf="@+id/tv_project_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textSize="16sp"
+            android:textColor="@color/black_43"
+            android:text=" 200000元"
+            android:layout_marginLeft="16dp"/>
+
+
+
+
+        <TextView
+            android:id="@+id/tv_bank_card_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="借记卡卡号：  6262626262626262"
+            android:textColor="@color/black_43"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            android:layout_below="@+id/tv_project_name"
+            />
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_below="@+id/tv_bank_card_no"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginRight="16dp"
+            android:textColor="@color/black"
+            android:text="到期日： 2019-09-09"/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#fafafa"/>
+
+</LinearLayout>

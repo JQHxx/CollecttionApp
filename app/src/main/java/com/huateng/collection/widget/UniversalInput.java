@@ -201,7 +201,7 @@ public class UniversalInput extends AppCompatEditText {
             case UniversalInputType.DATE.TIME:
                 showBg = true;
                 mOptionIconSize = UiValuesUtil.getDimen(R.dimen.universal_input_icon_size_larger);
-                mOptionIconDrawable = new BitmapDrawable(getResources(), BitmapFactory.decodeResource(getResources(), R.drawable.time));
+                mOptionIconDrawable = new BitmapDrawable(getResources(), BitmapFactory.decodeResource(getResources(), R.drawable.picker_time));
                 setEnabled(false);
                 break;
             case UniversalInputType.EDIT.TEXT:
@@ -375,7 +375,7 @@ public class UniversalInput extends AppCompatEditText {
     }
 
     private Drawable getLineDrawableStated() {
-        return getLineDrawable(getResources().getColor(R.color.theme_color));
+        return getLineDrawable(getResources().getColor(R.color.accent_color));
     }
 
     public interface OnHtOptionTouchListener {

@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,9 +15,10 @@ import com.flyco.dialog.listener.OnOperItemClickL;
 import com.flyco.dialog.widget.ActionSheetDialog;
 import com.huateng.collection.R;
 import com.huateng.collection.app.Config;
+import com.huateng.collection.base.BaseActivity;
+import com.huateng.collection.base.BasePresenter;
 import com.huateng.collection.bean.api.RespCaseSummary;
 import com.huateng.collection.bean.orm.Outbound;
-import com.huateng.collection.ui.base.BaseFragment;
 import com.huateng.collection.utils.CommonUtils;
 import com.huateng.collection.utils.OutboundManager;
 import com.huateng.collection.utils.cases.CaseManager;
@@ -51,13 +51,14 @@ import com.tools.utils.TimeUtils;
 import com.tools.view.RxTitle;
 import com.tools.view.RxToast;
 import com.tools.view.slidinguppanel.SlidingUpPanelLayout;
+import com.trello.rxlifecycle3.LifecycleTransformer;
+
+import org.apache.poi.ss.formula.functions.T;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import androidx.annotation.Nullable;
 
 //import com.tencent.tencentmap.mapsdk.map.model.BitmapDescriptorFactory;
 //import com.tencent.tencentmap.mapsdk.maps.model.CameraPosition;
@@ -70,7 +71,7 @@ import androidx.annotation.Nullable;
  * 腾讯地图
  */
 
-public class FragmentMapTC extends BaseFragment implements View.OnClickListener, TencentMap.OnMarkerClickListener {
+public class FragmentMapTC extends BaseActivity implements View.OnClickListener, TencentMap.OnMarkerClickListener {
 
     private static final String TAG = "FragmentMapTC";
 
@@ -117,192 +118,9 @@ public class FragmentMapTC extends BaseFragment implements View.OnClickListener,
     private String[] stringItems = {"显示案件地址", "显示轨迹"};
     private ActionSheetDialog dialog;
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mContentView = inflater.inflate(R.layout.fragment_map_tencent, container, false);
-        return mContentView;
-    }
 
 
-    @Override
-    protected void init(Bundle savedInstanceState) {
-        rxTitle = (RxTitle) findViewById(R.id.rx_title);
-        immersiveStatusBar(rxTitle);
 
-        ivArrow = (ImageView) findViewById(R.id.iv_arrow);
-        mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-        mapView = (MapView) findViewById(R.id.tracing_mapView);
-
-        listView = (ListView) findViewById(R.id.list);
-
-        roadPlanAdapter = new RoadPlanAdapter(getContext());
-        listView.setAdapter(roadPlanAdapter);
-
-        tencentMap = mapView.getMap();
-
-        tencentSearch = new TencentSearch(mContext);
-        custInfoWindow = new CustInfoWindow();
-        tencentMap.setOnMarkerClickListener(this);
-        tencentMap.setInfoWindowAdapter(custInfoWindow);
-
-        //取出上次保存的位置设置地图
-        final LatLng lastLoc = Config.getLastLocation();
-        if (null != lastLoc) {
-            tencentMap.setCenter(lastLoc);
-        }
-
-        mLocationManager = TencentLocationManager.getInstance(getContext());
-        // 设置坐标系为 gcj-02, 缺省坐标为 gcj-02, 所以通常不必进行如下调用
-        mLocationManager.setCoordinateType(TencentLocationManager.COORDINATE_TYPE_GCJ02);
-
-        if (null == dialog) {
-            dialog = new ActionSheetDialog(mContext, stringItems, null);
-        }
-
-        dialog.setOnOperItemClickL(new OnOperItemClickL() {
-            @Override
-            public void onOperItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                switch (position) {
-                    case 0:
-                        hideRouteLines();
-                        tencentMap.clearAllOverlays();
-                        locationMarker = null;
-                        addCaseAddressMarkers();
-                        showLocationMarker();
-
-                        break;
-                    case 1:
-                        hideRouteLines();
-                        tencentMap.clearAllOverlays();
-                        locationMarker = null;
-                        //展示轨迹图
-                        List<Outbound> outbounds = OutboundManager.obtainOutbounds();
-                        latLngs.clear();
-
-                        for (int i = 0; i < outbounds.size(); i++) {
-
-                            Outbound outbound = outbounds.get(i);
-
-//                            Logger.i("position  %s time %s", i, outbound.getTime());
-
-                            LatLng latLng = new LatLng(outbound.getLatitude(), outbound.getLongitude());
-                            latLngs.add(latLng);
-                            MarkerOptions markerOptions = new MarkerOptions();
-                            markerOptions.position(latLng).title(String.format("%s(%s)", outbound.getAddress(), TimeUtils.millis2String(outbound.getTime())));
-
-                            if (i == 0) {
-                                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_start));
-                            } else if (i == outbounds.size() - 1) {
-                                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_end));
-                            } else {
-                                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_route));
-                            }
-                            tencentMap.addMarker(markerOptions);
-                        }
-
-                        tencentMap.addPolyline(new PolylineOptions().width(16).edgeWidth(2).
-                                addAll(latLngs).
-                                color(0xff09bc4a));
-
-                        break;
-                    default:
-                }
-                dialog.hide();
-            }
-        });
-
-
-        ImageView ivMore = (ImageView) findViewById(R.id.iv_more);
-        ivMore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.title("地图操作")
-                        .titleTextSize_SP(14.5f)
-                        .show();
-            }
-        });
-
-        mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
-            @Override
-            public void onPanelSlide(View panel, float slideOffset) {
-                Log.i(TAG, "onPanelSlide, offset " + slideOffset);
-                if (slideOffset > 0.5) {
-                    ivArrow.setImageResource(R.drawable.ic_arrow_down);
-                } else {
-                    ivArrow.setImageResource(R.drawable.ic_arrow_up);
-                }
-            }
-
-            @Override
-            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
-                Log.i(TAG, "onPanelStateChanged " + newState);
-            }
-        });
-
-        mLayout.setFadeOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-            }
-        });
-
-        //初始化 隐藏panel
-        hideRouteLines();
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                tencentMap.clearAllOverlays();
-                addCaseAddressMarkers();
-                locationMarker = null;
-
-                if (currentLocation != null) {
-                    addLocationMarker(Config.getLastAddress(), currentLocation);
-                }
-
-                if (roadPlanAdapter.getWalkRoutes() != null) {
-                    WalkingResultObject.Route route = roadPlanAdapter.getWalkRoutes().get(position);
-                    drawSolidLine(roadPlanAdapter.getWalkRoutes().get(position).polyline);
-
-                    drawRouteMarker(route.steps, route.polyline);
-                }
-                if (roadPlanAdapter.getDriveRoutes() != null) {
-                    DrivingResultObject.Route route = roadPlanAdapter.getDriveRoutes().get(position);
-                    drawSolidLine(route.polyline);
-                    drawRouteMarker(route.steps, route.polyline);
-                }
-                if (roadPlanAdapter.getTransitRoutes() != null) {
-                    List<TransitResultObject.Segment> segments =
-                            roadPlanAdapter.getTransitRoutes().get(position).steps;
-
-                    for (TransitResultObject.Segment segment : segments) {
-                        if (segment instanceof TransitResultObject.Walking) {
-                            //画公交路线中的步行
-                            if (null != ((TransitResultObject.Walking) segment).polyline) {
-                                drawDotLine(((TransitResultObject.Walking) segment).polyline);
-                                if (null != ((TransitResultObject.Walking) segment).steps) {
-                                    drawRouteMarker(((TransitResultObject.Walking) segment).steps, ((TransitResultObject.Walking) segment).polyline);
-                                }
-                            }
-                        }
-                        if (segment instanceof TransitResultObject.Transit) {
-                            //画公交路线
-                            drawSolidLine(((TransitResultObject.Transit) segment).lines.get(0).polyline);
-                            drawBusMarker(((TransitResultObject.Transit) segment).lines.get(0));
-                        }
-                    }
-                }
-
-                showAnchor();
-            }
-        });
-
-        //案件地点集合
-        caseMarkers = new ArrayList<>();
-    }
 
 
     @Override
@@ -358,7 +176,7 @@ public class FragmentMapTC extends BaseFragment implements View.OnClickListener,
      * 驾车规划，支持途经点和策略设置，具体信息见文档
      */
     protected void getDrivePlan() {
-        TencentSearch tencentSearch = new TencentSearch(mContext);
+        TencentSearch tencentSearch = new TencentSearch(FragmentMapTC.this);
         DrivingParam drivingParam = new DrivingParam();
         drivingParam.from(MapUtil.latLngToLocation(currentLocation));
         drivingParam.to(MapUtil.latLngToLocation(desLocation));
@@ -373,7 +191,7 @@ public class FragmentMapTC extends BaseFragment implements View.OnClickListener,
      * 公交换乘，支持策略，具体信息见文档
      */
     protected void getTransitPlan() {
-        TencentSearch tencentSearch = new TencentSearch(mContext);
+        TencentSearch tencentSearch = new TencentSearch(FragmentMapTC.this);
         TransitParam transitParam = new TransitParam();
         transitParam.from(MapUtil.latLngToLocation(currentLocation));
         transitParam.to(MapUtil.latLngToLocation(desLocation));
@@ -428,6 +246,11 @@ public class FragmentMapTC extends BaseFragment implements View.OnClickListener,
         return false;
     }
 
+    @Override
+    public LifecycleTransformer<T> getRxlifecycle() {
+        return null;
+    }
+
 
     class CustInfoWindow implements TencentMap.InfoWindowAdapter {
 
@@ -480,7 +303,7 @@ public class FragmentMapTC extends BaseFragment implements View.OnClickListener,
 
 
             public InfoViewHolder() {
-                infoWindow = LayoutInflater.from(getActivity().getApplicationContext()).inflate(R.layout.layout_infowindow_content, null);
+                infoWindow = LayoutInflater.from(getApplicationContext()).inflate(R.layout.layout_infowindow_content, null);
                 layoutCar = (LinearLayout) infoWindow.findViewById(R.id.layout_car);
                 layoutBus = (LinearLayout) infoWindow.findViewById(R.id.layout_bus);
                 layoutWalk = (LinearLayout) infoWindow.findViewById(R.id.layout_walk);
@@ -511,12 +334,12 @@ public class FragmentMapTC extends BaseFragment implements View.OnClickListener,
 
                     //名称放在title里
                     String agentName = marker.getTitle();
-                    ((InfoViewHolder) wrapper.holder).tvName.setText(String.format(mContext.getString(R.string.agent_name), agentName));
+                    ((InfoViewHolder) wrapper.holder).tvName.setText(String.format(getString(R.string.agent_name), agentName));
                     //其他信息保存在Snippet中
                     String[] baseInfo = marker.getSnippet().split(",");
-                    ((InfoViewHolder) wrapper.holder).tvAmt.setText(String.format(mContext.getString(R.string.agent_amt), baseInfo[0]));
-                    ((InfoViewHolder) wrapper.holder).tvCaseId.setText(String.format(mContext.getString(R.string.agent_caseId), baseInfo[1]));
-                    ((InfoViewHolder) wrapper.holder).tvAddrId.setText(String.format(mContext.getString(R.string.agent_addrId), baseInfo[2]));
+                    ((InfoViewHolder) wrapper.holder).tvAmt.setText(String.format(getString(R.string.agent_amt), baseInfo[0]));
+                    ((InfoViewHolder) wrapper.holder).tvCaseId.setText(String.format(getString(R.string.agent_caseId), baseInfo[1]));
+                    ((InfoViewHolder) wrapper.holder).tvAddrId.setText(String.format(getString(R.string.agent_addrId), baseInfo[2]));
 
                     String address = baseInfo[3];
                     StringBuilder sb = new StringBuilder(address);
@@ -524,7 +347,7 @@ public class FragmentMapTC extends BaseFragment implements View.OnClickListener,
                         sb.insert(20, "\r\n");
                     }
 
-                    ((InfoViewHolder) wrapper.holder).tvAddr.setText(String.format(mContext.getString(R.string.agent_addr), sb.toString()));
+                    ((InfoViewHolder) wrapper.holder).tvAddr.setText(String.format(getString(R.string.agent_addr), sb.toString()));
                     wrapper.infoWindow = ((InfoViewHolder) wrapper.holder).infoWindow;
                 }
                 return wrapper.infoWindow;
@@ -745,6 +568,218 @@ public class FragmentMapTC extends BaseFragment implements View.OnClickListener,
     }
 
     @Override
+    protected BasePresenter createPresenter() {
+        return null;
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+
+        rxTitle = (RxTitle) findViewById(R.id.rx_title);
+        immersiveStatusBar(rxTitle);
+
+        ivArrow = (ImageView) findViewById(R.id.iv_arrow);
+        mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        mapView = (MapView) findViewById(R.id.tracing_mapView);
+
+        listView = (ListView) findViewById(R.id.list);
+
+        roadPlanAdapter = new RoadPlanAdapter(FragmentMapTC.this);
+        listView.setAdapter(roadPlanAdapter);
+
+        tencentMap = mapView.getMap();
+
+        tencentSearch = new TencentSearch(FragmentMapTC.this);
+        custInfoWindow = new CustInfoWindow();
+        tencentMap.setOnMarkerClickListener(this);
+        tencentMap.setInfoWindowAdapter(custInfoWindow);
+
+        //取出上次保存的位置设置地图
+        final LatLng lastLoc = Config.getLastLocation();
+        if (null != lastLoc) {
+            tencentMap.setCenter(lastLoc);
+        }
+
+        mLocationManager = TencentLocationManager.getInstance(FragmentMapTC.this);
+        // 设置坐标系为 gcj-02, 缺省坐标为 gcj-02, 所以通常不必进行如下调用
+        mLocationManager.setCoordinateType(TencentLocationManager.COORDINATE_TYPE_GCJ02);
+
+        if (null == dialog) {
+            dialog = new ActionSheetDialog(FragmentMapTC.this, stringItems, null);
+        }
+
+        dialog.setOnOperItemClickL(new OnOperItemClickL() {
+            @Override
+            public void onOperItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                switch (position) {
+                    case 0:
+                        hideRouteLines();
+                        tencentMap.clearAllOverlays();
+                        locationMarker = null;
+                        addCaseAddressMarkers();
+                        showLocationMarker();
+
+                        break;
+                    case 1:
+                        hideRouteLines();
+                        tencentMap.clearAllOverlays();
+                        locationMarker = null;
+                        //展示轨迹图
+                        List<Outbound> outbounds = OutboundManager.obtainOutbounds();
+                        latLngs.clear();
+
+                        for (int i = 0; i < outbounds.size(); i++) {
+
+                            Outbound outbound = outbounds.get(i);
+
+                            //                            Logger.i("position  %s time %s", i, outbound.getTime());
+
+                            LatLng latLng = new LatLng(outbound.getLatitude(), outbound.getLongitude());
+                            latLngs.add(latLng);
+                            MarkerOptions markerOptions = new MarkerOptions();
+                            markerOptions.position(latLng).title(String.format("%s(%s)", outbound.getAddress(), TimeUtils.millis2String(outbound.getTime())));
+
+                            if (i == 0) {
+                                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_start));
+                            } else if (i == outbounds.size() - 1) {
+                                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_end));
+                            } else {
+                                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_route));
+                            }
+                            tencentMap.addMarker(markerOptions);
+                        }
+
+                        tencentMap.addPolyline(new PolylineOptions().width(16).edgeWidth(2).
+                                addAll(latLngs).
+                                color(0xff09bc4a));
+
+                        break;
+                    default:
+                }
+                dialog.hide();
+            }
+        });
+
+
+        ImageView ivMore = (ImageView) findViewById(R.id.iv_more);
+        ivMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.title("地图操作")
+                        .titleTextSize_SP(14.5f)
+                        .show();
+            }
+        });
+
+        mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+                Log.i(TAG, "onPanelSlide, offset " + slideOffset);
+                if (slideOffset > 0.5) {
+                    ivArrow.setImageResource(R.drawable.ic_arrow_down);
+                } else {
+                    ivArrow.setImageResource(R.drawable.ic_arrow_up);
+                }
+            }
+
+            @Override
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+                Log.i(TAG, "onPanelStateChanged " + newState);
+            }
+        });
+
+        mLayout.setFadeOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            }
+        });
+
+        //初始化 隐藏panel
+        hideRouteLines();
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                tencentMap.clearAllOverlays();
+                addCaseAddressMarkers();
+                locationMarker = null;
+
+                if (currentLocation != null) {
+                    addLocationMarker(Config.getLastAddress(), currentLocation);
+                }
+
+                if (roadPlanAdapter.getWalkRoutes() != null) {
+                    WalkingResultObject.Route route = roadPlanAdapter.getWalkRoutes().get(position);
+                    drawSolidLine(roadPlanAdapter.getWalkRoutes().get(position).polyline);
+
+                    drawRouteMarker(route.steps, route.polyline);
+                }
+                if (roadPlanAdapter.getDriveRoutes() != null) {
+                    DrivingResultObject.Route route = roadPlanAdapter.getDriveRoutes().get(position);
+                    drawSolidLine(route.polyline);
+                    drawRouteMarker(route.steps, route.polyline);
+                }
+                if (roadPlanAdapter.getTransitRoutes() != null) {
+                    List<TransitResultObject.Segment> segments =
+                            roadPlanAdapter.getTransitRoutes().get(position).steps;
+
+                    for (TransitResultObject.Segment segment : segments) {
+                        if (segment instanceof TransitResultObject.Walking) {
+                            //画公交路线中的步行
+                            if (null != ((TransitResultObject.Walking) segment).polyline) {
+                                drawDotLine(((TransitResultObject.Walking) segment).polyline);
+                                if (null != ((TransitResultObject.Walking) segment).steps) {
+                                    drawRouteMarker(((TransitResultObject.Walking) segment).steps, ((TransitResultObject.Walking) segment).polyline);
+                                }
+                            }
+                        }
+                        if (segment instanceof TransitResultObject.Transit) {
+                            //画公交路线
+                            drawSolidLine(((TransitResultObject.Transit) segment).lines.get(0).polyline);
+                            drawBusMarker(((TransitResultObject.Transit) segment).lines.get(0));
+                        }
+                    }
+                }
+
+                showAnchor();
+            }
+        });
+
+        //案件地点集合
+        caseMarkers = new ArrayList<>();
+    }
+
+
+    /**
+     * 获取布局ID
+     *
+     * @return
+     */
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_map_tencent;
+    }
+
+    /**
+     * 数据初始化操作
+     */
+    @Override
+    protected void initData() {
+
+    }
+
+    /**
+     * 此处设置沉浸式地方
+     */
+    @Override
+    protected void setStatusBar() {
+
+    }
+
+    @Override
     public void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
@@ -755,7 +790,7 @@ public class FragmentMapTC extends BaseFragment implements View.OnClickListener,
     }
 
 
-    @Override
+  /*  @Override
     public void onSupportInvisible() {
         super.onSupportInvisible();
         mapView.onPause();
@@ -772,7 +807,7 @@ public class FragmentMapTC extends BaseFragment implements View.OnClickListener,
             addCaseAddressMarkers();
         }
     }
-
+*/
 
     public void showLocationMarker() {
 

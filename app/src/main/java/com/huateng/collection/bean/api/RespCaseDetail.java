@@ -12,6 +12,7 @@ import java.util.List;
  * @author dengzh
  * @description
  * @time 2016-11-24.
+ * 案件详情
  */
 @Table
 public class RespCaseDetail implements Serializable {

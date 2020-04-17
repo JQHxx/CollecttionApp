@@ -1,19 +1,19 @@
 package com.tools.view.dialog;
 
 import android.Manifest;
-import android.app.Activity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.tbruyelle.rxpermissions.RxPermissions;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tools.R;
 import com.tools.RxPhotoUtils;
 import com.tools.view.RxToast;
 
 import androidx.fragment.app.Fragment;
-import rx.functions.Action1;
+import androidx.fragment.app.FragmentActivity;
+import io.reactivex.functions.Consumer;
 
 
 /**
@@ -28,7 +28,7 @@ public class RxDialogChooseImage extends RxDialog {
     private TextView mTvCancel;
     private RxPermissions rxPermissions;
 
-    public RxDialogChooseImage(Activity context) {
+    public RxDialogChooseImage(FragmentActivity context) {
         super(context);
         initView(context);
     }
@@ -38,7 +38,7 @@ public class RxDialogChooseImage extends RxDialog {
         initView(fragment);
     }
 
-    public RxDialogChooseImage(Activity context, int themeResId) {
+    public RxDialogChooseImage(FragmentActivity context, int themeResId) {
         super(context, themeResId);
         initView(context);
     }
@@ -48,7 +48,7 @@ public class RxDialogChooseImage extends RxDialog {
         initView(fragment);
     }
 
-    public RxDialogChooseImage(Activity context, float alpha, int gravity) {
+    public RxDialogChooseImage(FragmentActivity context, float alpha, int gravity) {
         super(context, alpha, gravity);
         initView(context);
     }
@@ -65,13 +65,13 @@ public class RxDialogChooseImage extends RxDialog {
     }
 
 
-    public RxDialogChooseImage(Activity context, LayoutType layoutType) {
+    public RxDialogChooseImage(FragmentActivity context, LayoutType layoutType) {
         super(context);
         mLayoutType = layoutType;
         initView(context);
     }
 
-    public RxDialogChooseImage(Activity context, int themeResId, LayoutType layoutType) {
+    public RxDialogChooseImage(FragmentActivity context, int themeResId, LayoutType layoutType) {
         super(context, themeResId);
         mLayoutType = layoutType;
         initView(context);
@@ -83,7 +83,7 @@ public class RxDialogChooseImage extends RxDialog {
         initView(fragment);
     }
 
-    public RxDialogChooseImage(Activity context, float alpha, int gravity, LayoutType layoutType) {
+    public RxDialogChooseImage(FragmentActivity context, float alpha, int gravity, LayoutType layoutType) {
         super(context, alpha, gravity);
         mLayoutType = layoutType;
         initView(context);
@@ -111,7 +111,7 @@ public class RxDialogChooseImage extends RxDialog {
         return mLayoutType;
     }
 
-    private void initView(final Activity activity) {
+    private void initView(final FragmentActivity activity) {
         rxPermissions = new RxPermissions(activity);
 
         View dialog_view = null;
@@ -140,17 +140,18 @@ public class RxDialogChooseImage extends RxDialog {
             public void onClick(View arg0) {
 
                 //请求Camera权限
-                rxPermissions.request(Manifest.permission.CAMERA).subscribe(new Action1<Boolean>() {
-                    @Override
-                    public void call(Boolean granted) {
-                        if (!granted) {
-                            RxToast.showToast("相机权限被禁止,请在系统设置页面设置");
-                        } else {
-                            RxPhotoUtils.openCameraImage(activity);
-                            cancel();
-                        }
-                    }
-                });
+                rxPermissions.request(Manifest.permission.CAMERA)
+                        .subscribe(new Consumer<Boolean>() {
+                            @Override
+                            public void accept(Boolean aBoolean) throws Exception {
+                                if (!aBoolean) {
+                                    RxToast.showToast("相机权限被禁止,请在系统设置页面设置");
+                                } else {
+                                    RxPhotoUtils.openCameraImage(activity);
+                                    cancel();
+                                }
+                            }
+                        });
             }
         });
         mTvFile.setOnClickListener(new View.OnClickListener() {
@@ -158,17 +159,18 @@ public class RxDialogChooseImage extends RxDialog {
             @Override
             public void onClick(View arg0) {
 
-                rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE).subscribe(new Action1<Boolean>() {
-                    @Override
-                    public void call(Boolean granted) {
-                        if (!granted) {
-                            RxToast.showToast("请先获取读取SDCard权限");
-                        } else {
-                            RxPhotoUtils.openLocalImage(activity);
-                            cancel();
-                        }
-                    }
-                });
+                rxPermissions.request(Manifest.permission.READ_EXTERNAL_STORAGE)
+                        .subscribe(new Consumer<Boolean>() {
+                            @Override
+                            public void accept(Boolean granted) throws Exception {
+                                if (!granted) {
+                                    RxToast.showToast("请先获取读取SDCard权限");
+                                } else {
+                                    RxPhotoUtils.openLocalImage(activity);
+                                    cancel();
+                                }
+                            }
+                        });
 
             }
         });
@@ -202,17 +204,18 @@ public class RxDialogChooseImage extends RxDialog {
             public void onClick(View arg0) {
 
                 //请求Camera权限
-                rxPermissions.request(Manifest.permission.CAMERA).subscribe(new Action1<Boolean>() {
-                    @Override
-                    public void call(Boolean granted) {
-                        if (!granted) {
-                            RxToast.showToast("相机权限被禁止,请在系统设置页面设置");
-                        } else {
-                            RxPhotoUtils.openCameraImage(fragment);
-                            cancel();
-                        }
-                    }
-                });
+                rxPermissions.request(Manifest.permission.CAMERA)
+                        .subscribe(new Consumer<Boolean>() {
+                            @Override
+                            public void accept(Boolean aBoolean) throws Exception {
+                                if (!aBoolean) {
+                                    RxToast.showToast("相机权限被禁止,请在系统设置页面设置");
+                                } else {
+                                    RxPhotoUtils.openCameraImage(fragment);
+                                    cancel();
+                                }
+                            }
+                        });
 
             }
         });

@@ -51,23 +51,74 @@
                 android:background="#DFDFDF" />
 
             <LinearLayout
-                android:gravity="center"
-                android:id="@+id/layout_maptencent"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/ic_map_tencent" />
+                <LinearLayout
+                    android:gravity="center"
+                    android:id="@+id/layout_maptencent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                <TextView
-                    style="@style/CommonItemText"
-                    android:text="腾讯地图"
-                    android:textColor="@color/black_text" />
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/ic_map_tencent" />
 
+                    <TextView
+                        style="@style/CommonItemText"
+                        android:text="腾讯地图"
+                        android:textColor="@color/black_text" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/layout_mapbaidu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/ic_map_tencent" />
+
+                    <TextView
+                        style="@style/CommonItemText"
+                        android:text="百度地图"
+                        android:textColor="@color/black_text" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/layout_mapgaode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/ic_map_tencent" />
+
+                    <TextView
+                        style="@style/CommonItemText"
+                        android:text="高德地图"
+                        android:textColor="@color/black_text" />
+
+                </LinearLayout>
             </LinearLayout>
+
+
 
 
         </LinearLayout>

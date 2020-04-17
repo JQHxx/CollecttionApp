@@ -2,6 +2,7 @@ package com.huateng.collection.ui.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,6 +94,9 @@ public class RecorderAdapter extends
     @Override
     public int getItemCount() {
         if (list.size() < selectMax) {
+            if(mOnAddPicClickListener == null) {
+                return list.size();
+            }
             return list.size() + 1;
         } else {
             return list.size();
@@ -136,13 +140,16 @@ public class RecorderAdapter extends
             viewHolder.iv_add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnAddPicClickListener.onAddPicClick();
+                    if(mOnAddPicClickListener != null) {
+                        mOnAddPicClickListener.onAddPicClick();
+                    }
                 }
             });
 
         } else {
 
             LocalMedia media = list.get(position);
+            Log.e("nb","media:--->"+media.toString());
             int mimeType = media.getMimeType();
             long itemDuration = media.getDuration();
             int pictureType = PictureMimeType.isPictureType(media.getPictureType());

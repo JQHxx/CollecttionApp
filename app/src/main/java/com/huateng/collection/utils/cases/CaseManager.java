@@ -1,6 +1,7 @@
 package com.huateng.collection.utils.cases;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.huateng.collection.app.Perference;
 import com.huateng.collection.bean.api.RespAccount;
@@ -103,6 +104,7 @@ public class CaseManager {
     public static RespCaseSummary obtainCachedCaseSummary(String bizId) {
         String userId = Perference.getUserId();
 
+        Log.e("nb","obtainCachedCaseSummary:"+bizId +":"+userId);
         if (TextUtils.isEmpty(userId)) {
             return null;
         }
@@ -153,6 +155,11 @@ public class CaseManager {
         return respCaseSummaries;
     }
 
+    /**
+     * 获取客户详细信息
+     * @param bizId
+     * @return
+     */
     public static RespCaseDetail obtainCachedCaseDetail(String bizId) {
         List<RespCaseDetail> respCaseDetails = SugarRecord.find(RespCaseDetail.class, "BIZ_ID=?", bizId);
         if (respCaseDetails == null || respCaseDetails.size() == 0) {

@@ -1,20 +1,19 @@
 package com.huateng.collection.ui.fragment.casebox.info;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.huateng.collection.R;
 import com.huateng.collection.app.Constants;
 import com.huateng.collection.app.Perference;
+import com.huateng.collection.base.BaseFragment;
+import com.huateng.collection.base.BasePresenter;
 import com.huateng.collection.bean.AddAddress;
 import com.huateng.collection.bean.api.RespAddress;
 import com.huateng.collection.network.CommonInteractor;
 import com.huateng.collection.network.RequestCallbackImpl;
 import com.huateng.collection.ui.adapter.ContactsAddressAdapter;
-import com.huateng.collection.ui.base.BaseFragment;
 import com.huateng.collection.ui.dialog.DialogCenter;
 import com.huateng.collection.ui.dialog.dm.AddAddressDM;
 import com.huateng.collection.ui.dialog.dm.BaseDM;
@@ -23,6 +22,9 @@ import com.huateng.collection.widget.DividerItemDecoration;
 import com.huateng.network.ApiConstants;
 import com.orm.SugarRecord;
 import com.tools.view.RxToast;
+import com.trello.rxlifecycle3.LifecycleTransformer;
+
+import org.apache.poi.ss.formula.functions.T;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +33,6 @@ import java.util.Map;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 地址簿
@@ -49,30 +50,53 @@ public class FragmentContactsAddress extends BaseFragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        mContentView = inflater.inflate(R.layout.fragment_contacts_address, container, false);
-        ButterKnife.bind(this, mContentView);
-        return mContentView;
+    protected BasePresenter createPresenter() {
+        return null;
     }
 
 
+    /**
+     * 获取布局ID
+     *
+     * @return
+     */
     @Override
-    protected void init(Bundle savedInstanceState) {
-        addresses = (List<RespAddress>) getArguments().getSerializable(Constants.CASE_CONTACT_ADDRESS);
+    protected int getLayoutId() {
+        return R.layout.fragment_contacts_address;
+    }
 
-        adapter = new ContactsAddressAdapter(R.layout.list_item_contacts_address, addresses, this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        recyclerView.setAdapter(adapter);
+    /**
+     * 处理顶部title
+     *
+     * @param savedInstanceState
+     */
+    @Override
+    protected void initView(Bundle savedInstanceState) {
 
-        //添加地址
-        vAddAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addAddress();
-            }
-        });
+            addresses = (List<RespAddress>) getArguments().getSerializable(Constants.CASE_CONTACT_ADDRESS);
+
+            adapter = new ContactsAddressAdapter(R.layout.list_item_contacts_address, addresses, mContext);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+            recyclerView.setAdapter(adapter);
+
+            //添加地址
+            vAddAddress.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    addAddress();
+                }
+            });
+        }
+
+
+
+        /**
+         * 数据初始化操作
+         */
+    @Override
+    protected void initData() {
+
     }
 
 
@@ -160,4 +184,8 @@ public class FragmentContactsAddress extends BaseFragment {
 
     }
 
+    @Override
+    public LifecycleTransformer<T> getRxlifecycle() {
+        return bindToLifecycle();
+    }
 }

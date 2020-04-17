@@ -1,6 +1,6 @@
 package com.huateng.collection.ui.adapter;
 
-import android.view.View;
+import android.content.Context;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -9,14 +9,12 @@ import com.huateng.collection.bean.api.RespAccount;
 import com.huateng.collection.bean.api.RespPaymentCalItem;
 import com.huateng.collection.network.CommonInteractor;
 import com.huateng.collection.network.RequestCallbackImpl;
-import com.huateng.collection.ui.base.BaseFragment;
 import com.huateng.collection.ui.dialog.dm.PaymentCalculateDM;
 import com.huateng.network.ApiConstants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
@@ -29,28 +27,28 @@ import androidx.annotation.Nullable;
 public class AccountInfoAdapter extends BaseQuickAdapter<RespAccount, BaseViewHolder> {
 
 
-    private BaseFragment baseFragment;
+    private Context mContext;
     private int[] dots = {R.drawable.dot1, R.drawable.dot2, R.drawable.dot3, R.drawable.dot4};
     private PaymentCalculateDM dm;
 
-    public AccountInfoAdapter(@LayoutRes int layoutResId, @Nullable List<RespAccount> data, BaseFragment fragment) {
+    public AccountInfoAdapter(@LayoutRes int layoutResId, @Nullable List<RespAccount> data, Context context) {
         super(layoutResId, data);
-        this.baseFragment = fragment;
+        this.mContext = context;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, RespAccount bean) {
 
         helper.setText(R.id.tv_cardNo, bean.getAcctNo());
-        helper.setImageResource(R.id.iv_dot, dots[new Random().nextInt(3)]);
+      //  helper.setImageResource(R.id.iv_dot, dots[new Random().nextInt(3)]);
 
         helper.setText(R.id.tv_bal, String.format("%s元", bean.getLastCycStmtBal()));
-        helper.setImageResource(R.id.iv_dot2, dots[new Random().nextInt(3)]);
+       // helper.setImageResource(R.id.iv_dot2, dots[new Random().nextInt(3)]);
 
-        if (helper.getAdapterPosition() == 0) {
+       /* if (helper.getAdapterPosition() == 0) {
             View view = helper.getView(R.id.v_line);
             view.setVisibility(View.INVISIBLE);
-        }
+        }*/
         final List<String> list = new ArrayList<>();
         list.add(bean.getAcctNo());
 
@@ -81,7 +79,7 @@ public class AccountInfoAdapter extends BaseQuickAdapter<RespAccount, BaseViewHo
             @Override
             public void beforeRequest() {
                 super.beforeRequest();
-                baseFragment.showLoading();
+              //  baseFragment.showLoading();
             }
 
             @Override
@@ -95,7 +93,7 @@ public class AccountInfoAdapter extends BaseQuickAdapter<RespAccount, BaseViewHo
             @Override
             public void end() {
                 super.end();
-                baseFragment.hideLoading();
+               // baseFragment.hideLoading();
             }
         }, ApiConstants.BATCH_ROOT, ApiConstants.METHOD_PAYMENT_CALCULATE, map);
     }

@@ -38,10 +38,12 @@ public class ContactsPhoneAdapter extends BaseQuickAdapter<RespPhone, BaseViewHo
         String phoneType = Dic.queryValue(Dic.TELIPHONE, bean.getTelType());
         String relationType = Dic.queryValue(Dic.RELATION, bean.getRelWithCust());
 
-        helper.setText(R.id.tv_phoneType, phoneType);
+      //  helper.setText(R.id.tv_phoneType, phoneType);
+        helper.setText(R.id.tv_phoneType,  bean.getTelType());
         helper.setText(R.id.tv_phoneNo, bean.getTelNo());
         helper.setText(R.id.tv_userName, bean.getName());
-        helper.setText(R.id.tv_relationship, relationType);
+        helper.setText(R.id.tv_relationship, bean.getRelWithCust());
+     //   helper.setText(R.id.tv_relationship, relationType);
 
 
         helper.itemView.setOnClickListener(new View.OnClickListener() {

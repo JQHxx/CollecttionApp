@@ -2,27 +2,29 @@ package com.huateng.collection.ui.fragment.casebox.casefill;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huateng.collection.R;
 import com.huateng.collection.app.Perference;
+import com.huateng.collection.base.BaseFragment;
+import com.huateng.collection.base.BasePresenter;
 import com.huateng.collection.bean.ReportSegmentRecyclerItem;
 import com.huateng.collection.bean.api.RespAddress;
 import com.huateng.collection.bean.orm.Dic;
 import com.huateng.collection.bean.orm.FileData;
 import com.huateng.collection.bean.orm.PendingReportData;
-import com.huateng.collection.event.BusEvent;
 import com.huateng.collection.ui.adapter.ReportSegmentAdapter;
-import com.huateng.collection.ui.base.BaseFragment;
 import com.huateng.fm.util.FmValueUtil;
 import com.orhanobut.logger.Logger;
 import com.orm.SugarRecord;
+import com.tools.bean.BusEvent;
+import com.tools.bean.EventBean;
+import com.trello.rxlifecycle3.LifecycleTransformer;
 
+import org.apache.poi.ss.formula.functions.T;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -34,8 +36,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 
 /**
  * 外访报告
@@ -58,16 +58,29 @@ public class FragmentReportSegment extends BaseFragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        mContentView = inflater.inflate(R.layout.fragment_report_segment, container, false);
-        ButterKnife.bind(this, mContentView);
-        EventBusActivityScope.getDefault(_mActivity).register(this);
-        return mContentView;
+    protected BasePresenter createPresenter() {
+        return null;
     }
 
+
+    /**
+     * 获取布局ID
+     *
+     * @return
+     */
     @Override
-    protected void init(Bundle savedInstanceState) {
+    protected int getLayoutId() {
+        return R.layout.fragment_report_segment;
+    }
+
+    /**
+     * 处理顶部title
+     *
+     * @param savedInstanceState
+     */
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        // EventBusActivityScope.getDefault(getActivity()).register(this);
         if (getArguments() != null) {
             title = getArguments().getString("TITLE");
             titleIconResId = getArguments().getInt("TITLE_ICON");
@@ -82,6 +95,14 @@ public class FragmentReportSegment extends BaseFragment {
         tvTitle.setText(title);
     }
 
+    /**
+     * 数据初始化操作
+     */
+    @Override
+    protected void initData() {
+
+    }
+
 
     private void initReportList() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -92,7 +113,6 @@ public class FragmentReportSegment extends BaseFragment {
 
         updateContent();
     }
-
 
     //刷新内容
     public void updateContent() {
@@ -109,7 +129,7 @@ public class FragmentReportSegment extends BaseFragment {
                 for (int j = 0; j < pendingReportDataList.size(); j++) {
                     PendingReportData reportData = pendingReportDataList.get(j);
                     if (reportData.getKey().equals(title + "_" + item.getLabel())) {
-//                        imitateDic(item);
+                        //                        imitateDic(item);
                         item.setContent(reportData.getContent());
                     }
                 }
@@ -145,12 +165,17 @@ public class FragmentReportSegment extends BaseFragment {
         return "";
     }
 
-    @Subscribe
-    public void saveReport(String event) {
-        if (event.equals(BusEvent.SAVE_REPORT)) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void saveCollectData(EventBean bean) {
+        if (bean == null) {
+            return;
+        }
+        if (bean.getCode() == BusEvent.SAVE_REPORT) {
             Logger.i("saveReport :%s", title);
             collectData();
         }
+
+
     }
 
     //保存已填信息
@@ -245,7 +270,7 @@ public class FragmentReportSegment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        EventBusActivityScope.getDefault(_mActivity).unregister(this);
+        //   EventBusActivityScope.getDefault(getActivity()).unregister(this);
     }
 
     public static FragmentReportSegment newInstance(String title, int titleIconResId, List<ReportSegmentRecyclerItem> items) {
@@ -258,4 +283,14 @@ public class FragmentReportSegment extends BaseFragment {
         return fragment;
     }
 
+    @Override
+    public LifecycleTransformer<T> getRxlifecycle() {
+        return bindToLifecycle();
+    }
+
+
+    @Override
+    public boolean isUseEventBus() {
+        return true;
+    }
 }

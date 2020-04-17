@@ -67,4 +67,7 @@ public class ReportSegmentRecyclerItem implements Serializable{
     public void setPosition(int position) {
         this.position = position;
     }
+
+
+
 }

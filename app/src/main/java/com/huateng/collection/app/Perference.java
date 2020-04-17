@@ -3,10 +3,7 @@ package com.huateng.collection.app;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.orhanobut.logger.Logger;
 import com.securepreferences.SecurePreferences;
-import com.tencent.mapsdk.raster.model.LatLng;
-import com.tools.utils.StringUtils;
 
 /**
  * Created by shanyong on 2017/9/1.
@@ -20,11 +17,11 @@ public class Perference {
     public static final String NICK_NAME = "nick_name";
     //用户id
     private static final String USER_ID = "user_id";
-    private static final String CURRENT_CASE_ID = "current_case_id";
-    private static final String CURRENT_CUST_ID = "current_cust_id";
-    private static final String CURRENT_CUST_NAME = "current_cust_name";
-    private static final String CURRENT_VISIT_ADDRESS = "current_visit_address";
-    private static final String CURRENT_VISIT_ADDRESS_ID = "current_visit_address_id";
+    private static final String CURRENT_CASE_ID = "current_case_id";//案件ID
+    private static final String CURRENT_CUST_ID = "current_cust_id";//当前案件客户ID
+    private static final String CURRENT_CUST_NAME = "current_cust_name";//客户名称
+    private static final String CURRENT_VISIT_ADDRESS = "current_visit_address";//案件行动地址
+    private static final String CURRENT_VISIT_ADDRESS_ID = "current_visit_address_id";//案件行动地址ID
 
     //通话录音相关
     private static final String PREPARE_CALL_RECORDING = "prepare_call_recording";

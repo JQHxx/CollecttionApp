@@ -1,18 +1,14 @@
 package com.huateng.network.error;
 
 
-import rx.Subscriber;
+import io.reactivex.Observer;
 
 /**
  * Created by Sumincy on 2018/8/25.
  * 网络错误处理
  */
-public abstract class NetworkSubscriber<T> extends Subscriber<T> {
+public abstract class NetworkSubscriber<T> implements Observer<T> {
 
-    @Override
-    public void onCompleted() {
-
-    }
 
     @Override
     public void onError(Throwable e) {
@@ -30,10 +26,6 @@ public abstract class NetworkSubscriber<T> extends Subscriber<T> {
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
 
     public abstract void onError(ExceptionHandle.ResponeThrowable responeThrowable);
 

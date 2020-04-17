@@ -1,5 +1,6 @@
 package com.huateng.collection.ui.adapter;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -14,7 +15,6 @@ import com.huateng.collection.bean.api.RespBase;
 import com.huateng.collection.bean.orm.Dic;
 import com.huateng.collection.network.CommonInteractor;
 import com.huateng.collection.network.RequestCallbackImpl;
-import com.huateng.collection.ui.base.BaseFragment;
 import com.huateng.collection.ui.dialog.DialogCenter;
 import com.huateng.collection.ui.dialog.dm.BaseDM;
 import com.huateng.collection.ui.dialog.dm.VisitSummarizeDM;
@@ -38,11 +38,11 @@ public class ContactsAddressAdapter extends BaseQuickAdapter<RespAddress, BaseVi
 
     private String[] stringItems = {"添加上门总结"};
     private ActionSheetDialog dialog;
-    private BaseFragment baseFragment;
+    private Context mContext;
 
-    public ContactsAddressAdapter(@LayoutRes int layoutResId, List<RespAddress> dataList, BaseFragment fragment) {
+    public ContactsAddressAdapter(@LayoutRes int layoutResId, List<RespAddress> dataList, Context context) {
         super(layoutResId, dataList);
-        this.baseFragment = fragment;
+        this.mContext = context;
     }
 
     @Override
@@ -82,7 +82,7 @@ public class ContactsAddressAdapter extends BaseQuickAdapter<RespAddress, BaseVi
                                     CommonInteractor.request(new RequestCallbackImpl<RespBase>() {
                                         @Override
                                         public void beforeRequest() {
-                                            baseFragment.showLoading();
+                                          //  baseFragment.showLoading();
                                         }
 
                                         @Override
@@ -102,7 +102,7 @@ public class ContactsAddressAdapter extends BaseQuickAdapter<RespAddress, BaseVi
                                         @Override
                                         public void end() {
                                             super.end();
-                                            baseFragment.hideLoading();
+                                          //  baseFragment.hideLoading();
                                         }
                                     }, ApiConstants.APP_ROOT, ApiConstants.METHOD_ADD_VISIT_LOG, map);
 

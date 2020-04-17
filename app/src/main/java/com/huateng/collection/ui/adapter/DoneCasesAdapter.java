@@ -1,6 +1,7 @@
 package com.huateng.collection.ui.adapter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
@@ -14,9 +15,6 @@ import com.huateng.collection.R;
 import com.huateng.collection.app.Constants;
 import com.huateng.collection.bean.api.RespCaseSummary;
 import com.huateng.collection.bean.orm.Dic;
-import com.huateng.collection.ui.base.BaseFragment;
-import com.huateng.collection.ui.fragment.casebox.FragmentCaseDetail;
-import com.huateng.collection.ui.fragment.casebox.FragmentDoneCaseChooser;
 import com.huateng.collection.utils.cases.CaseManager;
 import com.huateng.collection.widget.CaseFillReminder;
 import com.huateng.fm.ui.view.FmNumericProgressBar;
@@ -31,8 +29,6 @@ import java.util.TimerTask;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 
-import static me.yokeyword.fragmentation.ISupportFragment.SINGLETASK;
-
 
 /**
  * 发件箱adapter
@@ -42,11 +38,11 @@ public class DoneCasesAdapter extends BaseQuickAdapter<RespCaseSummary, BaseView
     private SparseArray<Boolean> checkStates;
     private boolean isInSelectMode;
 
-    private BaseFragment baseFragment;
+    private Context mContext;
 
-    public DoneCasesAdapter(@LayoutRes int layoutResId, @Nullable List<RespCaseSummary> dataList, BaseFragment fragment) {
+    public DoneCasesAdapter(@LayoutRes int layoutResId, @Nullable List<RespCaseSummary> dataList, Context context) {
         super(layoutResId, dataList);
-        this.baseFragment = fragment;
+        this.mContext = context;
     }
 
 
@@ -104,30 +100,6 @@ public class DoneCasesAdapter extends BaseQuickAdapter<RespCaseSummary, BaseView
         csvFillReminder.setVoiceState(recordCompleted ? CaseFillReminder.State.DONE : CaseFillReminder.State.TODO);
         csvFillReminder.setReportState(reportCompleted ? CaseFillReminder.State.DONE : CaseFillReminder.State.TODO);
 
-        //TODO 案件上小图标点击
-        csvFillReminder.setOnActionListener(new CaseFillReminder.OnActionListener() {
-            @Override
-            public void onCameraPressed(View v) {
-//                RxBus.get().post(BusTag.SHOW_CASE_FILL, "SHOW");
-//                EventEnv env = new EventEnv(BusEvent.TAKE_PHOTO);
-//                RxBus.get().post(BusTag.CASE_FILL, env);
-            }
-
-            @Override
-            public void onVoicePressed(View v) {
-//                RxBus.get().post(BusTag.SHOW_CASE_FILL, "SHOW");
-//                EventEnv env = new EventEnv(BusEvent.RECORD);
-//                RxBus.get().post(BusTag.CASE_FILL, env);
-            }
-
-            @Override
-            public void onReportPressed(View v) {
-//                RxBus.get().post(BusTag.SHOW_CASE_FILL, "SHOW");
-//                EventEnv env = new EventEnv(BusEvent.REPORT);
-//                RxBus.get().post(BusTag.CASE_FILL, env);
-            }
-        });
-
 
         helper.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,11 +115,11 @@ public class DoneCasesAdapter extends BaseQuickAdapter<RespCaseSummary, BaseView
                 bundle.putString(Constants.VISIT_ADDRESS, bean.getVisitAddress());
 
 
-                BaseFragment fragment = BaseFragment.newInstance(FragmentCaseDetail.class, bundle);
+             /*   BaseFragment fragment = BaseFragment.newInstance(FragmentCaseDetail.class, bundle);
                 BaseFragment parent = (BaseFragment) baseFragment.getParentFragment();
                 if (parent != null) {
                     parent.startBrotherFragment(fragment, SINGLETASK);
-                }
+                }*/
 
             }
         });
@@ -233,7 +205,7 @@ public class DoneCasesAdapter extends BaseQuickAdapter<RespCaseSummary, BaseView
                             summary.setUploaded(true);
                             SugarRecord.save(summary);
                             timer.cancel();
-                            ((FragmentDoneCaseChooser) baseFragment).doneUploadCase();
+                           // ((FragmentDoneCaseChooser) baseFragment).doneUploadCase();
                         }
                         notifyDataSetChanged();
                     }

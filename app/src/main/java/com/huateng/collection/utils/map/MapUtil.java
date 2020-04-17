@@ -3,6 +3,7 @@ package com.huateng.collection.utils.map;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 
 import com.tencent.lbssearch.object.Location;
@@ -112,15 +113,28 @@ public class MapUtil {
      * @param packagename
      * @return
      */
-    public static boolean checkMapAppsIsExist(Context context, String packagename) {
-        PackageInfo packageInfo;
+    public static boolean checkMapAppsIsExist(Context context, String packageName) {
+        /*PackageInfo packageInfo;
         try {
             packageInfo = context.getPackageManager().getPackageInfo(packagename, 0);
         } catch (Exception e) {
             packageInfo = null;
             e.printStackTrace();
         }
-        return packageInfo != null;
+        return packageInfo != null;*/
+
+        PackageManager manager = context.getPackageManager();
+        List<PackageInfo> packageInfoList = manager.getInstalledPackages(0);
+        if (packageInfoList != null) {
+            for (int i = 0; i < packageInfoList.size(); i++) {
+                String package_name = packageInfoList.get(i).packageName;
+                if (package_name.equals(packageName)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+
     }
 
 
@@ -173,23 +187,27 @@ public class MapUtil {
      * @param dname   终点名称 必填
      */
     public static void openGaoDeNavi(Context context, double slat, double slon, String sname, double dlat, double dlon, String dname) {
-        String uriString = null;
-        StringBuilder builder = new StringBuilder("amapuri://route/plan?sourceApplication=maxuslife");
-        if (slat != 0) {
-            builder.append("&sname=").append(sname)
-                    .append("&slat=").append(slat)
-                    .append("&slon=").append(slon);
+        if (checkMapAppsIsExist(context, PN_BAIDU_MAP)) {
+            String uriString = null;
+            StringBuilder builder = new StringBuilder("amapuri://route/plan?sourceApplication=maxuslife");
+            if (slat != 0) {
+                builder.append("&sname=").append(sname)
+                        .append("&slat=").append(slat)
+                        .append("&slon=").append(slon);
+            }
+            builder.append("&dlat=").append(dlat)
+                    .append("&dlon=").append(dlon)
+                    .append("&dname=").append(dname)
+                    .append("&dev=0")
+                    .append("&t=0");
+            uriString = builder.toString();
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setPackage(PN_GAODE_MAP);
+            intent.setData(Uri.parse(uriString));
+            context.startActivity(intent);
+        }else {
+            RxToast.showToast("高德地图未安装");
         }
-        builder.append("&dlat=").append(dlat)
-                .append("&dlon=").append(dlon)
-                .append("&dname=").append(dname)
-                .append("&dev=0")
-                .append("&t=0");
-        uriString = builder.toString();
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setPackage(PN_GAODE_MAP);
-        intent.setData(Uri.parse(uriString));
-        context.startActivity(intent);
     }
 
     /**
@@ -272,37 +290,43 @@ public class MapUtil {
      * @param dname   终点名称 必填
      */
     public static void openBaiDuNavi(Context context, double slat, double slon, String sname, double dlat, double dlon, String dname) {
-        String uriString = null;
+        if (checkMapAppsIsExist(context, PN_BAIDU_MAP)) {
+            String uriString = null;
 
-        double destination[] = gaoDeToBaidu(dlat, dlon);
-        dlat = destination[0];
-        dlon = destination[1];
+            double destination[] = gaoDeToBaidu(dlat, dlon);
+            dlat = destination[0];
+            dlon = destination[1];
 
-        StringBuilder builder = new StringBuilder("baidumap://map/direction?mode=driving&");
-        if (slat != 0) {
-            //起点坐标转换
-            double[] origin = gaoDeToBaidu(slat, slon);
-            slat = origin[0];
-            slon = origin[1];
+            StringBuilder builder = new StringBuilder("baidumap://map/direction?mode=driving&");
+            if (slat != 0) {
+                //起点坐标转换
+                double[] origin = gaoDeToBaidu(slat, slon);
+                slat = origin[0];
+                slon = origin[1];
 
-            builder.append("origin=latlng:")
-                    .append(slat)
+                builder.append("origin=latlng:")
+                        .append(slat)
+                        .append(",")
+                        .append(slon)
+                        .append("|name:")
+                        .append(sname);
+            }
+            builder.append("&destination=latlng:")
+                    .append(dlat)
                     .append(",")
-                    .append(slon)
+                    .append(dlon)
                     .append("|name:")
-                    .append(sname);
+                    .append(dname);
+            uriString = builder.toString();
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setPackage(PN_BAIDU_MAP);
+            intent.setData(Uri.parse(uriString));
+            context.startActivity(intent);
+
+        }else {
+            RxToast.showToast("百度地图未安装");
         }
-        builder.append("&destination=latlng:")
-                .append(dlat)
-                .append(",")
-                .append(dlon)
-                .append("|name:")
-                .append(dname);
-        uriString = builder.toString();
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setPackage(PN_BAIDU_MAP);
-        intent.setData(Uri.parse(uriString));
-        context.startActivity(intent);
+
     }
 
 }

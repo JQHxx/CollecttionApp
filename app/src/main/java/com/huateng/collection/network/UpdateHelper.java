@@ -1,14 +1,11 @@
 package com.huateng.collection.network;
 
+import android.app.Activity;
 import android.os.Environment;
-
 
 import com.huateng.collection.R;
 import com.huateng.collection.app.Perference;
 import com.huateng.collection.bean.api.RespVersion;
-import com.huateng.collection.event.BusEvent;
-import com.huateng.collection.event.EventEnv;
-import com.huateng.collection.ui.base.ActivityBase;
 import com.huateng.network.ApiConstants;
 import com.huateng.network.NetworkConfig;
 import com.huateng.network.update.UpdateAppBean;
@@ -16,14 +13,17 @@ import com.huateng.network.update.UpdateAppManager;
 import com.huateng.network.update.UpdateCallback;
 import com.huateng.network.update.listener.ExceptionHandler;
 import com.huateng.network.update.listener.IUpdateDialogFragmentListener;
+import com.tools.bean.EventBean;
 import com.tools.utils.AppUtils;
 import com.tools.utils.GsonUtils;
 import com.tools.view.RxToast;
+import com.tools.bean.BusEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import me.yokeyword.eventbusactivityscope.EventBusActivityScope;
 
 /**
  * Created by Sumincy on 2018/8/26.
@@ -34,7 +34,7 @@ public class UpdateHelper {
      * @param context
      * @param isActive true主动调用 显示是否有更新  显示进度条   false 不显示进度条 不显示查询信息
      */
-    public static void checkupdate(final ActivityBase context, final boolean isActive) {
+    public static void checkupdate(final Activity context, final boolean isActive) {
 
         String path;
 
@@ -56,7 +56,7 @@ public class UpdateHelper {
         new UpdateAppManager
                 .Builder()
                 //必须设置，当前Activity
-                .setActivity(context)
+                .setActivity((Activity) context)
                 //必须设置，实现httpManager接口的对象
                 .setHttpManager(new UpdateManager())
                 //必须设置，更新地址
@@ -143,8 +143,9 @@ public class UpdateHelper {
                     @Override
                     protected void hasNewApp(UpdateAppBean updateApp, UpdateAppManager updateAppManager) {
                         updateAppManager.showDialogFragment();
-                        EventEnv eventEnv = new EventEnv(BusEvent.VERSION_UPDATE);
-                        EventBusActivityScope.getDefault(context).post(eventEnv);
+                       // EventBusActivityScope.getDefault(context).post(eventEnv);
+                        EventBus.getDefault().post(new EventBean(BusEvent.VERSION_UPDATE));
+                       // RxBus.get().send();
                     }
 
                     /**
@@ -153,7 +154,7 @@ public class UpdateHelper {
                     @Override
                     public void onBefore() {
                         if (isActive) {
-                            context.showLoading();
+                           // context.showLoading();
                         }
                     }
 
@@ -163,7 +164,7 @@ public class UpdateHelper {
                     @Override
                     public void onAfter() {
                         if (isActive) {
-                            context.hideLoading();
+                          //  context.hideLoading();
                         }
                     }
 

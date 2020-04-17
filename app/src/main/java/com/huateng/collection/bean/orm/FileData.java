@@ -15,17 +15,17 @@ public class FileData {
     public static final String TYPE_PHOTO = "PHOTO";
 
     @Unique
-    private String fileName;
+    private String fileName;//文件名
     //bizId 业务id
     private String bizId;
-    private String caseId;
-    private String type;
-    private String realPath;
-    private String userId;
-    private String fileId;
-    private long createTime;
-    private long duration;
-    private boolean exist;
+    private String caseId;//案件ID
+    private String type;//类型
+    private String realPath;//真实地址
+    private String userId;//用户哦的
+    private String fileId;//文件ID
+    private long createTime;//创建时间
+    private long duration;//时长
+    private boolean exist;//是否存在
 
 
     public long getDuration() {

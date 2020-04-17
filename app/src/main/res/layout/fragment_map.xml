@@ -2,16 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <com.tools.view.RxTitle xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.tools.view.RxTitle
         android:id="@+id/rx_title"
         style="@style/CommontRxToolBarStyle"
         app:rxLeftIconVisibility="false"
         app:rxLeftTextVisibility="false"
-        app:rxTitleIcon="@drawable/app_name"
-        app:rxTitleIconVisibility="true"
-        app:rxTitleVisibility="false" />
+        app:rxRightIconVisibility="false"
+        app:rxTitle="清收轨迹"
+        app:rxTitleSize="18sp"
+        app:rxTitleIconVisibility="false"
+        app:rxTitleVisibility="true" />
 
     <!-- MAIN CONTENT -->
     <RelativeLayout

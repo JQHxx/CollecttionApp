@@ -341,7 +341,7 @@
     java.lang.Object readResolve();
 }
 
-
+#eventBus
 -dontwarn org.greenrobot.eventbus.**
 -keep class org.greenrobot.eventbus.** {*;}
 
@@ -352,6 +352,7 @@
 -keep enum org.greenrobot.eventbus.ThreadMode { *; }
 
 
+#arouter
 -keep public class com.alibaba.android.arouter.routes.**{*;}
 -keep public class com.alibaba.android.arouter.facade.**{*;}
 -keep class * implements com.alibaba.android.arouter.facade.template.ISyringe{*;}
@@ -363,3 +364,4 @@
 # -keep class * implements com.alibaba.android.arouter.facade.template.IProvider
 -keep public class permissions.dispatcher.**{*;}
 -dontwarn  permissions.dispatcher.**
+

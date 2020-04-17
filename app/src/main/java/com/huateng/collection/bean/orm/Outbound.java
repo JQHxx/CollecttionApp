@@ -11,15 +11,15 @@ public class Outbound {
     private double latitude;
     //经度
     private double longitude;
-
+    //用户ID
     private String userId;
-
+    //地址
     private String address;
-
+    //时间
     private long time;
-
+    //日期
     private String date;
-
+    //事件
     private String event;
 
     public double getLatitude() {

@@ -6,26 +6,27 @@
     android:orientation="vertical"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:paddingBottom="12dp"
-    android:paddingTop="12dp">
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp">
 
     <TextView
         android:id="@+id/tv_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="录音打开时间"
-        android:textColor="#999999"
-        android:textSize="@dimen/content_text_size" />
+        android:text="测试文本"
+        android:textColor="@color/text_color_4c4c4c"
+        android:textSize="16sp" />
 
     <com.huateng.collection.widget.UniversalInput
         android:id="@+id/csv_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textColor="#333333"
+        android:layout_marginTop="5dp"
+        android:textColor="#343434"
         android:textSize="18sp"
         app:bgStyle="line"
         app:bgColor="@color/transparent"
         app:normalColor="#d7d7db" />
+
 
 </LinearLayout>

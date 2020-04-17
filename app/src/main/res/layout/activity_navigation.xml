@@ -1,0 +1,151 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerlayout"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:clipChildren="false"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
+
+        <com.huateng.collection.widget.NoScrollViewPager
+            android:id="@+id/id_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+
+        <LinearLayout
+            android:id="@+id/ll_bottom_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/ll_tab_main"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tabmenu_bkg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <com.huateng.collection.widget.gradientuilibrary.GradientIconView
+                    android:id="@+id/id_iconfont_chat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:bottom_icon="@drawable/icon_tab_main_normal"
+                    app:top_icon="@drawable/icon_tab_main" />
+
+                <com.huateng.collection.widget.gradientuilibrary.GradientTextView
+                    android:id="@+id/id_chats_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:bottom_text_color="#343434"
+                    app:text="待处理"
+                    app:text_size="12sp"
+                    app:top_text_color="@color/accent_color" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_tab_customer"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tabmenu_bkg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <com.huateng.collection.widget.gradientuilibrary.GradientIconView
+                    android:id="@+id/id_iconfont_faxian"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:bottom_icon="@drawable/icon_tab_customer_normal"
+                    app:top_icon="@drawable/icon_tab_customer" />
+
+                <com.huateng.collection.widget.gradientuilibrary.GradientTextView
+                    android:id="@+id/id_discover_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:bottom_text_color="#343434"
+                    app:text="已处理"
+                    app:text_size="12sp"
+                    app:top_text_color="@color/accent_color" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_tab_more"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tabmenu_bkg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <com.huateng.collection.widget.gradientuilibrary.GradientIconView
+                    android:id="@+id/id_iconfont_me"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:bottom_icon="@drawable/icon_tab_guiji_normal"
+                    app:top_icon="@drawable/icon_tab_guiji" />
+
+                <com.huateng.collection.widget.gradientuilibrary.GradientTextView
+                    android:id="@+id/id_about_me_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:bottom_text_color="#343434"
+                    app:text="清收轨迹"
+                    app:text_size="12sp"
+                    app:top_text_color="@color/accent_color" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_tab_mine"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tabmenu_bkg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <com.huateng.collection.widget.gradientuilibrary.GradientIconView
+                    android:id="@+id/id_iconfont_mine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:bottom_icon="@drawable/icon_tab_more_normal"
+                    app:top_icon="@drawable/icon_tab_more" />
+
+                <com.huateng.collection.widget.gradientuilibrary.GradientTextView
+                    android:id="@+id/id_about_mine_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:bottom_text_color="#343434"
+                    app:text="我的"
+                    app:text_size="12sp"
+                    app:top_text_color="@color/accent_color" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

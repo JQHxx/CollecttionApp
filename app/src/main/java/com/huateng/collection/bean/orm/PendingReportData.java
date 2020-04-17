@@ -1,6 +1,7 @@
 package com.huateng.collection.bean.orm;
 
 import com.google.gson.annotations.Expose;
+import com.orm.SugarRecord;
 import com.orm.dsl.Table;
 import com.orm.dsl.Unique;
 
@@ -12,15 +13,16 @@ import java.io.Serializable;
  * @time 2016-12-15.
  */
 @Table
-public class PendingReportData implements Serializable {
+public class PendingReportData  extends SugarRecord
+        implements Serializable {
     @Unique
     @Expose(serialize = false, deserialize = false)
     private String tag;
     @Expose(serialize = false, deserialize = false)
     private String bizId;
     @Expose(serialize = false, deserialize = false)
-    private String caseId;
-    private String userId;
+    private String caseId;//案件ID
+    private String userId;//用户ID
     private String content;
     private String key;
     private String value;

@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:text="新增电话"
-                    android:textColor="@color/theme_color"
+                    android:textColor="@color/accent_color"
                     android:textSize="@dimen/content_text_size" />
 
             </LinearLayout>

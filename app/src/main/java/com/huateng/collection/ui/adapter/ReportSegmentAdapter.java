@@ -1,5 +1,6 @@
 package com.huateng.collection.ui.adapter;
 
+import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -48,6 +49,7 @@ public class ReportSegmentAdapter extends BaseQuickAdapter<ReportSegmentRecycler
         }
     }
 
+
     public void clearHistoryInput() {
         values.clear();
         for (int i = 0; i < getData().size(); i++) {
@@ -57,13 +59,11 @@ public class ReportSegmentAdapter extends BaseQuickAdapter<ReportSegmentRecycler
 
     @Override
     protected void convert(final BaseViewHolder helper, ReportSegmentRecyclerItem bean) {
+
         final int position = helper.getPosition();
 
         UniversalInput csvInput = helper.getView(R.id.csv_input);
         csvInput.setInputType(bean.getInputType());
-
-//        Logger.i("%s : %s",bean.getLabel(),bean.getInputType());
-
 
         helper.setText(R.id.tv_label, bean.getLabel());
 
@@ -92,21 +92,25 @@ public class ReportSegmentAdapter extends BaseQuickAdapter<ReportSegmentRecycler
 
         csvInput.setText(values.get(position));
 
-        if (bean.getLabel().equals("地址编号")) {
+      /*  if (bean.getLabel().equals("地址编号")) {
             Logger.i("地址:   %s->%s", bean.getContent(), values.get(position));
-        }
+        }*/
 
         //点击地址添加icon
-        if (bean.getLabel().equals("地址")) {
-            csvInput.setOptionIcon(R.drawable.ic_add);
+       /* if (bean.getLabel().equals("地址")) {
+           csvInput.setOptionIcon(R.drawable.ic_add);
             csvInput.setOnHtOptionTouchListener(new UniversalInput.OnHtOptionTouchListener() {
                 @Override
                 public void onHtOptionTouched() {
-                    Logger.i("on option");
-                    addVisitSummary();
+
+                    Logger.i("on option:"+bean.toString());
+                    if(bean.getLabel().equals("地址")) {
+                        addVisitSummary();
+                    }
+
                 }
             });
-        }
+        }*/
     }
 
 
@@ -116,6 +120,7 @@ public class ReportSegmentAdapter extends BaseQuickAdapter<ReportSegmentRecycler
 
     private String queryValue(List<Dic> dics, String key) {
         for (Dic dic : dics) {
+            Log.e("nb",dic.getKey()+":"+key);
             if (dic.getKey().equals(key)) {
                 return dic.getValue();
             }

@@ -2,56 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.huateng.collection">
-    <permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" android:protectionLevel="signature"/>
-    <!-- 在SDCard中创建与删除文件权限 -->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <!-- 相机权限 -->
-    <uses-permission android:name="android.permission.CAMERA" />
-    <!-- 网络权限 -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!--去电监听-->
-    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
-
-    <!-- 腾讯定位 sdk 要求的权限  (开始) -->
-    <!-- 通过GPS得到精确位置 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!-- 通过网络得到粗略位置 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- 访问WiFi状态. 需要WiFi信息用于网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!-- 修改WiFi状态. 发起WiFi扫描, 需要WiFi信息用于网络定位 -->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <!-- 访问网络状态, 检测网络的可用性. 需要网络运营商相关信息用于网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- 访问网络的变化, 需要某些信息用于网络定位 -->
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <!-- 访问手机当前状态, 需要device id用于网络定位 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!-- 支持A-GPS辅助定位 -->
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <!-- 腾讯定位 sdk 要求的权限 (结束) -->
-
-    <!-- 读取储存卡  写储存卡权限 -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <!-- 录音权限 -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
-    <!--用于申请调用A-GPS模块-->
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <!--用于申请获取蓝牙信息进行室内定位-->
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
     <application
-        android:name="com.huateng.collection.app.MainApplication"
+        android:name=".app.MainApplication"
         android:allowBackup="false"
         android:icon="@drawable/nbcb_logo"
         android:label="@string/app_name"
@@ -59,77 +12,65 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup,android:supportsRtl">
+        <activity android:name=".ui.activity.AboutActivity"></activity>
+        <activity
+            android:name=".ui.activity.AccountInfoDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity
+            android:name=".ui.activity.AudioRecordListActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.activity.CaseManagerActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.navigation.NavigationActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.activity.CaseDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.fragment.casebox.casefill.RecordSelectorActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.report.view.ReportActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.fragment.casebox.casefill.PhotoSelectorActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.fragment.casebox.casefill.ReportActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/SplashTheme"
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <meta-data
             android:name="TencentMapSDK"
             android:value="O6GBZ-UZXCQ-7SE5M-GZOLD-PDOKO-EAFNR" />
-
-        <activity
-            android:name=".ui.activity.ActivityMain"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
-
-        <activity
-            android:name=".ui.activity.ActivityLogin"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/SplashTheme"
-            android:windowSoftInputMode="stateHidden">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
-
-
-        <service
-            android:name="com.huateng.collection.service.LocationService"
-            android:enabled="true"
-            android:exported="true" />
-
-        <service android:name="com.huateng.collection.service.LocationFakeService" />
-
-        <!--通话监听-->
-        <service android:name=".service.PhoneListenerService" />
-
-        <provider
-            android:name="com.huateng.collection.provider.ImagePickerProvider"
-            android:authorities="${applicationId}.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/img_provider_paths" />
-        </provider>
-
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="${applicationId}.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
-
-
-        <receiver android:name=".network.events.NotificationActionsReceiver">
-            <intent-filter>
-                <action android:name="com.huateng.phone.collection.notification.action" />
-            </intent-filter>
-        </receiver>
-
-        <!-- Sugar Orm configration -->
         <meta-data
             android:name="DATABASE"
             android:value="collection.db" />
         <meta-data
             android:name="VERSION"
-            android:value="1" />
+            android:value="1" /> <!-- 通话监听 -->
         <meta-data
             android:name="QUERY_LOG"
             android:value="true" />
@@ -137,6 +78,65 @@
             android:name="DOMAIN_PACKAGE_NAME"
             android:value="com.huateng.collection.bean" />
 
-    </application>
+        <provider
+            android:name=".provider.ImagePickerProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/img_provider_paths" />
+        </provider>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider> <!-- Sugar Orm configration -->
+        <receiver android:name=".network.events.NotificationActionsReceiver">
+            <intent-filter>
+                <action android:name="com.huateng.phone.collection.notification.action" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".service.LocationService"
+            android:enabled="true"
+            android:exported="true" />
+        <service android:name=".service.LocationFakeService" />
+        <service android:name=".service.PhoneListenerService" />
+    </application> <!-- 访问WiFi状态. 需要WiFi信息用于网络定位 -->
+    <permission
+        android:name="android.permission.INTERACT_ACROSS_USERS_FULL"
+        android:protectionLevel="signature" /> <!-- 修改WiFi状态. 发起WiFi扫描, 需要WiFi信息用于网络定位 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" /> <!-- 访问网络状态, 检测网络的可用性. 需要网络运营商相关信息用于网络定位 -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 访问网络的变化, 需要某些信息用于网络定位 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 访问手机当前状态, 需要device id用于网络定位 -->
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" /> <!-- 支持A-GPS辅助定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 腾讯定位 sdk 要求的权限 (结束) -->
+    <!-- 读取储存卡  写储存卡权限 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 录音权限 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 用于申请调用A-GPS模块 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 用于申请获取蓝牙信息进行室内定位 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
 </manifest>

@@ -11,14 +11,18 @@ import com.aspsine.swipetoloadlayout.OnRefreshListener;
 import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
 import com.huateng.collection.R;
 import com.huateng.collection.app.Perference;
+import com.huateng.collection.base.BaseFragment;
+import com.huateng.collection.base.BasePresenter;
 import com.huateng.collection.bean.api.RespStaticsItem;
 import com.huateng.collection.network.CommonInteractor;
 import com.huateng.collection.network.RequestCallbackImpl;
 import com.huateng.collection.ui.adapter.StaticsAdapter;
-import com.huateng.collection.ui.base.BaseFragment;
 import com.huateng.collection.widget.DividerItemDecoration;
 import com.huateng.network.ApiConstants;
 import com.tools.view.RxTitle;
+import com.trello.rxlifecycle3.LifecycleTransformer;
+
+import org.apache.poi.ss.formula.functions.T;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,7 +34,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 外访统计
@@ -50,15 +53,40 @@ public class FragmentStatics extends BaseFragment implements OnRefreshListener {
     private View emptyView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        mContentView = inflater.inflate(R.layout.fragment_statics, container, false);
-        ButterKnife.bind(this, mContentView);
-        return mContentView;
+    protected BasePresenter createPresenter() {
+        return null;
     }
 
+
+
+    /**
+     * 获取布局ID
+     *
+     * @return
+     */
     @Override
-    protected void init(Bundle savedInstanceState) {
+    protected int getLayoutId() {
+        return R.layout.fragment_statics;
+    }
+
+
+
+    /**
+     * 数据初始化操作
+     */
+    @Override
+    protected void initData() {
+
+    }
+
+    /**
+     * 处理顶部title
+     *
+     * @param savedInstanceState
+     */
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+
         immersiveStatusBar(rxTitle);
 
 //        vSearch = (LinearLayout) mContentView.findViewById(R.id.layout_search);
@@ -112,5 +140,10 @@ public class FragmentStatics extends BaseFragment implements OnRefreshListener {
                 swipeToLoadLayout.setRefreshing(false);
             }
         }, ApiConstants.BATCH_ROOT, ApiConstants.METHOD_GET_STATICS, map);
+    }
+
+    @Override
+    public LifecycleTransformer<T> getRxlifecycle() {
+        return bindToLifecycle();
     }
 }

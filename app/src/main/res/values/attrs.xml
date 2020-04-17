@@ -149,4 +149,15 @@
         <attr name="useStrikeThrough" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="GradientIconView">
+        <attr name="top_icon" />
+        <attr name="bottom_icon" />
+    </declare-styleable>
+
+    <declare-styleable name="GradientTextView">
+    <attr name="text" />
+    <attr name="text_size" />
+    <attr name="top_text_color" />
+    <attr name="bottom_text_color" />
+    </declare-styleable>
 </resources>

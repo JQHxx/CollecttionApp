@@ -14,13 +14,13 @@
         app:rxRightTextVisibility="true"
         app:rxTitleVisibility="true" />
 
-    <FrameLayout
+    <com.huateng.collection.widget.NoScrollViewPager
         android:id="@+id/fl_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-    </FrameLayout>
+    </com.huateng.collection.widget.NoScrollViewPager>
 
     <LinearLayout
         android:layout_width="match_parent"

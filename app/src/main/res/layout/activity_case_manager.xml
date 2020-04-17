@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context="com.huateng.collection.ui.activity.CaseManagerActivity">
+
+    <com.tools.view.RxTitle xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rx_title"
+        style="@style/CommontRxToolBarStyle"
+        app:rxLeftIcon="@drawable/back"
+        app:rxLeftIconVisibility="true"
+        app:rxLeftTextVisibility="false"
+        app:rxRightIconVisibility="false"
+        app:rxRightTextVisibility="true"
+        app:rxRightText="结束处理"
+
+        app:rxTitle="案件处理"
+        app:rxTitleSize="18sp"
+        app:rxTitleIconVisibility="false"
+        app:rxTitleVisibility="true" />
+
+     <androidx.recyclerview.widget.RecyclerView
+         android:id="@+id/recyclerview"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent">
+
+     </androidx.recyclerview.widget.RecyclerView>
+</LinearLayout>

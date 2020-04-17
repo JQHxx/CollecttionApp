@@ -1,6 +1,8 @@
 package com.huateng.network;
 
 
+import android.util.Log;
+
 import com.baronzhang.retrofit2.converter.FastJsonConverterFactory;
 import com.huateng.network.bean.RequestStructure;
 import com.huateng.network.bean.ResponseStructure;
@@ -17,6 +19,7 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
+import io.reactivex.Observable;
 import okhttp3.Cache;
 import okhttp3.CacheControl;
 import okhttp3.Headers;
@@ -30,8 +33,7 @@ import okhttp3.ResponseBody;
 import okio.Buffer;
 import okio.BufferedSource;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import rx.Observable;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 /**
  * api接口相关的网络请求
@@ -95,7 +97,6 @@ public class RetrofitManager {
             Request request = chain.request();
 
             //headers
-
             Headers headers = request.headers();
 //            Logger.i("headers: %s", headers.toString());
 
@@ -122,6 +123,8 @@ public class RetrofitManager {
                 sb.append(buf.readString(charset));
                 buf.close();
             }
+
+            Log.e("nb",sb.toString()+"：请求参数");
 
             Logger.v(sb.toString());
 
@@ -182,9 +185,12 @@ public class RetrofitManager {
     }
 
     public Retrofit build(String baseUrl) {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(baseUrl)
-                .client(getOkHttpClient()).addConverterFactory(FastJsonConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .client(getOkHttpClient())
+                .addConverterFactory(FastJsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
         return retrofit;
     }
 
@@ -193,6 +199,7 @@ public class RetrofitManager {
     public Observable<ResponseStructure> request(String root, String method, Object obj) {
         String uri = ApiConstants.format(root, method);
         String request = generateRequestJson(uri, obj);
+        Log.e("nb","request:"+request);
         okhttp3.RequestBody body = okhttp3.RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), request);
         return commonApiService.authRequest(NetworkConfig.C.getAuth(), body);
     }
@@ -201,25 +208,10 @@ public class RetrofitManager {
     public Observable<ResponseStructure> loginRequest(Object obj) {
         String uri = ApiConstants.format("appInteface", "login");
         String request = generateRequestJson(uri, obj);
+        Log.e("nb","request:-->"+request);
         okhttp3.RequestBody body = okhttp3.RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), request);
         return commonApiService.request(body);
     }
-
-//    //带token 请求  mock
-//    public Observable<ResponseStructure> request(String root, String method, Object obj) {
-//        String uri = ApiConstants.format(root, method);
-//        String request = generateRequestJson(uri, obj);
-//        okhttp3.RequestBody body = okhttp3.RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), request);
-//        return commonApiService.mockRequest(NetworkConfig.C.getAuth(), root, method, body);
-//    }
-//
-//    //不带token请求  mock
-//    public Observable<ResponseStructure> loginRequest(Object obj) {
-//        String uri = ApiConstants.format("appInteface", "login");
-//        String request = generateRequestJson(uri, obj);
-//        okhttp3.RequestBody body = okhttp3.RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), request);
-//        return commonApiService.mockRequest(NetworkConfig.C.getAuth(), "appInteface", "login", body);
-//    }
 
     public static String generateRequestJson(String uri, Object obj) {
         RequestStructure baseRequest = RequestConfig.getStructureInstance();

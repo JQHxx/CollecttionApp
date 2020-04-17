@@ -19,6 +19,8 @@ public class MaptypePopup extends BasePopupWindow implements View.OnClickListene
 
     private View tencentMap;
     private View cancel;
+    private View baiduMap;
+    private View gaodeMap;
 
     private onMaptypeClickListener mListener;
 
@@ -29,10 +31,14 @@ public class MaptypePopup extends BasePopupWindow implements View.OnClickListene
 
     private void initViews() {
         tencentMap = popupView.findViewById(R.id.layout_maptencent);
+        baiduMap = popupView.findViewById(R.id.layout_mapbaidu);
+        gaodeMap = popupView.findViewById(R.id.layout_mapgaode);
         cancel = popupView.findViewById(R.id.iv_cancel);
 
         if (popupView != null) {
             tencentMap.setOnClickListener(this);
+            baiduMap.setOnClickListener(this);
+            gaodeMap.setOnClickListener(this);
             cancel.setOnClickListener(this);
         }
     }
@@ -74,6 +80,17 @@ public class MaptypePopup extends BasePopupWindow implements View.OnClickListene
                 break;
             case R.id.iv_cancel:
                 this.dismissWithOutAnima();
+                break;
+            case R.id.layout_mapbaidu:
+                if (mListener != null) {
+
+                    mListener.onClick(Constants.MapType.MAP_BAIDU);
+                }
+                break;
+            case R.id.layout_mapgaode:
+                if (mListener != null) {
+                    mListener.onClick(Constants.MapType.MAP_GAODE);
+                }
                 break;
             default:
                 break;

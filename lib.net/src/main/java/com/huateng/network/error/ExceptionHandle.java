@@ -10,7 +10,8 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
-import retrofit2.adapter.rxjava.HttpException;
+import retrofit2.HttpException;
+
 
 /**
  * Created by Sumincy on 2018/8/25.

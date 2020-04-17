@@ -12,6 +12,7 @@ import com.huateng.network.NetworkConfig;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.orm.SugarContext;
+import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 import com.tools.utils.SDCardUtils;
 import com.tools.utils.Utils;
@@ -52,7 +53,7 @@ public class MainApplication extends FmApplication {
         //工具类库
         Utils.init(this);
         // 如果检测到某个 activity 有内存泄露，LeakCanary 就是自动地显示一个通知
-//        mRefWatcher = LeakCanary.install(this);
+        mRefWatcher = LeakCanary.install(this);
         Logger.addLogAdapter(new AndroidLogAdapter());
         SugarContext.init(this);
 
@@ -70,6 +71,8 @@ public class MainApplication extends FmApplication {
                             .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
                             .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
                             .build());
+
+
         }
 
 
@@ -91,25 +94,6 @@ public class MainApplication extends FmApplication {
             cacheDir = getApplicationContext().getCacheDir().toString();
         }
 
-        //fragment
-//        Fragmentation.builder()
-//                // 设置 栈视图 模式为 （默认）悬浮球模式   SHAKE: 摇一摇唤出  NONE：隐藏， 仅在Debug环境生效
-//                .stackViewMode(Fragmentation.BUBBLE)
-//                .debug(true) // 实际场景建议.debug(BuildConfig.DEBUG)
-//                /**
-//                 * 可以获取到{@link me.yokeyword.fragmentation.exception.AfterSaveStateTransactionWarning}
-//                 * 在遇到After onSaveInstanceState时，不会抛出异常，会回调到下面的ExceptionHandler
-//                 */
-//                .handleException(new ExceptionHandler() {
-//                    @Override
-//                    public void onException(Exception e) {
-//                        // 以Bugtags为例子: 把捕获到的 Exception 传到 Bugtags 后台。
-//                        // Bugtags.sendException(e);
-//                    }
-//                })
-//                .install();
-
-      //  CrashReport.initCrashReport(getApplicationContext(), "144541f06a", true);
 
     }
 
@@ -127,17 +111,6 @@ public class MainApplication extends FmApplication {
         MultiDex.install(base);
     }
 
-
-//    /**
-//     * 获取内存监控
-//     *
-//     * @param context
-//     * @return
-//     */
-//    public static RefWatcher getRefWatcher(Context context) {
-//        MainApplication application = (MainApplication) context.getApplicationContext();
-//        return application.mRefWatcher;
-//    }
 
 
     // 获取ApplicationContext

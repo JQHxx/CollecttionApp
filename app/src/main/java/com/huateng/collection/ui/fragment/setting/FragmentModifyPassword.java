@@ -1,34 +1,34 @@
 package com.huateng.collection.ui.fragment.setting;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.huateng.collection.R;
 import com.huateng.collection.app.Perference;
+import com.huateng.collection.base.BaseActivity;
+import com.huateng.collection.base.BasePresenter;
 import com.huateng.collection.bean.api.RespBase;
 import com.huateng.collection.network.CommonInteractor;
 import com.huateng.collection.network.RequestCallbackImpl;
-import com.huateng.collection.ui.base.BaseFragment;
 import com.huateng.collection.utils.StringUtils;
 import com.huateng.fm.ui.widget.FmButton;
 import com.huateng.network.ApiConstants;
 import com.tools.view.RxTitle;
 import com.tools.view.RxToast;
+import com.trello.rxlifecycle3.LifecycleTransformer;
+
+import org.apache.poi.ss.formula.functions.T;
 
 import java.util.HashMap;
 
-import androidx.annotation.Nullable;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Created by shanyong on 2016/12/13.
  */
 
-public class FragmentModifyPassword extends BaseFragment {
+public class FragmentModifyPassword extends BaseActivity {
 
     @BindView(R.id.et_earlyPwd)
     EditText etEarlyPwd;
@@ -41,24 +41,15 @@ public class FragmentModifyPassword extends BaseFragment {
     @BindView(R.id.rx_title)
     RxTitle rxTitle;
 
-
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_modify_password, container, false);
-        ButterKnife.bind(this, view);
-        return view;
-    }
+    protected void initView(Bundle savedInstanceState) {
 
-
-    @Override
-    protected void init(Bundle savedInstanceState) {
 //        setFragmentAnimator(new DefaultHorizontalAnimator());
         immersiveStatusBar(rxTitle);
         rxTitle.getLlLeft().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pop();
+               // pop();
             }
         });
 
@@ -121,4 +112,41 @@ public class FragmentModifyPassword extends BaseFragment {
         });
     }
 
+    @Override
+    protected BasePresenter createPresenter() {
+        return null;
+    }
+
+
+
+    /**
+     * 获取布局ID
+     *
+     * @return
+     */
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_modify_password;
+    }
+
+    /**
+     * 数据初始化操作
+     */
+    @Override
+    protected void initData() {
+
+    }
+
+    /**
+     * 此处设置沉浸式地方
+     */
+    @Override
+    protected void setStatusBar() {
+
+    }
+
+    @Override
+    public LifecycleTransformer<T> getRxlifecycle() {
+        return bindToLifecycle();
+    }
 }

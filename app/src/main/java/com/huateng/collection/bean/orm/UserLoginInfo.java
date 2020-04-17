@@ -11,16 +11,16 @@ import com.orm.dsl.Unique;
 @Table
 public class UserLoginInfo {
     @Unique
-    private String userId;
+    private String userId;//用户地
     @Unique
-    private String loginName;
-    private String authorization;
-    private String pwd;
-    private String nickName;
-    private long loginTime;
-    private long firstLoginTime;
-    private int loginErrorCount;
-    private boolean loginSuccess;
+    private String loginName;//登录名
+    private String authorization;//
+    private String pwd;//密码
+    private String nickName;//昵称
+    private long loginTime;//登录时间
+    private long firstLoginTime;//首次登录时间
+    private int loginErrorCount;//错误次数
+    private boolean loginSuccess;//是否登录成功
 
 
     public String getLoginName() {

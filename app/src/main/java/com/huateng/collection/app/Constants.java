@@ -9,6 +9,8 @@ package com.huateng.collection.app;
 
 public class Constants {
 
+    public static final boolean isLocal = true;// 是否使用本地数据
+
     public static final int REQUEST_CODE_TAKE_PIC = 666;
     public static final String EXTRA_SELECTED_IMAGE_POSITION = "selected_image_position";
     public static final String EXTRA_IMAGE_ITEMS = "extra_image_items";

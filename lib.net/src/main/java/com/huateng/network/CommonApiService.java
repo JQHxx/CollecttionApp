@@ -5,6 +5,7 @@ import com.huateng.network.bean.ResponseStructure;
 
 import java.util.Map;
 
+import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
@@ -14,7 +15,6 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PartMap;
 import retrofit2.http.Path;
-import rx.Observable;
 
 public interface CommonApiService {
 

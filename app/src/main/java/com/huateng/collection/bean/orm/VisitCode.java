@@ -9,11 +9,12 @@ import java.util.List;
 
 /**
  * Created by shanyong on 2017/1/18.
+ * 案件行动码
  */
 @Table
 public class VisitCode implements Serializable {
-    private String visitSumCode;
-    private String visitSumCodeName;
+    private String visitSumCode;//行动码
+    private String visitSumCodeName;//行动码名称
 
     public String getVisitSumCode() {
         return visitSumCode;

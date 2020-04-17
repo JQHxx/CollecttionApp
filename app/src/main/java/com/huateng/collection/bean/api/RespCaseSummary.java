@@ -2,7 +2,6 @@ package com.huateng.collection.bean.api;
 
 import com.google.gson.annotations.Expose;
 import com.huateng.collection.app.Constants;
-import com.orm.dsl.Ignore;
 import com.orm.dsl.Table;
 import com.orm.dsl.Unique;
 
@@ -19,7 +18,7 @@ public class RespCaseSummary {
     private String bizId;
     private String addrId;
     private String caseId;
-    private String custName;
+    private String custName;//客户姓名
     private String oaAmt;
     private String oaDate;
     private String hostName;

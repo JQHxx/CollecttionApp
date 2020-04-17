@@ -2,32 +2,30 @@ package com.huateng.network.upload;
 
 import android.os.Handler;
 
-
-import com.huateng.network.ApiConstants;
+import com.huateng.network.BaseObserver;
 import com.huateng.network.CommonApiService;
 import com.huateng.network.NetworkConfig;
 import com.huateng.network.StringConverterFactory;
 import com.huateng.network.callback.RequestCallback;
 import com.huateng.network.error.ExceptionHandle;
-import com.huateng.network.error.NetworkSubscriber;
 import com.orhanobut.logger.Logger;
-import com.tools.utils.NetworkUtils;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+//import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 
 public class RetrofitUtil {
 
@@ -60,7 +58,7 @@ public class RetrofitUtil {
                 retrofit = builder.baseUrl(baseUrl)
                         .client(okHttpClient)
                         .addConverterFactory(StringConverterFactory.create())
-                        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                         .build();
             }
         }
@@ -82,42 +80,32 @@ public class RetrofitUtil {
             requestBodyMap.put(key, RequestBody.create(MediaType.parse("text"), value));
         }
 
+
+
+
         commonApiService.uploadFile(NetworkConfig.C.getAuth(), requestBodyMap).
                 subscribeOn(Schedulers.io())
-                .doOnSubscribe(new Action0() {
+                .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
-                    public void call() {
+                    public void accept(Disposable disposable) throws Exception {
                         // 订阅之前回调回去显示加载动画
-                        callback.beforeRequest();
+                         callback.beforeRequest();
                     }
                 }) // 订阅之前操作在主线程
-                .doOnError(new Action1<Throwable>() {
+                .doOnError(new Consumer<Throwable>() {
                     @Override
-                    public void call(Throwable throwable) {
+                    public void accept(Throwable throwable){
                         throwable.printStackTrace();
                         Logger.e("错误时处理：" + throwable + " --- " + throwable.getLocalizedMessage());
-                    }
-                }).
-                observeOn(AndroidSchedulers.mainThread()).
-                subscribe(new NetworkSubscriber<ResponseBody>() {
-                    @Override
-                    public void onCompleted() {
 
                     }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (e instanceof Exception) {
-                            //访问获得对应的Exception
-                            onError(ExceptionHandle.handleException(e));
-                        } else {
-                            //将Throwable 和 未知错误的status code返回
-                            onError(new ExceptionHandle.ResponeThrowable(e, ExceptionHandle.ERROR.UNKNOWN));
-                        }
-                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread()).
+                subscribe(new BaseObserver<ResponseBody>() {
 
                     @Override
                     public void onNext(ResponseBody responseBody) {
+                        super.onNext(responseBody);
                         callback.requestSuccess(responseBody.toString());
                     }
 

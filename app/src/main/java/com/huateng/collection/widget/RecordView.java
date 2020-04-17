@@ -1,7 +1,6 @@
 package com.huateng.collection.widget;
 
 import android.content.Context;
-import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huateng.collection.R;
-import com.huateng.collection.app.MainApplication;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,45 +56,45 @@ public class RecordView extends LinearLayout{
             @Override
             public void onClick(View v) {
                     if (ivRecord.getState()==RecordButton.READY){
-                        if (onRecordClickListener!=null){
+                      /*  if (onRecordClickListener!=null){
                             onRecordClickListener.onRecordClicked(RecordButton.RECORDING);
                         }
                         ivRecord.startRecording();
                         tvTip.setText("正在录音..");
                         MainApplication.getApplication().setCurrentCaseOnOperation(true);
                         chronometer.setBase(SystemClock.elapsedRealtime());
-                        chronometer.start();
+                        chronometer.start();*/
                     }else if (ivRecord.getState()==RecordButton.RECORDING){
-                        if (onRecordClickListener!=null){
+                      /*  if (onRecordClickListener!=null){
                             onRecordClickListener.onRecordClicked(RecordButton.READY);
                         }
                         MainApplication.getApplication().setCurrentCaseOnOperation(false);
                         ivRecord.stopRecord();
                         chronometer.stop();
                         chronometer.setText("00:00");
-                        tvTip.setText("点击录音");
+                        tvTip.setText("点击录音");*/
                     }
                 }
         });
     }
 
-    private OnRecordClickListener onRecordClickListener;
+/*    private OnRecordClickListener onRecordClickListener;
 
     public void setOnRecordClickListener(OnRecordClickListener onRecordClickListener){
         this.onRecordClickListener=onRecordClickListener;
-    }
+    }*/
 
-    public interface OnRecordClickListener{
+  /*  public interface OnRecordClickListener{
         public void onRecordClicked(int state);
     }
 
 
     public void setSavePath(String path) {
         ivRecord.setSavePath(path);
-    }
+    }*/
 
-    public void setOnFinishedRecordListener(RecordButton.OnFinishedRecordListener listener) {
+/*    public void setOnFinishedRecordListener(RecordButton.OnFinishedRecordListener listener) {
         ivRecord.setOnFinishedRecordListener(listener);
-    }
+    }*/
 
 }

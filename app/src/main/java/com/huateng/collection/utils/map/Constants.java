@@ -4,7 +4,9 @@ package com.huateng.collection.utils.map;
 public final class Constants {
 
     public enum MapType {
-        MAP_TENCENT
+        MAP_TENCENT,
+        MAP_BAIDU,
+        MAP_GAODE
     }
 
     /**

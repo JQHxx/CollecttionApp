@@ -1,7 +1,6 @@
 package com.huateng.collection.bean;
 
 import com.google.gson.annotations.Expose;
-import com.orm.dsl.Table;
 
 /**
  * @author dengzh
@@ -10,17 +9,17 @@ import com.orm.dsl.Table;
  */
 public class AddAddress {
 
-    private String addrId;
-    private String addrType;
-    private String address1;
-    private String address2;
-    private String address3;
-    private String city;
-    private String latitude;
-    private String longitude;
-    private String postcode;
-    private String name;
-    private String relWithCust;
+    private String addrId;//地址ID
+    private String addrType;//地址类型
+    private String address1;//地址1
+    private String address2;//地址2
+    private String address3;//地址3
+    private String city;//城市
+    private String latitude;//经度
+    private String longitude;//纬度
+    private String postcode;//请求码
+    private String name;//名称
+    private String relWithCust;//
     @Expose(serialize = false, deserialize = false)
     private String caseId;
     public String getCaseId() {

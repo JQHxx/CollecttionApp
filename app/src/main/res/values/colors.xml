@@ -205,4 +205,10 @@
 
     <color name="accent_color">#E98A52</color>
 
+    <color name="text_color_969696">#969696</color>
+    <color name="text_color_4c4c4c">#4c4c4c</color>
+    <color name="text_color_343434">#343434</color>
+    <color name="color_fafafa">#fafafa</color>
+    <color name="color_f7f7f7">#f7f7f7</color>
+
 </resources>

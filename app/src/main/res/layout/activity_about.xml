@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.huateng.collection.ui.activity.AboutActivity">
+
+    <com.tools.view.RxTitle
+        android:id="@+id/rx_title"
+        style="@style/CommontRxToolBarStyle"
+        app:rxLeftIconVisibility="true"
+        app:rxLeftTextVisibility="true"
+        app:rxRightIconVisibility="false"
+        app:rxTitle="关于我们"
+        app:rxTitleSize="18sp"
+        app:rxTitleIconVisibility="false"
+        app:rxTitleVisibility="true" />
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/nbcb_logo"/>
+
+    <TextView
+        android:id="@+id/tv_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black_43"
+        android:textSize="18sp"
+        android:layout_gravity="center_horizontal"
+        android:text="V 1.0.0"
+        />
+
+</LinearLayout>

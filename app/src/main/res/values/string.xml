@@ -26,4 +26,6 @@
     <string name="phloginid">请输入您的ID</string>
     <string name="phloginpsd">请输入您的密码</string>
 
+    <string name="test_title">测试文本</string>
+
 </resources>

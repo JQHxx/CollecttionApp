@@ -1,19 +1,18 @@
 package com.huateng.collection.ui.fragment.casebox.info;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.huateng.collection.R;
 import com.huateng.collection.app.Constants;
 import com.huateng.collection.app.Perference;
+import com.huateng.collection.base.BaseFragment;
+import com.huateng.collection.base.BasePresenter;
 import com.huateng.collection.bean.api.RespPhone;
 import com.huateng.collection.network.CommonInteractor;
 import com.huateng.collection.network.RequestCallbackImpl;
 import com.huateng.collection.ui.adapter.ContactsPhoneAdapter;
-import com.huateng.collection.ui.base.BaseFragment;
 import com.huateng.collection.ui.dialog.DialogCenter;
 import com.huateng.collection.ui.dialog.dm.AddPhoneDM;
 import com.huateng.collection.ui.dialog.dm.BaseDM;
@@ -22,7 +21,11 @@ import com.huateng.collection.widget.DividerItemDecoration;
 import com.huateng.network.ApiConstants;
 import com.orm.SugarRecord;
 import com.tools.view.RxToast;
+import com.trello.rxlifecycle3.LifecycleTransformer;
 
+import org.apache.poi.ss.formula.functions.T;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +33,6 @@ import java.util.Map;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 添加电话
@@ -47,15 +49,29 @@ public class FragmentContactsBook extends BaseFragment {
     private AddPhoneDM dm;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        mContentView = inflater.inflate(R.layout.fragment_contacts_book, container, false);
-        ButterKnife.bind(this, mContentView);
-        return mContentView;
+    protected BasePresenter createPresenter() {
+        return null;
     }
 
+
+    /**
+     * 获取布局ID
+     *
+     * @return
+     */
     @Override
-    protected void init(Bundle savedInstanceState) {
+    protected int getLayoutId() {
+        return R.layout.fragment_contacts_book;
+    }
+
+    /**
+     * 处理顶部title
+     *
+     * @param savedInstanceState
+     */
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+
         phones = (List<RespPhone>) getArguments().getSerializable(Constants.CASE_CONTACT_BOOK);
 
         adapter = new ContactsPhoneAdapter(R.layout.list_item_contacts_phone, phones);
@@ -70,6 +86,27 @@ public class FragmentContactsBook extends BaseFragment {
             }
         });
     }
+
+    /**
+     * 数据初始化操作
+     */
+    @Override
+    protected void initData() {
+        List<RespPhone> list = new ArrayList<>();
+        for (int i=0;i<5;i++){
+          RespPhone respPhone = new RespPhone();
+          respPhone.setName("张三"+i);
+          respPhone.setTelNo("130000000"+i);
+          respPhone.setBizId("id "+i);
+          respPhone.setCaseId("id "+i);
+          respPhone.setTelId("tel"+i);
+          respPhone.setTelType("个人");
+            list.add(respPhone);
+        }
+        adapter.setNewData(list);
+
+    }
+
 
 
     //添加电话
@@ -146,4 +183,8 @@ public class FragmentContactsBook extends BaseFragment {
     }
 
 
+    @Override
+    public LifecycleTransformer<T> getRxlifecycle() {
+        return bindToLifecycle();
+    }
 }

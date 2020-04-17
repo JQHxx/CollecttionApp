@@ -1,4 +1,3 @@
-include ':app', ':lib.common', ':lib.flowmobile'
+include ':app', ':lib.common', ':lib.flowmobile', ':uploadservice', ':uploadservice-okhttp'
 include ':lib.net'
-include ':lib.picture'
-include ':lib.uploadservice'
+include ':lib.pictureandaudio'

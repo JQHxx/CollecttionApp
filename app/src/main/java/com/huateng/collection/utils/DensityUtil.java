@@ -2,6 +2,7 @@ package com.huateng.collection.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
@@ -35,6 +36,12 @@ public class DensityUtil {
      */
     public static int dpToPx(Context context, float dp) {
         return (int) applyDimension(context, TypedValue.COMPLEX_UNIT_DIP, dp);
+    }
+
+
+    public static int dpToPx(float dpValue) {
+        float scale = Resources.getSystem().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
     }
 
     /**
