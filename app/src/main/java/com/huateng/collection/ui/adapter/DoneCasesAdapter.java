@@ -110,7 +110,6 @@ public class DoneCasesAdapter extends BaseQuickAdapter<RespCaseSummary, BaseView
 
                 Bundle bundle = new Bundle();
                 bundle.putString(Constants.CASE_ID, bean.getCaseId());
-                bundle.putBoolean(Constants.IS_TODO_CASE, false);
                 bundle.putString(Constants.ADDRESS_ID, bean.getAddrId());
                 bundle.putString(Constants.VISIT_ADDRESS, bean.getVisitAddress());
 

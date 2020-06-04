@@ -72,7 +72,6 @@ public class QRCodeUtil {
         catch (IOException e) {
             e.printStackTrace(); 
         } catch (WriterException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
    

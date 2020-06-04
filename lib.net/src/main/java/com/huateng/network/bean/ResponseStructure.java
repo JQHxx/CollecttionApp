@@ -78,12 +78,23 @@ public class ResponseStructure implements Serializable {
             public void setDomainVilidate(String domainVilidate) {
                 this.domainVilidate = domainVilidate;
             }
+
+            @Override
+            public String toString() {
+                return "ContextDataBean{" +
+                        "data='" + data + '\'' +
+                        ", domainVilidate='" + domainVilidate + '\'' +
+                        '}';
+            }
         }
+
+
+
     }
 
     public static class ScubeHeaderBean {
         private String errorCode;
-        private String errorMsg;
+        private String errorMsg;//{code ,msg}
         private String transCode;
         @JSONField(name = "x-session-token")
         @SerializedName("x-session-token")
@@ -120,5 +131,33 @@ public class ResponseStructure implements Serializable {
         public void setXSessionToken(String xSessionToken) {
             this.xSessionToken = xSessionToken;
         }
+
+        public String getxSessionToken() {
+            return xSessionToken;
+        }
+
+        public void setxSessionToken(String xSessionToken) {
+            this.xSessionToken = xSessionToken;
+        }
+
+        @Override
+        public String toString() {
+            return "ScubeHeaderBean{" +
+                    "errorCode='" + errorCode + '\'' +
+                    ", errorMsg='" + errorMsg + '\'' +
+                    ", transCode='" + transCode + '\'' +
+                    ", xSessionToken='" + xSessionToken + '\'' +
+                    '}';
+        }
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "ResponseStructure{" +
+                "scubeBody=" + scubeBody +
+                ", scubeHeader=" + scubeHeader +
+                '}';
     }
 }

@@ -12,15 +12,9 @@ import com.huateng.network.NetworkConfig;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.orm.SugarContext;
-import com.squareup.leakcanary.LeakCanary;
-import com.squareup.leakcanary.RefWatcher;
 import com.tools.utils.SDCardUtils;
 import com.tools.utils.Utils;
 import com.zhy.http.okhttp.intercepter.HttpLoggingInterceptor;
-
-import net.gotev.uploadservice.UploadService;
-import net.gotev.uploadservice.okhttp.OkHttpStack;
-
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -34,7 +28,7 @@ import static com.facebook.stetho.Stetho.newInitializerBuilder;
 
 public class MainApplication extends FmApplication {
 
-    private RefWatcher mRefWatcher;
+   // private RefWatcher mRefWatcher;
     private static MainApplication application;
     public static String cacheDir;
     public Context mContext = null;
@@ -53,7 +47,7 @@ public class MainApplication extends FmApplication {
         //工具类库
         Utils.init(this);
         // 如果检测到某个 activity 有内存泄露，LeakCanary 就是自动地显示一个通知
-        mRefWatcher = LeakCanary.install(this);
+      //  mRefWatcher = LeakCanary.install(this);
         Logger.addLogAdapter(new AndroidLogAdapter());
         SugarContext.init(this);
 
@@ -64,25 +58,22 @@ public class MainApplication extends FmApplication {
 
         NetworkConfig.C.init(this);
 
-
         if (BuildConfig.DEBUG) {
             Stetho.initialize(
                     newInitializerBuilder(this)
                             .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
                             .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
                             .build());
-
-
         }
 
 
-        UploadService.NAMESPACE = BuildConfig.APPLICATION_ID;
+       // UploadService.NAMESPACE = BuildConfig.APPLICATION_ID;
         // Set up the Http Stack to use. If you omit this or comment it, HurlStack will be
         // used by default
-        UploadService.HTTP_STACK = new OkHttpStack(getOkHttpClient());
+       // UploadService.HTTP_STACK = new OkHttpStack(getOkHttpClient());
 
         // setup backoff multiplier
-        UploadService.BACKOFF_MULTIPLIER = 2;
+       // UploadService.BACKOFF_MULTIPLIER = 2;
 
 
         /**
@@ -96,6 +87,8 @@ public class MainApplication extends FmApplication {
 
 
     }
+
+
 
     public boolean isCurrentCaseOnOperation() {
         return currentCaseOnOperation;

@@ -7,12 +7,10 @@ import android.view.ViewGroup;
 
 import com.huateng.collection.R;
 import com.huateng.collection.ui.dialog.dm.AddAddressDM;
-import com.huateng.collection.ui.dialog.dm.AddPhoneDM;
 import com.huateng.collection.ui.dialog.dm.CommonContentDM;
 import com.huateng.collection.ui.dialog.dm.CorrentEndCaseDM;
 import com.huateng.collection.ui.dialog.dm.PaymentCalculateDM;
 import com.huateng.collection.ui.dialog.dm.SearchDM;
-import com.huateng.collection.ui.dialog.dm.VisitSummarizeDM;
 import com.huateng.collection.ui.dialog.dm.WrongEndCaseDM;
 import com.huateng.collection.widget.dialogplus.DialogPlus;
 import com.huateng.collection.widget.dialogplus.DialogPlusBuilder;
@@ -46,20 +44,9 @@ public class DialogCenter {
         binder.bindSearchDM(dm);
         return dm;
     }
-
-    //上门总结对话框
-    public VisitSummarizeDM showVisitSummarizeDialog() {
-        DialogPlusBuilder builder = createGenericBuilder(R.layout.dialog_content_visit_summarize);
-        DialogPlus dialogPlus = builder.create();
-        dialogPlus.show();
-        DialogDmBinder binder = new DialogDmBinder(dialogPlus);
-        VisitSummarizeDM dm = new VisitSummarizeDM();
-        binder.bindVisitSummarizeDM(dm);
-        return dm;
-    }
-
+    
     //新增电话对话框
-    public AddPhoneDM showAddPhoneDialog() {
+   /* public AddPhoneDM showAddPhoneDialog() {
         DialogPlusBuilder builder = createGenericBuilder(R.layout.dialog_content_add_phone);
         DialogPlus dialogPlus = builder.create();
         dialogPlus.show();
@@ -67,7 +54,7 @@ public class DialogCenter {
         AddPhoneDM dm = new AddPhoneDM();
         binder.bindAddPhoneDM(dm);
         return dm;
-    }
+    }*/
 
     //新增地址对话框
     public AddAddressDM showAddAddressDialog() {

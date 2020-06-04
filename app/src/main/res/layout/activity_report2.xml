@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    <com.tools.view.RxTitle
+        android:id="@+id/rx_title"
+        style="@style/CommontRxToolBarStyle"
+        app:rxTitle="调查报告"
+        app:rxRightText="保存"
+        app:rxRightTextVisibility="true"
+        app:rxTitleVisibility="true" />
+
+    <com.huateng.collection.widget.recyclerview.RecyclerScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:textColor="#343434"
+                    android:gravity="center_vertical|right"
+                    android:text="客户姓名"/>
+
+                <TextView
+                    android:id="@+id/tv_cust_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:gravity="center_vertical|right"
+                    android:layout_marginLeft="16dp"
+                    android:text="张三"
+                    android:textColor="#969696" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:textColor="#343434"
+                    android:gravity="center_vertical|right"
+                    android:text="外访人员"/>
+
+                <EditText
+                    android:id="@+id/edt_visit_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:hint="外访人员姓名"
+                    android:gravity="center_vertical|right"
+                    android:layout_marginLeft="16dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@null"
+                    android:textColor="@color/text_color_666666" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"/>
+
+            <LinearLayout
+                android:id="@+id/ll_visit_date"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="bottom">
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_color_333333"
+                    android:gravity="center_vertical|right"
+                    android:text="外访日期"/>
+
+                <TextView
+                    android:id="@+id/tv_visit_date"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:paddingRight="5dp"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:gravity="center_vertical|right"
+                    android:layout_marginLeft="16dp"
+                    android:layout_alignParentRight="true"
+                    android:text="请选择"
+                    android:textColor="@color/text_color_666666" />
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/picker_calendar"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_color_333333"
+                    android:gravity="center_vertical|right"
+                    android:text="外访地址"/>
+
+                <EditText
+                    android:id="@+id/edt_visit_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:hint="请输入外访地址"
+                    android:gravity="center_vertical|right"
+                    android:layout_marginLeft="16dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@null"
+                    android:textColor="#343434" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"/>
+
+            <LinearLayout
+                android:id="@+id/ll_is_self"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="bottom">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_color_333333"
+                    android:gravity="center_vertical|right"
+                    android:text="是否见到本人"/>
+
+                <TextView
+                    android:id="@+id/tv_is_self"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:paddingRight="5dp"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:gravity="center_vertical|right"
+                    android:layout_marginLeft="16dp"
+                    android:layout_alignParentRight="true"
+                    android:text="请选择"
+                    android:textColor="@color/text_color_666666" />
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/spinner_arrow"/>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"/>
+
+
+            <LinearLayout
+                android:id="@+id/ll_is_work"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="bottom">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_color_333333"
+                    android:gravity="center_vertical|right"
+                    android:text="单位在职情况"/>
+
+                <TextView
+                    android:id="@+id/tv_is_work"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:paddingRight="5dp"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:gravity="center_vertical|right"
+                    android:layout_marginLeft="16dp"
+                    android:layout_alignParentRight="true"
+                    android:text="请选择"
+                    android:textColor="@color/text_color_666666" />
+                <ImageView
+                   android:layout_gravity="center_vertical"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginBottom="3dp"
+                    android:src="@drawable/spinner_arrow"/>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"/>
+
+            <LinearLayout
+                android:id="@+id/ll_is_marriage"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="bottom">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_color_333333"
+                    android:gravity="center_vertical|right"
+                    android:text="婚姻状况"/>
+
+                <TextView
+                    android:id="@+id/tv_is_marriage"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:paddingRight="5dp"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:gravity="center_vertical|right"
+                    android:layout_marginLeft="16dp"
+                    android:layout_alignParentRight="true"
+                    android:text="请选择"
+                    android:textColor="@color/text_color_666666" />
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginBottom="3dp"
+                    android:src="@drawable/spinner_arrow"/>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"/>
+
+            <LinearLayout
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="75dp">
+                <TextView
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_color_343434"
+                    android:text="逾期\n原因"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:background="#fafafa"
+
+                    android:layout_marginRight="16dp"
+                    android:layout_height="match_parent">
+                    <EditText
+                        android:id="@+id/edt_overdue_cause"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp"
+                        android:textSize="14sp"
+                        android:gravity="top|left"
+                        android:textColor="@color/text_color_343434"
+                        android:hint=" 200字以内"
+                        android:background="@null"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"/>
+
+            <LinearLayout
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="75dp">
+                <TextView
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_color_343434"
+                    android:text="其他有\n效地址"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:background="#fafafa"
+                    android:layout_marginRight="16dp"
+                    android:layout_height="match_parent">
+                    <EditText
+                        android:id="@+id/edt_other_valid_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="14sp"
+                        android:padding="5dp"
+                        android:gravity="top|left"
+                        android:textColor="@color/text_color_343434"
+                        android:hint=" 200字以内"
+                        android:background="@null"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"/>
+
+            <LinearLayout
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="75dp">
+                <TextView
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_color_343434"
+                    android:text="车辆\n信息"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:background="#fafafa"
+                    android:layout_marginRight="16dp"
+                    android:layout_height="match_parent">
+                    <EditText
+                        android:id="@+id/edt_car_msg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="14sp"
+                        android:padding="5dp"
+                        android:gravity="top|left"
+                        android:textColor="@color/text_color_343434"
+                        android:hint=" 200字以内"
+                        android:background="@null"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"/>
+
+            <LinearLayout
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="75dp">
+                <TextView
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_color_343434"
+                    android:text="房屋\n信息"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:background="#fafafa"
+                    android:layout_marginRight="16dp"
+                    android:layout_height="match_parent">
+                    <EditText
+                        android:id="@+id/edt_home_msg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="14sp"
+                        android:padding="5dp"
+                        android:gravity="top|left"
+                        android:textColor="@color/text_color_343434"
+                        android:hint=" 200字以内"
+                        android:background="@null"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"/>
+
+            <LinearLayout
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="75dp">
+                <TextView
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_color_343434"
+                    android:text="公积金\n信息"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:background="#fafafa"
+                    android:layout_marginRight="16dp"
+                    android:layout_height="match_parent">
+                    <EditText
+                        android:id="@+id/edt_provident_fund"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="14sp"
+                        android:padding="5dp"
+                        android:gravity="top|left"
+                        android:textColor="@color/text_color_343434"
+                        android:hint=" 200字以内"
+                        android:background="@null"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"/>
+
+            <LinearLayout
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="75dp">
+                <TextView
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_color_343434"
+                    android:text="投资\n信息"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:background="#fafafa"
+                    android:layout_marginRight="16dp"
+                    android:layout_height="match_parent">
+                    <EditText
+                        android:id="@+id/edt_investment_msg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="14sp"
+                        android:gravity="top|left"
+                        android:padding="5dp"
+                        android:textColor="@color/text_color_343434"
+                        android:hint=" 200字以内"
+                        android:background="@null"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"/>
+
+            <LinearLayout
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="75dp">
+                <TextView
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_color_343434"
+                    android:text="外债\n信息"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:background="#fafafa"
+                    android:layout_marginRight="16dp"
+                    android:layout_height="match_parent">
+                    <EditText
+                        android:id="@+id/edt_debt_msg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="14sp"
+                        android:padding="5dp"
+                        android:gravity="top|left"
+                        android:textColor="@color/text_color_343434"
+                        android:hint=" 200字以内"
+                        android:background="@null"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"/>
+
+            <LinearLayout
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="75dp">
+            <TextView
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textColor="@color/text_color_343434"
+                android:text="其他财\n产信息"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="#fafafa"
+                android:layout_marginRight="16dp"
+                android:layout_height="match_parent">
+                <EditText
+                    android:id="@+id/edt_other_assets_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="14sp"
+                    android:gravity="top|left"
+                    android:padding="5dp"
+                    android:textColor="@color/text_color_343434"
+                    android:hint=" 200字以内"
+                    android:background="@null"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"/>
+
+            <LinearLayout
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="75dp">
+                <TextView
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_color_343434"
+                    android:text="详细\n信息"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:background="#fafafa"
+                    android:layout_marginRight="16dp"
+                    android:layout_height="match_parent">
+                    <EditText
+                        android:id="@+id/edt_detail_msg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textSize="14sp"
+                        android:padding="5dp"
+                        android:gravity="top|left"
+                        android:textColor="@color/text_color_343434"
+                        android:hint=" 200字以内"
+                        android:background="@null"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"/>
+
+        </LinearLayout>
+
+
+    </com.huateng.collection.widget.recyclerview.RecyclerScrollView>
+
+
+</LinearLayout>

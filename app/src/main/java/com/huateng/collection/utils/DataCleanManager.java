@@ -72,7 +72,7 @@ public class DataCleanManager {
                     //删除案件相关业务信息
                     CaseManager.removeBizDatas(bizId);
 
-                    String processId = AttachmentProcesser.getProcessId(summary.getCaseId(), summary.getAddrId());
+                    String processId = summary.getCaseId();
 
                     Utils.deleteDir(context, new File(processer.getCaseRoot(processId)));
                 }
@@ -92,7 +92,7 @@ public class DataCleanManager {
                     //判断文件夹 在缓存案件的数据是否对应
                     for (int j = 0; j < caseSummaries.size(); j++) {
                         RespCaseSummary summary = caseSummaries.get(j);
-                        String processId = AttachmentProcesser.getProcessId(summary.getCaseId(), summary.getAddrId());
+                        String processId = summary.getCaseId();
                         if (dirName.contains(processId)) {
                             isValid = true;
                         }

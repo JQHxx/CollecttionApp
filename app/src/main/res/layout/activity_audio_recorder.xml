@@ -11,6 +11,8 @@
         style="@style/CommontRxToolBarStyle"
         app:rxRightIconVisibility="false"
         app:rxTitle="录音"
+        app:rxRightText="上传"
+        app:rxRightTextVisibility="true"
         app:rxTitleVisibility="true" />
 
 

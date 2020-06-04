@@ -15,7 +15,6 @@ import com.huateng.collection.R;
 import com.huateng.collection.bean.orm.FileData;
 import com.huateng.collection.utils.FileUtil;
 import com.huateng.collection.utils.Utils;
-import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.tools.DateUtils;
 import com.orhanobut.logger.Logger;
@@ -40,6 +39,7 @@ public class RecorderAdapter extends
         RecyclerView.Adapter<RecorderAdapter.ViewHolder> {
     public static final int TYPE_CAMERA = 1;
     public static final int TYPE_PICTURE = 2;
+    int[] bgs = new int[]{R.drawable.icon_audio_bg1, R.drawable.icon_audio_bg2, R.drawable.icon_audio_bg3, R.drawable.icon_audio_bg4};
     private LayoutInflater mInflater;
     private List<LocalMedia> list = new ArrayList<>();
     private int selectMax = 9;
@@ -94,7 +94,7 @@ public class RecorderAdapter extends
     @Override
     public int getItemCount() {
         if (list.size() < selectMax) {
-            if(mOnAddPicClickListener == null) {
+            if (mOnAddPicClickListener == null) {
                 return list.size();
             }
             return list.size() + 1;
@@ -134,13 +134,14 @@ public class RecorderAdapter extends
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
 
         //少于8张，显示继续添加的图标
+        viewHolder.cardView.setBackgroundResource(bgs[position % 4]);
         if (getItemViewType(position) == TYPE_CAMERA) {
             viewHolder.iv_add.setVisibility(View.VISIBLE);
             viewHolder.ll_audioInfo.setVisibility(View.GONE);
             viewHolder.iv_add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mOnAddPicClickListener != null) {
+                    if (mOnAddPicClickListener != null) {
                         mOnAddPicClickListener.onAddPicClick();
                     }
                 }
@@ -149,14 +150,15 @@ public class RecorderAdapter extends
         } else {
 
             LocalMedia media = list.get(position);
-            Log.e("nb","media:--->"+media.toString());
-            int mimeType = media.getMimeType();
+            Log.e("nb", "media:--->" + media.toString());
+            //  int mimeType = media.getMimeType();
             long itemDuration = media.getDuration();
-            int pictureType = PictureMimeType.isPictureType(media.getPictureType());
+            Log.e("nb", "itemDuration->" + itemDuration);
+            // int pictureType = PictureMimeType.isPictureType(media.getPictureType());
             final File file = new File(media.getPath());
 
-            viewHolder.tv_duration.setText(DateUtils.timeParse(itemDuration));
-            viewHolder.tv_name.setText(media.getName());
+            viewHolder.tv_duration.setText(DateUtils.formatDurationTime(itemDuration));
+            viewHolder.tv_name.setText(media.getFileName());
             viewHolder.tv_fileSize.setText(String.format("(%s)", FileUtil.formatFileSize(new File(media.getPath()).length(), "0")));
             viewHolder.tv_addDate.setText(android.text.format.DateUtils.formatDateTime(
                     context,
@@ -238,8 +240,9 @@ public class RecorderAdapter extends
                     boolean isDel = Utils.deleteAudioFile(context, file);
                     if (isDel) {
                         list.remove(index);
-                        notifyItemRemoved(index);
-//                        notifyItemRangeChanged(index, list.size());
+                        notifyDataSetChanged();
+                      /*  notifyItemRemoved(index);
+                        notifyItemRangeChanged(index, list.size());*/
 
                         //删除sqlite中保存的数据
                         List<FileData> fileDatas = SugarRecord.find(FileData.class, "FILE_NAME=?", file.getName());

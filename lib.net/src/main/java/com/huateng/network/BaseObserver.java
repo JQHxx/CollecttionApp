@@ -24,15 +24,7 @@ public abstract class BaseObserver<T> implements Observer<T> {
 
     }
 
-    /**
-     * Provides the Observer with the means of cancelling (disposing) the
-     * connection (channel) with the Observable in both
-     * synchronous (from within {@link #onNext(Object)}) and asynchronous manner.
-     *
-     * @param d the Disposable instance whose {@link Disposable#dispose()} can
-     *          be called anytime to cancel the connection
-     * @since 2.0
-     */
+
     @Override
     public void onSubscribe(Disposable d) {
 
@@ -53,7 +45,6 @@ public abstract class BaseObserver<T> implements Observer<T> {
     public void onNext(T t) {
 
     }
-
 
     public abstract void onError(ExceptionHandle.ResponeThrowable responeThrowable);
 

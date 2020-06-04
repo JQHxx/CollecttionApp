@@ -21,12 +21,21 @@ public class FileData {
     private String caseId;//案件ID
     private String type;//类型
     private String realPath;//真实地址
-    private String userId;//用户哦的
+    private String userId;//用户id
     private String fileId;//文件ID
     private long createTime;//创建时间
     private long duration;//时长
     private boolean exist;//是否存在
+    private boolean isUpload;//是否已上传到后台
+    private int  fileType;//新增文件类型 1已上传 2 未上传
 
+    public int getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(int fileType) {
+        this.fileType = fileType;
+    }
 
     public long getDuration() {
         return duration;
@@ -106,5 +115,31 @@ public class FileData {
 
     public void setExist(boolean exist) {
         this.exist = exist;
+    }
+
+    public boolean isUpload() {
+        return isUpload;
+    }
+
+    public void setUpload(boolean upload) {
+        isUpload = upload;
+    }
+
+    @Override
+    public String toString() {
+        return "FileData{" +
+                "fileName='" + fileName + '\'' +
+                ", bizId='" + bizId + '\'' +
+                ", caseId='" + caseId + '\'' +
+                ", type='" + type + '\'' +
+                ", realPath='" + realPath + '\'' +
+                ", userId='" + userId + '\'' +
+                ", fileId='" + fileId + '\'' +
+                ", createTime=" + createTime +
+                ", duration=" + duration +
+                ", exist=" + exist +
+                ", isUpload=" + isUpload +
+                ", fileType='" + fileType + '\'' +
+                '}';
     }
 }

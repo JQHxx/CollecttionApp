@@ -72,14 +72,14 @@ public class RequestStructure implements Serializable {
                  * domainVilidate :
                  */
 
-                private Object data;
+                private DataBean data;
                 private String domainVilidate;
 
-                public Object getData() {
+                public DataBean getData() {
                     return data;
                 }
 
-                public void setData(Object data) {
+                public void setData(DataBean data) {
                     this.data = data;
                 }
 
@@ -139,6 +139,20 @@ public class RequestStructure implements Serializable {
 
             public void setXsessionToken(String xsessionToken) {
                 this.xsessionToken = xsessionToken;
+            }
+        }
+
+        public static class  DataBean{
+
+            private String appData;
+
+
+            public String getAppData() {
+                return appData;
+            }
+
+            public void setAppData(String appData) {
+                this.appData = appData;
             }
         }
     }

@@ -51,7 +51,7 @@ public class UpdateHelper {
         params.put("vsersionCode", String.valueOf(code));
 
 
-        String updateUrl = String.format("%s%s/%s", NetworkConfig.C.getBaseURL(), ApiConstants.APP_ROOT, ApiConstants.METHOD_VERSION_UPDATE);
+        String updateUrl = String.format("%s%s/%s", NetworkConfig.C.getBaseURL(), ApiConstants.MOBILE_APP_OPER_INTERFACE, ApiConstants.METHOD_VERSION_UPDATE);
 
         new UpdateAppManager
                 .Builder()

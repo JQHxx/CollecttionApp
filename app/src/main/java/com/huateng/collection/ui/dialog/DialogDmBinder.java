@@ -7,13 +7,11 @@ import android.widget.TextView;
 
 import com.huateng.collection.R;
 import com.huateng.collection.ui.dialog.dm.AddAddressDM;
-import com.huateng.collection.ui.dialog.dm.AddPhoneDM;
 import com.huateng.collection.ui.dialog.dm.BaseDM;
 import com.huateng.collection.ui.dialog.dm.CommonContentDM;
 import com.huateng.collection.ui.dialog.dm.CorrentEndCaseDM;
 import com.huateng.collection.ui.dialog.dm.PaymentCalculateDM;
 import com.huateng.collection.ui.dialog.dm.SearchDM;
-import com.huateng.collection.ui.dialog.dm.VisitSummarizeDM;
 import com.huateng.collection.ui.dialog.dm.WrongEndCaseDM;
 import com.huateng.collection.widget.UniversalInput;
 import com.huateng.collection.widget.dialogplus.DialogPlus;
@@ -57,20 +55,9 @@ public class DialogDmBinder {
         dm.init();
     }
 
-    //绑定上门总结DM
-    public void bindVisitSummarizeDM(VisitSummarizeDM dm) {
-        dm.csv_visitAddress = (UniversalInput) contentView.findViewById(R.id.csv_visitAddress);
-        dm.csv_visitDate = (UniversalInput) contentView.findViewById(R.id.csv_visitDate);
-        dm.csv_visitInfo = (UniversalInput) contentView.findViewById(R.id.csv_visitInfo);
-        dm.csv_visitOfficer = (UniversalInput) contentView.findViewById(R.id.csv_visitOfficer);
-        dm.csv_visitOtherOfficer = (UniversalInput) contentView.findViewById(R.id.csv_visitOhterOfficer);
-        dm.csv_visitResult = (UniversalInput) contentView.findViewById(R.id.csv_visitResult);
-        bindBaseDM(dm);
-        dm.init();
-    }
 
     //绑定新增电话DM
-    public void bindAddPhoneDM(AddPhoneDM dm) {
+  /*  public void bindAddPhoneDM(AddPhoneDM dm) {
         dm.csv_caseNo = (UniversalInput) contentView.findViewById(R.id.csv_caseNo);
         dm.csv_custNo = (UniversalInput) contentView.findViewById(R.id.csv_custNo);
         dm.csv_custName = (UniversalInput) contentView.findViewById(R.id.csv_custName);
@@ -79,7 +66,7 @@ public class DialogDmBinder {
         dm.csv_phone = (UniversalInput) contentView.findViewById(R.id.csv_phone);
         bindBaseDM(dm);
         dm.init();
-    }
+    }*/
 
     //绑定新增地址DM
     public void bindAddAddressDM(AddAddressDM dm) {

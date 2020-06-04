@@ -1,12 +1,18 @@
 package com.huateng.network;
 
 
+import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.aes_util.AESUtils;
 import com.baronzhang.retrofit2.converter.FastJsonConverterFactory;
 import com.huateng.network.bean.RequestStructure;
 import com.huateng.network.bean.ResponseStructure;
 import com.huateng.network.cache.CacheManager;
+import com.huateng.network.upload.UploadOnSubscribe;
+import com.huateng.network.upload.UploadParam;
+import com.huateng.network.upload.UploadRequestBody;
 import com.orhanobut.logger.Logger;
 import com.tools.CommonUtils;
 import com.tools.utils.GsonUtils;
@@ -16,15 +22,21 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.UnsupportedCharsetException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.NonNull;
 import io.reactivex.Observable;
+import io.reactivex.ObservableTransformer;
 import okhttp3.Cache;
 import okhttp3.CacheControl;
-import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -82,7 +94,7 @@ public class RetrofitManager {
                     removeHeader("Pragma").
                     removeHeader("Cache-Control")
                     .header("Cache-Control", "public," + CACHE_CONTROL_NETWORK).build();
-
+            Logger.v(response.body().toString());
             return response;
 
         }
@@ -97,8 +109,8 @@ public class RetrofitManager {
             Request request = chain.request();
 
             //headers
-            Headers headers = request.headers();
-//            Logger.i("headers: %s", headers.toString());
+            //  Headers headers = request.headers();
+            //            Logger.i("headers: %s", headers.toString());
 
             RequestBody requestBody = request.body();
 
@@ -123,8 +135,6 @@ public class RetrofitManager {
                 sb.append(buf.readString(charset));
                 buf.close();
             }
-
-            Log.e("nb",sb.toString()+"：请求参数");
 
             Logger.v(sb.toString());
 
@@ -151,11 +161,12 @@ public class RetrofitManager {
             if (contentLength != 0) {
                 String key = sb.toString();
                 String data = buffer.clone().readString(charset);
+                // Log.e("nb", "data--->" + data);
                 if (CommonUtils.isJson(data)) {
-                    Logger.json(data);
+                    //  Logger.json(data);
                     CacheManager.getInstance().putCache(key, data);
                 } else {
-                    Logger.w(data);
+                    //  Logger.w(data);
                     //登录超时判断
                     if (data.contains(ApiConstants.WEB_LOGIN_URL))
                         throw new RuntimeException("Timeout");
@@ -199,26 +210,35 @@ public class RetrofitManager {
     public Observable<ResponseStructure> request(String root, String method, Object obj) {
         String uri = ApiConstants.format(root, method);
         String request = generateRequestJson(uri, obj);
-        Log.e("nb","request:"+request);
+        //  Log.e("nb", "request-->" + request);
         okhttp3.RequestBody body = okhttp3.RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), request);
         return commonApiService.authRequest(NetworkConfig.C.getAuth(), body);
+
     }
 
     //不带token请求
     public Observable<ResponseStructure> loginRequest(Object obj) {
-        String uri = ApiConstants.format("appInteface", "login");
+        String uri = ApiConstants.format("mobileAppInterface", "login");
         String request = generateRequestJson(uri, obj);
-        Log.e("nb","request:-->"+request);
+        Log.e("nb", "request:-->" + request);
         okhttp3.RequestBody body = okhttp3.RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), request);
         return commonApiService.request(body);
     }
 
     public static String generateRequestJson(String uri, Object obj) {
+
         RequestStructure baseRequest = RequestConfig.getStructureInstance();
         baseRequest.getQueryTable().getScubeHeader().setTransCode(uri);
-        baseRequest.getQueryTable().getScubeBody().getContextData().setData(obj);
+        RequestStructure.QueryTableBean.DataBean dataBean = new RequestStructure.QueryTableBean.DataBean();
+        String s = GsonUtils.toJson(obj);
+        // Log.e("nb", "requestData==-->" + s);
+        dataBean.setAppData(AESUtils.encrypt(s, "aes-nbcbccms@123"));
+          String decrypt = AESUtils.decrypt(dataBean.getAppData(), "aes-nbcbccms@123");
+          Log.e("nb","decrypt:"+decrypt);
+        baseRequest.getQueryTable().getScubeBody().getContextData().setData(dataBean);
         return GsonUtils.toJson(baseRequest);
     }
+
 
     // 配置OkHttpClient
     public OkHttpClient getOkHttpClient() {
@@ -229,37 +249,37 @@ public class RetrofitManager {
                     // 指定缓存路径,缓存大小100Mb
                     Cache cache = new Cache(new File(NetworkConfig.C.getCtx().getCacheDir(), "HttpCache"),
                             1024 * 1024 * 100);
-//                    InputStream[] serverCerStream = new InputStream[]{new Buffer().writeUtf8(NetworkConfig.SERVER_CER).inputStream()};
-////                    InputStream cerStream;
-////                    InputStream[] serverCerStream = null;
-////                    //从文件读取服务端证书
-////                    try {
-////                        cerStream = MainApplication.getApplication().getAssets().open("server.cer");
-////                        serverCerStream = new InputStream[]{cerStream};
-////                    } catch (IOException e) {
-////                        e.printStackTrace();
-////                    }
-//                    //读取客户端BKS
-//                    InputStream bksStream = null;
-//                    try {
-//                        bksStream = new Buffer().write(new BASE64Decoder().decodeBuffer(NetworkConfig.CLIENT_BKS)).inputStream();
-////                      bksStream = MainApplication.getApplication().getAssets().open("client.bks");
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
+                    //                    InputStream[] serverCerStream = new InputStream[]{new Buffer().writeUtf8(NetworkConfig.SERVER_CER).inputStream()};
+                    ////                    InputStream cerStream;
+                    ////                    InputStream[] serverCerStream = null;
+                    ////                    //从文件读取服务端证书
+                    ////                    try {
+                    ////                        cerStream = MainApplication.getApplication().getAssets().open("server.cer");
+                    ////                        serverCerStream = new InputStream[]{cerStream};
+                    ////                    } catch (IOException e) {
+                    ////                        e.printStackTrace();
+                    ////                    }
+                    //                    //读取客户端BKS
+                    //                    InputStream bksStream = null;
+                    //                    try {
+                    //                        bksStream = new Buffer().write(new BASE64Decoder().decodeBuffer(NetworkConfig.CLIENT_BKS)).inputStream();
+                    ////                      bksStream = MainApplication.getApplication().getAssets().open("client.bks");
+                    //                    } catch (IOException e) {
+                    //                        e.printStackTrace();
+                    //                    }
 
                     sOkHttpClient = new OkHttpClient.Builder()
-//                            .hostnameVerifier(OkHttpsUtils.getHostnameVerifier(new String[]{"202.100.208.194"}))
-//                            .sslSocketFactory(OkHttpsUtils.getSSLSocketFactory(serverCerStream, bksStream, NetworkConfig.B_PWD))
-//                            .hostnameVerifier(OkHttpsUtils.getAllHostnameVerify())
+                            //                            .hostnameVerifier(OkHttpsUtils.getHostnameVerifier(new String[]{"202.100.208.194"}))
+                            //                            .sslSocketFactory(OkHttpsUtils.getSSLSocketFactory(serverCerStream, bksStream, NetworkConfig.B_PWD))
+                            //                            .hostnameVerifier(OkHttpsUtils.getAllHostnameVerify())
                             .cache(cache)
                             .addNetworkInterceptor(mRewriteCacheControlInterceptor)
                             .addNetworkInterceptor(mLoggingInterceptor)
-//                            .addInterceptor(new ReceivedCookiesInterceptor())
-//                            .addInterceptor(new AddCookiesInterceptor())
-//                            .addInterceptor(new AddSignInterceptor())
+                            //                            .addInterceptor(new ReceivedCookiesInterceptor())
+                            //                            .addInterceptor(new AddCookiesInterceptor())
+                            //                            .addInterceptor(new AddSignInterceptor())
                             .retryOnConnectionFailure(true)
-                            .connectTimeout(10, TimeUnit.SECONDS).build();
+                            .connectTimeout(30, TimeUnit.SECONDS).build();
                 }
             }
         }
@@ -274,6 +294,116 @@ public class RetrofitManager {
     @NonNull
     private String getCacheControl() {
         return NetworkUtils.isConnected() ? CACHE_CONTROL_NETWORK : CACHE_CONTROL_CACHE;
+    }
+
+    /**
+     * 上传
+     */
+    public Observable<Object> uploadFile(String url, List<UploadParam> params) {
+        //      进度Observable
+        UploadOnSubscribe uploadOnSubscribe = new UploadOnSubscribe();
+        Observable progressObservable = Observable.create(uploadOnSubscribe);
+
+        //        组装请求
+        List<MultipartBody.Part> parts = new ArrayList<>(params.size());
+        for (UploadParam param : params) {
+            switch (param.getType()) {
+                //                文本
+                case UploadParam.TYPE_STRING:
+                    MultipartBody.Part formData = MultipartBody.Part.createFormData(param.getName(), param.getValue());
+                    parts.add(formData);
+                    break;
+                //                文件
+                case UploadParam.TYPE_FILE:
+                    if (param.getFile() == null || !param.getFile().exists()) {
+                        break;
+                    }
+                    UploadRequestBody uploadRequestBody = new UploadRequestBody(param.getFile());
+                    //                    设置总长度
+                    uploadOnSubscribe.addSumLength(param.getFile().length());
+                    uploadRequestBody.setUploadOnSubscribe(uploadOnSubscribe);
+                    parts.add(MultipartBody.Part.createFormData(param.getName(), param.getFileName(), uploadRequestBody));
+                    break;
+                default:
+                    break;
+            }
+        }
+        Observable uploadObservable = commonApiService.upload(url, NetworkConfig.C.getAuth(), parts);
+        return Observable.merge(progressObservable, uploadObservable);
+    }
+
+    public Observable<Object> uploadFile(String url, UploadParam... params) {
+        return uploadFile(url, Arrays.asList(params));
+    }
+
+
+    /**
+     * 下载
+     */
+    public Observable<Object> download(String name, String filePath, String callback, String savePath) {
+        Map<String, String> map = new HashMap<>();
+        map.put("fileName", name);
+        map.put("filePath", filePath);
+        String encrypt = AESUtils.encrypt(GsonUtils.toJson(map), "aes-nbcbccms@123");
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("appData",encrypt);
+        hashMap.put("callback",callback);
+
+        Map<String, RequestBody> requestBodyMap = new HashMap<>();
+        for (String key : hashMap.keySet()) {
+            RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"),
+                    hashMap.get(key) == null ? "" : hashMap.get(key));
+            requestBodyMap.put(key, requestBody);
+        }
+        return commonApiService.startDownLoad(NetworkConfig.C.getAuth(),requestBodyMap)
+                .compose(RetrofitManager.handleDownload(savePath, name));
+    }
+
+
+    /**
+     * 下载监听转换
+     */
+    public static ObservableTransformer<ResponseBody, Object> handleDownload(String savePath, String fileName) {
+        if (TextUtils.isEmpty(savePath)) {
+            savePath = getDefaultDownLoadPath();
+        }
+        if (TextUtils.isEmpty(fileName)) {
+            fileName = getDefaultDownLoadFileName(System.currentTimeMillis()+"");
+        }
+        return new DownLoadTransformer(savePath, fileName);
+    }
+
+
+    /**
+     * 获得下载保存默认地址
+     */
+    public static String getDefaultDownLoadPath() {
+        if (checkSDStatus())
+            return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator;
+        return "";
+    }
+
+
+    /**
+     * 从url中，获得默认文件名
+     */
+    public static String getDefaultDownLoadFileName(String url) {
+        if (url == null || url.length() == 0)
+            return "";
+        int nameStart = url.lastIndexOf('/') + 1;
+        return url.substring(nameStart);
+    }
+
+    /**
+     * 检查sd卡状态
+     */
+    public static boolean checkSDStatus() {
+        //判断sd是否可用
+        String sdStatus = Environment.getExternalStorageState();
+        if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) {
+            return false;
+        }
+        return true;
     }
 
 }

@@ -3,6 +3,7 @@ package com.huateng.collection.utils.cases;
 import android.content.Context;
 import android.media.MediaScannerConnection;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.huateng.collection.app.Config;
@@ -10,7 +11,6 @@ import com.huateng.collection.app.Perference;
 import com.huateng.collection.bean.orm.FileData;
 import com.huateng.collection.utils.Utils;
 import com.tools.utils.FileUtils;
-import com.tools.utils.TimeUtils;
 
 import java.io.File;
 import java.util.List;
@@ -41,7 +41,6 @@ public class AttachmentProcesser {
     }
 
     public void initPath() {
-        //"/collections/files/" context.getExternalCacheDir().getPath()
         ATTACHMENT_ROOT = String.format("%s%s", Environment.getExternalStorageDirectory().getPath(), "/collections/files/");
 
         FileUtils.createOrExistsDir(ATTACHMENT_ROOT);
@@ -52,24 +51,38 @@ public class AttachmentProcesser {
     }
 
     public String getZipsDir() {
+        if(TextUtils.isEmpty(ATTACHMENT_ROOT)) {
+            initPath();
+        }
         return String.format("%s/zips/", ATTACHMENT_ROOT);
     }
 
     public String getTempsDir() {
+        if(TextUtils.isEmpty(ATTACHMENT_ROOT)) {
+            initPath();
+        }
         return String.format("%s/temps/", ATTACHMENT_ROOT);
     }
 
     public String getCaseRoot(String processId) {
-        return String.format("%s%s_%s_%s", ATTACHMENT_ROOT, processId, Perference.getUserId(), TimeUtils.getNowTimeString("yyyyMMdd"));
+        if(TextUtils.isEmpty(ATTACHMENT_ROOT)) {
+            initPath();
+        }
+        return String.format("%s%s_%s", ATTACHMENT_ROOT ,Perference.getUserId(), processId);
     }
 
     public String getZipPath(String processId) {
-        return String.format("%s/%s_%s_%s.zip", getZipsDir(), processId, Perference.getUserId(), TimeUtils.getNowTimeString("yyyyMMdd"));
+        return String.format("%s/%s_%s.zip", getZipsDir(), Perference.getUserId(), processId);
     }
 
     //普通录音或选择的音频文件
     public String getVoicePath(String processId) {
-        return String.format("%s/voice/", getCaseRoot(processId));
+        if(TextUtils.isEmpty(ATTACHMENT_ROOT)) {
+            initPath();
+        }
+        String path = String.format("%s/voice/", getCaseRoot(processId));
+        FileUtils.createOrExistsDir(path);
+        return path;
     }
 
     //案件电话录音根目录
@@ -80,13 +93,17 @@ public class AttachmentProcesser {
     //具体案件电话录音目录
     public String getCallRecordPath(String processId, String userName, String caseId) {
         //案件录音文件夹/客户姓名_案件号/生成年月日/
-        return String.format("%s%s_%s/%s/", getCaseCallRecordRootPath(processId), userName, caseId, TimeUtils.getNowTimeString("yyyyMMdd"));
+        return String.format("%s%s_%s/", getCaseCallRecordRootPath(processId), userName, caseId);
     }
 
     //后面带斜杠与dataloder的匹配不上
     public String getPhotoPath(String processId) {
+        if(TextUtils.isEmpty(ATTACHMENT_ROOT)) {
+            initPath();
+        }
         return String.format("%s/image", getCaseRoot(processId));
     }
+
 
     public String getReportPath(String processId) {
         return String.format("%s/report/", getCaseRoot(processId));
@@ -157,15 +174,17 @@ public class AttachmentProcesser {
         }
     }
 
-    /**
-     * 返回一个 由案件号和地址编号组成的id
-     *
-     * @param caseId
-     * @param addrId
-     * @return
-     */
-    public static String getProcessId(String caseId, String addrId) {
-        return String.format("%s_%s", caseId, addrId);
+
+    public String getLocalImagePath(String processId) {
+        return String.format("%s/localImage", getCaseRoot(processId));
+    }
+    //远程录音下载本地保存的文件
+
+    public String getLocalVoicePath(String processId) {
+        if(TextUtils.isEmpty(ATTACHMENT_ROOT)) {
+            initPath();
+        }
+        return String.format("%s/localVoice/", getCaseRoot(processId));
     }
 
 }

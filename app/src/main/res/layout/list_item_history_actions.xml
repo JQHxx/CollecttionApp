@@ -11,51 +11,46 @@
     android:paddingRight="4dp"
     android:paddingTop="16dp">
 
-    <TextView
-        android:id="@+id/tv_actionCode"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
-        android:layout_weight="0.8"
-        android:gravity="center"
-        android:text="行动码"
-        android:textColor="@color/content_text_gray"
-        android:textSize="@dimen/content_text_size" />
-
-    <TextView
-        android:id="@+id/tv_actionName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
-        android:layout_weight="1.2"
-        android:gravity="center"
-        android:text="行动码名称"
-        android:singleLine="true"
-        android:textColor="@color/content_text_gray"
-        android:textSize="@dimen/content_text_size" />
 
     <TextView
         android:id="@+id/tv_actionDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/content_margin_left"
-        android:layout_weight="1.2"
+        android:layout_weight="1"
         android:gravity="center"
         android:text="行动日期"
         android:textColor="@color/content_text_gray"
         android:textSize="@dimen/content_text_size" />
 
 
-    <com.huateng.collection.widget.ShrinkableTextView
-        android:id="@+id/tv_actionNote"
+    <TextView
+        android:id="@+id/tv_actionName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="8dp"
-        android:layout_weight="1.6"
+        android:layout_marginLeft="4dp"
+        android:layout_weight="1"
         android:gravity="center"
+        android:text="清收员"
+        android:singleLine="true"
         android:textColor="@color/content_text_gray"
-        app:etv_MaxLinesOnShrink="1"
-
         android:textSize="@dimen/content_text_size" />
+
+
+
+    <!--  com.huateng.collection.widget.ShrinkableTextView -->
+    <com.huateng.collection.widget.AlwaysMarqueeTextView
+        android:id="@+id/tv_actionNote"
+        android:layout_width="0dp"
+        android:layout_weight="1.5"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:text="测试文本"
+        android:textColor="@color/content_text_gray"
+        android:textSize="@dimen/content_text_size"/>
 
 </LinearLayout>

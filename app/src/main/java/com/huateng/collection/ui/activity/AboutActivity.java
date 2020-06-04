@@ -1,6 +1,7 @@
 package com.huateng.collection.ui.activity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,7 +33,12 @@ public class AboutActivity extends BaseActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-
+        mRxTitle.setLeftOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     /**

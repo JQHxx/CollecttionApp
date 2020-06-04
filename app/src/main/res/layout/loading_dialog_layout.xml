@@ -7,16 +7,22 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <com.huateng.collection.widget.loadingball.BallView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:layout_margin="30dp"
-        app:ball_colors="@array/colors"
-        app:balls="3"
-        app:enable_size_animation="true"
-        app:max_ball_size="12dp"
-        app:min_ball_size="5dp"
-        app:movement_cycle_time="1500"
-        app:size_cycle_time="500" />
+   <LinearLayout
+       android:layout_width="120dp"
+       android:layout_height="120dp"
+       android:gravity="center"
+       android:orientation="vertical"
+       android:background="@drawable/loading_dialog_bg">
+
+       <ProgressBar
+           android:layout_width="60dp"
+           android:layout_height="60dp"
+           android:indeterminateDrawable="@drawable/progress_bar_bg"/>
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginTop="8dp"
+           android:text="  加载中..."/>
+   </LinearLayout>
 </LinearLayout>

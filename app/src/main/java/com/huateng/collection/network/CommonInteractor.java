@@ -2,10 +2,11 @@ package com.huateng.collection.network;
 
 import android.util.Log;
 
-import com.huateng.collection.bean.api.RespBase;
+import com.aes_util.AESUtils;
 import com.huateng.network.ApiConstants;
 import com.huateng.network.NetworkConfig;
 import com.huateng.network.RetrofitManager;
+import com.huateng.network.bean.ResponseDataBean;
 import com.huateng.network.bean.ResponseStructure;
 import com.huateng.network.cache.CacheManager;
 import com.huateng.network.callback.RequestCallback;
@@ -15,6 +16,7 @@ import com.orhanobut.logger.Logger;
 import com.tools.utils.GsonUtils;
 import com.tools.utils.NetworkUtils;
 import com.tools.utils.StringUtils;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -69,7 +71,7 @@ import io.reactivex.schedulers.Schedulers;
 public class CommonInteractor {
 
     public static void request(final RequestCallback callback, final String root, final String method, final Object object) {
-         RetrofitManager.getInstance()
+        RetrofitManager.getInstance()
                 .request(root, method, object).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Consumer<Disposable>() {
@@ -126,12 +128,29 @@ public class CommonInteractor {
 
                     @Override
                     public void onNext(ResponseStructure structure) {
+                        String code = structure.getScubeHeader().getErrorCode();
 
-                        ResponseStructure.ScubeBodyBean.ContextDataBean dataBean = structure.getScubeBody().getContextData();
+                        if (ApiConstants.ERROR_CODE_SUC.equals(code)) {
+                            String respData = structure.getScubeBody().getContextData().getData();
+                            if ("{}".equals(respData)) {
+                                callback.requestSuccess("");
+                            } else {
+                                ResponseDataBean responseDataBean = GsonUtils.fromJson(respData, ResponseDataBean.class);
+                                String decrypt = AESUtils.decrypt(responseDataBean.getValue(), "aes-nbcbccms@123");
+                                callback.requestSuccess(decrypt);
+                            }
+
+                        }else {
+
+                            callback.requestError(code, structure.getScubeHeader().getErrorMsg());
+                        }
+
+                     /*   ResponseStructure.ScubeBodyBean.ContextDataBean dataBean = structure.getScubeBody().getContextData();
                         String data = null;
 
                         if (null != dataBean) {
-                            data = structure.getScubeBody().getContextData().getData();
+                            ResponseStructure.DataBean respData = structure.getScubeBody().getContextData().getData();
+                            data = AESUtils.decrypt(respData.getKey(), "aes-nbcbccms@123");
                         }
 
                         if (StringUtils.isNotEmpty(data)) {
@@ -141,7 +160,7 @@ public class CommonInteractor {
                             } else if (ApiConstants.RESULT_CODE_EXP.equals(respBase.getResultCode())) {
                                 callback.requestError(respBase.getResultCode(), respBase.getResultDesc());
                             }
-                        }
+                        }*/
                     }
 
 
@@ -179,16 +198,16 @@ public class CommonInteractor {
 
 
     public static void requestEntrys(final RequestCallback callback, final String root, final String method, final Object object) {
-        Log.e("nb","开始网络请求");
-         RetrofitManager.getInstance()
+        Log.e("nb", "开始网络请求");
+        RetrofitManager.getInstance()
                 .request(root, method, object)
-                 .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
                         // 订阅之前回调回去显示加载动画
-                        Log.e("nb","accept accept accept");
+                        Log.e("nb", "accept accept accept");
                         callback.beforeRequest();
                     }
                 })// 订阅之前操作在主线程
@@ -206,7 +225,7 @@ public class CommonInteractor {
 
                     @Override
                     public void onComplete() {
-                        Log.e("nb","onComplete onComplete onComplete");
+                        Log.e("nb", "onComplete onComplete onComplete");
                         callback.requestComplete();
                     }
 
@@ -240,24 +259,41 @@ public class CommonInteractor {
 
                     @Override
                     public void onNext(ResponseStructure structure) {
+                        String code = structure.getScubeHeader().getErrorCode();
 
-                        Log.e("nb","onNext onNext onNext");
+                        if (ApiConstants.ERROR_CODE_SUC.equals(code)) {
+                            String respData = structure.getScubeBody().getContextData().getData();
+                            if ("{}".equals(respData)) {
+                                callback.requestSuccess("");
+                            } else {
+                                ResponseDataBean responseDataBean = GsonUtils.fromJson(respData, ResponseDataBean.class);
+                                String decrypt = AESUtils.decrypt(responseDataBean.getValue(), "aes-nbcbccms@123");
+                                callback.requestSuccess(decrypt);
+                            }
+
+                        }else {
+
+                            callback.requestError(code, structure.getScubeHeader().getErrorMsg());
+                        }
+
+                       /* Log.e("nb", "onNext onNext onNext");
                         if (structure.getScubeHeader() != null) {
                             String code = structure.getScubeHeader().getErrorCode();
                             if (code.equals(ApiConstants.ERROR_CODE_SUC)) {
-                                String data = structure.getScubeBody().getContextData().getData();
+                              ResponseStructure.DataBean respData = structure.getScubeBody().getContextData().getData();
+                                String data = AESUtils.decrypt(respData.getKey(), "aes-nbcbccms@123");
                                 callback.requestSuccess(data);
                             } else {
                                 callback.requestError(code, structure.getScubeHeader().getErrorMsg());
                             }
-                        }
+                        }*/
                     }
 
 
                     @Override
                     public void onError(ExceptionHandle.ResponeThrowable responeThrowable) {
 
-                        Log.e("nb","onError onError onError");
+                        Log.e("nb", "onError onError onError");
                         //接下来就可以根据状态码进行处理...
                         int statusCode = responeThrowable.code;
                         String errorMessage = responeThrowable.message;
@@ -290,9 +326,9 @@ public class CommonInteractor {
 
 
     public static void loginRequest(final RequestCallback callback, final Object object) {
-         RetrofitManager.getInstance()
+        RetrofitManager.getInstance()
                 .loginRequest(object)
-                 .subscribeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Consumer<Disposable>() {
                     @Override
@@ -360,16 +396,40 @@ public class CommonInteractor {
 
                                @Override
                                public void onNext(ResponseStructure structure) {
+
                                    if (structure.getScubeHeader() != null) {
-                                       String data = structure.getScubeBody().getContextData().getData();
                                        String code = structure.getScubeHeader().getErrorCode();
 
                                        if (ApiConstants.ERROR_CODE_SUC.equals(code)) {
-                                           callback.requestSuccess(data);
-                                       } else {
+                                           String respData = structure.getScubeBody().getContextData().getData();
+                                           if ("{}".equals(respData)) {
+                                               callback.requestSuccess("");
+                                           } else {
+                                               ResponseDataBean responseDataBean = GsonUtils.fromJson(respData, ResponseDataBean.class);
+                                               String decrypt = AESUtils.decrypt(responseDataBean.getValue(), "aes-nbcbccms@123");
+                                               callback.requestSuccess(decrypt);
+                                           }
+
+                                       }else {
+
                                            callback.requestError(code, structure.getScubeHeader().getErrorMsg());
                                        }
                                    }
+
+                                 /*  if (structure.getScubeHeader() != null) {
+                                       String respData = structure.getScubeBody().getContextData().getData();
+                                       String code = structure.getScubeHeader().getErrorCode();
+
+                                       ResponseDataBean responseDataBean = GsonUtils.fromJson(respData, ResponseDataBean.class);
+                                       String decrypt = AESUtils.decrypt(responseDataBean.getKey(), "aes-nbcbccms@123");
+
+
+                                       if (ApiConstants.ERROR_CODE_SUC.equals(code)) {
+                                           callback.requestSuccess(decrypt);
+                                       } else {
+                                           callback.requestError(code, structure.getScubeHeader().getErrorMsg());
+                                       }
+                                   }*/
 
                                }
 

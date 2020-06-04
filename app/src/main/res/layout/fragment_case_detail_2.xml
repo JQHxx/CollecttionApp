@@ -4,50 +4,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/page_gray_bg">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:orientation="vertical"
+        android:background="@drawable/iv_head_bg">
+
+        <com.tools.view.RxTitle
+            android:id="@+id/rx_title"
+            style="@style/CommontRxToolBarStyle"
+            app:rxRightIconVisibility="false"
+            android:background="@color/transparent"
+            app:rxTitle="案件详情"
+            app:rxTitleVisibility="true" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/container_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
+        android:layout_marginTop="80dp"
         android:orientation="vertical">
-
-        <com.tools.view.RxTitle xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/rx_title"
-            style="@style/CommontRxToolBarStyle"
-            app:rxRightIconVisibility="false"
-            app:rxTitle="案件详情"
-            app:rxTitleVisibility="true" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:paddingBottom="4dp"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp"
-            android:paddingTop="4dp">
-
-            <com.flyco.tablayout.SegmentTabLayout
-                android:id="@+id/tl_detailInfo"
-                android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:layout_gravity="center_horizontal"
-                tl:tl_bar_color="#ffffff"
-                tl:tl_indicator_color="@color/accent_color"
-                tl:tl_indicator_corner_radius="8dp" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray_diliver" />
 
         <com.huateng.collection.widget.NoScrollViewPager
             android:id="@+id/fl_container"
             android:layout_width="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:layout_height="0dp"
             android:layout_weight="1" />
+
 
         <com.flyco.tablayout.CommonTabLayout
             android:id="@+id/tl_caseFill"
@@ -56,11 +43,11 @@
             android:background="#ffffff"
             android:paddingBottom="2dp"
             android:paddingTop="2dp"
+            tl:tl_iconWidth = "22dp"
+            tl:tl_iconHeight= "22dp"
             tl:tl_indicator_height="0dp"
             tl:tl_textSelectColor="@color/accent_color"
-            tl:tl_textUnselectColor="@color/accent_color" />
-
-
+            tl:tl_textUnselectColor="@color/gray_textcolor" />
     </LinearLayout>
     <ImageView
         android:id="@+id/iv_load_more"
@@ -68,6 +55,6 @@
         android:layout_height="60dp"
         android:src="@drawable/ic_down"
         android:layout_gravity="bottom|right"
-        android:layout_marginBottom="50dp"
-        android:layout_marginRight="50dp"/>
+        android:layout_marginBottom="80dp"
+        android:layout_marginRight="40dp"/>
 </FrameLayout>

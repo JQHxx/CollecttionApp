@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.util.Log;
 
 import com.tencent.lbssearch.object.Location;
 import com.tencent.mapsdk.raster.model.LatLng;
@@ -110,7 +111,6 @@ public class MapUtil {
      * 检测地图应用是否安装
      *
      * @param context
-     * @param packagename
      * @return
      */
     public static boolean checkMapAppsIsExist(Context context, String packageName) {
@@ -128,6 +128,7 @@ public class MapUtil {
         if (packageInfoList != null) {
             for (int i = 0; i < packageInfoList.size(); i++) {
                 String package_name = packageInfoList.get(i).packageName;
+                Log.e("nb",package_name);
                 if (package_name.equals(packageName)) {
                     return true;
                 }
@@ -187,7 +188,7 @@ public class MapUtil {
      * @param dname   终点名称 必填
      */
     public static void openGaoDeNavi(Context context, double slat, double slon, String sname, double dlat, double dlon, String dname) {
-        if (checkMapAppsIsExist(context, PN_BAIDU_MAP)) {
+        if (checkMapAppsIsExist(context, PN_GAODE_MAP)) {
             String uriString = null;
             StringBuilder builder = new StringBuilder("amapuri://route/plan?sourceApplication=maxuslife");
             if (slat != 0) {

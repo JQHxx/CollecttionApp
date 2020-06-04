@@ -1,52 +1,55 @@
 package com.huateng.collection.ui.fragment.casebox.info;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.AdapterView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.flyco.dialog.listener.OnOperItemClickL;
+import com.flyco.dialog.widget.ActionSheetDialog;
 import com.huateng.collection.R;
 import com.huateng.collection.app.Constants;
 import com.huateng.collection.app.Perference;
 import com.huateng.collection.base.BaseFragment;
 import com.huateng.collection.base.BasePresenter;
-import com.huateng.collection.bean.api.RespPhone;
-import com.huateng.collection.network.CommonInteractor;
-import com.huateng.collection.network.RequestCallbackImpl;
+import com.huateng.collection.bean.CustTelInfoBean;
 import com.huateng.collection.ui.adapter.ContactsPhoneAdapter;
-import com.huateng.collection.ui.dialog.DialogCenter;
-import com.huateng.collection.ui.dialog.dm.AddPhoneDM;
-import com.huateng.collection.ui.dialog.dm.BaseDM;
-import com.huateng.collection.utils.cases.CaseManager;
-import com.huateng.collection.widget.DividerItemDecoration;
 import com.huateng.network.ApiConstants;
-import com.orm.SugarRecord;
+import com.huateng.network.BaseObserver2;
+import com.huateng.network.RetrofitManager;
 import com.tools.view.RxToast;
 import com.trello.rxlifecycle3.LifecycleTransformer;
 
-import org.apache.poi.ss.formula.functions.T;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 添加电话
  */
 public class FragmentContactsBook extends BaseFragment {
-
+    private String[] stringItems = {"拨号"};
+    private ActionSheetDialog dialog;
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout mSwipeRefresh;
+    private String custId;
+    private String caseId;
+    private int pageSize = 15;
+    private int pageNum = 1;
     @BindView(R.id.recycle_contacts_phone)
     RecyclerView recyclerView;
-    @BindView(R.id.v_addPhone)
-    View vAddPhone;
 
     private ContactsPhoneAdapter adapter;
-    private List<RespPhone> phones;
-    private AddPhoneDM dm;
+   // private AddPhoneDM dm;
 
     @Override
     protected BasePresenter createPresenter() {
@@ -72,17 +75,49 @@ public class FragmentContactsBook extends BaseFragment {
     @Override
     protected void initView(Bundle savedInstanceState) {
 
-        phones = (List<RespPhone>) getArguments().getSerializable(Constants.CASE_CONTACT_BOOK);
-
-        adapter = new ContactsPhoneAdapter(R.layout.list_item_contacts_phone, phones);
+        adapter = new ContactsPhoneAdapter(R.layout.list_item_contacts_phone);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+      //  recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapter);
-
-        vAddPhone.setOnClickListener(new View.OnClickListener() {
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public void onClick(View v) {
-                addPhone();
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                if(view.getId() == R.id.rl_call) {
+                    CustTelInfoBean.RecordsBean bean = (CustTelInfoBean.RecordsBean) adapter.getData().get(position);
+                    if(TextUtils.isEmpty(bean.getContactPnhone())) {
+                        RxToast.showToast("手机号码不能未空");
+                        return;
+                    }
+                    //bean.getContactPnhone()
+                    String tiltle = String.format("拨打%s电话\r\n%s", bean.getName(),"13082961783" );
+                    dialog = new ActionSheetDialog(mContext, stringItems, null);
+                    dialog.title(tiltle)
+                            .titleTextSize_SP(14.5f)
+                            .show();
+
+                    dialog.setOnOperItemClickL(new OnOperItemClickL() {
+                        @Override
+                        public void onOperItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            String phoneNumber = bean.getContactPnhone();
+
+                            Perference.setPrepareCallRecording(true);
+                            Perference.setPrepareRecordingPhoneNumber(phoneNumber);
+
+                            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber));
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            mContext.startActivity(intent);
+
+                            dialog.dismiss();
+                        }
+                    });
+                }
+            }
+        });
+
+        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
             }
         });
     }
@@ -92,25 +127,58 @@ public class FragmentContactsBook extends BaseFragment {
      */
     @Override
     protected void initData() {
-        List<RespPhone> list = new ArrayList<>();
-        for (int i=0;i<5;i++){
-          RespPhone respPhone = new RespPhone();
-          respPhone.setName("张三"+i);
-          respPhone.setTelNo("130000000"+i);
-          respPhone.setBizId("id "+i);
-          respPhone.setCaseId("id "+i);
-          respPhone.setTelId("tel"+i);
-          respPhone.setTelType("个人");
-            list.add(respPhone);
-        }
-        adapter.setNewData(list);
+        custId = getArguments().getString(Constants.CUST_ID);
+        caseId = getArguments().getString(Constants.CASE_ID);
+        loadData();
+
+    }
+
+    private void loadData() {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("caseId", caseId);
+        map.put("custNo", custId);
+        map.put("tlrNo", Perference.getUserId());
+        map.put("pageNo", String.valueOf(pageNum));
+        map.put("pageSize", String.valueOf(pageSize));
+        RetrofitManager.getInstance()
+                .request(ApiConstants.MOBILE_APP_INTERFACE, ApiConstants.SELECT_CUST_TEL_INFO, map)
+                .compose(getRxlifecycle())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver2<CustTelInfoBean>() {
+
+
+                    @Override
+                    public void onError(String code, String msg) {
+
+                        mSwipeRefresh.setRefreshing(false);
+                        adapter.setEmptyView(R.layout.layout_empty_view, recyclerView);
+                    }
+
+                    @Override
+                    public void onNextData(CustTelInfoBean custTelInfoBean) {
+                        if (custTelInfoBean == null) {
+                            return;
+                        }
+                        mSwipeRefresh.setRefreshing(false);
+                        if (custTelInfoBean.getRecords().size() == 0) {
+                            adapter.setEmptyView(R.layout.layout_empty_view, recyclerView);
+                            return;
+                        }
+
+                        adapter.setNewData(custTelInfoBean.getRecords());
+                    }
+
+
+                });
+
 
     }
 
 
-
     //添加电话
-    public void addPhone() {
+  /*  public void addPhone() {
         dm = new DialogCenter(getActivity()).showAddPhoneDialog();
         dm.setCaseNo(Perference.getCurrentCaseId());
         dm.setCustNo(Perference.getCurrentCustId());
@@ -181,10 +249,10 @@ public class FragmentContactsBook extends BaseFragment {
             }
         });
     }
-
+*/
 
     @Override
-    public LifecycleTransformer<T> getRxlifecycle() {
+    public <T> LifecycleTransformer<T> getRxlifecycle() {
         return bindToLifecycle();
     }
 }

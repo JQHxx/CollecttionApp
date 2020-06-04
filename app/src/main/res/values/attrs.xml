@@ -150,14 +150,14 @@
     </declare-styleable>
 
     <declare-styleable name="GradientIconView">
-        <attr name="top_icon" />
-        <attr name="bottom_icon" />
+        <attr name="top_icon" format="integer"/>
+        <attr name="bottom_icon" format="integer"/>
     </declare-styleable>
 
     <declare-styleable name="GradientTextView">
     <attr name="text" />
-    <attr name="text_size" />
-    <attr name="top_text_color" />
-    <attr name="bottom_text_color" />
+    <attr name="text_size" format="dimension"/>
+    <attr name="top_text_color" format="color"/>
+    <attr name="bottom_text_color" format="color"/>
     </declare-styleable>
 </resources>

@@ -1,19 +1,19 @@
 package com.huateng.collection.ui.navigation;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.flyco.systembar.SystemBarHelper;
 import com.huateng.collection.R;
 import com.huateng.collection.app.Config;
 import com.huateng.collection.app.Perference;
 import com.huateng.collection.base.BaseFragment;
-import com.huateng.collection.service.LocationService;
 import com.huateng.collection.ui.home.view.HomeFragment;
 import com.huateng.collection.utils.cases.AttachmentProcesser;
-import com.huateng.collection.widget.Watermark;
 import com.huateng.collection.widget.gradientuilibrary.GradientIconView;
 import com.huateng.collection.widget.gradientuilibrary.GradientTextView;
 
@@ -40,8 +40,13 @@ public class NavigationActivity extends AppCompatActivity implements ViewPager.O
     GradientTextView mIdAboutMineTv;
     @BindView(R.id.ll_tab_mine)
     LinearLayout mLlTabMine;
+    @BindView(R.id.id_iconfont_faxian)
+    GradientIconView mIdIconfontFaxian;
+    @BindView(R.id.id_discover_tv)
+    GradientTextView mIdDiscoverTv;
+    @BindView(R.id.ll_tab_customer)
+    LinearLayout mLlTabCustomer;
     private FragmentPagerAdapter mAdapter;
-   // private EventEnv eventEnv;
     private List<GradientIconView> mTabIconIndicator = new ArrayList<GradientIconView>();
     private List<GradientTextView> mTabTextIndicator = new ArrayList<GradientTextView>();
     private List<Fragment> mTabs = new ArrayList<Fragment>();
@@ -53,12 +58,6 @@ public class NavigationActivity extends AppCompatActivity implements ViewPager.O
     GradientTextView mIdChatsTv;
     @BindView(R.id.ll_tab_main)
     LinearLayout mLlTabMain;
-    @BindView(R.id.id_iconfont_faxian)
-    GradientIconView mIdIconfontFaxian;
-    @BindView(R.id.id_discover_tv)
-    GradientTextView mIdDiscoverTv;
-    @BindView(R.id.ll_tab_customer)
-    LinearLayout mLlTabCustomer;
     @BindView(R.id.id_iconfont_me)
     GradientIconView mIdIconfontMe;
     @BindView(R.id.id_about_me_tv)
@@ -69,10 +68,13 @@ public class NavigationActivity extends AppCompatActivity implements ViewPager.O
     LinearLayout mLlBottomMenu;
     @BindView(R.id.drawerlayout)
     LinearLayout mDrawerlayout;
+    private long TOUCH_TIME = 0;
+    private static final long WAIT_TIME = 2000L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.e("nb", "onCreate");
         setContentView(R.layout.activity_navigation);
         ButterKnife.bind(this);
         SystemBarHelper.immersiveStatusBar(this, 0.5f);
@@ -80,26 +82,29 @@ public class NavigationActivity extends AppCompatActivity implements ViewPager.O
         initView();
         initData();
 
+
     }
 
     private void initView() {
 
-        Watermark.getInstance()
+       /* Watermark.getInstance()
                 .setTextColor(getResources().getColor(R.color.dialogplus_card_shadow))
                 .setTextSize(12.0f)
                 .setText("测试文本")
-                .show(this);
+                .show(this);*/
+
+
     }
 
+
     private void initData() {
+
         //重置案件详情里设置的全局信息
-        Perference.setCurrentCaseId(null);
-        Perference.setCurrentVisitAddressId(null);
-        Perference.setCurrentVisitAddress(null);
+        // Perference.setCurrentCaseId(null);
         Perference.setPrepareCallRecording(false);
         Perference.setPrepareRecordingPhoneNumber(null);
         //切换
-       // eventEnv = new EventEnv(BusEvent.START_SETTING_PAGE);
+        // eventEnv = new EventEnv(BusEvent.START_SETTING_PAGE);
 
         //创建案件文件目录
         AttachmentProcesser.getInstance(getApplicationContext()).initPath();
@@ -109,7 +114,7 @@ public class NavigationActivity extends AppCompatActivity implements ViewPager.O
         //加载图片数据
         //        dataSource = new ImageDataSource(ActivityMain.this, AttachmentProcesser.ATTACHMENT_ROOT, ActivityMain.this);
         //开启定位信息
-        startService(new Intent(this, LocationService.class));
+        //  startService(new Intent(this, LocationService.class));
 
         //通话监听
         /*Intent intent = new Intent(this, PhoneListenerService.class);
@@ -137,12 +142,13 @@ public class NavigationActivity extends AppCompatActivity implements ViewPager.O
     }
 
     private void initFragments() {
+        Log.e("nb", "initFragments");
         //待处理案件
         mTabs.add(BaseFragment.newInstance(HomeFragment.class));
         //已处理案件
-        mTabs.add(BaseFragment.newInstance(FragmentDoneCaseChooser.class));
+         mTabs.add(BaseFragment.newInstance(StatisticsFragment.class));
         //回访轨迹
-        mTabs.add(BaseFragment.newInstance(FragmentMap.class));
+        mTabs.add(BaseFragment.newInstance(FragmentMap2.class));
         //我的
         mTabs.add(BaseFragment.newInstance(MineFragment.class));
         checkTab(0);
@@ -167,12 +173,12 @@ public class NavigationActivity extends AppCompatActivity implements ViewPager.O
 
 
         mTabIconIndicator.add(mIdIconfontChat);
-        mTabIconIndicator.add(mIdIconfontFaxian);
+         mTabIconIndicator.add(mIdIconfontFaxian);
         mTabIconIndicator.add(mIdIconfontMe);
         mTabIconIndicator.add(mIdIconfontMine);
 
         mTabTextIndicator.add(mIdChatsTv);
-        mTabTextIndicator.add(mIdDiscoverTv);
+         mTabTextIndicator.add(mIdDiscoverTv);
         mTabTextIndicator.add(mIdAboutMeTv);
         mTabTextIndicator.add(mIdAboutMineTv);
 
@@ -223,11 +229,14 @@ public class NavigationActivity extends AppCompatActivity implements ViewPager.O
             mTabTextIndicator.get(i).setTextViewAlpha(0);
         }
         mLlTabMain.getBackground().setLevel(5);
-        mLlTabCustomer.getBackground().setLevel(5);
+        // mLlTabCustomer.getBackground().setLevel(5);
         mLlTabMore.getBackground().setLevel(5);
+
+        mLlTabMine.getBackground().setLevel(5);
     }
 
-    @OnClick({R.id.ll_tab_main, R.id.ll_tab_customer, R.id.ll_tab_more,R.id.ll_tab_mine})
+    //R.id.id_iconfont_faxian,
+    @OnClick({R.id.ll_tab_main, R.id.ll_tab_customer,R.id.ll_tab_more, R.id.ll_tab_mine})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_tab_main:
@@ -237,6 +246,7 @@ public class NavigationActivity extends AppCompatActivity implements ViewPager.O
                 mViewPager.setCurrentItem(0, false);
                 checkTab(0);
                 break;
+
             case R.id.ll_tab_customer:
                 resetTabs();
                 mTabIconIndicator.get(1).setIconAlpha(1.0f);
@@ -262,6 +272,17 @@ public class NavigationActivity extends AppCompatActivity implements ViewPager.O
 
 
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (System.currentTimeMillis() - TOUCH_TIME < WAIT_TIME) {
+            finish();
+        } else {
+            TOUCH_TIME = System.currentTimeMillis();
+            Toast.makeText(NavigationActivity.this, "再按一次退出", Toast.LENGTH_SHORT).show();
+        }
+        return true;
     }
 
 }

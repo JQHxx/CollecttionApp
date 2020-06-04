@@ -216,4 +216,9 @@ public final class RegexUtils {
         if (input == null) return "";
         return Pattern.compile(regex).matcher(input).replaceAll(replacement);
     }
+
+
+    public static boolean isFloat(String s){
+        return isMatch(RegexConstants.REGEX_POSITIVE_FLOAT,s);
+    }
 }

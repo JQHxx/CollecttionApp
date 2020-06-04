@@ -13,7 +13,6 @@ import com.huateng.network.ApiConstants;
 import com.huateng.network.NetworkConfig;
 import com.huateng.network.R;
 import com.huateng.network.RetrofitManager;
-import com.huateng.network.upload.RetrofitUtil;
 import com.orhanobut.logger.Logger;
 import com.tools.CommonUtils;
 import com.tools.utils.RegexUtils;
@@ -139,7 +138,7 @@ public class ActivityApiSetting extends AppCompatActivity {
                 }
                 NetworkConfig.C.setApiMode(app_mode);
                 RetrofitManager.clearInstance();
-                RetrofitUtil.clearInstance();
+              //  RetrofitUtil.clearInstance();
                 RxToast.showToast("保存成功");
             }
         });

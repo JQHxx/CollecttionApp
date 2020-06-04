@@ -68,4 +68,16 @@ public class RespLog implements Serializable {
     public void setActRemark(String actRemark) {
         this.actRemark = actRemark;
     }
+
+    @Override
+    public String toString() {
+        return "RespLog{" +
+                "actCode='" + actCode + '\'' +
+                ", actDate='" + actDate + '\'' +
+                ", actName='" + actName + '\'' +
+                ", actRemark='" + actRemark + '\'' +
+                ", caseId='" + caseId + '\'' +
+                ", bizId='" + bizId + '\'' +
+                '}';
+    }
 }

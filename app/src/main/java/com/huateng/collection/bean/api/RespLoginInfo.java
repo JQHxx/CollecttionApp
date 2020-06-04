@@ -15,6 +15,15 @@ public class RespLoginInfo extends RespBase {
 
     private SsouserBean ssouser;
     private String userId;
+    private boolean outsourceFlag;//true 委外 false 行员
+
+    public boolean isOutsourceFlag() {
+        return outsourceFlag;
+    }
+
+    public void setOutsourceFlag(boolean outsourceFlag) {
+        this.outsourceFlag = outsourceFlag;
+    }
 
     public SsouserBean getSsouser() {
         return ssouser;
@@ -42,6 +51,9 @@ public class RespLoginInfo extends RespBase {
         private String token;
         private String userId;
         private String userName;
+        private String orgId;
+        private String rootOrgId;
+
 
         public String getToken() {
             return token;
@@ -66,5 +78,41 @@ public class RespLoginInfo extends RespBase {
         public void setUserName(String userName) {
             this.userName = userName;
         }
+
+        public String getOrgId() {
+            return orgId;
+        }
+
+        public void setOrgId(String orgId) {
+            this.orgId = orgId;
+        }
+
+        public String getRootOrgId() {
+            return rootOrgId;
+        }
+
+        public void setRootOrgId(String rootOrgId) {
+            this.rootOrgId = rootOrgId;
+        }
+
+        @Override
+        public String toString() {
+            return "SsouserBean{" +
+                    "token='" + token + '\'' +
+                    ", userId='" + userId + '\'' +
+                    ", userName='" + userName + '\'' +
+                    ", orgId='" + orgId + '\'' +
+                    ", rootOrgId='" + rootOrgId + '\'' +
+                    '}';
+        }
+    }
+
+
+    @Override
+    public String toString() {
+        return "RespLoginInfo{" +
+                "ssouser=" + ssouser +
+                ", userId='" + userId + '\'' +
+                '}';
     }
 }

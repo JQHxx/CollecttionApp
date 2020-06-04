@@ -17,7 +17,7 @@
             android:layout_alignParentBottom="true"
             android:background="#F2F4F3"
             android:orientation="vertical"
-            android:paddingBottom="12dp"
+            android:paddingBottom="15dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
 
@@ -51,6 +51,7 @@
                 android:background="#DFDFDF" />
 
             <LinearLayout
+                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
@@ -60,14 +61,15 @@
                 <LinearLayout
                     android:gravity="center"
                     android:id="@+id/layout_maptencent"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/ic_map_tencent" />
+                        android:src="@drawable/tencent_map" />
 
                     <TextView
                         style="@style/CommonItemText"
@@ -80,14 +82,15 @@
                     android:gravity="center"
                     android:layout_marginLeft="20dp"
                     android:id="@+id/layout_mapbaidu"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/ic_map_tencent" />
+                        android:src="@drawable/baidu_map" />
 
                     <TextView
                         style="@style/CommonItemText"
@@ -101,14 +104,15 @@
                     android:gravity="center"
                     android:layout_marginLeft="20dp"
                     android:id="@+id/layout_mapgaode"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/ic_map_tencent" />
+                        android:src="@drawable/gaode_map" />
 
                     <TextView
                         style="@style/CommonItemText"

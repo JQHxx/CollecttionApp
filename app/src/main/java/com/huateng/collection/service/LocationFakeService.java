@@ -83,7 +83,7 @@ public final class LocationFakeService extends Service {
 
         //在创建的通知渠道上发送通知
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID);
-        builder.setSmallIcon(R.drawable.ic_launcher) //设置通知图标
+        builder.setSmallIcon(R.mipmap.ic_launcher) //设置通知图标
                 .setContentText("正在记录外访位置信息")//设置通知内容
                 .setAutoCancel(true) //用户触摸时，自动关闭
                 .setOngoing(true);//设置处于运行状态

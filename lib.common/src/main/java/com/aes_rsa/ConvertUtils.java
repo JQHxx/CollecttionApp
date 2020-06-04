@@ -122,13 +122,13 @@ public abstract class ConvertUtils {
             return null;
         byte output[] = new byte[input.length() / 2];
         for(int i = 0; i < output.length; i++)
-            output[i] = (byte)Integer.parseInt(input.substring(i * 2, (i + 1) * 2), 16);
+            output[i] = (byte) Integer.parseInt(input.substring(i * 2, (i + 1) * 2), 16);
 
         return output;
     }
 
     public static String stringToHexString(String input, String encoding)
-        throws UnsupportedEncodingException{
+        throws UnsupportedEncodingException {
         return input != null ? toHex(input.getBytes(encoding)) : null;
     }
 
@@ -141,7 +141,7 @@ public abstract class ConvertUtils {
     }
 
     public static String hexStringToString(String input, String encoding)
-        throws UnsupportedEncodingException{
+        throws UnsupportedEncodingException {
         return input != null ? new String(fromHex(input), encoding) : null;
     }
 
@@ -293,9 +293,9 @@ public abstract class ConvertUtils {
     public static double roundNumber(double rowNumber, int roundingPoint)
     {
         double base = Math.pow(10D, roundingPoint);
-        return (double)Math.round(rowNumber * base) / base;
+        return (double) Math.round(rowNumber * base) / base;
     }
-    public static Object getObject(String type,String value) throws Exception{
+    public static Object getObject(String type, String value) throws Exception {
 
     	type=type.toLowerCase();
     	if("boolean".equals(type))

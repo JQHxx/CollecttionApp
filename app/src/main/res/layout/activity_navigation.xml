@@ -36,6 +36,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/tabmenu_bkg"
+                android:baselineAligned="false"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:padding="5dp">
@@ -51,10 +52,10 @@
                     android:id="@+id/id_chats_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:bottom_text_color="#343434"
-                    app:text="待处理"
+                    app:bottom_text_color="@color/text_color_969696"
+                    app:text="案件列表"
                     app:text_size="12sp"
-                    app:top_text_color="@color/accent_color" />
+                    app:top_text_color="@color/text_color_ff8701" />
 
             </LinearLayout>
 
@@ -79,10 +80,10 @@
                     android:id="@+id/id_discover_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:bottom_text_color="#343434"
-                    app:text="已处理"
+                    app:bottom_text_color="@color/text_color_666666"
+                    app:text="外访统计"
                     app:text_size="12sp"
-                    app:top_text_color="@color/accent_color" />
+                    app:top_text_color="@color/text_color_ff8701" />
 
             </LinearLayout>
 
@@ -107,10 +108,10 @@
                     android:id="@+id/id_about_me_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:bottom_text_color="#343434"
-                    app:text="清收轨迹"
+                    app:bottom_text_color="@color/text_color_969696"
+                    app:text="案件分布"
                     app:text_size="12sp"
-                    app:top_text_color="@color/accent_color" />
+                    app:top_text_color="@color/text_color_ff8701" />
 
             </LinearLayout>
 
@@ -128,17 +129,17 @@
                     android:id="@+id/id_iconfont_mine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:bottom_icon="@drawable/icon_tab_more_normal"
-                    app:top_icon="@drawable/icon_tab_more" />
+                    app:bottom_icon="@drawable/icon_tab_mine_normal"
+                    app:top_icon="@drawable/icon_tab_mine" />
 
                 <com.huateng.collection.widget.gradientuilibrary.GradientTextView
                     android:id="@+id/id_about_mine_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:bottom_text_color="#343434"
-                    app:text="我的"
+                    app:bottom_text_color="@color/text_color_969696"
+                    app:text="设置"
                     app:text_size="12sp"
-                    app:top_text_color="@color/accent_color" />
+                    app:top_text_color="@color/text_color_ff8701" />
 
             </LinearLayout>
 

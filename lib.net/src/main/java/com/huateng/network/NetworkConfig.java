@@ -125,8 +125,7 @@ public final class NetworkConfig {
 
     //根据mode 获取BaseUrl
     public String getBaseURL() {
-        String apiMode = getApiMode();
-
+       /* String apiMode = getApiMode();
         String baseUrl = ApiConstants.RELEASE_BASE_URL;
         if (apiMode.equals(ApiConstants.API_MODE_DEVELOP)) {
             baseUrl = ApiConstants.DEVELOP_BASE_URL;
@@ -134,9 +133,9 @@ public final class NetworkConfig {
             baseUrl = ApiConstants.RELEASE_BASE_URL;
         } else if (apiMode.equals(ApiConstants.API_MODE_CUSTOM)) {
             baseUrl = getCustomURL();
-        }
+        }*/
 
-        return baseUrl;
+        return ApiConstants.DEVELOP_BASE_URL;
     }
 
     public Context getCtx() {

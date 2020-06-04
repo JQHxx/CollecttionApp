@@ -1,65 +1,90 @@
 package com.huateng.collection.ui.fragment.casebox.info;
 
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.widget.TextView;
 
 import com.huateng.collection.R;
 import com.huateng.collection.app.Constants;
+import com.huateng.collection.app.Perference;
 import com.huateng.collection.base.BaseFragment;
 import com.huateng.collection.base.BasePresenter;
-import com.huateng.collection.bean.ProductMsgBean;
-import com.huateng.collection.bean.RepaymentBean;
-import com.huateng.collection.bean.api.RespCaseDetail;
-import com.huateng.collection.ui.adapter.ProductMsgAdater;
-import com.huateng.collection.ui.adapter.RepaymentAdapter;
+import com.huateng.collection.bean.CustInfoBean;
+import com.huateng.collection.bean.orm.DictItemBean;
+import com.huateng.collection.utils.DictUtils;
+import com.huateng.network.ApiConstants;
+import com.huateng.network.BaseObserver2;
+import com.huateng.network.RetrofitManager;
+import com.orm.SugarRecord;
 import com.trello.rxlifecycle3.LifecycleTransformer;
 
-import org.apache.poi.ss.formula.functions.T;
-
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 
 /**
  * 客户信息
  */
 public class FragmentBaseInfo extends BaseFragment {
+
+    @BindView(R.id.tv_cust_name)
+    TextView mTvCustName;
+    @BindView(R.id.tv_gender)
+    TextView mTvGender;
+    @BindView(R.id.tv_cert_no)
+    TextView mTvCertNo;
+    @BindView(R.id.tv_native_place)
+    TextView mTvNativePlace;
+    @BindView(R.id.tv_ethnic_group)
+    TextView mTvEthnicGroup;
+    @BindView(R.id.tv_mobile_phone)
+    TextView mTvMobilePhone;
+    @BindView(R.id.tv_education)
+    TextView mTvEducation;
+    @BindView(R.id.tv_comp_name)
+    TextView mTvCompName;
+    @BindView(R.id.tv_comp_addr)
+    TextView mTvCompAddr;
+    @BindView(R.id.tv_comp_tel)
+    TextView mTvCompTel;
+    @BindView(R.id.tv_email_addr)
+    TextView mTvEmailAddr;
+    @BindView(R.id.tv_unit_establishment)
+    TextView mTvUnitEstablishment;
+    @BindView(R.id.tv_duty)
+    TextView mTvDuty;
+    @BindView(R.id.tv_card_blacklist_flag)
+    TextView mTvCardBlacklistFlag;
+    @BindView(R.id.tv_spouse_name)
+    TextView mTvSpouseName;
+    @BindView(R.id.tv_spouse_id_no)
+    TextView mTvSpouseIdNo;
+    @BindView(R.id.tv_spouse_mobile_phone)
+    TextView mTvSpouseMobilePhone;
+    @BindView(R.id.tv_spouse_company)
+    TextView mTvSpouseCompany;
     @BindView(R.id.recycler_product_msg)
     RecyclerView mRecyclerProductMsg;
     @BindView(R.id.recycler_repayment)
     RecyclerView mRecyclerRepayment;
-
-   /* @BindView(R.id.tv_name)
-    TextView tvName;
-    @BindView(R.id.tv_age)
-    TextView tvAge;
-    @BindView(R.id.iv_sex)
-    ImageView ivSex;
-    @BindView(R.id.tv_sex)
-    TextView tvSex;
-    @BindView(R.id.tv_certNo)
-    TextView tvCertNo;
-    @BindView(R.id.tv_department)
-    TextView tvDepartment;
-    @BindView(R.id.tv_company)
-    TextView tvCompany;
-    @BindView(R.id.tv_date)
-    TextView tvDate;
     @BindView(R.id.tv_amout)
-    TextView tvAmout;
+    TextView mTvAmout;
     @BindView(R.id.tv_visitAddress)
-    TextView tvVisitAddress;
-    @BindView(R.id.iv_department)
-    ImageView ivDepartment;
-    @BindView(R.id.text)
-    TextView mText;*/
+    TextView mTvVisitAddress;
+    @BindView(R.id.tv_age)
+    TextView mTvAge;
+    @BindView(R.id.tv_resi_addr)
+    TextView mTvResiAddr;
+    private String caseId;
+    private String custNo;
 
-    private RespCaseDetail detail;
-    private ProductMsgAdater mProductMsgAdater;
-    private RepaymentAdapter mRepaymentAdapter;
 
     @Override
     protected BasePresenter createPresenter() {
@@ -84,71 +109,104 @@ public class FragmentBaseInfo extends BaseFragment {
      */
     @Override
     protected void initView(Bundle savedInstanceState) {
-
-        detail = (RespCaseDetail) getArguments().getSerializable(Constants.CASE_DETAIL);
-        // refreshBaseInfo(detail);
-        initRecyclerview();
     }
 
-    /**
-     * 初始化Recyclerview控件
-     */
-    private void initRecyclerview() {
-        // mRecyclerProductMsg
-        mProductMsgAdater = new ProductMsgAdater();
-        mRecyclerProductMsg.setLayoutManager(new LinearLayoutManager(mContext));
-        mRecyclerProductMsg.setAdapter(mProductMsgAdater);
-
-        mRepaymentAdapter = new RepaymentAdapter();
-        mRecyclerRepayment.setLayoutManager(new LinearLayoutManager(mContext));
-        mRecyclerRepayment.setAdapter(mRepaymentAdapter);
-    }
 
     /**
      * 数据初始化操作
      */
     @Override
     protected void initData() {
-        List<ProductMsgBean> list = new ArrayList<>();
-        List<RepaymentBean> repaymentBeanList = new ArrayList<>();
+        caseId = getArguments().getString(Constants.CASE_ID);
+        custNo = getArguments().getString(Constants.CUST_ID);
+        Map<String, String> map = new HashMap<>();
+        map.put("caseId", caseId);
+        map.put("tlrNo", Perference.getUserId());
+        map.put("custNo", custNo);
+        RetrofitManager.getInstance()
+                .request(ApiConstants.MOBILE_APP_INTERFACE, ApiConstants.SELECTED_CUSTOM_INFO, map)
+                .compose(getRxlifecycle())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver2<CustInfoBean>() {
 
-        for (int i = 0; i < 2; i++) {
-            list.add(new ProductMsgBean());
-            repaymentBeanList.add(new RepaymentBean());
-        }
-        mProductMsgAdater.setNewData(list);
-        mRepaymentAdapter.setNewData(repaymentBeanList);
+
+                    @Override
+                    public void onError(String code, String msg) {
+
+                    }
+
+                    @Override
+                    public void onNextData(CustInfoBean custInfoBean) {
+                        if (custInfoBean == null) {
+                            return;
+                        }
+                        setCustData(custInfoBean);
+
+
+                        setEthnicGroup(custInfoBean.getEthnicGroup());
+
+                    }
+
+
+                });
+
 
     }
 
+    private void setEthnicGroup(String ethnicGroup) {
 
-    /*  public void refreshBaseInfo(final RespCaseDetail detail) {
+        Log.e("nb", "ethnicGroup:" + ethnicGroup);
+        if (TextUtils.isEmpty(ethnicGroup)) {
+            mTvEthnicGroup.setText("");
+            return;
+        }
 
-          try {
-              tvName.setText(detail.getName());
-              tvAge.setText(detail.getAge() + "岁");
-              tvCertNo.setText(detail.getCertNo());
-              String dept = detail.getDeptOffice();
-              if (StringUtils.isNotEmpty(dept)) {
-                  ivDepartment.setVisibility(View.VISIBLE);
-                  tvDepartment.setText(detail.getDeptOffice());
-              }
-              tvCompany.setText(detail.getCompName());
-              tvDate.setText(detail.getIncollDate());
-              tvAmout.setText(detail.getCaseAmt() + " (元)");
-              ivSex.setImageResource(Dic.queryValue(Dic.SEX, detail.getGender()).equals("男") ? R.drawable.sex_male : R.drawable.sex_female);
-              tvSex.setText(Dic.queryValue(Dic.SEX, detail.getGender()));
+        List<DictItemBean> dictItemBeans = SugarRecord.find(DictItemBean.class, "DICT_CODE=?", "NATIONALITY");
+       // Log.e("nb", dictItemBeans.size() + ":");
+        if (dictItemBeans == null || dictItemBeans.size() == 0) {
+            return;
+        }
 
-              tvVisitAddress.setText(Perference.getCurrentVisitAddress());
 
-          } catch (Exception e) {
-              e.printStackTrace();
-          }
-      }
+        for (DictItemBean dictItemBean : dictItemBeans) {
+            if (ethnicGroup.endsWith(dictItemBean.getDataVal())) {
+                mTvEthnicGroup.setText(dictItemBean.getDescription());
+            }
+        }
 
-  */
+
+    }
+
+    private void setCustData(CustInfoBean custInfoBean) {
+        mTvCustName.setText(custInfoBean.getCustName());
+        mTvAge.setText(custInfoBean.getAge() + "");
+        mTvGender.setText("1".equals(custInfoBean.getGender()) ? "男" : "女");
+        mTvCertNo.setText(custInfoBean.getCertNo());
+
+            mTvNativePlace.setText(TextUtils.isEmpty(custInfoBean.getNativePlace())?"":custInfoBean.getNativePlace().replaceAll("\\s*", ""));
+
+        // mTvEthnicGroup.setText("01".equals(custInfoBean.getEthnicGroup())?"汉族":"其他民族");
+        mTvMobilePhone.setText(custInfoBean.getMobilePhone());
+        mTvEducation.setText(DictUtils.getEducation(custInfoBean.getEducation()));
+        mTvCompName.setText(custInfoBean.getCompName());
+        mTvCompAddr.setText(TextUtils.isEmpty(custInfoBean.getCompAddr())?"":custInfoBean.getCompAddr().replaceAll("\\s*", ""));
+        mTvCompTel.setText(custInfoBean.getCompTel());
+        mTvEmailAddr.setText(TextUtils.isEmpty(custInfoBean.getEmailAddr())?"":custInfoBean.getEmailAddr().replaceAll("\\s*", ""));
+        mTvUnitEstablishment.setText(DictUtils.getUnitsCompiled(custInfoBean.getUnitEstablishment()));
+        mTvDuty.setText(custInfoBean.getDuty());
+        mTvCardBlacklistFlag.setText("Y".equals(custInfoBean.getCardBlacklistFlag()) ? "是" : "否");
+        mTvSpouseName.setText(custInfoBean.getSpouseName());
+        mTvSpouseIdNo.setText(custInfoBean.getSpouseIdno());
+        mTvSpouseMobilePhone.setText(custInfoBean.getSpousePhoneno());
+        mTvSpouseCompany.setText(custInfoBean.getSpouseCompany());
+        //mTvAge.setText(custInfoBean.getAge());
+        mTvResiAddr.setText(TextUtils.isEmpty(custInfoBean.getResiAddr())?"":custInfoBean.getResiAddr().replaceAll("\\s*", ""));
+
+    }
+
     @Override
-    public LifecycleTransformer<T> getRxlifecycle() {
+    public <T> LifecycleTransformer<T> getRxlifecycle() {
         return bindToLifecycle();
     }
 }

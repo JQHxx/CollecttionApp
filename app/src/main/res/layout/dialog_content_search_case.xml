@@ -12,6 +12,6 @@
         android:id="@+id/csv_custName"
         style="@style/CommonInputItem"
         app:inputType="editText"
-        app:labelText="客户姓名：" />
+        app:labelText="" />
 
 </LinearLayout>

@@ -1,20 +1,10 @@
 package com.huateng.collection.ui.adapter;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.view.View;
-import android.widget.AdapterView;
-
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.flyco.dialog.listener.OnOperItemClickL;
 import com.flyco.dialog.widget.ActionSheetDialog;
 import com.huateng.collection.R;
-import com.huateng.collection.app.Perference;
-import com.huateng.collection.bean.api.RespPhone;
-import com.huateng.collection.bean.orm.Dic;
-
-import java.util.List;
+import com.huateng.collection.bean.CustTelInfoBean;
 
 import androidx.annotation.LayoutRes;
 
@@ -23,30 +13,26 @@ import androidx.annotation.LayoutRes;
  * Created by shanyong on 2016/11/29.
  */
 
-public class ContactsPhoneAdapter extends BaseQuickAdapter<RespPhone, BaseViewHolder> {
+public class ContactsPhoneAdapter extends BaseQuickAdapter<CustTelInfoBean.RecordsBean, BaseViewHolder> {
 
     private String[] stringItems = {"拨号"};
     private ActionSheetDialog dialog;
 
-    public ContactsPhoneAdapter(@LayoutRes int layoutResId, List<RespPhone> dataList) {
-        super(layoutResId, dataList);
+    public ContactsPhoneAdapter(@LayoutRes int layoutResId) {
+        super(layoutResId);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, final RespPhone bean) {
+    protected void convert(BaseViewHolder helper, CustTelInfoBean.RecordsBean bean) {
 
-        String phoneType = Dic.queryValue(Dic.TELIPHONE, bean.getTelType());
-        String relationType = Dic.queryValue(Dic.RELATION, bean.getRelWithCust());
+        helper.setText(R.id.tv_name,bean.getName())
+                .setText(R.id.tv_contact_id_no,bean.getContactIdno())
+                .setText(R.id.tv_contact_phone,bean.getContactPnhone())
+                .setText(R.id.tv_rel_with_cust,bean.getRelWithCust())
+                .setText(R.id.tv_family_flag,"Y".equals(bean.getFamilyFlag())?"是":"否");
+        helper.addOnClickListener(R.id.rl_call);
 
-      //  helper.setText(R.id.tv_phoneType, phoneType);
-        helper.setText(R.id.tv_phoneType,  bean.getTelType());
-        helper.setText(R.id.tv_phoneNo, bean.getTelNo());
-        helper.setText(R.id.tv_userName, bean.getName());
-        helper.setText(R.id.tv_relationship, bean.getRelWithCust());
-     //   helper.setText(R.id.tv_relationship, relationType);
-
-
-        helper.itemView.setOnClickListener(new View.OnClickListener() {
+       /* helper.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String tiltle = String.format("拨打%s电话\r\n%s", bean.getName(), bean.getTelNo());
@@ -73,7 +59,7 @@ public class ContactsPhoneAdapter extends BaseQuickAdapter<RespPhone, BaseViewHo
             }
         });
 
-
+*/
     }
 
 }

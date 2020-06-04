@@ -1489,9 +1489,10 @@ public final class ImageUtils {
         boolean ret = false;
         try {
             os = new BufferedOutputStream(new FileOutputStream(file));
-            ret = src.compress(format, 100, os);
+            ret = src.compress(format, 80, os);
             if (recycle && !src.isRecycled()) src.recycle();
         } catch (IOException e) {
+
             e.printStackTrace();
         } finally {
             try {
@@ -1500,6 +1501,7 @@ public final class ImageUtils {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
+
             }
         }
         return ret;

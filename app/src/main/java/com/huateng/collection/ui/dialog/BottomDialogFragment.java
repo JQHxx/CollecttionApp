@@ -1,11 +1,10 @@
 package com.huateng.collection.ui.dialog;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -14,19 +13,21 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.huateng.collection.R;
 import com.luck.picture.lib.tools.ScreenUtils;
 import com.tools.utils.Utils;
+import com.trello.rxlifecycle3.components.support.RxDialogFragment;
 import com.zrht.common.animation.AnimationListener;
 import com.zrht.common.animation.ViewAnimator;
 import com.zrht.common.bean.BottomDialogBean;
-import com.trello.rxlifecycle3.components.support.RxDialogFragment;
+
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
@@ -35,19 +36,26 @@ import butterknife.Unbinder;
  * description:
  */
 public class BottomDialogFragment extends RxDialogFragment {
-    @BindView(R.id.tv_close)
-    TextView mTvClose;
+    private DialogItemClick callBack;
     @BindView(R.id.tv_title)
     TextView mTvTitle;
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
-    @BindView(R.id.ll_layout)
-    LinearLayout mLlLayout;
+    @BindView(R.id.iv_close)
+    ImageView mIvClose;
+    @BindView(R.id.view_line)
+    View mViewLine;
     @BindView(R.id.rl_view)
     RelativeLayout mRlView;
+    @BindView(R.id.rl_parent)
+    RelativeLayout mRlParent;
     private Unbinder unbinder;
     private BottomDialogAdapter mAdapter;
     private List<BottomDialogBean> list;
+    private boolean isGrid = false; //
+    private String title; //标题
+    private boolean isCancle;//点击后是否消失
+
 
     @Nullable
     @Override
@@ -62,9 +70,15 @@ public class BottomDialogFragment extends RxDialogFragment {
 
 
     protected void initView(View view) {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager = null;
+        if (!isGrid) {
+            linearLayoutManager = new LinearLayoutManager(getContext());
+        } else {
+            linearLayoutManager = new GridLayoutManager(getActivity(), 4);
+
+        }
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        show();
+        showView();
     }
 
 
@@ -74,6 +88,15 @@ public class BottomDialogFragment extends RxDialogFragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+    public BottomDialogFragment setData(String title, List<BottomDialogBean> list, boolean isGrid, boolean isCancle) {
+        this.title = title;
+        this.list = list;
+        this.isGrid = isGrid;
+        this.isCancle = isCancle;
+        return this;
+    }
+
 
     public static BottomDialogFragment newInstance(Bundle args) {
         BottomDialogFragment fragment = new BottomDialogFragment();
@@ -89,12 +112,13 @@ public class BottomDialogFragment extends RxDialogFragment {
 
 
     protected void initData() {
-        Bundle arguments = getArguments();
-        list = arguments.getParcelableArrayList("list");
+
         if (list == null) {
             return;
         }
+        mTvTitle.setText(title);
         mAdapter = new BottomDialogAdapter(R.layout.item_bottom_dialog);
+        mRecyclerView.setAdapter(mAdapter);
         mAdapter.setNewData(list);
     }
 
@@ -102,10 +126,6 @@ public class BottomDialogFragment extends RxDialogFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-    }
-
-    @OnClick(R.id.tv_close)
-    public void onClick() {
     }
 
 
@@ -118,40 +138,52 @@ public class BottomDialogFragment extends RxDialogFragment {
         @Override
         protected void convert(@NonNull BaseViewHolder helper, BottomDialogBean item) {
             helper.setText(R.id.tv_title, item.getTitle());
-           /* if (item.isSelected()) {
-                helper.setImageResource(R.id.iv_circle, R.drawable.iv_circle_selected);
-            } else {
-                helper.setImageResource(R.id.iv_circle, R.drawable.iv_circle_unselected);
-            }*/
+            if (item.getImageId() != 0) {
+                helper.setImageResource(R.id.iv_icon, item.getImageId());
+
+            }
+            if(item.isSelected()) {
+                helper.setTextColor(R.id.tv_title,mContext.getResources().getColor(R.color.accent_color));
+
+            }else {
+                helper.setTextColor(R.id.tv_title,mContext.getResources().getColor(R.color.text_color_343434));
+
+            }
+
+            helper.setGone(R.id.iv_icon, item.getImageId() != 0);
         }
     }
 
 
-    public void show() {
-        Log.e("NBCB", "show show show");
-        ViewAnimator.animate(mLlLayout).translationY(ScreenUtils.dip2px(Utils.getApp(), 270), 0)
+    public void showView() {
+        ViewAnimator.animate(mRlView).translationY(ScreenUtils.dip2px(Utils.getApp(), 270), 0)
                 .duration(300)
                 .onStart(new AnimationListener.Start() {
                     @Override
                     public void onStart() {
-                        mLlLayout.setVisibility(View.VISIBLE);
+                        mRlView.setVisibility(View.VISIBLE);
                     }
                 })
                 .start();
     }
 
-    public void hide() {
+    public void hideView() {
         ViewAnimator
-                .animate(mLlLayout).translationY(0, ScreenUtils.dip2px(Utils.getApp(), 270))
+                .animate(mRlView).translationY(0, ScreenUtils.dip2px(Utils.getApp(), 270))
                 .duration(300)
                 .onStop(new AnimationListener.Stop() {
                     @Override
                     public void onStop() {
-                        mLlLayout.setVisibility(View.GONE);
+                        mRlView.setVisibility(View.GONE);
                         dismiss();
                     }
                 })
                 .start();
+    }
+
+    public interface DialogItemClick {
+
+        void onItemClick(BottomDialogBean bottomDialogBean);
     }
 
 
@@ -159,15 +191,45 @@ public class BottomDialogFragment extends RxDialogFragment {
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                for (int i = 0; i < list.size(); i++) {
-                    list.get(i).setSelected(position == i);
+                if (list == null || list.size() == 0) {
+                    return;
                 }
+                list.get(position).setSelected(true);
                 mAdapter.notifyDataSetChanged();
-                hide();
+                if (callBack != null) {
+                    callBack.onItemClick(list.get(position));
+                }
+                hideView();
+              /*  if (isCancle) {
+                    hideView();
+                }*/
+            }
+        });
+
+        mRlParent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideView();
+            }
+        });
+
+        mIvClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideView();
             }
         });
     }
 
+    public BottomDialogFragment setDialogItemClicklistener(DialogItemClick callBack) {
+        this.callBack = callBack;
+        return this;
+    }
+
+    public void show(FragmentManager fragmentManager) {
+
+        this.show(fragmentManager, "");
+    }
 
     @Override
     public void onDestroy() {

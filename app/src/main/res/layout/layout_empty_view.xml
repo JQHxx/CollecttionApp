@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/iv_tip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_centerInParent="true"
         android:src="@drawable/icon_no_cases" />
 
@@ -17,7 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/iv_tip"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/black_text"
+        android:textColor="@color/accent_color"
+        android:text="这里什么都没有～"
         android:textSize="20sp" />
 
 </RelativeLayout>

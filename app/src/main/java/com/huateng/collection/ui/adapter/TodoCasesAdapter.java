@@ -1,165 +1,60 @@
 package com.huateng.collection.ui.adapter;
 
-import android.content.Context;
-import android.util.Log;
+import android.text.TextUtils;
 import android.util.SparseArray;
-import android.view.View;
-import android.widget.CompoundButton;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.huateng.collection.R;
-import com.huateng.collection.bean.api.RespCaseSummary;
-import com.huateng.collection.utils.cases.CaseManager;
-import com.huateng.fm.ui.widget.FmCheckBox;
-import com.tools.utils.StringUtils;
+import com.huateng.collection.bean.CaseBeanData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import androidx.annotation.LayoutRes;
-import androidx.annotation.Nullable;
+
 /**
  * 待办案件 adapter
  * sumincy
  */
 
-public class TodoCasesAdapter extends BaseQuickAdapter<RespCaseSummary, BaseViewHolder>  {
+public class TodoCasesAdapter extends BaseQuickAdapter<CaseBeanData.RecordsBean, BaseViewHolder> {
     private final String TAG = getClass().getSimpleName();
 
     private SparseArray<Boolean> checkStates;
+    private HashMap<String,String> map;
     private boolean isInSelectMode;
-    private Context mContext;
 
-    public TodoCasesAdapter(@LayoutRes int layoutResId, @Nullable List<RespCaseSummary> dataList, Context context) {
-        super(layoutResId, dataList);
-        this.mContext = context;
+    public TodoCasesAdapter(@LayoutRes int layoutResId) {
+        super(layoutResId);
+    }
+
+    public void setDictData(HashMap<String,String> map){
+        this.map = map;
     }
 
     @Override
-    protected void convert(final BaseViewHolder helper, final RespCaseSummary bean) {
+    protected void convert(final BaseViewHolder helper, final CaseBeanData.RecordsBean item) {
+        helper.setText(R.id.tv_hostName, item.getCustName())
+                .setText(R.id.tv_id_number, item.getCertNo())
+                .setText(R.id.tv_overdue_days, item.getOverdueDays() + "天")
+                .setText(R.id.tv_case_status,"1".equals(item.getCaseStatus())?"已处理":"未处理")
+                .setText(R.id.tv_overdue_amt, item.getOverdueAmt() + "元");
 
-        final int position = helper.getPosition();
-
-        if (checkStates == null || checkStates.size() < getData().size()) {
-            initCheckStates();
-        }
-
-        FmCheckBox checkbox = helper.getView(R.id.checkbox);
-
-        //选择模式
-        if (isInSelectMode) {
-            checkbox.setVisibility(View.VISIBLE);
-        } else {
-            checkbox.setVisibility(View.GONE);
-        }
-
-        checkbox.setChecked(checkStates.valueAt(helper.getAdapterPosition()));
-
-        //checkbox 选择判断
-        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Log.v("check", position + ":" + isChecked);
-                //增加点击判断 避免setChecked触发
-                if (buttonView.isPressed()) {
-                    checkStates.setValueAt(position, isChecked);
-                }
+      //
+        if(map != null && map.size()>0) {
+            String productName = map.get(item.getProductType());
+            if(TextUtils.isEmpty(productName)) {
+                helper.setText(R.id.tv_product_name, item.getProductType());
+            }else {
+                helper.setText(R.id.tv_product_name,productName);
             }
-        });
-
-        //案件相关
-        //  String caseId = bean.getCaseId();
-        //   helper.setText(R.id.tv_amt, bean.getOaAmt() + "元");
-        //        helper.setText(R.id.tv_caseId, caseId);
-        //   helper.setText(R.id.tv_hostName, bean.getHostName());
-        //        helper.setText(R.id.tv_date, bean.getOaDate());
-        //    helper.setText(R.id.tv_custName, bean.getCustName());
-        //     helper.setText(R.id.tv_addressType, Dic.queryValue(Dic.ADDRESS, bean.getAddrType()));
-
-
-        //业务id
-        String bizId = bean.getAddrId();
-
-        boolean recordCompleted = false;
-        boolean takePhotoCompleted = false;
-        boolean reportCompleted = false;
-
-        if (StringUtils.isNotEmpty(bizId)) {
-            recordCompleted = CaseManager.recordCompleted(bizId);
-            takePhotoCompleted = CaseManager.takePhotoCompleted(bizId);
-            //判断是否填写报告
-            reportCompleted = CaseManager.reportCompleted(bizId);
+        }else {
+            helper.setText(R.id.tv_product_name, item.getProductType());
         }
-
-
-        //案件填写提示icon  拍照  录音 外访报告
-     //   CaseFillReminder csvFillReminder = helper.getView(R.id.csv_fillReminder);
-      //  csvFillReminder.setCameraState(takePhotoCompleted ? CaseFillReminder.State.DONE : CaseFillReminder.State.TODO);
-      //  csvFillReminder.setVoiceState(recordCompleted ? CaseFillReminder.State.DONE : CaseFillReminder.State.TODO);
-      //  csvFillReminder.setReportState(reportCompleted ? CaseFillReminder.State.DONE : CaseFillReminder.State.TODO);
-
-
-        //TODO 图标点击处理
-      //  csvFillReminder.setOnActionListener(new CaseFillReminder.OnActionListener() {
-         //   @Override
-         //   public void onCameraPressed(View v) {
-                //                RxBus.get().post(BusTag.SHOW_CASE_FILL, "SHOW");
-                //                EventEnv env = new EventEnv(BusEvent.TAKE_PHOTO);
-                //                RxBus.get().post(BusTag.CASE_FILL, env);
-          //  }
-
-          //  @Override
-          //  public void onVoicePressed(View v) {
-                //                RxBus.get().post(BusTag.SHOW_CASE_FILL, "SHOW");
-                //                EventEnv env = new EventEnv(BusEvent.RECORD);
-                //                RxBus.get().post(BusTag.CASE_FILL, env);
-          //  }
-
-           // @Override
-          //  public void onReportPressed(View v) {
-                //                RxBus.get().post(BusTag.SHOW_CASE_FILL, "SHOW");
-                //                EventEnv env = new EventEnv(BusEvent.REPORT);
-                //                RxBus.get().post(BusTag.CASE_FILL, env);
-           // }
-       // });
-
-      /*  helper.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (MainApplication.getApplication().isCurrentCaseOnOperation()) {
-                    final CommonContentDM dm = new DialogCenter(mContext).showCurrentCaseOnOperationDialog();
-                    dm.setOnFooterButtonClickListener(new CommonContentDM.OnFooterButtonClickListener() {
-                        @Override
-                        public void onLeftClicked(View v) {
-                            dm.getDialog().dismiss();
-                        }
-
-                        @Override
-                        public void onRightClicked(View v) {
-                            dm.getDialog().dismiss();
-                        }
-                    });
-                    return;
-                }
-
-                //点击item 跳转
-            *//*    Bundle bundle = new Bundle();
-                bundle.putString(Constants.CASE_ID, bean.getCaseId());
-                bundle.putBoolean(Constants.IS_TODO_CASE, true);
-                bundle.putString(Constants.ADDRESS_ID, bean.getAddrId());
-                bundle.putString(Constants.VISIT_ADDRESS, bean.getVisitAddress());
-
-                BaseFragment fragment = BaseFragment.newInstance(FragmentCaseDetail.class, bundle);
-                BaseFragment parent = (BaseFragment) baseFragment.getParentFragment();
-                if (parent != null) {
-                    parent.startBrotherFragment(fragment, SINGLETASK);
-                }*//*
-
-            }
-        });
-*/
+        helper.addOnClickListener(R.id.ll_layout);
+        helper.addOnClickListener(R.id.iv_call_phone);
 
     }
 
@@ -170,20 +65,11 @@ public class TodoCasesAdapter extends BaseQuickAdapter<RespCaseSummary, BaseView
         return lastSelectedPosition;
     }
 
-    public void goSelectMode() {
-        isInSelectMode = true;
-        initCheckStates();
-        notifyDataSetChanged();
-    }
 
     public void leaveSelectMode() {
         isInSelectMode = false;
         initCheckStates();
         notifyDataSetChanged();
-    }
-
-    public boolean inSelectMode() {
-        return isInSelectMode;
     }
 
 

@@ -3,11 +3,14 @@ package com.huateng.collection.base;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
 import com.flyco.systembar.SystemBarHelper;
 import com.huateng.collection.widget.LoadingDialog;
+import com.tools.ActivityUtils;
+import com.tools.view.RxToast;
 import com.trello.rxlifecycle3.components.support.RxAppCompatActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -58,19 +61,25 @@ public abstract class BaseActivity<P extends BasePresenter> extends RxAppCompatA
         if (dialog == null) {
             dialog = new LoadingDialog(this);
         }
-        if(!dialog.isShowing()) {
+        /*if(!dialog.isShowing()) {
+
             dialog.show();
             Log.e("NBCB","dialog show");
-        }
-
+        }*/
+        dialog.show();
+        Log.e("NBCB","dialog show");
     }
 
     @Override
     public void hideLoading() {
-
-      if (dialog != null && dialog.isShowing()) {
-            dialog.hide();
+        if(dialog  == null) {
+            return;
         }
+        dialog.hide();
+
+     /* if (dialog != null && dialog.isShowing()) {
+            dialog.hide();
+        }*/
     }
 
 
@@ -129,6 +138,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends RxAppCompatA
 
         isUseEventBus = isUseEventBus();
         initView(savedInstanceState);
+        // 把actvity放到application栈中管理
+        ActivityUtils.getAppManager().addActivity(this);
+
         if(isUseEventBus) {
             EventBus.getDefault().register(this);
         }
@@ -158,6 +170,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends RxAppCompatA
         if(isUseEventBus) {
            EventBus.getDefault().unregister(this);
         }
+
+        // 把actvity放到application栈中管理
+        ActivityUtils.getAppManager().removeActivity(this);
     }
 
     public boolean isUseEventBus(){
@@ -166,6 +181,10 @@ public abstract class BaseActivity<P extends BasePresenter> extends RxAppCompatA
 
     @Override
     public void showToast(String message) {
+        if(TextUtils.isEmpty(message)) {
+            return;
+        }
+        RxToast.showToast(message);
       //  ToastUtil.showShortToast(Utils.getApp(),message);
     }
     protected void immersiveStatusBar(View title) {

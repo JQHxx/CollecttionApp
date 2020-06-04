@@ -1,21 +1,22 @@
 package com.huateng.collection.ui.home.presenter;
+
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.huateng.collection.app.Constants;
 import com.huateng.collection.app.Perference;
 import com.huateng.collection.base.BasePresenter;
-import com.huateng.collection.bean.api.RespCaseSummary;
-import com.huateng.collection.bean.orm.VisitCode;
-import com.huateng.collection.network.CommonInteractor;
-import com.huateng.collection.network.RequestCallbackImpl;
+import com.huateng.collection.bean.CaseBeanData;
 import com.huateng.collection.ui.home.contract.HomeContract;
-import com.huateng.collection.utils.StringUtils;
 import com.huateng.network.ApiConstants;
-import com.orm.SugarRecord;
+import com.huateng.network.BaseObserver2;
+import com.huateng.network.RetrofitManager;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * author: yichuan
@@ -24,59 +25,64 @@ import java.util.Map;
  */
 public class HomePresenter extends BasePresenter<HomeContract.View> implements HomeContract.Presenter {
     private int pageSize = 10;
-    private int pageNum = 1;
+    private int pageNum = 0;
 
     public HomePresenter(HomeContract.View view) {
         super(view);
     }
 
-
     @Override
     public void loadData(int status) {
         Log.i("nb", "-------loadTodoCases-------");
-
         Map<String, String> map = new HashMap<>();
-        map.put("userId", Perference.getUserId());
-        if (status == Constants.LOAD_MORE) {
-            pageNum++;
+
+        if (status == Constants.REFRESH) {
+            pageNum = 0;
         }
-        map.put("pageNum", String.valueOf(pageNum));
-        map.put("pageCount", String.valueOf(pageSize));
+        map.put("tlrNo", Perference.getUserId());//
+        map.put("orgId", Perference.get(Perference.ORG_ID));
+        map.put("pageNo", String.valueOf(pageNum));
+        map.put("pageSize", String.valueOf(pageSize));
+        RetrofitManager.getInstance()
+                .request(ApiConstants.MOBILE_APP_INTERFACE, ApiConstants.METHOD_QUERY_TODO_CASE_LIST, map)
+                .compose(mView.getRxlifecycle())
+                .subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe(new BaseObserver2<CaseBeanData>() {
+                    @Override
+                    public void onError(String code, String msg) {
+                        if (mView == null) {
+                            return;
+                        }
+                        if (TextUtils.isEmpty(msg)) {
+                            return;
+                        }
 
-        CommonInteractor.requestEntrys(new RequestCallbackImpl<List<RespCaseSummary>>() {
+                        mView.showEmptyView();
+                        mView.showToast(msg);
 
-            @Override
-            public void response(List<RespCaseSummary> respCaseSummaries) {
-                if (mView == null) {
-                    return;
-                }
-                mView.setCaseSummaries(status, respCaseSummaries);
-            }
+                    }
 
-            @Override
-            public void end() {
-                super.end();
+                    @Override
+                    public void onNextData(CaseBeanData caseBeanData) {
+                        if (mView == null) {
+                            return;
+                        }
+                        if (caseBeanData == null ) {
+                            if (status == Constants.REFRESH) {
+                                mView.showEmptyView();
+                            }
+                            return;
+                        }
 
-            }
-        }, ApiConstants.BATCH_ROOT, ApiConstants.METHOD_QUERY_TODO_CASE_LIST, map);
+                        pageNum = caseBeanData.getNextPage();
+                        Log.e("nb","案件信息加载完成");
 
+                        mView.setCaseSummaries(status, caseBeanData.getRecords());
+                    }
+                });
     }
 
-    /**
-     * 加载
-     */
-    @Override
-    public void loadVisitSunCode() {
-        Map<String, String> map2 = new HashMap<>();
-        CommonInteractor.requestEntrys(new RequestCallbackImpl<List<VisitCode>>() {
-            @Override
-            public void response(List<VisitCode> t) {
-                SugarRecord.deleteAll(VisitCode.class);
-                SugarRecord.saveInTx(t);
-            }
-        }, ApiConstants.BATCH_ROOT, ApiConstants.METHOD_VISIT_SUM_CODE, map2);
-
-    }
 
     /**
      * 加载搜索案件
@@ -87,40 +93,37 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
     public void loadSearchCase(String custName) {
 
         Map<String, String> map = new HashMap<>();
-        map.put("userId", Perference.getUserId());
-        map.put("pageNum", "1");
-        map.put("pageCount", "-1");
-        if (StringUtils.isNotEmpty(custName)) {
-            map.put("custName", custName);
-        }
+        map.put("tlrNo", Perference.getUserId());
+        map.put("orgId", Perference.get(Perference.ORG_ID));
+        map.put("pageNo", "0");
+        map.put("pageSize", "20");
+        map.put("condition", custName);
 
-        CommonInteractor.requestEntrys(new RequestCallbackImpl<List<RespCaseSummary>>() {
+        request(ApiConstants.MOBILE_APP_INTERFACE, ApiConstants.METHOD_QUERY_TODO_CASE_LIST, map)
+                .subscribe(new BaseObserver2<CaseBeanData>() {
 
-            @Override
-            public void beforeRequest() {
-                super.beforeRequest();
-                //   showLoading();
-                mView.showLoading();
-            }
 
-            @Override
-            public void requestError(String code, String msg) {
-                super.requestError(code, msg);
-            }
+                    @Override
+                    public void onError(String code, String msg) {
+                        if (mView == null) {
+                            return;
+                        }
 
-            @Override
-            public void response(List<RespCaseSummary> respCaseSummaries) {
-                mView.setSearchCase(respCaseSummaries);
+                        if (TextUtils.isEmpty(msg)) {
+                            return;
+                        }
 
-            }
+                        mView.showToast(msg);
+                    }
 
-            @Override
-            public void end() {
-                super.end();
-                mView.hideLoading();
-                // hideLoading();
-            }
-        }, ApiConstants.BATCH_ROOT, ApiConstants.METHOD_QUERY_TODO_CASE_LIST, map);
-
+                    @Override
+                    public void onNextData(CaseBeanData caseBeanData) {
+                        if (mView == null) {
+                            return;
+                        }
+                        pageNum = caseBeanData.getNextPage();
+                        mView.setSearchCase(caseBeanData.getRecords());
+                    }
+                });
     }
 }

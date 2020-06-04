@@ -74,7 +74,7 @@ public class RxWebViewUtils {
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                // TODO Auto-generated method stub
+                //  Auto-generated method stub
                 super.onPageStarted(view, url, favicon);
             }
 

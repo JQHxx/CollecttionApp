@@ -41,7 +41,9 @@ public class RequestConfig {
                     Object dataBean = new Object();
 
                     contextData.setDomainVilidate("");
-                    contextData.setData(dataBean);
+                    QueryTableBean.DataBean dataBean1 = new QueryTableBean.DataBean();
+                    dataBean1.setAppData("");
+                    contextData.setData(dataBean1);
 
                     body.setContextData(contextData);
 

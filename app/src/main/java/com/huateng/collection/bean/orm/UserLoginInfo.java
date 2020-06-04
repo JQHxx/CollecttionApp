@@ -21,7 +21,8 @@ public class UserLoginInfo {
     private long firstLoginTime;//首次登录时间
     private int loginErrorCount;//错误次数
     private boolean loginSuccess;//是否登录成功
-
+    private String ordId;//部门所属机构ID
+    private String rootOrgId;//一级机构ID
 
     public String getLoginName() {
         return loginName;
@@ -94,5 +95,38 @@ public class UserLoginInfo {
 
     public void setPwd(String pwd) {
         this.pwd = pwd;
+    }
+
+    public String getOrdId() {
+        return ordId;
+    }
+
+    public void setOrdId(String ordId) {
+        this.ordId = ordId;
+    }
+
+    public String getRootOrgId() {
+        return rootOrgId;
+    }
+
+    public void setRootOrgId(String rootOrgId) {
+        this.rootOrgId = rootOrgId;
+    }
+
+    @Override
+    public String toString() {
+        return "UserLoginInfo{" +
+                "userId='" + userId + '\'' +
+                ", loginName='" + loginName + '\'' +
+                ", authorization='" + authorization + '\'' +
+                ", pwd='" + pwd + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", loginTime=" + loginTime +
+                ", firstLoginTime=" + firstLoginTime +
+                ", loginErrorCount=" + loginErrorCount +
+                ", loginSuccess=" + loginSuccess +
+                ", ordId='" + ordId + '\'' +
+                ", rootOrgId='" + rootOrgId + '\'' +
+                '}';
     }
 }

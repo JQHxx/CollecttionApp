@@ -8,7 +8,7 @@ import android.view.Window;
 import com.huateng.collection.R;
 
 public class LoadingDialog extends Dialog {
-
+    //private ProgressBar mProgressBar;
 
     public LoadingDialog(Context context) {
         super(context);

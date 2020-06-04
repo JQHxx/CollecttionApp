@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.tools.view.RxTitle
+        android:id="@+id/rx_title"
+        style="@style/CommontRxToolBarStyle"
+        app:rxLeftIconVisibility="false"
+        app:rxLeftTextVisibility="false"
+        app:rxRightIconVisibility="false"
+        app:rxTitle="案件分布"
+        app:rxRightText="刷新"
+        app:rxTitleSize="18sp"
+        app:rxRightTextVisibility="true"
+        app:rxTitleIconVisibility="false"
+        app:rxTitleVisibility="true" />
+
+    <WebView
+        android:id="@+id/web_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

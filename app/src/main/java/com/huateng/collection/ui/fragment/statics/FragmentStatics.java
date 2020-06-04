@@ -135,11 +135,16 @@ public class FragmentStatics extends BaseFragment implements OnRefreshListener {
             }
 
             @Override
+            public void error(String code, String msg) {
+
+            }
+
+            @Override
             public void end() {
                 super.end();
                 swipeToLoadLayout.setRefreshing(false);
             }
-        }, ApiConstants.BATCH_ROOT, ApiConstants.METHOD_GET_STATICS, map);
+        }, ApiConstants.MOBILE_APP_OPER_INTERFACE, ApiConstants.METHOD_GET_STATICS, map);
     }
 
     @Override

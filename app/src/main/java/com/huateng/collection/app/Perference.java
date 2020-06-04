@@ -20,8 +20,11 @@ public class Perference {
     private static final String CURRENT_CASE_ID = "current_case_id";//案件ID
     private static final String CURRENT_CUST_ID = "current_cust_id";//当前案件客户ID
     private static final String CURRENT_CUST_NAME = "current_cust_name";//客户名称
-    private static final String CURRENT_VISIT_ADDRESS = "current_visit_address";//案件行动地址
-    private static final String CURRENT_VISIT_ADDRESS_ID = "current_visit_address_id";//案件行动地址ID
+    public static final String ROOT_ORG_ID = "root_org_id";//
+    public static final String ORG_ID = "org_id";//
+    public static final String OUT_SOURCE_FLAG = "out_source_flag";//ture 委外
+    //是否登录
+    public static final String IS_LOGIN = "is_login";
 
     //通话录音相关
     private static final String PREPARE_CALL_RECORDING = "prepare_call_recording";
@@ -92,25 +95,13 @@ public class Perference {
         set(USER_ID, userId);
     }
 
+
+
     /**
      * 案件相关参数
      */
 
-    public static void setCurrentVisitAddressId(String visitaddrssId) {
-        set(CURRENT_VISIT_ADDRESS_ID, visitaddrssId);
-    }
 
-    public static String getCurrentVisitAddressId() {
-        return get(CURRENT_VISIT_ADDRESS_ID);
-    }
-
-    public static void setCurrentVisitAddress(String currentVisitAddress) {
-        set(CURRENT_VISIT_ADDRESS, currentVisitAddress);
-    }
-
-    public static String getCurrentVisitAddress() {
-        return get(CURRENT_VISIT_ADDRESS);
-    }
 
     //获取当前案件id
     public static String getCurrentCaseId() {

@@ -1,5 +1,12 @@
 package com.huateng.collection.base;
 
+import com.huateng.network.RetrofitManager;
+import com.huateng.network.bean.ResponseStructure;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 /**
  * File descripition:   创建Presenter基类
  *
@@ -25,6 +32,19 @@ public abstract class BasePresenter<V extends IBaseView> {
      */
     public V getBaseView() {
         return mView;
+    }
+
+    /**
+     * 络数据加载方法
+     */
+    public Observable<ResponseStructure> request(String root,String method,Object map){
+
+      return  RetrofitManager.getInstance()
+                .request(root, method, map)
+                .compose(mView.getRxlifecycle())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
     }
 
 }

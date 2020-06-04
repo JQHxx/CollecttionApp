@@ -1,43 +1,41 @@
 package com.huateng.collection.ui.fragment.casebox.info;
 
 import android.os.Bundle;
-import android.os.Handler;
 
-import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
-import com.aspsine.swipetoloadlayout.OnRefreshListener;
-import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.huateng.collection.R;
 import com.huateng.collection.app.Constants;
 import com.huateng.collection.base.BaseFragment;
-import com.huateng.collection.base.BasePresenter;
-import com.huateng.collection.bean.api.RespLog;
+import com.huateng.collection.bean.LogActActionBean;
 import com.huateng.collection.ui.adapter.HistoryActionsAdapter;
-import com.huateng.collection.widget.DividerItemDecoration;
+import com.huateng.collection.ui.caseInfo.contract.HistoryActionContract;
+import com.huateng.collection.ui.caseInfo.presenter.HistoryActionsPresenter;
+import com.tools.bean.BusEvent;
+import com.tools.bean.EventBean;
 import com.trello.rxlifecycle3.LifecycleTransformer;
 
-import org.apache.poi.ss.formula.functions.T;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
 /**
  * 行动流水
  */
-public class FragmentHistoryActions extends BaseFragment implements OnRefreshListener,
-        OnLoadMoreListener {
-
+public class FragmentHistoryActions extends BaseFragment<HistoryActionsPresenter> implements HistoryActionContract.View, BaseQuickAdapter.RequestLoadMoreListener {
     @BindView(R.id.swipe_target)
     RecyclerView recyclerView;
     @BindView(R.id.swipeToLoadLayout)
-    SwipeToLoadLayout swipeToLoadLayout;
-
-    private List<RespLog> historyActions;
+    SwipeRefreshLayout mSwipeToLoadLayout;
     private HistoryActionsAdapter adapter;
-
+    private String custId;
+    private String caseId;
 
     /**
      * 处理顶部title
@@ -47,42 +45,30 @@ public class FragmentHistoryActions extends BaseFragment implements OnRefreshLis
     @Override
     protected void initView(Bundle savedInstanceState) {
 
-        historyActions = (List<RespLog>) getArguments().getSerializable(Constants.CASE_HISTORY_ACTIONS);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        //recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        swipeToLoadLayout.setOnRefreshListener(this);
-        swipeToLoadLayout.setOnLoadMoreListener(this);
-        adapter = new HistoryActionsAdapter(R.layout.list_item_history_actions, historyActions);
+        adapter = new HistoryActionsAdapter();
         recyclerView.setAdapter(adapter);
-    }
 
-
-    @Override
-    public void onLoadMore() {
-        new Handler().postDelayed(new Runnable() {
+        mSwipeToLoadLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void run() {
-                swipeToLoadLayout.setLoadingMore(false);
-            }
-        }, 2000);
-    }
+            public void onRefresh() {
+                //下拉刷新
+                adapter.setEnableLoadMore(false);
+                mPresenter.loadData(Constants.REFRESH, caseId, custId);
+                //刷新时禁用下拉
 
-    @Override
-    public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                swipeToLoadLayout.setRefreshing(false);
             }
-        }, 2000);
+        });
+
+        adapter.setOnLoadMoreListener(this, recyclerView);
     }
 
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected HistoryActionsPresenter createPresenter() {
+        return new HistoryActionsPresenter(this);
     }
 
     /**
@@ -101,11 +87,85 @@ public class FragmentHistoryActions extends BaseFragment implements OnRefreshLis
      */
     @Override
     protected void initData() {
+        caseId = getArguments().getString(Constants.CASE_ID);
+        custId = getArguments().getString(Constants.CUST_ID);
+        // loadData();
+        mPresenter.loadData(Constants.REFRESH, caseId, custId);
+
+
+    }
+
+
+    @Override
+    public <T> LifecycleTransformer<T> getRxlifecycle() {
+        return bindToLifecycle();
+    }
+
+    @Override
+    public void showEmptyView() {
+
+        if (adapter != null) {
+            adapter.setEmptyView(R.layout.layout_empty_view, recyclerView);
+        }
+
+        if (mSwipeToLoadLayout != null) {
+            mSwipeToLoadLayout.setRefreshing(false);
+            mSwipeToLoadLayout.setEnabled(true);
+        }
+    }
+
+    @Override
+    public void setLogActionData(int status, List<LogActActionBean.RecordsBean> records) {
+        if (status == Constants.REFRESH) {
+            //下拉刷新
+            adapter.setNewData(records);
+            if (records.size() < 10) {
+                adapter.setEnableLoadMore(false);
+            } else {
+                adapter.setEnableLoadMore(true);
+            }
+
+        } else {
+            //加载更多
+            adapter.addData(records);
+            if (records.size() >= 10) {
+
+                adapter.loadMoreComplete();
+            } else {
+                adapter.loadMoreEnd();
+            }
+        }
+
+        //停止刷新 并恢复下拉刷新功能
+        if (mSwipeToLoadLayout != null) {
+            mSwipeToLoadLayout.setRefreshing(false);
+            mSwipeToLoadLayout.setEnabled(true);
+        }
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        //加载数据时禁用刷新
+        mSwipeToLoadLayout.setEnabled(false);
+        mPresenter.loadData(Constants.LOAD_MORE, caseId, custId);
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(EventBean bean) {
+        // Log.e("nb", bean.code + "a:c" + bean.getObject());
+        if (bean == null) {
+            return;
+        }
+        if (bean.getCode() == BusEvent.REFRESH_HISTORY_ACTIONS) {
+            mPresenter.loadData(Constants.REFRESH, caseId, custId);
+
+        }
 
     }
 
     @Override
-    public LifecycleTransformer<T> getRxlifecycle() {
-        return bindToLifecycle();
+    public boolean isUseEventBus() {
+        return true;
     }
 }

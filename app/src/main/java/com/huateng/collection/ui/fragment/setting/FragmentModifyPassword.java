@@ -103,11 +103,16 @@ public class FragmentModifyPassword extends BaseActivity {
                     }
 
                     @Override
+                    public void error(String code, String msg) {
+
+                    }
+
+                    @Override
                     public void end() {
                         super.end();
                         hideLoading();
                     }
-                }, ApiConstants.APP_ROOT, ApiConstants.METHOD_CHANGE_PWD, map);
+                }, ApiConstants.MOBILE_APP_OPER_INTERFACE, ApiConstants.METHOD_CHANGE_PWD, map);
             }
         });
     }

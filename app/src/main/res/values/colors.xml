@@ -203,12 +203,17 @@
 
     <color name="color_f6">#f6f6f6</color>
 
-    <color name="accent_color">#E98A52</color>
+    <color name="accent_color">#F95B05</color>
 
     <color name="text_color_969696">#969696</color>
     <color name="text_color_4c4c4c">#4c4c4c</color>
     <color name="text_color_343434">#343434</color>
     <color name="color_fafafa">#fafafa</color>
     <color name="color_f7f7f7">#f7f7f7</color>
+    <color name="text_color_333333">#333333</color>
+    <color name="text_color_666666">#666666</color>
+    <color name="text_color_ff8701">#FF8701</color>
+    <color name="text_color_e3e3e3">#E3E3E3</color>
+    <color name="line_color">#E7E7E7</color>
 
 </resources>

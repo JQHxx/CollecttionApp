@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import net.gotev.uploadservice.UploadService;
 
 public class NotificationActionsReceiver extends BroadcastReceiver {
 
@@ -23,6 +22,6 @@ public class NotificationActionsReceiver extends BroadcastReceiver {
 
     private void onUserRequestedUploadCancellation(Context context, String uploadId) {
         Log.e("CANCEL_UPLOAD", "User requested cancellation of upload with ID: " + uploadId);
-        UploadService.stopUpload(uploadId);
+      //  UploadService.stopUpload(uploadId);
     }
 }

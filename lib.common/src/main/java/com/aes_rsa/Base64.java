@@ -455,7 +455,7 @@ public class Base64  {
      }
 
      public static String decode(String cryptoStr) throws
-       UnsupportedEncodingException {
+             UnsupportedEncodingException {
        if(cryptoStr.length()<40)
          return "";
        try

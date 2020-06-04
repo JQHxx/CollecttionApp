@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.huateng.collection.widget.dialogplus.DialogPlus;
 import com.huateng.fm.ui.widget.FmButton;
+import com.tools.SystemUtils;
 
 /**
  * @author dengzh
@@ -26,6 +27,7 @@ public class BaseDM {
         iv_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SystemUtils.hideInputmethod(v);
                 dialog.dismiss();
             }
         });
@@ -50,7 +52,9 @@ public class BaseDM {
             @Override
             public void onClick(View v) {
                 if (listener!=null){
+                    SystemUtils.hideInputmethod(v);
                     listener.onLeftClicked(v);
+
                 }
             }
         });
@@ -58,6 +62,7 @@ public class BaseDM {
             @Override
             public void onClick(View v) {
                 if (listener!=null){
+                    SystemUtils.hideInputmethod(v);
                     listener.onRightClicked(v);
                 }
             }

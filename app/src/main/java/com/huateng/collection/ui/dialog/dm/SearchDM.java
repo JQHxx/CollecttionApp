@@ -18,6 +18,7 @@ public class SearchDM extends  BaseDM{
         tv_title.setText("查询");
         btn_left.setText("查询");
         btn_right.setText("清空");
+        csv_custName.setHint("案件号/身份证/电话/信用卡卡号");
     }
 
     public String  getCustName(){

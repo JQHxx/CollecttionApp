@@ -13,6 +13,11 @@ import com.huateng.collection.utils.StringUtils;
 import com.huateng.collection.utils.cases.AttachmentProcesser;
 import com.luck.picture.lib.config.PictureConfig;
 import com.tools.utils.FileUtils;
+import com.zr.lib_audio.androidaudiorecorder.AndroidAudioRecorder;
+import com.zr.lib_audio.androidaudiorecorder.AudioChannel;
+import com.zr.lib_audio.androidaudiorecorder.AudioSampleRate;
+import com.zr.lib_audio.androidaudiorecorder.AudioSource;
+import com.zr.lib_audio.androidaudiorecorder.RecordService;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -21,11 +26,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 import androidx.annotation.Nullable;
-import cafe.adriel.androidaudiorecorder.AndroidAudioRecorder;
-import cafe.adriel.androidaudiorecorder.AudioChannel;
-import cafe.adriel.androidaudiorecorder.AudioSampleRate;
-import cafe.adriel.androidaudiorecorder.AudioSource;
-import cafe.adriel.androidaudiorecorder.RecordService;
+
 
 
 /**
@@ -39,9 +40,7 @@ public class PhoneListenerService extends Service {
     private String audioPath;
 
     private String currentCustName;
-    private String currentAddr;
     private String currentCaseId;
-    private String currentAddrId;
 
     private String phoneNumber;
 
@@ -121,17 +120,15 @@ public class PhoneListenerService extends Service {
 
     private void callRecording() {
         currentCaseId = Perference.getCurrentCaseId();
-        currentAddrId = Perference.getCurrentVisitAddressId();
-        currentAddr = Perference.getCurrentVisitAddress();
         currentCustName = Perference.getCurrentCustName();
 
         String fileName;
         String processName;
 
-        if (StringUtils.isNotEmpty(currentCaseId, currentAddrId, currentAddr, currentCustName)) {
-            processId = AttachmentProcesser.getProcessId(currentCaseId, currentAddrId);
+        if (StringUtils.isNotEmpty(currentCaseId, currentCustName)) {
+            processId = currentCaseId;
             fileName = String.format("%s_%s_%s", currentCaseId, phoneNumber, Perference.getUserId());
-            processName = String.format("%s (%s)", currentCustName, currentAddr);
+            processName = String.format("%s (%s)", currentCustName, currentCaseId);
         } else {
             //test
             processId = String.valueOf(UUID.randomUUID());
@@ -153,7 +150,7 @@ public class PhoneListenerService extends Service {
                 // Optional
                 .setSource(AudioSource.MIC)
                 .setChannel(AudioChannel.MONO)
-                .setSampleRate(AudioSampleRate.HZ_11025)
+                .setSampleRate(AudioSampleRate.HZ_8000)
                 .setAutoStart(false)
                 .setKeepDisplayOn(true)
                 // Start recording

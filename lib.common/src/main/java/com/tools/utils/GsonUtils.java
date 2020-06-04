@@ -54,7 +54,7 @@ public class GsonUtils {
             new JsonParser().parse(json);
             return true;
         } catch (JsonParseException e) {
-            Log.e("gson","bad json: " + json);
+            Log.e("gson", "bad json: " + json);
             return false;
         }
     }

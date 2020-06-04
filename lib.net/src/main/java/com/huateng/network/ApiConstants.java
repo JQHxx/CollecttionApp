@@ -22,6 +22,8 @@ public class ApiConstants {
 
     public static final String ERROR_CODE_SUC = "SUC";
 
+    public static final String ERROR_CODE_EXP = "EXP";
+
     public static final String RESULT_CODE_SUC = "0000";
     public static final String RESULT_CODE_EXP = "1111";
 
@@ -33,19 +35,15 @@ public class ApiConstants {
     public static final String ENDPOINT = "http://360cool.net:8021/";
     public static final String ROUTER = "mockjsdata/2/";
 
-//    public static final String RELEASE_BASE_URL = "http://huiyicc.test001.hjzddata.com/ccms-app/";
+    //    public static final String RELEASE_BASE_URL = "http://huiyicc.test001.hjzddata.com/ccms-app/";
     public static final String RELEASE_BASE_URL = "http://10.252.0.23:18088/ccms-app/";
 
     public static String MOCKDATA_BASE_URL = "http://rap2api.taobao.org/app/mock/87147/";
-    public static String DEVELOP_BASE_URL = "http://170.252.199.177:18088/ccms-app/";
+  // public static String DEVELOP_BASE_URL = "http://12.99.129.113:18088/ccms-app/";
+   public static String DEVELOP_BASE_URL = "http://12.99.114.208:8080/apms/api/ccms-app/";
 
-    public static String APP_ROOT = "appInteface";
-    public static String BATCH_ROOT = "caseDetailBatch";
-
-    public static final int UPLOAD_CASIES = 9527;
-
-    public static final String URL_REGISTER = ENDPOINT + "register";
-    public static final String URL_GET_TODO_CASES = ENDPOINT + ROUTER + "queryTodoCaseList";
+    public static String MOBILE_APP_INTERFACE = "mobileAppInterface";
+    public static String MOBILE_APP_OPER_INTERFACE = "mobileAppOperInterface";
 
     public static final String WEB_LOGIN_URL = "/ccms-app/SSO/toLogin.htm";
 
@@ -70,7 +68,7 @@ public class ApiConstants {
     //查询字典
     public static String METHOD_QUERY_DICT = "queryAllDict";
     //查询待办案件
-    public static String METHOD_QUERY_TODO_CASE_LIST = "queryTodoCaseList";
+    public static String METHOD_QUERY_TODO_CASE_LIST = "selectWaitingTask";
     //查询代办案件客户
     public static String METHOD_QUERY_TODO_CUSTS = "queryTodoCusts";
     //
@@ -81,6 +79,57 @@ public class ApiConstants {
     public static String METHOD_VISIT_SUM_CODE = "queryVisitCode";
     //更新外访状态
     public static String METHOD_UPDATE_VISIT_STATUS = "updateVisitStatus";
+
+    //外访记录录入
+    public static String INSERT_OUT_BOUND_RECORD = "insertOutBoundRecord";
+    //退案
+    public static String CASE_RETIRE_BATCH_EXCUTE = "caseRetireBatchExcute";
+    //留案
+    public static String CASE_RESERVE_BATCH_EXCUTE = "caseReserveBatchExcute";
+    //停催
+    public static String STOP_CALL_BATCH_EXCUTE = "stopCallBatchExcute";
+    // 案件结束处理
+    public static String STOP_DEAL_WITH_CASE = "stopDealWithCase";
+    //查询是否可以停催 留案操作
+    public static String SELECT_OPER_APPR_STOP = "selectOperApprStop";
+
+    //查询用户基础信息
+    public static String SELECTED_CUSTOM_INFO = "selectCustomInfo";
+    //查询客户账户信息
+    public static String SELECTED_ACCT_ACCOUNT_INFO = "selectAcctAccountInfo";
+    //查询信用卡信息
+    public static String SELECT_CREDIT_CARD_INFO = "selectCreditCardInfo";
+
+    //查询电话信息
+    public static String SELECT_CUST_TEL_INFO = "selectCustTelInfo";
+
+    //外访流水
+    public static String SELECT_LOG_ACT_ACTION = "selectLogActAction";
+
+    //调查报告新增
+    public static String INDERT_OR_UPD_CUST_REPORT_INFO = "indertOrUpdCustReportInfo";
+
+    //调查报告查询
+    public static String SELEDT_CUST_REPORT_INFO = "selectCustReportInfo";
+    //查询映射字段数据
+    public static String SELECT_DATA_BY_DICT_CODE = "selectDataByDictCode";
+    //减免申请查询信用卡信息
+    public static String SELECT_APPLICATION_RELIEF = "selectApplicationRelief";
+    //减免申请
+    public static String APPLICATION_RELIEF_BATCH_EXCURE = "applicationReliefBatchExcute";
+    //查询已上传的文件
+    public static String SELECT_BASE_FILE = "selectBaseFile";
+
+    public static String SELECT_MAP_DISPLAY = "selectMapDisplay";
+
+    public static String APP_DOWNLOAD = "appDownload";
+    //下载
+
+    //外访统计
+    public static String SELECT_OUT_BOUND_RECORD = "selectOutBoundRecord";
+
+    //修改密码
+    public static String CHANGE_PASSWORD = "changePasswd";
 
     public static String format(String root, String uri) {
         return String.format("%s/%s", root, uri);

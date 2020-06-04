@@ -2,7 +2,6 @@ package com.huateng.collection.ui.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +17,7 @@ import com.huateng.collection.R;
 import com.huateng.collection.bean.orm.FileData;
 import com.huateng.collection.utils.Utils;
 import com.luck.picture.lib.config.PictureConfig;
-import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
-import com.luck.picture.lib.tools.DateUtils;
-import com.luck.picture.lib.tools.StringUtils;
 import com.orhanobut.logger.Logger;
 import com.orm.SugarRecord;
 import com.tools.view.RxToast;
@@ -31,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
@@ -150,7 +145,7 @@ public class GridImageAdapter extends
                 }
             });
             LocalMedia media = list.get(position);
-            int mimeType = media.getMimeType();
+            String mimeType = media.getMimeType();
             String path = "";
             if (media.isCompressed()) {
                 // 压缩过,或者裁剪同时压缩过,以最终压缩过图片为准
@@ -164,26 +159,23 @@ public class GridImageAdapter extends
                 Log.i("compress image result:", new File(media.getCompressPath()).length() / 1024 + "k");
                 Log.i("压缩地址::", media.getCompressPath());
             }
+          //  String pictType = media.getPictureType();
 
-            Log.i("原图地址::", media.getPath());
-            String pictType = media.getPictureType();
-            Log.i("pictType::", pictType);
-
-            int pictureType = PictureMimeType.isPictureType(pictType);
-
+            //int pictureType = PictureMimeType.isPictureType(pictType);
+            int pictureType = 0;
             long duration = media.getDuration();
             viewHolder.tv_duration.setVisibility(pictureType == PictureConfig.TYPE_VIDEO
                     ? View.VISIBLE : View.GONE);
-            if (mimeType == PictureMimeType.ofAudio()) {
+          /*  if (mimeType == PictureMimeType.ofAudio()) {
                 viewHolder.tv_duration.setVisibility(View.VISIBLE);
                 Drawable drawable = ContextCompat.getDrawable(context, R.drawable.picture_audio);
                 StringUtils.modifyTextViewDrawable(viewHolder.tv_duration, drawable, 0);
             } else {
                 Drawable drawable = ContextCompat.getDrawable(context, R.drawable.video_icon);
                 StringUtils.modifyTextViewDrawable(viewHolder.tv_duration, drawable, 0);
-            }
-            viewHolder.tv_duration.setText(DateUtils.timeParse(duration));
-            if (mimeType == PictureMimeType.ofAudio()) {
+            }*/
+          //  viewHolder.tv_duration.setText(DateUtils.timeParse(duration));
+           /* if (mimeType == PictureMimeType.ofAudio()) {
                 viewHolder.mImg.setImageResource(R.drawable.audio_placeholder);
             } else {
                 RequestOptions options = new RequestOptions()
@@ -194,7 +186,15 @@ public class GridImageAdapter extends
                         .load(path)
                         .apply(options)
                         .into(viewHolder.mImg);
-            }
+            }*/
+            RequestOptions options = new RequestOptions()
+                    .centerCrop()
+                    .placeholder(R.color.color_f6)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL);
+            Glide.with(viewHolder.itemView.getContext())
+                    .load(path)
+                    .apply(options)
+                    .into(viewHolder.mImg);
             //itemView 的点击事件
             if (mItemClickListener != null) {
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -239,7 +239,8 @@ public class GridImageAdapter extends
                     boolean isDel = Utils.deleteMediaFile(context, file);
                     if (isDel) {
                         list.remove(index);
-                        notifyItemRemoved(index);
+                        notifyDataSetChanged();
+                       // notifyItemRemoved(index);
 //                        notifyItemRangeChanged(index, list.size());
 
                         //删除sqlite中保存的数据

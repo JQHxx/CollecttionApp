@@ -1,3 +1,4 @@
+/*
 package com.huateng.collection.ui.navigation;
 
 import android.app.PendingIntent;
@@ -75,9 +76,10 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-/**
+*
  * 发件箱
- */
+
+
 public class FragmentDoneCaseChooser extends BaseFragment implements View.OnClickListener, View.OnTouchListener {
 
     @BindView(R.id.tv_selAll)
@@ -107,31 +109,34 @@ public class FragmentDoneCaseChooser extends BaseFragment implements View.OnClic
     }
 
 
-    /**
+*
      * 获取布局ID
      *
      * @return
-     */
+
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_done_case_chooser;
     }
 
 
-    /**
+*
      * 数据初始化操作
-     */
+
+
     @Override
     protected void initData() {
         //  Log.e("nb",NetworkConfig.C.getBaseURL() + "file/upload.htm");
     }
 
 
-    /**
+*
      * 处理顶部title
      *
      * @param savedInstanceState
-     */
+
+
     @Override
     protected void initView(Bundle savedInstanceState) {
         immersiveStatusBar(rxTitle);
@@ -248,7 +253,7 @@ public class FragmentDoneCaseChooser extends BaseFragment implements View.OnClic
         final String addrId = summary.getAddrId();
         final String caseId = summary.getCaseId();
 
-        final String processId = AttachmentProcesser.getProcessId(caseId, addrId);
+        final String processId = caseId;
 
         //上传一些案件信息
         final Map<String, String> paramMap = new HashMap<>();
@@ -422,8 +427,12 @@ public class FragmentDoneCaseChooser extends BaseFragment implements View.OnClic
             case R.id.tv_selAll:
                 adapter.selectAll();
                 break;
-            case R.id.tv_selNone:
-                adapter.reverse();
+            case R.id.tv_selNone:*/
+/**//*
+
+                adapter.reverse();*/
+/**//*
+
                 break;
         }
 
@@ -581,7 +590,7 @@ public class FragmentDoneCaseChooser extends BaseFragment implements View.OnClic
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                  /*  showConfirmMessage("现在清除上传成功案件?", new com.huateng.collection.ui.base.BaseFragment.AppMsgConfirmListener() {
+  showConfirmMessage("现在清除上传成功案件?", new com.huateng.collection.ui.base.BaseFragment.AppMsgConfirmListener() {
                         @Override
                         public void OnConfirm() {
                             clearUploadedCases();
@@ -590,7 +599,8 @@ public class FragmentDoneCaseChooser extends BaseFragment implements View.OnClic
                         @Override
                         public void OnCancel() {
                         }
-                    });*/
+                    });
+
                 }
             }, 200);
         }
@@ -632,6 +642,7 @@ public class FragmentDoneCaseChooser extends BaseFragment implements View.OnClic
             if (caseSummaries.size() == 0) {
                 //刷新发件箱
                 EventBus.getDefault().post(new EventBean(BusEvent.REFRESH_DONE_CASES));
+
             }
 
             adapter.initCheckStates();
@@ -653,3 +664,4 @@ public class FragmentDoneCaseChooser extends BaseFragment implements View.OnClic
         return true;
     }
 }
+*/

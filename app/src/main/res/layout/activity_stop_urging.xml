@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context="com.huateng.collection.ui.activity.StopUrgingActivity">
+
+    <com.tools.view.RxTitle xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rx_title"
+        style="@style/CommontRxToolBarStyle"
+        app:rxRightIconVisibility="false"
+        app:rxTitle="案件停催"
+        app:rxTitleVisibility="true" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="20dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_color_333333"
+                    android:gravity="bottom|right"
+                    android:text="案件号"/>
+
+                <TextView
+                    android:id="@+id/tv_case_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:gravity="bottom|right"
+                    android:layout_marginLeft="16dp"
+                    android:text="T1002"
+                    android:textColor="@color/text_color_666666" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"/>
+
+            <LinearLayout
+                android:id="@+id/ll_stop_call_reason"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical">
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_color_333333"
+                    android:gravity="bottom|right"
+                    android:text="停催原因"/>
+
+                <TextView
+                    android:id="@+id/tv_stop_call_reason"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:paddingRight="5dp"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:gravity="center_vertical|right"
+                    android:layout_marginLeft="16dp"
+                    android:layout_alignParentRight="true"
+                    android:text="请选择"
+                    android:textColor="@color/text_color_666666" />
+                <ImageView
+                    android:gravity="bottom|right"
+                    android:layout_width="18dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/spinner_arrow"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical">
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_color_333333"
+                    android:gravity="bottom|right"
+                    android:text="停催开始日期"/>
+
+                <TextView
+                    android:id="@+id/tv_stop_call_start_date"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:paddingRight="15dp"
+                    android:gravity="bottom|right"
+                    android:layout_marginLeft="16dp"
+                    android:layout_alignParentRight="true"
+                    android:text="请选择"
+                    android:textColor="@color/text_color_666666" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_color_333333"
+                    android:gravity="center_vertical|right"
+                    android:text="停催天数"/>
+
+                <EditText
+                    android:id="@+id/edt_payment_acct_no"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:hint="输入数字"
+                    android:inputType="number"
+                    android:paddingRight="15dp"
+                    android:gravity="center_vertical|right"
+                    android:layout_marginLeft="16dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@null"
+                    android:textColor="@color/text_color_666666" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"/>
+
+            <LinearLayout
+                android:id="@+id/ll_stop_call_end_date"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="center_vertical">
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_color_333333"
+                    android:gravity="bottom|right"
+                    android:text="停催结束日期"/>
+
+                <TextView
+                    android:id="@+id/tv_stop_call_end_date"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:paddingRight="5dp"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:gravity="center_vertical|right"
+                    android:layout_marginLeft="16dp"
+                    android:layout_alignParentRight="true"
+                    android:text="请选择"
+                    android:textColor="@color/text_color_666666" />
+                <ImageView
+                    android:gravity="bottom|right"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginBottom="3dp"
+                    android:src="@drawable/picker_calendar"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"/>
+
+            <LinearLayout
+                android:id="@+id/ll_for_ever_stop"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:gravity="bottom">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_color_333333"
+                    android:gravity="center_vertical|left"
+                    android:text="永久停催"/>
+                <CheckBox
+                    android:id="@+id/check_forever_stop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_color"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_color_343434"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:text="申请原因说明"/>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="#fafafa"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
+                <EditText
+                    android:id="@+id/edt_stop_call_reason"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:hint="不能为空，长度不大于200字"
+                    android:gravity="top|left"
+                    android:background="@null"
+                    android:textColor="#343434" />
+
+            </LinearLayout>
+
+
+
+            <com.huateng.fm.ui.widget.FmButton
+                android:id="@+id/btn_send"
+                android:layout_marginRight="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:minHeight="0dp"
+                android:singleLine="true"
+                android:text="提交"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_bg_enabled"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

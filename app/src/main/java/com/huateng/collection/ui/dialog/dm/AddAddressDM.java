@@ -1,10 +1,7 @@
 package com.huateng.collection.ui.dialog.dm;
 
 import com.huateng.collection.app.Perference;
-import com.huateng.collection.bean.AddAddress;
 import com.huateng.collection.bean.orm.Dic;
-import com.huateng.collection.utils.StringUtils;
-import com.huateng.collection.utils.Validation;
 import com.huateng.collection.widget.UniversalInput;
 
 /**
@@ -62,27 +59,4 @@ public class AddAddressDM extends BaseDM {
         return csv_custRel.getText().toString();
     }
 
-    public AddAddress collectData() {
-        AddAddress address = new AddAddress();
-        address.setCaseId(Perference.getCurrentCaseId());
-
-        String addrType = Dic.queryKey(Dic.ADDRESS, csv_addressType.getNoneNullText());
-        String relWithCust = Dic.queryKey(Dic.RELATION, csv_custRel.getText().toString());
-        String city = csv_city.getNoneNullText();
-        String postCode = csv_postCode.getNoneNullText();
-        String address1 = csv_address.getNoneNullText();
-        String name=csv_name.getNoneNullText();
-
-        if (StringUtils.isEmpty(addrType,name,relWithCust, city, address1)) {
-            return null;
-        }
-
-        address.setAddrType(addrType);
-        address.setName(name);
-        address.setRelWithCust(relWithCust);
-        address.setCity(city);
-        address.setPostcode(postCode);
-        address.setAddress1(address1);
-        return address;
-    }
 }

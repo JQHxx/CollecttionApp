@@ -11,25 +11,69 @@
         style="@style/CommontRxToolBarStyle"
         app:rxRightIconVisibility="false"
         app:rxTitle="拍照"
+        app:rxRightTextVisibility="true"
+        app:rxRightText="上传"
         app:rxTitleVisibility="true" />
 
-    <TextView
-        android:id="@+id/tv_tip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:text="拍下可以证明你身份的照片,以便完成催收任务"
-        android:textColor="@color/gray_textcolor"
-        android:textSize="14sp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler"
+    <com.huateng.collection.widget.recyclerview.RecyclerScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="5dp"
-        android:overScrollMode="never" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:textSize="16sp"
+
+                    android:textColor="@color/text_color_666666"
+                    android:text="待上传图片"/>
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="5dp"
+                android:overScrollMode="never" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:textSize="16sp"
+
+                    android:textColor="@color/text_color_666666"
+                    android:text="已上传图片"/>
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_remote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_gravity="center_horizontal"
+
+                android:layout_marginTop="5dp" />
+
+        </LinearLayout>
+
+
+    </com.huateng.collection.widget.recyclerview.RecyclerScrollView>
+
 
 </LinearLayout>

@@ -57,7 +57,7 @@ public class DecoderLocalFile extends LuminanceSource {
     }
 
     public String handleQRCodeFormPhoto(Context context, Bitmap bitmap) {
-        // TODO Auto-generated method stub
+
 
         Hashtable<DecodeHintType, String> tab = new Hashtable<DecodeHintType, String>();
         tab.put(DecodeHintType.CHARACTER_SET, "utf-8");

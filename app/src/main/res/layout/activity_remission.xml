@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context="com.huateng.collection.ui.activity.StopUrgingActivity">
+
+    <com.tools.view.RxTitle xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rx_title"
+        style="@style/CommontRxToolBarStyle"
+        app:rxRightIconVisibility="false"
+        app:rxTitle="减免申请"
+        app:rxRightText="上传附件"
+        app:rxRightTextVisibility="true"
+        app:rxTitleVisibility="true" />
+
+    <com.huateng.collection.widget.recyclerview.RecyclerScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="20dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fafafa">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="申请信息"/>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:textColor="#343434"
+                    android:gravity="bottom|right"
+                    android:text="申请人"/>
+
+                <TextView
+                    android:id="@+id/tv_user_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:gravity="bottom|right"
+                    android:layout_marginLeft="16dp"
+                    android:text="张三"
+                    android:textColor="#969696" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="16dp"
+                android:background="@color/text_color_969696"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:textColor="#343434"
+                    android:gravity="bottom|right"
+                    android:text="申请时间"/>
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:gravity="bottom|right"
+                    android:layout_marginLeft="16dp"
+                    android:text="2020-04-20 14:00:00"
+                    android:textColor="#969696" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="16dp"
+                android:background="@color/text_color_969696"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:textColor="#343434"
+                    android:gravity="bottom|right"
+                    android:text="客户姓名"/>
+
+                <TextView
+                    android:id="@+id/tv_cust_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:gravity="bottom|right"
+                    android:layout_marginLeft="16dp"
+                    android:text="张浩"
+                    android:textColor="#969696" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="16dp"
+                android:background="@color/text_color_969696"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:textColor="#343434"
+                    android:gravity="bottom|right"
+                    android:text="身份证号"/>
+
+                <TextView
+                    android:id="@+id/tv_cust_id_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:gravity="bottom|right"
+                    android:layout_marginLeft="16dp"
+                    android:text="123456789"
+                    android:textColor="#969696" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="16dp"
+                android:background="@color/text_color_969696"/>
+
+            <!-- 零售个人贷款 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fafafa">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="零售个人贷款"/>
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+
+                android:id="@+id/recyclerview_account"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_resale_view"
+                />
+
+            <!-- 信用卡模块 -->
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fafafa">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:text="信用卡"/>
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerview_card"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/item_resale_view"
+                />
+
+            <!-- 贷款-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#fafafa">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="贷款"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="16sp"
+                            android:textColor="#343434"
+                            android:gravity="bottom|right"
+                            android:text="合计减免本金"/>
+
+                        <TextView
+                            android:id="@+id/tv_reduce_pri_loan"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="16sp"
+                            android:gravity="bottom|right"
+                            android:layout_marginLeft="16dp"
+                            android:text="0.00元"
+                            android:textColor="#969696" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginLeft="16dp"
+                        android:background="@color/text_color_969696"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="16sp"
+                            android:textColor="#343434"
+                            android:gravity="bottom|right"
+                            android:text="合计减免利罚息"/>
+
+                        <TextView
+                            android:id="@+id/tv_reduce_int_loan"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="16sp"
+                            android:gravity="bottom|right"
+                            android:layout_marginLeft="16dp"
+                            android:text="0.00元"
+                            android:textColor="#969696" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginLeft="16dp"
+                        android:background="@color/text_color_969696"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="16sp"
+                            android:textColor="#343434"
+                            android:gravity="bottom|right"
+                            android:text="合计减免总额"/>
+
+                        <TextView
+                            android:id="@+id/tv_reduce_total_loan"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="16sp"
+                            android:gravity="bottom|right"
+                            android:layout_marginLeft="16dp"
+                            android:text="0.00元"
+                            android:textColor="#969696" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginLeft="16dp"
+                        android:background="@color/text_color_969696"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 信用卡 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#fafafa">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="信用卡"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="16sp"
+                            android:textColor="#343434"
+                            android:gravity="bottom|right"
+                            android:text="合计减免本金"/>
+
+                        <TextView
+                            android:id="@+id/tv_reduce_pri_card"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="16sp"
+                            android:gravity="bottom|right"
+                            android:layout_marginLeft="16dp"
+                            android:text="0.00元"
+                            android:textColor="#969696" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginLeft="16dp"
+                        android:background="@color/text_color_969696"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="16sp"
+                            android:textColor="#343434"
+                            android:gravity="bottom|right"
+                            android:text="合计减免利罚息"/>
+
+                        <TextView
+                            android:id="@+id/tv_reduce_int_card"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="16sp"
+                            android:gravity="bottom|right"
+                            android:layout_marginLeft="16dp"
+                            android:text="0.00元"
+                            android:textColor="#969696" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginLeft="16dp"
+                        android:background="@color/text_color_969696"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="16sp"
+                            android:textColor="#343434"
+                            android:gravity="bottom|right"
+                            android:text="合计减免总额"/>
+
+                        <TextView
+                            android:id="@+id/tv_reduce_total_card"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="16sp"
+                            android:gravity="bottom|right"
+                            android:layout_marginLeft="16dp"
+                            android:text="0.00元"
+                            android:textColor="#969696" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginLeft="16dp"
+                        android:background="@color/text_color_969696"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 减免计划 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#fafafa">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:text="减免计划"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="16sp"
+                            android:textColor="#343434"
+                            android:gravity="bottom|right"
+                            android:text="合计减免本金"/>
+
+                        <TextView
+                            android:id="@+id/tv_reduce_pri"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="16sp"
+                            android:gravity="bottom|right"
+                            android:layout_marginLeft="16dp"
+                            android:text="0.00元"
+                            android:textColor="#969696" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginLeft="16dp"
+                        android:background="@color/text_color_969696"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="16sp"
+                            android:textColor="#343434"
+                            android:gravity="bottom|right"
+                            android:text="合计减免利罚息"/>
+
+                        <TextView
+                            android:id="@+id/tv_reduce_int"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="16sp"
+                            android:gravity="bottom|right"
+                            android:layout_marginLeft="16dp"
+                            android:text="0.00元"
+                            android:textColor="#969696" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginLeft="16dp"
+                        android:background="@color/text_color_969696"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center_vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textSize="16sp"
+                            android:textColor="#343434"
+                            android:gravity="bottom|right"
+                            android:text="合计减免总额"/>
+
+                        <TextView
+                            android:id="@+id/tv_reduce_total"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textSize="16sp"
+                            android:gravity="bottom|right"
+                            android:layout_marginLeft="16dp"
+                            android:text="0.00元"
+                            android:textColor="#969696" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginLeft="16dp"
+                        android:background="@color/text_color_969696"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="16dp"
+                android:background="@color/text_color_969696"/>
+
+            <LinearLayout
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="75dp">
+                <TextView
+                    android:layout_width="90dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_color_343434"
+                    android:text="减免\n原因"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:background="#fafafa"
+
+                    android:layout_marginRight="16dp"
+                    android:layout_height="match_parent">
+                    <EditText
+                        android:id="@+id/edt_overdue_cause"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp"
+                        android:textSize="14sp"
+                        android:gravity="top|left"
+                        android:textColor="@color/text_color_343434"
+                        android:hint=" 200字以内"
+                        android:background="@null"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="16dp"
+                android:background="@color/text_color_969696"/>
+
+
+            <com.huateng.fm.ui.widget.FmButton
+                android:id="@+id/btn_save"
+                android:layout_marginRight="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:minHeight="0dp"
+                android:singleLine="true"
+                android:text="提交"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_bg_enabled"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+
+    </com.huateng.collection.widget.recyclerview.RecyclerScrollView>
+
+</LinearLayout>

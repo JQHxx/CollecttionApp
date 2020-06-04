@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/btn_6dp_transparent_shape"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="信用卡卡号："
+                android:textColor="@color/text_color_333333"
+                android:textSize="@dimen/title_text_size" />
+
+            <TextView
+                android:id="@+id/tv_credit_card_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:gravity="left|center_vertical"
+                android:singleLine="true"
+                android:text="20080808"
+                android:textColor="@color/text_color_333333"
+                android:textSize="@dimen/content_text_size" />
+
+            <!--<Space-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1" />-->
+
+            <!--<com.huateng.fm.ui.widget.FmButton-->
+            <!--android:id="@+id/btn_operation"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginRight="8dp"-->
+            <!--android:gravity="center"-->
+            <!--android:minHeight="0dp"-->
+            <!--android:paddingLeft="4dp"-->
+            <!--android:paddingRight="4dp"-->
+            <!--android:singleLine="true"-->
+            <!--android:text="销卡付清计算"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="12sp"-->
+            <!--app:bgColor="@color/theme_color"-->
+            <!--app:cornerStyle="small"-->
+            <!--app:stateBgColor="@color/theme_color_pressed" />-->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="人民币逾期总金额："
+                android:textColor="@color/text_color_333333"
+                android:textSize="@dimen/title_text_size" />
+
+
+            <TextView
+                android:id="@+id/tv_ovdu_amts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:gravity="left|center_vertical"
+                android:singleLine="true"
+                tools:text="13000元"
+                android:textColor="#333333"
+                android:textSize="@dimen/content_text_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="人民币逾期期数："
+                android:textColor="@color/text_color_333333"
+                android:textSize="@dimen/title_text_size" />
+
+
+            <TextView
+                android:id="@+id/tv_overdue_periods"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:gravity="left|center_vertical"
+                android:singleLine="true"
+                android:textColor="#333333"
+                tools:text="2期"
+                android:textSize="@dimen/content_text_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="卡片状态："
+                android:textColor="@color/text_color_333333"
+                android:textSize="@dimen/title_text_size" />
+
+
+            <TextView
+                android:id="@+id/tv_wrof_flag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:gravity="left|center_vertical"
+                android:singleLine="true"
+                android:text="核销转销户"
+                android:textColor="#333333"
+                android:textSize="@dimen/content_text_size" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/icon_back"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

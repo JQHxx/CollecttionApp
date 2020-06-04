@@ -1,7 +1,7 @@
 package com.huateng.collection.ui.home.contract;
 
 import com.huateng.collection.base.IBaseView;
-import com.huateng.collection.bean.api.RespCaseSummary;
+import com.huateng.collection.bean.CaseBeanData;
 
 import java.util.List;
 
@@ -17,13 +17,17 @@ public interface HomeContract {
          * 代办任务数据页面展示
          * @param status
          */
-        void setCaseSummaries(int status, List<RespCaseSummary> respCaseSummaries);
+        void setCaseSummaries(int status, List<CaseBeanData.RecordsBean> respCaseSummaries);
 
+
+        void showEmptyView();
         /**
          * 展示搜索数据
          * @param respCaseSummaries
          */
-        void setSearchCase(List<RespCaseSummary> respCaseSummaries);
+        void setSearchCase(List<CaseBeanData.RecordsBean> respCaseSummaries);
+
+        void onError(String msg);
     }
 
     interface Presenter {
@@ -34,16 +38,14 @@ public interface HomeContract {
          */
         void loadData(int status);
 
-        /**
-         * 加载行动码
-         */
-        void loadVisitSunCode();
+
 
         /**
          * 加载搜索案件
          * @param custName
          */
        void loadSearchCase(String custName);
+
     }
 
 
