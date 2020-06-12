@@ -17,7 +17,7 @@ public class ReduceRequestBean {
     private String reducePri;
     private String reduceInt;
     private String reduceTotal;
-    private double planRepayTotal;
+    private String planRepayTotal;
     private String acctNo;
     private String shouldBreach;
     private double penalAmt;
@@ -114,11 +114,11 @@ public class ReduceRequestBean {
         this.reduceTotal = reduceTotal;
     }
 
-    public double getPlanRepayTotal() {
+    public String getPlanRepayTotal() {
         return planRepayTotal;
     }
 
-    public void setPlanRepayTotal(double planRepayTotal) {
+    public void setPlanRepayTotal(String planRepayTotal) {
         this.planRepayTotal = planRepayTotal;
     }
 

@@ -3,7 +3,6 @@ package com.huateng.network;
 
 import android.os.Environment;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.aes_util.AESUtils;
 import com.baronzhang.retrofit2.converter.FastJsonConverterFactory;
@@ -34,6 +33,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
 import okhttp3.Cache;
 import okhttp3.CacheControl;
+import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -102,15 +102,17 @@ public class RetrofitManager {
 
     // 打印返回的json数据拦截器
     private Interceptor mLoggingInterceptor = new Interceptor() {
+        //记录
 
         @Override
         public Response intercept(Chain chain) throws IOException {
             //请求部分
             Request request = chain.request();
-
             //headers
-            //  Headers headers = request.headers();
-            //            Logger.i("headers: %s", headers.toString());
+          Headers requestHeaders = request.headers();
+            if (requestHeaders != null) {
+                Logger.i("headers: %s", requestHeaders.toString());
+            }
 
             RequestBody requestBody = request.body();
 
@@ -143,6 +145,15 @@ public class RetrofitManager {
             final ResponseBody responseBody = response.body();
             final long contentLength = responseBody.contentLength();
 
+            String httpStatus = response.header("GW_BACK_HTTP_STATUS");
+            if (!TextUtils.isEmpty(httpStatus)&& "302".equals(httpStatus)) {
+                throw new RuntimeException("tokenOverdue");
+            }
+            Headers responseHeaders = response.headers();
+            if (requestHeaders != null) {
+                Logger.i("responseHeaders: %s", responseHeaders.toString());
+            }
+
             BufferedSource source = responseBody.source();
             source.request(Long.MAX_VALUE); // Buffer the entire body.
             Buffer buffer = source.buffer();
@@ -161,12 +172,12 @@ public class RetrofitManager {
             if (contentLength != 0) {
                 String key = sb.toString();
                 String data = buffer.clone().readString(charset);
-                // Log.e("nb", "data--->" + data);
+               // Log.e("nb", "data--->" + data);
                 if (CommonUtils.isJson(data)) {
-                    //  Logger.json(data);
+                    Logger.json(data);
                     CacheManager.getInstance().putCache(key, data);
                 } else {
-                    //  Logger.w(data);
+                    Logger.w(data);
                     //登录超时判断
                     if (data.contains(ApiConstants.WEB_LOGIN_URL))
                         throw new RuntimeException("Timeout");
@@ -220,8 +231,7 @@ public class RetrofitManager {
     public Observable<ResponseStructure> loginRequest(Object obj) {
         String uri = ApiConstants.format("mobileAppInterface", "login");
         String request = generateRequestJson(uri, obj);
-        Log.e("nb", "request:-->" + request);
-        okhttp3.RequestBody body = okhttp3.RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), request);
+     okhttp3.RequestBody body = okhttp3.RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), request);
         return commonApiService.request(body);
     }
 
@@ -231,10 +241,10 @@ public class RetrofitManager {
         baseRequest.getQueryTable().getScubeHeader().setTransCode(uri);
         RequestStructure.QueryTableBean.DataBean dataBean = new RequestStructure.QueryTableBean.DataBean();
         String s = GsonUtils.toJson(obj);
-        // Log.e("nb", "requestData==-->" + s);
+        Logger.i(s);
         dataBean.setAppData(AESUtils.encrypt(s, "aes-nbcbccms@123"));
-          String decrypt = AESUtils.decrypt(dataBean.getAppData(), "aes-nbcbccms@123");
-          Log.e("nb","decrypt:"+decrypt);
+       // String decrypt = AESUtils.decrypt(dataBean.getAppData(), "aes-nbcbccms@123");
+
         baseRequest.getQueryTable().getScubeBody().getContextData().setData(dataBean);
         return GsonUtils.toJson(baseRequest);
     }
@@ -345,9 +355,9 @@ public class RetrofitManager {
         map.put("fileName", name);
         map.put("filePath", filePath);
         String encrypt = AESUtils.encrypt(GsonUtils.toJson(map), "aes-nbcbccms@123");
-        HashMap<String,String> hashMap = new HashMap<>();
-        hashMap.put("appData",encrypt);
-        hashMap.put("callback",callback);
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("appData", encrypt);
+        hashMap.put("callback", callback);
 
         Map<String, RequestBody> requestBodyMap = new HashMap<>();
         for (String key : hashMap.keySet()) {
@@ -355,7 +365,7 @@ public class RetrofitManager {
                     hashMap.get(key) == null ? "" : hashMap.get(key));
             requestBodyMap.put(key, requestBody);
         }
-        return commonApiService.startDownLoad(NetworkConfig.C.getAuth(),requestBodyMap)
+        return commonApiService.startDownLoad(NetworkConfig.C.getAuth(), requestBodyMap)
                 .compose(RetrofitManager.handleDownload(savePath, name));
     }
 
@@ -368,7 +378,7 @@ public class RetrofitManager {
             savePath = getDefaultDownLoadPath();
         }
         if (TextUtils.isEmpty(fileName)) {
-            fileName = getDefaultDownLoadFileName(System.currentTimeMillis()+"");
+            fileName = getDefaultDownLoadFileName(System.currentTimeMillis() + "");
         }
         return new DownLoadTransformer(savePath, fileName);
     }

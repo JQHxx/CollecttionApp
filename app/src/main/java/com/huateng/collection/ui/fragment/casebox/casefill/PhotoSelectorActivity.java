@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import com.aes_util.AESUtils;
@@ -27,6 +26,7 @@ import com.huateng.collection.utils.WatermarkSettings;
 import com.huateng.collection.utils.cases.AttachmentProcesser;
 import com.huateng.collection.utils.cases.CaseManager;
 import com.huateng.collection.utils.map.LocationHelper;
+import com.huateng.collection.widget.Watermark;
 import com.huateng.collection.widget.pictureselector.FullyGridLayoutManager;
 import com.huateng.network.ApiConstants;
 import com.huateng.network.BaseObserver2;
@@ -106,7 +106,10 @@ public class PhotoSelectorActivity extends BaseActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-
+        Watermark.getInstance()
+                .setTextSize(12.0f)
+                .setText(Perference.getUserId()  + "-" + Perference.get(Perference.NICK_NAME))
+                .show(this);
         themeId = R.style.picture_white_style;
         immersiveStatusBar(rxTitle);
         caseId = getIntent().getStringExtra(Constants.CASE_ID);
@@ -120,14 +123,12 @@ public class PhotoSelectorActivity extends BaseActivity {
 
             @Override
             public List<LocalMedia> doInBackground() {
-                Log.e("nb", "doInBackground doInBackground doInBackground");
-                return new LocalMediaLoader(PhotoSelectorActivity.this, PictureSelectionConfig.getInstance()).getImages(localfilePath);
+               return new LocalMediaLoader(PhotoSelectorActivity.this, PictureSelectionConfig.getInstance()).getImages(localfilePath);
             }
 
             @Override
             public void onSuccess(List<LocalMedia> localMedias) {
-                Log.e("nb", "onSuccess onSuccess onSuccess:" + localMedias.size());
-                initStandardModel(localMedias);
+               initStandardModel(localMedias);
             }
         });
     }
@@ -143,8 +144,7 @@ public class PhotoSelectorActivity extends BaseActivity {
             fileList.clear();
             remoteFileList.clear();
 
-            Log.e("nb", "fileDatas:" + fileDatas.size());
-            for (LocalMedia localMedia : images) {
+           for (LocalMedia localMedia : images) {
                 //过滤掉已上传的文件和下载的文件
                 boolean b = false;
                 for (FileData fileData : fileDatas) {
@@ -190,9 +190,7 @@ public class PhotoSelectorActivity extends BaseActivity {
                         .isNotPreviewDownload(true)
                         .loadImageEngine(GlideEngine.createGlideEngine()) // 请参考Demo GlideEngine.java
                         .openExternalPreview(position, fileList);
-
-                //  PictureSelector.create(PhotoSelectorActivity.this).externalPicturePreview(position, fileList, 0);
-            }
+             }
         });
 
         //远程图片加载
@@ -274,24 +272,19 @@ public class PhotoSelectorActivity extends BaseActivity {
      * 保存拍照文件到后台
      */
     private void sendData() {
+        String fileDate = "";
         isUpload = true;
         showLoading();
-        Map<String, String> map = new HashMap<>();
-        map.put("caseId", caseId);
-        map.put("fileType", "0");
-        map.put("tlrNo", Perference.getUserId());
-        String appData = GsonUtils.toJson(map);
+
         ArrayList<UploadParam> uploadParams = new ArrayList<>();
-        uploadParams.add(new UploadParam("appData", AESUtils.encrypt(appData, "aes-nbcbccms@123")));
-        uploadParams.add(new UploadParam("callback", "mobileAppFileOperServiceImpl/uploadAppFile"));
-        //过滤掉已上传的文件
+        Map<String, String> map = new HashMap<>();
+       //过滤掉已上传的文件
         //数据库查找保存的数据
         List<FileData> fileDatas = CaseManager.obtainPhotoDatas(caseId);
         for (LocalMedia localMedia : fileList) {
             //过滤掉已上传的文件
             boolean b = false;
             for (FileData fileData : fileDatas) {
-                Log.e("nb", fileData.getCaseId() + ":" + fileData.getRealPath());
                 //当待上传的图片路径 和数据库中已上传的文件路径相同 说明不需要再次上传
                 b = localMedia.getPath().equals(fileData.getRealPath()) && fileData.isUpload();
                 if (b) {
@@ -301,10 +294,21 @@ public class PhotoSelectorActivity extends BaseActivity {
 
             if (!b) {
                 uploadParams.add(new UploadParam("file", new File(localMedia.getPath()), localMedia.getFileName()));
-                Log.e("nb", "新增一张图片:");
+              //  Log.e("nb", "新增一张图片:");
+                long time = new File(localMedia.getPath()).lastModified();
+                if (imageSize == 0) {
+                    fileDate = localMedia.getFileName() + "/" + time ;
+
+                } else {
+                   fileDate = fileDate + "," + localMedia.getFileName() + "/" + time;
+
+                }
+
+
                 imageSize++;
             }
         }
+
 
         if (imageSize == 0) {
             RxToast.showToast("本地无待上传图片");
@@ -313,6 +317,13 @@ public class PhotoSelectorActivity extends BaseActivity {
             return;
         }
         imageSize = 0;
+        map.put("caseId", caseId);
+        map.put("fileType", "0");
+        map.put("fileDate",fileDate);
+        map.put("tlrNo", Perference.getUserId());
+        String appData = GsonUtils.toJson(map);
+        uploadParams.add(new UploadParam("appData", AESUtils.encrypt(appData, "aes-nbcbccms@123")));
+        uploadParams.add(new UploadParam("callback", "mobileAppFileOperServiceImpl/uploadAppFile"));
 
         RetrofitManager.getInstance()
                 .uploadFile(NetworkConfig.C.getBaseURL() + "file/upload.htm", uploadParams)
@@ -322,12 +333,11 @@ public class PhotoSelectorActivity extends BaseActivity {
                     @Override
                     public void _onProgress(Integer percent) {
                         super._onProgress(percent);
-                        Log.e("nb", "进度：" + percent);
+                       // Log.e("nb", "进度：" + percent);
                     }
 
                     @Override
                     public void _onNext(ResponseStructure o) {
-                        Log.e("nb", "_onNext：");
                         if (isFinishing()) {
                             return;
                         }
@@ -341,7 +351,7 @@ public class PhotoSelectorActivity extends BaseActivity {
 
                             RxToast.showToast(o.getScubeHeader().getErrorMsg());
                         } else if (o.getScubeHeader() != null && "SUC".equals(o.getScubeHeader().getErrorCode())) {
-                            Log.e("nb", "fileDatas.size():" + fileDatas.size());
+                           // Log.e("nb", "fileDatas.size():" + fileDatas.size());
 
                             Iterator<LocalMedia> iterator = fileList.iterator();
                             while (iterator.hasNext()) {
@@ -350,7 +360,6 @@ public class PhotoSelectorActivity extends BaseActivity {
                                 if (file.isFile()) {
                                    // remoteFileList.add(localMedia);
                                     iterator.remove();
-                                    Log.e("nb", "设置为已上传");
                                 }
                             }
 
@@ -367,17 +376,14 @@ public class PhotoSelectorActivity extends BaseActivity {
                         //刷新远程图片
 
                         isUpload = false;
-                       // mRemoteImageAdapter.notifyDataSetChanged();
                         adapter.notifyDataSetChanged();
                         loadMoreImage(true);
-                        Log.e("nb", "照片上传成功了");
                         hideLoading();
                     }
 
                     @Override
                     public void _onError(Throwable e) {
                         hideLoading();
-                        Log.e("nb", e.getLocalizedMessage() + "失败");
                         RxToast.showToast("照片上传失败");
                         isUpload = false;
                     }
@@ -402,13 +408,12 @@ public class PhotoSelectorActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e("nb", requestCode + ":" + resultCode);
+      //  Log.e("nb", requestCode + ":" + resultCode);
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case PictureConfig.REQUEST_CAMERA:
                     // 将选择的照片文件复制到案件文件下
                     List<LocalMedia> selectList = PictureSelector.obtainMultipleResult(data);
-                    Log.e("nb", "selectList:" + selectList.size());
                     List<LocalMedia> newList = new ArrayList<>();
                     for (int i = 0; i < selectList.size(); i++) {
                         boolean contains = false;
@@ -427,12 +432,12 @@ public class PhotoSelectorActivity extends BaseActivity {
                             //复制选择图片文件
                             boolean isCopy = false;
                             boolean isTempExist = tempFile.exists();
-                            Log.e("nb", "isTempExist:" + isTempExist);
+                          //  Log.e("nb", "isTempExist:" + isTempExist);
                             if (!isTempExist) {
                                 isCopy = FileUtils.copyFile(file, tempFile);
                                 Logger.i("%s copy:%s", selectMedia.getPath(), String.valueOf(isCopy));
                             }
-                            Log.e("nb", "isCopy:" + isCopy);
+                           // Log.e("nb", "isCopy:" + isCopy);
                             if (isCopy || isTempExist) {
                                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                                 String time = formatter.format(new Date());
@@ -449,7 +454,7 @@ public class PhotoSelectorActivity extends BaseActivity {
 
                                 Bitmap bitmap2 = WatermarkSettings.createWatermark(tempFile.getPath(), Perference.getUserId(), custName, lastAddress, String.format("( %s,%s)", latitude, longitude), time);
                                 boolean saved = ImageUtils.save(bitmap2, newFile.getPath(), Bitmap.CompressFormat.JPEG);
-                                Log.e("nb", "save:" + saved);
+                              //  Log.e("nb", "save:" + saved);
                                 if (saved) {
                                     //                                     删除临时文件
                                     Utils.deleteImage(PhotoSelectorActivity.this, tempFile.getPath());
@@ -553,12 +558,12 @@ public class PhotoSelectorActivity extends BaseActivity {
                         for (int i = 0; i < uploadImageDataBean.getRecords().size(); i++) {
                             UploadImageDataBean.RecordsBean recordsBean = uploadImageDataBean.getRecords().get(i);
                             if (TextUtils.isEmpty(localfilePath)) {
-                                Log.e("nb", "localfilePath:" + localfilePath);
+                             //   Log.e("nb", "localfilePath:" + localfilePath);
                                 localfilePath = AttachmentProcesser.getInstance(PhotoSelectorActivity.this).getPhotoPath(caseId);
                             }
 
                             String path = localfilePath + File.separator + recordsBean.getFileName();
-                            Log.e("nb", "path-->" + path);
+                          //  Log.e("nb", "path-->" + path);
                             if (FileUtils.isFileExists(path)) {
                                 LocalMedia localMedia = new LocalMedia();
                                 localMedia.setPath(path);
@@ -571,7 +576,6 @@ public class PhotoSelectorActivity extends BaseActivity {
                                     hideLoading();
                                 }
                             } else {
-                                Log.e("nb", "开始下载图片了");
                                 downLoad(recordsBean.getFileName(), recordsBean.getFilePath(), isFresh);
                             }
                         }
@@ -594,13 +598,6 @@ public class PhotoSelectorActivity extends BaseActivity {
 
                         }
 
-                        /*if (uploadImageDataBean.getRecords().size() < pageSize) {
-                            //第一页如果不够一页就不显示没有更多数据布局
-                            mRemoteImageAdapter.loadMoreEnd();
-
-                        } else {
-                            mRemoteImageAdapter.loadMoreComplete();
-                        }*/
                         pageNo++;
 
                     }
@@ -630,14 +627,13 @@ public class PhotoSelectorActivity extends BaseActivity {
     }
 
     private void downLoad(String name, String filePath, boolean isFresh) {
-        Log.e("nb", name + ":" + filePath);
+        //Log.e("nb", name + ":" + filePath);
         RetrofitManager.getInstance()
                 .download(name, filePath, "mobileAppFileOperServiceImpl/appDownload", localfilePath)
                 .compose(RxSchedulers.io_main())
                 .subscribe(new DownLoadObserver() {
                     @Override
                     public void _onNext(String result) {
-                        Log.e("nb", "_onNext" + result);
                         UploadImageDataBean.RecordsBean recordsBean = new UploadImageDataBean.RecordsBean();
                         recordsBean.setFilePath(result);
                         LocalMedia localMedia = new LocalMedia();
@@ -663,8 +659,7 @@ public class PhotoSelectorActivity extends BaseActivity {
 
                     @Override
                     public void _onError(Throwable e) {
-                        Log.e("nb", "_onError");
-                        number++;
+                       number++;
                         if (isFresh) {
                             hideLoading();
                         }
@@ -694,7 +689,6 @@ public class PhotoSelectorActivity extends BaseActivity {
             fileData.setType(FileData.TYPE_PHOTO);
             fileData.setUserId(Perference.getUserId());
             SugarRecord.save(fileData);
-            Log.e("nb", "下载文件保存到数据库");
         }
 
 

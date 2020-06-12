@@ -13,7 +13,7 @@ public interface CaseDetailContract {
 
         void finishPage();
 
-        void toCaseAction(String type);
+        void toCaseAction(boolean isProcess);
     }
 
     interface Presenter {

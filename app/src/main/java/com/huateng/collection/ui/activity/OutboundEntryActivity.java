@@ -2,7 +2,6 @@ package com.huateng.collection.ui.activity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -218,8 +217,6 @@ public class OutboundEntryActivity extends BaseActivity {
 
                     @Override
                     public void onError(String code, String msg) {
-                        Log.e("nb","onError onError");
-
                         hideLoading();
 
                         if(TextUtils.isEmpty(msg)) {
@@ -232,7 +229,6 @@ public class OutboundEntryActivity extends BaseActivity {
                     public void onNextData(String s) {
 
                         hideLoading();
-                        Log.e("nb","onNextData onNextData");
                         RxToast.showToast("外访录入录入成功");
                         EventBus.getDefault().post(new EventBean(BusEvent.REFRESH_HISTORY_ACTIONS));
                         finish();

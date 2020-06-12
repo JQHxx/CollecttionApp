@@ -54,6 +54,7 @@
     <!--默认样式-->
     <style name="picture.default.style" parent="Base.Theme.NoActionBar">
         <!-- Customize your theme here. -->
+        <item name="android:windowNoTitle">true</item><!-- 无标题 -->
         <!--标题栏背景色-->
         <item name="colorPrimary">@color/picture_color_grey</item>
         <!--状态栏背景色-->

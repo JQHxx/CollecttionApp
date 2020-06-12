@@ -1,7 +1,9 @@
 package com.huateng.collection.ui.activity;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -16,6 +18,7 @@ import com.huateng.collection.base.BasePresenter;
 import com.huateng.collection.bean.DictDataBean;
 import com.huateng.collection.bean.orm.DictItemBean;
 import com.huateng.collection.ui.dialog.BottomDialogFragment;
+import com.huateng.collection.widget.Watermark;
 import com.huateng.fm.ui.widget.FmButton;
 import com.huateng.network.ApiConstants;
 import com.huateng.network.BaseObserver2;
@@ -44,8 +47,6 @@ import io.reactivex.schedulers.Schedulers;
 public class CaseBackActivity extends BaseActivity {
     @BindView(R.id.rx_title)
     RxTitle mRxTitle;
-    @BindView(R.id.tv_case_id)
-    TextView mTvCaseId;
     @BindView(R.id.btn_save)
     FmButton mBtnSave;
     @BindView(R.id.tv_cause)
@@ -64,11 +65,37 @@ public class CaseBackActivity extends BaseActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-
+        Watermark.getInstance()
+                .setTextSize(12.0f)
+                .setText(Perference.getUserId()  + "-" + Perference.get(Perference.NICK_NAME))
+                .show(this);
         mRxTitle.setLeftOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+
+
+        mEdtApplyReasonDesc.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!TextUtils.isEmpty(s) && s.length() > 200) {
+                    RxToast.showToast("退案原因说明不能超过200字");
+                    mEdtApplyReasonDesc.setText(s.toString().substring(0, 200));
+                }
             }
         });
 
@@ -90,8 +117,6 @@ public class CaseBackActivity extends BaseActivity {
     @Override
     protected void initData() {
         caseId = getIntent().getStringExtra(Constants.CASE_ID);
-        mTvCaseId.setText(caseId);
-
        requestDictData();
     }
 

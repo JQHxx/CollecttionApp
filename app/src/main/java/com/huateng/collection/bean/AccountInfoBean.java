@@ -301,7 +301,8 @@ public class AccountInfoBean {
         private String tenLevelClass;
         private long updTime;
         private String updUser;
-        private String overdueDate;
+        private long overdueDate;
+        private String businessType;
 
         protected RecordsBean(Parcel in) {
             acctBusinessType = in.readString();
@@ -399,7 +400,8 @@ public class AccountInfoBean {
             tenLevelClass = in.readString();
             updTime = in.readLong();
             updUser = in.readString();
-            overdueDate = in.readString();
+            overdueDate = in.readLong();
+            businessType = in.readString();
         }
 
         @Override
@@ -499,7 +501,8 @@ public class AccountInfoBean {
             dest.writeString(tenLevelClass);
             dest.writeLong(updTime);
             dest.writeString(updUser);
-            dest.writeString(overdueDate);
+            dest.writeLong(overdueDate);
+            dest.writeString(businessType);
         }
 
         @Override
@@ -1279,16 +1282,20 @@ public class AccountInfoBean {
             this.updUser = updUser;
         }
 
-        public String getOverdueDate() {
+        public long getOverdueDate() {
             return overdueDate;
         }
 
-        public void setOverdueDate(String overdueDate) {
+        public void setOverdueDate(long overdueDate) {
             this.overdueDate = overdueDate;
         }
 
-        public static Creator<RecordsBean> getCREATOR() {
-            return CREATOR;
+        public String getBusinessType() {
+            return businessType;
+        }
+
+        public void setBusinessType(String businessType) {
+            this.businessType = businessType;
         }
     }
 }

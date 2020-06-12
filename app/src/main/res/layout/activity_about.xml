@@ -11,7 +11,7 @@
         android:id="@+id/rx_title"
         style="@style/CommontRxToolBarStyle"
         app:rxLeftIconVisibility="true"
-        app:rxLeftTextVisibility="true"
+        app:rxLeftTextVisibility="false"
         app:rxRightIconVisibility="false"
         app:rxTitle="关于我们"
         app:rxTitleSize="18sp"
@@ -20,8 +20,8 @@
 
     <ImageView
         android:id="@+id/iv_logo"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginTop="50dp"
         android:layout_gravity="center_horizontal"
         android:src="@mipmap/ic_launcher"/>

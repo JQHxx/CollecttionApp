@@ -1,5 +1,8 @@
 package com.huateng.collection.ui.adapter;
 
+import android.text.TextUtils;
+import android.widget.TextView;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.flyco.dialog.widget.ActionSheetDialog;
@@ -25,11 +28,45 @@ public class ContactsPhoneAdapter extends BaseQuickAdapter<CustTelInfoBean.Recor
     @Override
     protected void convert(BaseViewHolder helper, CustTelInfoBean.RecordsBean bean) {
 
-        helper.setText(R.id.tv_name,bean.getName())
-                .setText(R.id.tv_contact_id_no,bean.getContactIdno())
-                .setText(R.id.tv_contact_phone,bean.getContactPnhone())
-                .setText(R.id.tv_rel_with_cust,bean.getRelWithCust())
-                .setText(R.id.tv_family_flag,"Y".equals(bean.getFamilyFlag())?"是":"否");
+        helper.setText(R.id.tv_name, bean.getName())
+                .setText(R.id.tv_contact_conpany, bean.getContactCompany())
+                .setText(R.id.tv_contact_id_no, bean.getContactIdno())
+                .setText(R.id.tv_contact_phone, bean.getContactPnhone())
+                .setText(R.id.tv_rel_with_cust, bean.getRelWithCust());
+
+        TextView mTvSex = helper.getView(R.id.tv_contact_sex);
+        TextView mTvFamilyFlag = helper.getView(R.id.tv_family_flag);
+        TextView mTvEffectiveFlag = helper.getView(R.id.tv_effective_flag);
+        if ("M".equals(bean.getContactSex())) {
+            mTvSex.setText("男");
+        } else if ("F".equals(bean.getContactSex())) {
+            mTvSex.setText("女");
+        } else {
+            mTvSex.setText("");
+        }
+
+        if (TextUtils.isEmpty(bean.getContactPnhone())) {
+            helper.setVisible(R.id.rl_call, false);
+        } else {
+            helper.setVisible(R.id.rl_call, true);
+        }
+
+        if ("Y".equals(bean.getContactSex())) {
+            mTvFamilyFlag.setText("是");
+        } else if ("N".equals(bean.getContactSex())) {
+            mTvFamilyFlag.setText("否");
+        } else {
+            mTvFamilyFlag.setText("");
+        }
+
+        if ("Y".equals(bean.getEffectiveFlag())) {
+            mTvEffectiveFlag.setText("是");
+        } else if ("N".equals(bean.getEffectiveFlag())) {
+            mTvEffectiveFlag.setText("否");
+        } else {
+            mTvEffectiveFlag.setText("");
+        }
+
         helper.addOnClickListener(R.id.rl_call);
 
        /* helper.itemView.setOnClickListener(new View.OnClickListener() {

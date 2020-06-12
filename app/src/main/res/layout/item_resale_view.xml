@@ -4,8 +4,23 @@
     android:orientation="vertical"
     android:background="@color/white"
     android:layout_width="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:layout_height="wrap_content">
 
+    <LinearLayout
+        android:id="@+id/ll_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fafafa">
+        <TextView
+            android:id="@+id/tv_account_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_color_333333"
+            android:padding="15dp"
+            android:text="第1条贷款信息"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,8 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:textSize="15sp"
-            android:textColor="@color/text_color_666666"
-            tools:text="白领通授信额度"/>
+            android:textColor="@color/text_color_666666"/>
 
 
     </LinearLayout>
@@ -62,8 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:textSize="15sp"
-            android:textColor="@color/text_color_666666"
-            tools:text="1200元"/>
+            android:textColor="@color/text_color_666666"/>
 
     </LinearLayout>
 
@@ -94,7 +107,7 @@
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:textColor="@color/text_color_666666"
-            tools:text="50000"/>
+            />
 
     </LinearLayout>
 
@@ -127,7 +140,7 @@
             android:layout_marginLeft="10dp"
             android:textSize="15sp"
             android:textColor="@color/text_color_666666"
-            tools:text="1200元"/>
+            />
 
     </LinearLayout>
 
@@ -159,7 +172,7 @@
             android:layout_marginLeft="10dp"
             android:textSize="15sp"
             android:textColor="@color/text_color_666666"
-            tools:text="51200"/>
+            />
 
 
     </LinearLayout>
@@ -192,7 +205,7 @@
             android:layout_marginLeft="10dp"
             android:textSize="15sp"
             android:textColor="@color/text_color_666666"
-            tools:text="51200"/>
+           />
         
     </LinearLayout>
 
@@ -223,8 +236,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:textSize="15sp"
-            android:textColor="@color/text_color_666666"
-            android:text="51200"/>
+            android:textColor="@color/text_color_666666" />
 
     </LinearLayout>
 
@@ -255,8 +267,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:textSize="15sp"
-            android:textColor="@color/text_color_666666"
-            tools:text="0"/>
+            android:textColor="@color/text_color_666666" />
 
 
     </LinearLayout>
@@ -289,7 +300,7 @@
             android:layout_marginLeft="10dp"
             android:textSize="15sp"
             android:textColor="@color/text_color_666666"
-            android:text="0"/>
+            />
 
     </LinearLayout>
 
@@ -319,8 +330,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:textColor="@color/text_color_666666"
-            android:text="0"/>
+            android:textColor="@color/text_color_666666" />
 
     </LinearLayout>
 
@@ -348,10 +358,10 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:textSize="15sp"
-            android:gravity="center"
+            android:gravity="right|center_vertical"
             android:inputType="numberDecimal"
-            android:imeOptions="actionSend"
             android:singleLine="true"
+            android:hint="请输入计划归还总额"
             android:background="@color/text_color_e3e3e3"
             android:textColor="@color/text_color_343434"
             />
@@ -385,8 +395,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:textSize="15sp"
-            android:textColor="@color/text_color_666666"
-            tools:text="2010-09-09"/>
+            android:textColor="@color/text_color_666666"/>
 
     </LinearLayout>
 

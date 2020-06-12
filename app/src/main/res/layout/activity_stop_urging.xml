@@ -10,6 +10,7 @@
 
     <com.tools.view.RxTitle xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/rx_title"
+        app:rxLeftTextVisibility="false"
         style="@style/CommontRxToolBarStyle"
         app:rxRightIconVisibility="false"
         app:rxTitle="案件停催"
@@ -26,36 +27,6 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:gravity="center_vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:textColor="@color/text_color_333333"
-                    android:gravity="bottom|right"
-                    android:text="案件号"/>
-
-                <TextView
-                    android:id="@+id/tv_case_id"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
-                    android:gravity="bottom|right"
-                    android:layout_marginLeft="16dp"
-                    android:text="T1002"
-                    android:textColor="@color/text_color_666666" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/line_color"/>
-
             <LinearLayout
                 android:id="@+id/ll_stop_call_reason"
                 android:layout_width="match_parent"
@@ -199,7 +170,7 @@
                     android:gravity="bottom|right"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:layout_marginBottom="3dp"
+                    android:layout_marginRight="5dp"
                     android:src="@drawable/picker_calendar"/>
             </LinearLayout>
 
@@ -208,26 +179,40 @@
                 android:layout_height="0.5dp"
                 android:background="@color/line_color"/>
 
+
             <LinearLayout
                 android:id="@+id/ll_for_ever_stop"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:gravity="bottom">
+                android:gravity="center_vertical">
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="match_parent"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:textSize="16sp"
                     android:textColor="@color/text_color_333333"
-                    android:gravity="center_vertical|left"
+                    android:gravity="bottom|right"
                     android:text="永久停催"/>
-                <CheckBox
-                    android:id="@+id/check_forever_stop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/tv_forever_stop"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:paddingRight="5dp"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:gravity="center_vertical|right"
+                    android:layout_marginLeft="16dp"
+                    android:layout_alignParentRight="true"
+                    android:text="请选择"
+                    android:textColor="@color/text_color_666666" />
+                <ImageView
+                    android:gravity="bottom|right"
+                    android:layout_width="18dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/spinner_arrow"/>
             </LinearLayout>
 
             <View
@@ -243,13 +228,14 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:text="申请原因说明"/>
+                android:text="停催原因说明"/>
 
             <LinearLayout
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:background="#fafafa"
+                android:minHeight="75dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp">
                 <EditText

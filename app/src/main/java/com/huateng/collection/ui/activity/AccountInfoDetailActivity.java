@@ -2,6 +2,7 @@ package com.huateng.collection.ui.activity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,6 +13,7 @@ import com.huateng.collection.base.BasePresenter;
 import com.huateng.collection.bean.AccountInfoBean;
 import com.huateng.collection.bean.orm.DictItemBean;
 import com.huateng.collection.utils.DateUtil;
+import com.huateng.collection.utils.DictUtils;
 import com.orm.SugarRecord;
 import com.tools.view.RxTitle;
 import com.trello.rxlifecycle3.LifecycleTransformer;
@@ -34,7 +36,7 @@ import io.reactivex.schedulers.Schedulers;
  * 账户详细信息
  */
 public class AccountInfoDetailActivity extends BaseActivity {
-    HashMap<String, String> hashMap = new HashMap<>();
+    //
     @BindView(R.id.tv_baserial_no)
     TextView mTvBaserialNo;
     @BindView(R.id.tv_project_no)
@@ -97,28 +99,60 @@ public class AccountInfoDetailActivity extends BaseActivity {
     @Override
     protected void initData() {
         mRecordsBean = getIntent().getParcelableExtra("recordData");
-        initDictData();
+
         if (mRecordsBean == null) {
             return;
         }
 
-        mTvBaserialNo.setText(mRecordsBean.getBaserialno());
-        mTvProjectNo.setText(mRecordsBean.getBacctNo());
-        mTvProductType.setText(mRecordsBean.getProductType());
+        initDictData();
+        initDictData2();
+
+        //
+        if("01".equals(mRecordsBean.getBusinessType())) {
+            mTvBaserialNo.setText(mRecordsBean.getAcctNo());
+            mTvProjectNo.setText(mRecordsBean.getBacctNo());
+
+        }else if("02".equals(mRecordsBean.getBusinessType())) {
+            mTvBaserialNo.setText(mRecordsBean.getBaserialno());
+            mTvProjectNo.setText(mRecordsBean.getProjectNo());
+
+        }else if("03".equals(mRecordsBean.getBusinessType())) {
+            mTvBaserialNo.setText(mRecordsBean.getBaserialno());
+            mTvProjectNo.setText(mRecordsBean.getBacctNo());
+
+        }else if("04".equals(mRecordsBean.getBusinessType())) {
+            mTvBaserialNo.setText(mRecordsBean.getBaserialno());
+            mTvProjectNo.setText(mRecordsBean.getBacctNo());
+        }
+
+      //  mTvBaserialNo.setText(mRecordsBean.getBaserialno());
+
+
         mTvOvduAmts.setText(mRecordsBean.getOvduAmts());
         mTvOdPrincipalAmt.setText(mRecordsBean.getOdPrincipalAmt());
         mTvOdInterestAmt.setText(mRecordsBean.getOdInterestAmt());
         mTvOdPenIntAmt.setText(mRecordsBean.getOdPenIntAmt());
-        if (mRecordsBean.getPayDueDate() > 0) {
+        if(mRecordsBean.getPayDueDate() >0) {
+
             mTvPayDueDate.setText(DateUtil.getDate(mRecordsBean.getPayDueDate()));
+        }else {
+            mTvPayDueDate.setText("");
+        }
+        mTvOverdueDays.setText(String.valueOf(mRecordsBean.getOverdueDays()));
+        if(mRecordsBean.getOverdueDate() >0) {
+
+            mTvOverdueDate.setText(DateUtil.getDate(mRecordsBean.getOverdueDate()));
+        }else {
+            mTvOverdueDate.setText("");
         }
 
-        mTvOverdueDays.setText(mRecordsBean.getOverdueDays() + "天");
-        mTvOverdueDate.setText(mRecordsBean.getOverdueDate());
-        if (hashMap != null) {
+       mTvAcctStatus.setText(DictUtils.getAcctStatus(mRecordsBean.getAcctStatus()));
+      /*  if (hashMap != null) {
             String acctStatus = hashMap.get(mRecordsBean.getAcctStatus());
             mTvAcctStatus.setText(TextUtils.isEmpty(hashMap.get(mRecordsBean.getAcctStatus())) ? mRecordsBean.getAcctStatus() : acctStatus);
-        }
+        }*/
+
+        mTvBusinessrate.setText(mRecordsBean.getBusinessrate());
 
     }
 
@@ -130,7 +164,6 @@ public class AccountInfoDetailActivity extends BaseActivity {
         SystemBarHelper.immersiveStatusBar(this, 0);
         SystemBarHelper.setHeightAndPadding(this, mRxTitle);
 
-
     }
 
 
@@ -140,7 +173,7 @@ public class AccountInfoDetailActivity extends BaseActivity {
             public void subscribe(@NonNull ObservableEmitter<HashMap<String, String>> e) throws Exception {
                 //   Log.e(TAG, "Observable thread is : " + Thread.currentThread().getName());
                 List<DictItemBean> dictDataBeans = SugarRecord.find(DictItemBean.class, "DICT_CODE=?", "PRODUCTCODE");
-
+                HashMap<String, String> hashMap = new HashMap<>();
                 for (DictItemBean dictItemBean : dictDataBeans) {
                     // Log.e("nb", dictItemBean.getDescription() + ":" + dictItemBean.getDataCode());
                     hashMap.put(dictItemBean.getDataVal(), dictItemBean.getDescription());
@@ -154,6 +187,44 @@ public class AccountInfoDetailActivity extends BaseActivity {
                 .subscribe(new Consumer<HashMap<String, String>>() {
                     @Override
                     public void accept(HashMap<String, String> stringStringHashMap) throws Exception {
+                      //  if (mRecordsBean.getPayDueDate() > 0) {
+                            //  mTvProductType.setText(mRecordsBean.getProductType());
+                            if (stringStringHashMap != null) {
+                                String productType = stringStringHashMap.get(mRecordsBean.getProductType());
+                                mTvProductType.setText(TextUtils.isEmpty(productType) ? mRecordsBean.getAcctStatus() : productType);
+                            }
+
+                     //   }
+                    }
+                });
+    }
+
+
+    private void initDictData2() {
+        Observable.create(new ObservableOnSubscribe<HashMap<String, String>>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<HashMap<String, String>> e) throws Exception {
+                //   Log.e(TAG, "Observable thread is : " + Thread.currentThread().getName());
+                List<DictItemBean> dictDataBeans = SugarRecord.find(DictItemBean.class, "DICT_CODE=?", "LOANSTATUS");
+                HashMap<String, String> hashMap = new HashMap<>();
+                for (DictItemBean dictItemBean : dictDataBeans) {
+                     Log.e("nb", dictItemBean.getDescription() + ":" + dictItemBean.getDataCode());
+                    hashMap.put(dictItemBean.getDataVal(), dictItemBean.getDescription());
+                }
+                e.onNext(hashMap);
+                e.onComplete();
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<HashMap<String, String>>() {
+                    @Override
+                    public void accept(HashMap<String, String> stringStringHashMap) throws Exception {
+                      if (stringStringHashMap != null) {
+                                String acctStatus = stringStringHashMap.get(mRecordsBean.getAcctStatus());
+                                Log.e("nb", "acctStatus:" + acctStatus + ":" + stringStringHashMap.size());
+                                mTvAcctStatus.setText(TextUtils.isEmpty(acctStatus) ? mRecordsBean.getAcctStatus() : acctStatus);
+                            }
 
                     }
                 });

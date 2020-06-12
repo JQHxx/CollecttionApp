@@ -145,6 +145,24 @@ public class BizAcctInfoBean {
         private double interestAmt;//投资利息
         private double periodRestFee;//分期提前结清手续费
         private String businessType;
+        private String cardType;
+
+
+        public String getCardType() {
+            return cardType;
+        }
+
+        public void setCardType(String cardType) {
+            this.cardType = cardType;
+        }
+
+        public double getAcctBalance() {
+            return acctBalance;
+        }
+
+        public void setAcctBalance(double acctBalance) {
+            this.acctBalance = acctBalance;
+        }
 
         public void setCurrAcctBalance(double currAcctBalance) {
             this.acctBalance = currAcctBalance;

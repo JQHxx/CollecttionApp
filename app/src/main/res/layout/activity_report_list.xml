@@ -9,10 +9,11 @@
 
     <com.tools.view.RxTitle xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/rx_title"
+        app:rxLeftTextVisibility="false"
         style="@style/CommontRxToolBarStyle"
         app:rxRightIconVisibility="true"
         app:rxRightIcon="@drawable/ic_add_2"
-        app:rxTitle="客户调查报告列表"
+        app:rxTitle="调查报告列表"
         app:rxTitleVisibility="true"
         />
 

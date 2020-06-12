@@ -109,7 +109,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:bottom_text_color="@color/text_color_969696"
-                    app:text="案件分布"
+                    app:text="分布图"
                     app:text_size="12sp"
                     app:top_text_color="@color/text_color_ff8701" />
 

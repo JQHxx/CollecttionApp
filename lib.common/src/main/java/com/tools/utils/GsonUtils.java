@@ -1,7 +1,5 @@
 package com.tools.utils;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
@@ -54,7 +52,6 @@ public class GsonUtils {
             new JsonParser().parse(json);
             return true;
         } catch (JsonParseException e) {
-            Log.e("gson", "bad json: " + json);
             return false;
         }
     }

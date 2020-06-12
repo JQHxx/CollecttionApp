@@ -1,33 +1,44 @@
 package com.huateng.collection.ui.navigation;
-
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
 import com.flyco.systembar.SystemBarHelper;
 import com.huateng.collection.R;
 import com.huateng.collection.app.Config;
 import com.huateng.collection.app.Perference;
 import com.huateng.collection.base.BaseFragment;
+import com.huateng.collection.ui.activity.LoginActivity;
+import com.huateng.collection.ui.dialog.AlertDialogFragment;
+import com.huateng.collection.ui.dialog.AlertFragmentUtil;
 import com.huateng.collection.ui.home.view.HomeFragment;
 import com.huateng.collection.utils.cases.AttachmentProcesser;
+import com.huateng.collection.widget.Watermark;
 import com.huateng.collection.widget.gradientuilibrary.GradientIconView;
 import com.huateng.collection.widget.gradientuilibrary.GradientTextView;
+import com.tools.ActivityUtils;
+import com.tools.bean.BusEvent;
+import com.tools.bean.EventBean;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 /**
  * author: yichuan
  * Created on: 2020-03-25 15:46
@@ -70,6 +81,7 @@ public class NavigationActivity extends AppCompatActivity implements ViewPager.O
     LinearLayout mDrawerlayout;
     private long TOUCH_TIME = 0;
     private static final long WAIT_TIME = 2000L;
+    private boolean dialogHintShow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,22 +90,21 @@ public class NavigationActivity extends AppCompatActivity implements ViewPager.O
         setContentView(R.layout.activity_navigation);
         ButterKnife.bind(this);
         SystemBarHelper.immersiveStatusBar(this, 0.5f);
+        ActivityUtils.getAppManager().addActivity(this);
+        EventBus.getDefault().register(this);
+
         initFragments();
         initView();
         initData();
-
 
     }
 
     private void initView() {
 
-       /* Watermark.getInstance()
-                .setTextColor(getResources().getColor(R.color.dialogplus_card_shadow))
+        Watermark.getInstance()
                 .setTextSize(12.0f)
-                .setText("测试文本")
-                .show(this);*/
-
-
+                .setText(Perference.getUserId() + "-" + Perference.get(Perference.NICK_NAME))
+                .show(this);
     }
 
 
@@ -142,11 +153,21 @@ public class NavigationActivity extends AppCompatActivity implements ViewPager.O
     }
 
     private void initFragments() {
+
+        if (!Perference.getBoolean(Perference.OUT_SOURCE_FLAG)) {
+            mLlTabCustomer.setVisibility(View.VISIBLE);
+            mLlTabMore.setVisibility(View.VISIBLE);
+        } else {
+            mLlTabCustomer.setVisibility(View.GONE);
+            mLlTabMore.setVisibility(View.GONE);
+        }
+
+
         Log.e("nb", "initFragments");
         //待处理案件
         mTabs.add(BaseFragment.newInstance(HomeFragment.class));
         //已处理案件
-         mTabs.add(BaseFragment.newInstance(StatisticsFragment.class));
+        mTabs.add(BaseFragment.newInstance(StatisticsFragment.class));
         //回访轨迹
         mTabs.add(BaseFragment.newInstance(FragmentMap2.class));
         //我的
@@ -173,12 +194,12 @@ public class NavigationActivity extends AppCompatActivity implements ViewPager.O
 
 
         mTabIconIndicator.add(mIdIconfontChat);
-         mTabIconIndicator.add(mIdIconfontFaxian);
+        mTabIconIndicator.add(mIdIconfontFaxian);
         mTabIconIndicator.add(mIdIconfontMe);
         mTabIconIndicator.add(mIdIconfontMine);
 
         mTabTextIndicator.add(mIdChatsTv);
-         mTabTextIndicator.add(mIdDiscoverTv);
+        mTabTextIndicator.add(mIdDiscoverTv);
         mTabTextIndicator.add(mIdAboutMeTv);
         mTabTextIndicator.add(mIdAboutMineTv);
 
@@ -229,14 +250,14 @@ public class NavigationActivity extends AppCompatActivity implements ViewPager.O
             mTabTextIndicator.get(i).setTextViewAlpha(0);
         }
         mLlTabMain.getBackground().setLevel(5);
-        // mLlTabCustomer.getBackground().setLevel(5);
+        mLlTabCustomer.getBackground().setLevel(5);
         mLlTabMore.getBackground().setLevel(5);
 
         mLlTabMine.getBackground().setLevel(5);
     }
 
     //R.id.id_iconfont_faxian,
-    @OnClick({R.id.ll_tab_main, R.id.ll_tab_customer,R.id.ll_tab_more, R.id.ll_tab_mine})
+    @OnClick({R.id.ll_tab_main, R.id.ll_tab_customer, R.id.ll_tab_more, R.id.ll_tab_mine})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_tab_main:
@@ -276,13 +297,56 @@ public class NavigationActivity extends AppCompatActivity implements ViewPager.O
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (System.currentTimeMillis() - TOUCH_TIME < WAIT_TIME) {
-            finish();
-        } else {
-            TOUCH_TIME = System.currentTimeMillis();
-            Toast.makeText(NavigationActivity.this, "再按一次退出", Toast.LENGTH_SHORT).show();
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (System.currentTimeMillis() - TOUCH_TIME < WAIT_TIME) {
+                finish();
+            } else {
+                TOUCH_TIME = System.currentTimeMillis();
+                Toast.makeText(NavigationActivity.this, "再按一次退出", Toast.LENGTH_SHORT).show();
+            }
+            return true;
         }
-        return true;
+
+        return false;
     }
 
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(EventBean bean) {
+        if (bean == null) {
+            return;
+        }
+
+        Log.e("nb",bean.code+":");
+
+        if (bean.getCode() == BusEvent.TOKEN_OVERDUE) {
+            Activity activity = ActivityUtils.getAppManager().currentActivity();
+            if(activity == null) {
+                return;
+            }
+
+            if (!dialogHintShow) {
+                dialogHintShow = true;
+                AlertFragmentUtil.showAlertDialog((FragmentActivity) activity, "登录过期，请重新登录", new AlertDialogFragment.OnDialogButtonClickListener() {
+                    @Override
+                    public void onClickLeft() {
+                        dialogHintShow = false;
+                    }
+
+                    @Override
+                    public void onClickRight() {
+                       startActivity(new Intent(activity, LoginActivity.class));
+                        dialogHintShow = false;
+                       finish();
+                    }
+                });
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

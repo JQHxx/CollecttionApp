@@ -104,6 +104,8 @@ public class CreditCardMsgFragment extends BaseFragment {
 
     }
 
+
+
     private void loadData() {
         Map<String, String> map = new HashMap<>();
 

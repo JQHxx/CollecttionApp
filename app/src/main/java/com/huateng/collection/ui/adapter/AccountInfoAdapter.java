@@ -1,6 +1,7 @@
 package com.huateng.collection.ui.adapter;
 
 import android.text.TextUtils;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -25,8 +26,9 @@ import androidx.annotation.LayoutRes;
 
 public class AccountInfoAdapter extends BaseQuickAdapter<AccountInfoBean.RecordsBean, BaseViewHolder> {
 
-   private PaymentCalculateDM dm;
-    private HashMap<String,String> map;
+    private PaymentCalculateDM dm;
+    private HashMap<String, String> map;
+
     public AccountInfoAdapter(@LayoutRes int layoutResId) {
         super(layoutResId);
     }
@@ -34,28 +36,41 @@ public class AccountInfoAdapter extends BaseQuickAdapter<AccountInfoBean.Records
     @Override
     protected void convert(BaseViewHolder helper, AccountInfoBean.RecordsBean bean) {
         helper.setText(R.id.tv_acct_status, DictUtils.getAcctStatus(bean.getAcctStatus()))
-                .setText(R.id.tv_baserial_no, bean.getBaserialno())
+                // .setText(R.id.tv_baserial_no, bean.getBaserialno())
                 //.setText(R.id.tv_product_type, bean.getProductType())
-                .setText(R.id.tv_overdue_days, bean.getOverdueDays() + "天")
-                .setText(R.id.tv_ovdu_amts, bean.getOvduAmts() + "元");
+                .setText(R.id.tv_overdue_days, String.valueOf(bean.getOverdueDays()))
+                .setText(R.id.tv_ovdu_amts, bean.getOvduAmts());
 
+        TextView mTvBaserialNo = helper.getView(R.id.tv_baserial_no);
+        if ("01".equals(bean.getBusinessType())) {
+            mTvBaserialNo.setText(bean.getAcctNo());
 
+        } else if ("02".equals(bean.getBusinessType())) {
+            mTvBaserialNo.setText(bean.getBaserialno());
 
-        if(map != null && map.size()>0) {
+        } else if ("03".equals(bean.getBusinessType())) {
+            mTvBaserialNo.setText(bean.getBaserialno());
+
+        } else if ("04".equals(bean.getBusinessType())) {
+            mTvBaserialNo.setText(bean.getBaserialno());
+
+        }
+
+        if (map != null && map.size() > 0) {
             String productName = map.get(bean.getProductType());
-            if(TextUtils.isEmpty(productName)) {
+            if (TextUtils.isEmpty(productName)) {
                 helper.setText(R.id.tv_product_type, bean.getProductType());
-            }else {
-                helper.setText(R.id.tv_product_type,productName);
+            } else {
+                helper.setText(R.id.tv_product_type, productName);
             }
-        }else {
+        } else {
             helper.setText(R.id.tv_product_type, bean.getProductType());
         }
 
     }
 
 
-    public void setDictData(HashMap<String,String> map){
+    public void setDictData(HashMap<String, String> map) {
         this.map = map;
     }
 

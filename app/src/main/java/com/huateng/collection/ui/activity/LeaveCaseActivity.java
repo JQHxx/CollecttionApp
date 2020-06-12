@@ -1,7 +1,9 @@
 package com.huateng.collection.ui.activity;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -15,6 +17,7 @@ import com.huateng.collection.app.Constants;
 import com.huateng.collection.app.Perference;
 import com.huateng.collection.base.BaseActivity;
 import com.huateng.collection.base.BasePresenter;
+import com.huateng.collection.widget.Watermark;
 import com.huateng.fm.ui.widget.FmButton;
 import com.huateng.network.ApiConstants;
 import com.huateng.network.BaseObserver2;
@@ -47,8 +50,6 @@ public class LeaveCaseActivity extends BaseActivity {
     TextView mTvEndDate;
     @BindView(R.id.ll_end_date)
     LinearLayout mLlEndDate;
-    @BindView(R.id.tv_case_id)
-    TextView mTvCaseId;
     @BindView(R.id.edt_apply_reason)
     EditText mEdtApplyReason;
 
@@ -61,13 +62,40 @@ public class LeaveCaseActivity extends BaseActivity {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-
+        Watermark.getInstance()
+                .setTextSize(12.0f)
+                .setText(Perference.getUserId()  + "-" + Perference.get(Perference.NICK_NAME))
+                .show(this);
         mRxTitle.setLeftOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
+
+
+        mEdtApplyReason.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!TextUtils.isEmpty(s) && s.length() > 200) {
+                    RxToast.showToast("留案原因说明不能超过200字");
+                    mEdtApplyReason.setText(s.toString().substring(0, 200));
+                }
+            }
+        });
+
 
     }
 
@@ -88,7 +116,6 @@ public class LeaveCaseActivity extends BaseActivity {
     protected void initData() {
 
         caseId = getIntent().getStringExtra(Constants.CASE_ID);
-        mTvCaseId.setText(caseId);
     }
 
     /**
@@ -114,8 +141,16 @@ public class LeaveCaseActivity extends BaseActivity {
                 new TimePickerBuilder(this, new OnTimeSelectListener() {
                     @Override
                     public void onTimeSelect(Date date, View v) {
+
                         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                        String format1 = format.format(date);
+                        String format2 = format.format(new Date(System.currentTimeMillis()));
+                        if( format1.compareTo(format2) == -1) {
+                            RxToast.showToast("留案截止日期不能小于当前日期");
+                            return;
+                        }
                         mTvEndDate.setText(format.format(date));
+
                     }
                 }).build().show();
                 break;
@@ -143,7 +178,7 @@ public class LeaveCaseActivity extends BaseActivity {
             RxToast.showToast("留案原因说明不能为空");
             return;
         }
-        if (applyReason.length()>200) {
+        if (applyReason.length() > 200) {
             RxToast.showToast("留案原因说明大于200字");
             return;
         }

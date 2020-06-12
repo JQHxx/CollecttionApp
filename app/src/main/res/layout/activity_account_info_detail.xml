@@ -11,10 +11,10 @@
         android:id="@+id/rx_title"
         style="@style/CommontRxToolBarStyle"
         app:rxLeftIconVisibility="true"
-        app:rxLeftTextVisibility="true"
+        app:rxLeftTextVisibility="false"
         app:rxLeftText="返回"
         app:rxRightIconVisibility="false"
-        app:rxTitle="账号信息详情"
+        app:rxTitle="账户详情"
         app:rxTitleSize="18sp"
         app:rxTitleIconVisibility="false"
         app:rxTitleVisibility="true" />

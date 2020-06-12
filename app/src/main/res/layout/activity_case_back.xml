@@ -10,6 +10,7 @@
 
     <com.tools.view.RxTitle xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/rx_title"
+        app:rxLeftTextVisibility="false"
         style="@style/CommontRxToolBarStyle"
         app:rxRightIconVisibility="false"
         app:rxTitle="退案申请"
@@ -26,39 +27,6 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="5dp"
-                android:gravity="center_vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:textSize="16sp"
-                    android:textColor="#343434"
-                    android:gravity="bottom|right"
-                    android:text="案件号"/>
-
-                <TextView
-                    android:id="@+id/tv_case_id"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textSize="16sp"
-                    android:gravity="bottom|right"
-                    android:layout_marginLeft="16dp"
-                    android:text="T1002"
-                    android:textColor="#969696" />
-            </LinearLayout>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginLeft="16dp"
-                android:background="@color/text_color_969696"/>
-
 
             <LinearLayout
                 android:id="@+id/ll_cause"
@@ -74,7 +42,7 @@
                     android:layout_height="match_parent"
                     android:textSize="16sp"
                     android:textColor="#343434"
-                    android:gravity="bottom|right"
+                    android:gravity="center_vertical|right"
                     android:text="退案原因"/>
 
                 <TextView
@@ -84,16 +52,15 @@
                     android:paddingRight="5dp"
                     android:layout_height="match_parent"
                     android:textSize="16sp"
-                    android:gravity="bottom|right"
+                    android:gravity="center_vertical|right"
                     android:layout_marginLeft="16dp"
                     android:layout_alignParentRight="true"
                     android:text="请选择"
                     android:textColor="@color/black" />
                 <ImageView
-                    android:gravity="bottom|right"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:layout_marginBottom="3dp"
+                    android:layout_gravity="center_vertical|right"
+                    android:layout_width="18dp"
+                    android:layout_height="16dp"
                     android:src="@drawable/spinner_arrow"/>
             </LinearLayout>
 
@@ -117,8 +84,9 @@
             <LinearLayout
                 android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:background="#fafafa"
+                android:minHeight="75dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp">
                 <EditText

@@ -124,15 +124,16 @@ public class CreditCardBean {
          * productName : 汇通环球卡
          * statementDate : 08
          * wrofFlag : 0
+         * cardType 卡种
          */
 
         private String businessLine;
         private String creditCardNo;
-        private String currentLoanCashAmount;
+        private String currAcctBalance;
         private String interestAmt;
         private String openAcctDate;
         private String openBankName;
-        private String ovduAmts;
+        private String acctBalance;//信用卡逾期金额
         private String ovduPrincipalAmts;
         private String overdrawAmt;
         private String penalAmt;
@@ -141,18 +142,18 @@ public class CreditCardBean {
         private String productName;
         private String statementDate;
         private String wrofFlag;
-        private int overduePeriods;
-
-
+        private int overPeriodRmb;
+        private String cardType;
+        private String currency;
 
         protected RecordsBean(Parcel in) {
             businessLine = in.readString();
             creditCardNo = in.readString();
-            currentLoanCashAmount = in.readString();
+            currAcctBalance = in.readString();
             interestAmt = in.readString();
             openAcctDate = in.readString();
             openBankName = in.readString();
-            ovduAmts = in.readString();
+            acctBalance = in.readString();
             ovduPrincipalAmts = in.readString();
             overdrawAmt = in.readString();
             penalAmt = in.readString();
@@ -161,32 +162,9 @@ public class CreditCardBean {
             productName = in.readString();
             statementDate = in.readString();
             wrofFlag = in.readString();
-            overduePeriods = in.readInt();
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(businessLine);
-            dest.writeString(creditCardNo);
-            dest.writeString(currentLoanCashAmount);
-            dest.writeString(interestAmt);
-            dest.writeString(openAcctDate);
-            dest.writeString(openBankName);
-            dest.writeString(ovduAmts);
-            dest.writeString(ovduPrincipalAmts);
-            dest.writeString(overdrawAmt);
-            dest.writeString(penalAmt);
-            dest.writeString(periodRestFee);
-            dest.writeString(periodRestPri);
-            dest.writeString(productName);
-            dest.writeString(statementDate);
-            dest.writeString(wrofFlag);
-            dest.writeInt(overduePeriods);
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
+            overPeriodRmb = in.readInt();
+            cardType = in.readString();
+            currency = in.readString();
         }
 
         public static final Creator<RecordsBean> CREATOR = new Creator<RecordsBean>() {
@@ -217,12 +195,12 @@ public class CreditCardBean {
             this.creditCardNo = creditCardNo;
         }
 
-        public String getCurrentLoanCashAmount() {
-            return currentLoanCashAmount;
+        public String getCurrAcctBalance() {
+            return currAcctBalance;
         }
 
-        public void setCurrentLoanCashAmount(String currentLoanCashAmount) {
-            this.currentLoanCashAmount = currentLoanCashAmount;
+        public void setCurrAcctBalance(String currAcctBalance) {
+            this.currAcctBalance = currAcctBalance;
         }
 
         public String getInterestAmt() {
@@ -249,12 +227,12 @@ public class CreditCardBean {
             this.openBankName = openBankName;
         }
 
-        public String getOvduAmts() {
-            return ovduAmts;
+        public String getAcctBalance() {
+            return acctBalance;
         }
 
-        public void setOvduAmts(String ovduAmts) {
-            this.ovduAmts = ovduAmts;
+        public void setAcctBalance(String acctBalance) {
+            this.acctBalance = acctBalance;
         }
 
         public String getOvduPrincipalAmts() {
@@ -321,16 +299,55 @@ public class CreditCardBean {
             this.wrofFlag = wrofFlag;
         }
 
-        public int getOverduePeriods() {
-            return overduePeriods;
+        public int getOverPeriodRmb() {
+            return overPeriodRmb;
         }
 
-        public void setOverduePeriods(int overduePeriods) {
-            this.overduePeriods = overduePeriods;
+        public void setOverPeriodRmb(int overPeriodRmb) {
+            this.overPeriodRmb = overPeriodRmb;
         }
 
-        public static Creator<RecordsBean> getCREATOR() {
-            return CREATOR;
+        public String getCardType() {
+            return cardType;
+        }
+
+        public void setCardType(String cardType) {
+            this.cardType = cardType;
+        }
+
+        public String getCurrency() {
+            return currency;
+        }
+
+        public void setCurrency(String currency) {
+            this.currency = currency;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel parcel, int i) {
+            parcel.writeString(businessLine);
+            parcel.writeString(creditCardNo);
+            parcel.writeString(currAcctBalance);
+            parcel.writeString(interestAmt);
+            parcel.writeString(openAcctDate);
+            parcel.writeString(openBankName);
+            parcel.writeString(acctBalance);
+            parcel.writeString(ovduPrincipalAmts);
+            parcel.writeString(overdrawAmt);
+            parcel.writeString(penalAmt);
+            parcel.writeString(periodRestFee);
+            parcel.writeString(periodRestPri);
+            parcel.writeString(productName);
+            parcel.writeString(statementDate);
+            parcel.writeString(wrofFlag);
+            parcel.writeInt(overPeriodRmb);
+            parcel.writeString(cardType);
+            parcel.writeString(currency);
         }
     }
 }

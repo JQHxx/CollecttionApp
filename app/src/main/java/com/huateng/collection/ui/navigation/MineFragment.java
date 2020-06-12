@@ -2,7 +2,6 @@ package com.huateng.collection.ui.navigation;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -92,7 +91,7 @@ public class MineFragment extends BaseFragment {
     @Override
     protected void initData() {
         UserLoginInfo loginInfo = OrmHelper.getLastLoginUserInfo();
-        mTvName.setText(loginInfo.getNickName());
+        mTvName.setText(String.format("%s(%s)",loginInfo.getNickName(),loginInfo.getUserId()));
 
 
     }
@@ -107,7 +106,7 @@ public class MineFragment extends BaseFragment {
         switch (view.getId()) {
             //
             case R.id.iv_header:
-              //  startActivity(new Intent(mContext, LoginActivity.class));
+                //  startActivity(new Intent(mContext, LoginActivity.class));
                 break;
             case R.id.ll_clear_cache:
                 //缓存清理
@@ -137,6 +136,7 @@ public class MineFragment extends BaseFragment {
                 Intent intent = new Intent(mContext, LoginActivity.class);
                 intent.putExtra(Constants.IS_FIRST, true);
                 startActivity(intent);
+                getActivity().finish();
                 break;
             case R.id.ll_update_version:
                 //检查版本更新
@@ -144,9 +144,11 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.ll_chage_password:
                 //修改密码
-                if(Perference.getBoolean(Perference.IS_LOGIN)) {
-                    startActivity(new Intent(mContext, ChangePasswordActivity.class));
-                }else {
+                if (Perference.getBoolean(Perference.IS_LOGIN)) {
+                    Intent intent1 = new Intent(mContext,ChangePasswordActivity.class);
+                    intent1.putExtra("tlrNo",Perference.getUserId());
+                    startActivity(intent1);
+                } else {
                     startActivity(new Intent(mContext, LoginActivity.class));
                 }
                 break;
@@ -193,7 +195,7 @@ public class MineFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EventBean bean) {
-        Log.e("nb", bean.code + ":" + bean.getObject());
+       // Log.e("nb", bean.code + ":" + bean.getObject());
         if (bean == null) {
             return;
         }

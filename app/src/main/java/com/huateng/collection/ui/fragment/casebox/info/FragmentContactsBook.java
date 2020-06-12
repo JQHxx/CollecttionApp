@@ -49,7 +49,7 @@ public class FragmentContactsBook extends BaseFragment {
     RecyclerView recyclerView;
 
     private ContactsPhoneAdapter adapter;
-   // private AddPhoneDM dm;
+    // private AddPhoneDM dm;
 
     @Override
     protected BasePresenter createPresenter() {
@@ -77,19 +77,19 @@ public class FragmentContactsBook extends BaseFragment {
 
         adapter = new ContactsPhoneAdapter(R.layout.list_item_contacts_phone);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-      //  recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        //  recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapter);
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if(view.getId() == R.id.rl_call) {
+                if (view.getId() == R.id.rl_call) {
                     CustTelInfoBean.RecordsBean bean = (CustTelInfoBean.RecordsBean) adapter.getData().get(position);
-                    if(TextUtils.isEmpty(bean.getContactPnhone())) {
+                    if (TextUtils.isEmpty(bean.getContactPnhone())) {
                         RxToast.showToast("手机号码不能未空");
                         return;
                     }
                     //bean.getContactPnhone()
-                    String tiltle = String.format("拨打%s电话\r\n%s", bean.getName(),"13082961783" );
+                    String tiltle = String.format("拨打%s电话\r\n%s", bean.getName(), bean.getContactPnhone());
                     dialog = new ActionSheetDialog(mContext, stringItems, null);
                     dialog.title(tiltle)
                             .titleTextSize_SP(14.5f)

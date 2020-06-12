@@ -2,10 +2,7 @@ package com.huateng.collection.ui.remission.contract;
 
 import com.huateng.collection.base.IBaseView;
 import com.huateng.collection.bean.BizAcctInfoBean;
-import com.huateng.collection.bean.BizAcctItemBean;
 import com.huateng.collection.bean.CustInfoBean;
-
-import java.util.List;
 
 /**
  * author: yichuan
@@ -25,9 +22,6 @@ public interface RemissionContract {
 
         void setCustData(CustInfoBean custInfoBean);
 
-        List<BizAcctItemBean> getBizAcctAccountData();
-
-        List<BizAcctItemBean> getBizAcctCardData();
     }
 
     interface Presenter {

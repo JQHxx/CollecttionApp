@@ -1,12 +1,14 @@
 package com.tools.utils;
 
 import android.annotation.SuppressLint;
+import android.os.Environment;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -1204,4 +1206,158 @@ public final class FileUtils {
     public interface OnReplaceListener {
         boolean onReplace();
     }
+
+
+    /**
+     * 创建外部存储文件的路径
+     *
+     * @param fileName 文件的名字
+     * @return 文件的路径
+     */
+    public static String createFilePath(String fileName) {
+        try {
+
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                String mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/pictures/";
+                //存储文件夹操作
+                File outFilePath = new File(mFilePath);
+                if (!outFilePath.exists()) {
+                    outFilePath.mkdirs();
+                }
+                //设置自定义照片的名字
+                //            String fileName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+                //            mFilePath = mFilePath + "/" + fileName + ".jpg";
+                mFilePath = mFilePath + "/" + fileName;
+                return mFilePath;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+
+    /**
+     * 构建路径
+     *
+     * @param dirName  文件夹的名字
+     * @param fileName 文件的名字
+     * @return 结果
+     */
+    public static String createFilePath(String dirName, String fileName) {
+        try {
+
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                String mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + dirName;
+                //存储文件夹操作
+                File outFilePath = new File(mFilePath);
+                if (!outFilePath.exists()) {
+                    outFilePath.mkdirs();
+                }
+                //设置自定义照片的名字
+                //            String fileName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+                //            mFilePath = mFilePath + "/" + fileName + ".jpg";
+                mFilePath = mFilePath + "/" + fileName;
+                return mFilePath;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+
+    /**
+     * write file
+     *
+     * @param filePath 路径
+     * @param content  上下文
+     * @param append   is append, if true, write to the end of file, else clear
+     *                 content of file and write into it
+     * @return return false if content is empty, true otherwise
+     * @throws RuntimeException if an error occurs while operator FileWriter
+     */
+    public static boolean writeFile(String filePath, String content, boolean append) {
+
+        if (content == null) {
+            return false;
+        }
+        if (content.length() == 0) {
+            return false;
+        }
+
+        FileWriter fileWriter = null;
+        try {
+            makeDirs(filePath);
+            fileWriter = new FileWriter(filePath, append);
+            fileWriter.write(content);
+            return true;
+        } catch (IOException e) {
+            throw new RuntimeException("IOException occurred. ", e);
+        } finally {
+            if (fileWriter != null) {
+                try {
+                    fileWriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * @param filePath 路径
+     * @return 是否创建成功
+     */
+    public static boolean makeDirs(String filePath) {
+
+        String folderName = getFolderName(filePath);
+        if (folderName == null) {
+            return false;
+        }
+        if (folderName.length() == 0) {
+            return false;
+        }
+
+        File folder = new File(folderName);
+        return (folder.exists() && folder.isDirectory()) || folder.mkdirs();
+    }
+
+    /**
+     * get folder name from path
+     * <p>
+     * <pre>
+     *      getFolderName(null)               =   null
+     *      getFolderName("")                 =   ""
+     *      getFolderName("   ")              =   ""
+     *      getFolderName("a.mp3")            =   ""
+     *      getFolderName("a.b.rmvb")         =   ""
+     *      getFolderName("abc")              =   ""
+     *      getFolderName("c:\\")              =   "c:"
+     *      getFolderName("c:\\a")             =   "c:"
+     *      getFolderName("c:\\a.b")           =   "c:"
+     *      getFolderName("c:a.txt\\a")        =   "c:a.txt"
+     *      getFolderName("c:a\\b\\c\\d.txt")    =   "c:a\\b\\c"
+     *      getFolderName("/home/admin")      =   "/home"
+     *      getFolderName("/home/admin/a.txt/b.mp3")  =   "/home/admin/a.txt"
+     * </pre>
+     *
+     * @param filePath 路径
+     * @return file name from path, include suffix
+     */
+    public static String getFolderName(String filePath) {
+
+        if (filePath == null) {
+            return null;
+        }
+        if (filePath.length() == 0) {
+            return null;
+        }
+
+        int filePos = filePath.lastIndexOf(File.separator);
+        return (filePos == -1) ? "" : filePath.substring(0, filePos);
+    }
+
 }

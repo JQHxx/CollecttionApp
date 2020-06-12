@@ -52,7 +52,7 @@ public class BottomDialogFragment2 extends RxDialogFragment {
     private Unbinder unbinder;
     private BottomDialogAdapter mAdapter;
     private List<BottomDialogBean> list;
-    private boolean isGrid = false; //
+    private boolean isProcess = false; //案件状态在处理中
     private String title; //标题
     private boolean isCancle;//点击后是否消失
 
@@ -86,10 +86,10 @@ public class BottomDialogFragment2 extends RxDialogFragment {
         return fragment;
     }
 
-    public BottomDialogFragment2 setData(String title, List<BottomDialogBean> list, boolean isGrid, boolean isCancle) {
+    public BottomDialogFragment2 setData(String title, List<BottomDialogBean> list, boolean isProcess, boolean isCancle) {
         this.title = title;
         this.list = list;
-        this.isGrid = isGrid;
+        this.isProcess = isProcess;
         this.isCancle = isCancle;
         return this;
     }
@@ -114,7 +114,7 @@ public class BottomDialogFragment2 extends RxDialogFragment {
             return;
         }
         mTvTitle.setText(title);
-        mAdapter = new BottomDialogAdapter(R.layout.item_bottom_dialog2);
+        mAdapter = new BottomDialogAdapter(R.layout.item_bottom_dialog2,isProcess);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setNewData(list);
     }
@@ -127,10 +127,13 @@ public class BottomDialogFragment2 extends RxDialogFragment {
 
 
     public static class BottomDialogAdapter extends BaseQuickAdapter<BottomDialogBean, BaseViewHolder> {
-
-        public BottomDialogAdapter(int layoutResId) {
+        boolean isProcess;
+        public BottomDialogAdapter(int layoutResId,boolean isProcess) {
             super(layoutResId);
+            this.isProcess = isProcess;
         }
+
+
 
         @Override
         protected void convert(@NonNull BaseViewHolder helper, BottomDialogBean item) {
@@ -139,26 +142,33 @@ public class BottomDialogFragment2 extends RxDialogFragment {
                 helper.setImageResource(R.id.iv_icon, item.getImageId());
 
             }
-          /*  if (item.isSelected()) {
-                helper.setTextColor(R.id.tv_title, mContext.getResources().getColor(R.color.accent_color));
+            if(isProcess && helper.getAdapterPosition()>3) {
 
-            } else {
-                helper.setTextColor(R.id.tv_title, mContext.getResources().getColor(R.color.text_color_343434));
-
-            }*/
+                helper.setAlpha(R.id.tv_title,0.5f);
+                helper.setAlpha(R.id.iv_icon,0.5f);
+            }
 
             helper.setGone(R.id.iv_icon, item.getImageId() != 0);
         }
+
+
+
     }
 
 
     public void showView() {
+        if(mRlParent != null) {
+            mRlParent.setVisibility(View.VISIBLE);
+        }
         ViewAnimator.animate(mRlView).translationY(ScreenUtils.dip2px(Utils.getApp(), 350), 0)
                 .duration(300)
                 .onStart(new AnimationListener.Start() {
                     @Override
                     public void onStart() {
-                        mRlView.setVisibility(View.VISIBLE);
+                        if(mRlView != null) {
+                            mRlView.setVisibility(View.VISIBLE);
+                        }
+
                     }
                 })
                 .start();
@@ -171,10 +181,23 @@ public class BottomDialogFragment2 extends RxDialogFragment {
                 .onStop(new AnimationListener.Stop() {
                     @Override
                     public void onStop() {
-                        mRlView.setVisibility(View.GONE);
+                        if(mRlView != null) {
+                            mRlView.setVisibility(View.GONE);
+                        }
+                        if(mRlParent != null) {
+                            mRlParent.setVisibility(View.GONE);
+                        }
+
                         try{
                             dismiss();
                         }catch (IllegalStateException ignore){
+                            if(mRlView != null) {
+                                mRlView.setVisibility(View.GONE);
+                            }
+                            if(mRlParent != null) {
+                                mRlParent.setVisibility(View.GONE);
+                            }
+
                         }
                     }
                 })
@@ -200,9 +223,6 @@ public class BottomDialogFragment2 extends RxDialogFragment {
                     callBack.onItemClick(list.get(position));
                 }
                 hideView();
-              /*  if (isCancle) {
-                    hideView();
-                }*/
             }
         });
 

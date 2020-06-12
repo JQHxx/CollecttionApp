@@ -1,8 +1,8 @@
 package com.huateng.collection.ui.adapter;
 
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.EditText;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -16,12 +16,16 @@ import com.tools.bean.EventBean;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.HashMap;
+
 /**
  * author: yichuan
  * Created on: 2020-04-21 11:32
  * description:
  */
 public class BizAcctAdapter extends BaseQuickAdapter<BizAcctItemBean, BaseViewHolder> {
+
+    private HashMap<String, String> map;
 
     public BizAcctAdapter() {
         super(R.layout.item_resale_view);
@@ -39,17 +43,23 @@ public class BizAcctAdapter extends BaseQuickAdapter<BizAcctItemBean, BaseViewHo
                 .setText(R.id.tv_reduce_pri, item.getReducePri() + "元")//申请减免本金
                 .setText(R.id.tv_reduce_int, item.getReduceInt() + "元")//申请减免利罚息
                 .setText(R.id.tv_loan_pri, item.getLoanPri() + "元")//逾期本金
-                .setText(R.id.edt_plan_repay_total, item.getPlanRepayTotal() + "")// 计划归还总额
                 .setText(R.id.tv_end_date, DateUtil.getDate(item.getEndDate()))//结束日期
-                .setText(R.id.tv_reduce_total, item.getReduceTotal() + "元")
-                .setText(R.id.tv_product_name, item.getProductName());
-
+                .setText(R.id.tv_reduce_total, item.getReduceTotal() + "元");
+        helper .setText(R.id.tv_account_num, "第" + (helper.getAdapterPosition() + 1) + "条零售个人贷款");
+        helper.setText(R.id.edt_plan_repay_total, item.getPlanRepayTotal());
+        if (map != null) {
+            helper.setText(R.id.tv_product_name, TextUtils.isEmpty(map.get(item.getProductNo())) ? item.getProductNo() : map.get(item.getProductNo()));
+        } else {
+            helper.setText(R.id.tv_product_name, item.getCardType());
+        }
 
         EditText editText = helper.getView(R.id.edt_plan_repay_total);
 
 
+        editText.addTextChangedListener(new TextWatcher() {
 
-    editText.addTextChangedListener(new TextWatcher() {
+            String s = "";
+
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 // Log.e("nb","beforeTextChanged：--->"+charSequence.toString());
@@ -64,14 +74,31 @@ public class BizAcctAdapter extends BaseQuickAdapter<BizAcctItemBean, BaseViewHo
             @Override
             public void afterTextChanged(Editable editable) {
 
-              Log.e("nb", "afterTextChanged：--->" + editable.toString());
-                if(editable.length()>0 && !String.valueOf(item.getPlanRepayTotal()).equals(editable.toString())) {
-                    EventBus.getDefault().post(new EventBean(BusEvent.BIZ_ACCT_REDUCE_INFO, new BizAcctEventBean(helper.getAdapterPosition(), editable.toString(), "0")));
+
+                if (s.equals(editable.toString())) {
+                    return;
                 }
+                s = editable.toString();
+                if (TextUtils.isEmpty(s) && TextUtils.isEmpty(item.getPlanRepayTotal())) {
+                   return;
+                }
+                if (item.getPlanRepayTotal().equals(s)) {
+                   return;
+
+                }
+               if (!item.getPlanRepayTotal().equals(editable.toString())) {
+                    EventBus.getDefault().post(new EventBean(BusEvent.BIZ_ACCT_REDUCE_INFO, new BizAcctEventBean(helper.getAdapterPosition(), editable.toString(), "0")));
+
+                }
+
+                s = editable.toString();
             }
         });
 
     }
 
 
+    public void setDictData(HashMap<String, String> map) {
+        this.map = map;
+    }
 }

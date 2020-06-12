@@ -89,6 +89,15 @@ public class CustInfoBean {
     private String updUser;
     private String duty;
     private String cardBlacklistFlag;
+    private String deptOffice;
+
+    public String getDeptOffice() {
+        return deptOffice;
+    }
+
+    public void setDeptOffice(String deptOffice) {
+        this.deptOffice = deptOffice;
+    }
 
     public int getAge() {
         return age;

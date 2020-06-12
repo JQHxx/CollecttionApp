@@ -55,9 +55,9 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
     private GLAudioVisualizationView visualizerView;
     private TextView statusView;
     private TextView timerView;
-   // private ImageButton restartView;
+    // private ImageButton restartView;
     private ImageButton recordView;
-  //  private ImageButton playView;
+    //  private ImageButton playView;
 
     private int recordLength;
 
@@ -114,7 +114,7 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
         timerView = (TextView) findViewById(R.id.timer);
         //restartView = (ImageButton) findViewById(R.id.restart);
         recordView = (ImageButton) findViewById(R.id.record);
-       // playView = (ImageButton) findViewById(R.id.play);
+        // playView = (ImageButton) findViewById(R.id.play);
 
         //当在有录音任务在进行时 使用旧路径
         if (RecordService.isRecording()) {
@@ -124,8 +124,8 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
 
         contentLayout.setBackgroundColor(Util.getDarkerColor(color));
         contentLayout.addView(visualizerView, 0);
-      //  restartView.setVisibility(View.INVISIBLE);
-       // playView.setVisibility(View.INVISIBLE);
+        //  restartView.setVisibility(View.INVISIBLE);
+        // playView.setVisibility(View.INVISIBLE);
 
         if (Util.isBrightColor(color)) {
             ContextCompat.getDrawable(this, R.drawable.aar_ic_clear)
@@ -134,9 +134,9 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
                     .setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
             statusView.setTextColor(Color.BLACK);
             timerView.setTextColor(Color.BLACK);
-        //    restartView.setColorFilter(Color.BLACK);
+            //    restartView.setColorFilter(Color.BLACK);
             recordView.setColorFilter(Color.BLACK);
-         //   playView.setColorFilter(Color.BLACK);
+            //   playView.setColorFilter(Color.BLACK);
         }
     }
 
@@ -203,6 +203,8 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
             if (!RecordService.isRecording()) {
                 stopRecording();
                 finish();
+            } else {
+                finish();
             }
 
         } else if (i == R.id.action_save) {
@@ -212,15 +214,14 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
     }
 
     private void selectAudio() {
-        if(recordLength < 10) {
-          RxToast.showToast("录音时长不能小于10秒");
-          return;
+        if (recordLength < 10) {
+            RxToast.showToast("录音时长不能小于10秒");
+            return;
         }
         stopRecording();
         Intent intent = new Intent();
-        Log.e("nb","recordLength:"+recordLength);
-        intent.putExtra("duration",recordLength);
-        intent.putExtra("path",filePath);
+        intent.putExtra("duration", recordLength);
+        intent.putExtra("path", filePath);
         intent.setData(parUri(new File(filePath)));
         //录音时长
         setResult(RESULT_OK, intent);
@@ -236,7 +237,7 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
                     pauseRecording();
                 } else {
 
-                  resumeRecording();
+                    resumeRecording();
                 }
             }
         });
@@ -244,10 +245,9 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
 
     /**
      * 超过30分钟通知录音
+     *
      * @param delegate
      */
-
-
 
 
     //启动录音
@@ -289,8 +289,8 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
 
         saveMenuItem.setVisible(false);
         statusView.setVisibility(View.INVISIBLE);
-      //  restartView.setVisibility(View.INVISIBLE);
-      //  playView.setVisibility(View.INVISIBLE);
+        //  restartView.setVisibility(View.INVISIBLE);
+        //  playView.setVisibility(View.INVISIBLE);
         recordView.setImageResource(R.drawable.aar_ic_rec);
         timerView.setText("00:00:00");
         playerSecondsElapsed = 0;
@@ -304,10 +304,10 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
         saveMenuItem.setVisible(false);
         statusView.setText(R.string.aar_recording);
         statusView.setVisibility(View.VISIBLE);
-       // restartView.setVisibility(View.INVISIBLE);
-       // playView.setVisibility(View.INVISIBLE);
+        // restartView.setVisibility(View.INVISIBLE);
+        // playView.setVisibility(View.INVISIBLE);
         recordView.setImageResource(R.drawable.aar_ic_pause);
-       // playView.setImageResource(R.drawable.aar_ic_play);
+        // playView.setImageResource(R.drawable.aar_ic_play);
 
         visualizerHandler = new VisualizerHandler();
         visualizerView.linkTo(visualizerHandler);
@@ -361,7 +361,6 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
         @Override
         public void onTimerChanged(final int seconds) {
             recordLength = seconds;
-            Log.e("nb","playerSecondsElapsed:"+recordLength);
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -370,8 +369,8 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
                     /**
                      * 录音超过30分钟停止录音
                      */
-
-                    if(playerSecondsElapsed > 30*60) {
+                    Log.e("nb", "recordLength:" + recordLength);
+                    if (recordLength >= 30 * 60) {
                         toggleRecording(null);
                         RxToast.showToast("录音时长不能超过30分钟");
                     }
@@ -386,10 +385,10 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
         }
         statusView.setText(R.string.aar_paused);
         statusView.setVisibility(View.VISIBLE);
-       // restartView.setVisibility(View.VISIBLE);
-      //  playView.setVisibility(View.VISIBLE);
+        // restartView.setVisibility(View.VISIBLE);
+        //  playView.setVisibility(View.VISIBLE);
         recordView.setImageResource(R.drawable.aar_ic_rec);
-      //  playView.setImageResource(R.drawable.aar_ic_play);
+        //  playView.setImageResource(R.drawable.aar_ic_play);
 
         visualizerView.release();
         if (visualizerHandler != null) {
@@ -433,7 +432,7 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
             timerView.setText("00:00:00");
             statusView.setText(R.string.aar_playing);
             statusView.setVisibility(View.VISIBLE);
-           // playView.setImageResource(R.drawable.aar_ic_stop);
+            // playView.setImageResource(R.drawable.aar_ic_stop);
 
             playerSecondsElapsed = 0;
             startTimer();
@@ -445,7 +444,7 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
     private void stopPlaying() {
         statusView.setText("");
         statusView.setVisibility(View.INVISIBLE);
-     //   playView.setImageResource(R.drawable.aar_ic_play);
+        //   playView.setImageResource(R.drawable.aar_ic_play);
 
         visualizerView.release();
         if (visualizerHandler != null) {

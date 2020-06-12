@@ -22,6 +22,8 @@ public class BusEvent {
     public static final int BIZ_ACCT_REDUCE_INFO = 100000012;
     public static final int REFRESH_HISTORY_ACTIONS = 100000013;
 
+    public static final int TOKEN_OVERDUE = 302;
+
 
     public static final String GENERATE_OUTBOUND_ROUTE = "GENERATE_OUTBOUND_ROUTE";
 

@@ -42,7 +42,7 @@ public class GridImageAdapter extends
     public static final int TYPE_PICTURE = 2;
     private LayoutInflater mInflater;
     private List<LocalMedia> list = new ArrayList<>();
-    private int selectMax = 9;
+    private int selectMax = 12;
     private Context context;
     /**
      * 点击添加图片跳转
@@ -83,11 +83,13 @@ public class GridImageAdapter extends
 
     @Override
     public int getItemCount() {
-        if (list.size() < selectMax) {
+       /* if (list.size() < selectMax) {
             return list.size() + 1;
         } else {
             return list.size();
-        }
+        }*/
+
+        return list.size() + 1;
     }
 
     @Override
@@ -159,34 +161,10 @@ public class GridImageAdapter extends
                 Log.i("compress image result:", new File(media.getCompressPath()).length() / 1024 + "k");
                 Log.i("压缩地址::", media.getCompressPath());
             }
-          //  String pictType = media.getPictureType();
-
-            //int pictureType = PictureMimeType.isPictureType(pictType);
             int pictureType = 0;
             long duration = media.getDuration();
             viewHolder.tv_duration.setVisibility(pictureType == PictureConfig.TYPE_VIDEO
                     ? View.VISIBLE : View.GONE);
-          /*  if (mimeType == PictureMimeType.ofAudio()) {
-                viewHolder.tv_duration.setVisibility(View.VISIBLE);
-                Drawable drawable = ContextCompat.getDrawable(context, R.drawable.picture_audio);
-                StringUtils.modifyTextViewDrawable(viewHolder.tv_duration, drawable, 0);
-            } else {
-                Drawable drawable = ContextCompat.getDrawable(context, R.drawable.video_icon);
-                StringUtils.modifyTextViewDrawable(viewHolder.tv_duration, drawable, 0);
-            }*/
-          //  viewHolder.tv_duration.setText(DateUtils.timeParse(duration));
-           /* if (mimeType == PictureMimeType.ofAudio()) {
-                viewHolder.mImg.setImageResource(R.drawable.audio_placeholder);
-            } else {
-                RequestOptions options = new RequestOptions()
-                        .centerCrop()
-                        .placeholder(R.color.color_f6)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL);
-                Glide.with(viewHolder.itemView.getContext())
-                        .load(path)
-                        .apply(options)
-                        .into(viewHolder.mImg);
-            }*/
             RequestOptions options = new RequestOptions()
                     .centerCrop()
                     .placeholder(R.color.color_f6)
@@ -231,33 +209,36 @@ public class GridImageAdapter extends
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                LocalMedia localMedia = list.get(index);
-                File file = new File(localMedia.getPath());
+                if(list.size()>index) {
+                    LocalMedia localMedia = list.get(index);
+                    File file = new File(localMedia.getPath());
 
-                if (file.isFile()) {
-                    //删除文件
-                    boolean isDel = Utils.deleteMediaFile(context, file);
-                    if (isDel) {
-                        list.remove(index);
-                        notifyDataSetChanged();
-                       // notifyItemRemoved(index);
-//                        notifyItemRangeChanged(index, list.size());
+                    if (file.isFile()) {
+                        //删除文件
+                        boolean isDel = Utils.deleteMediaFile(context, file);
+                        if (isDel) {
+                            list.remove(index);
+                            notifyDataSetChanged();
+                            // notifyItemRemoved(index);
+                            //                        notifyItemRangeChanged(index, list.size());
 
-                        //删除sqlite中保存的数据
-                        List<FileData> fileDatas = SugarRecord.find(FileData.class, "FILE_NAME=?", file.getName());
-                        if (null != fileDatas && fileDatas.size() > 0) {
-                            FileData fileData = fileDatas.get(0);
-                            fileData.setRealPath(null);
-                            fileData.setExist(false);
-                            SugarRecord.save(fileData);
+                            //删除sqlite中保存的数据
+                            List<FileData> fileDatas = SugarRecord.find(FileData.class, "FILE_NAME=?", file.getName());
+                            if (null != fileDatas && fileDatas.size() > 0) {
+                                FileData fileData = fileDatas.get(0);
+                                fileData.setRealPath(null);
+                                fileData.setExist(false);
+                                SugarRecord.save(fileData);
+                            }
+
+                            Utils.scanDirMedia(context, file.getParentFile());
+                            Logger.i("delete position: %s", index + "--->remove after:" + list.size());
+                        } else {
+                            RxToast.showToast("文件删除失败,请稍后重试");
                         }
-
-                        Utils.scanDirMedia(context, file.getParentFile());
-                        Logger.i("delete position: %s", index + "--->remove after:" + list.size());
-                    } else {
-                        RxToast.showToast("文件删除失败,请稍后重试");
                     }
                 }
+
             }
         });
 

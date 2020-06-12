@@ -38,6 +38,7 @@ import com.huateng.network.RetrofitManager;
 import com.huateng.network.RxSchedulers;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.orm.SugarRecord;
+import com.tools.ActivityUtils;
 import com.tools.bean.BusEvent;
 import com.tools.bean.EventBean;
 import com.tools.view.RxTitle;
@@ -109,7 +110,7 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
     protected void initView(Bundle savedInstanceState) {
         SystemBarHelper.immersiveStatusBar(this, 0);
         SystemBarHelper.setHeightAndPadding(this, mRxTitle);
-
+        ActivityUtils.getAppManager().finishAllActivity();
         init();
         initListener();
 
@@ -131,7 +132,7 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
     @Override
     protected void initData() {
         isFirst = getIntent().getBooleanExtra(Constants.IS_FIRST, false);
-        if(isFirst) {
+        if (isFirst) {
             mRxTitle.setLeftIconVisibility(true);
             mRxTitle.setLeftTextVisibility(true);
         }
@@ -194,7 +195,7 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
         //String password = loginInfo.getPwd();
         // Log.e("nb", loginName + ":" + password);
         mEtUserName.setText(loginName);
-       // mEtPwd.setText(password);
+        // mEtPwd.setText(password);
         mBtnLogin.setEnabled(false);
        /* if (StringUtils.isEmpty(loginName, password)) {
             mBtnLogin.setEnabled(false);
@@ -220,14 +221,13 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
                 .subscribe(new Action1<CharSequence>() {
                     @Override
                     public void call(CharSequence charSequence) {
-                        Log.e("nb", "12345");
                         if (charSequence.length() > 0) {
-                            if(mLlClearPassword!= null) {
+                            if (mLlClearPassword != null) {
                                 mLlClearPassword.setVisibility(View.VISIBLE);
                             }
 
                         } else {
-                            if(mLlClearPassword!= null) {
+                            if (mLlClearPassword != null) {
                                 mLlClearPassword.setVisibility(View.INVISIBLE);
                             }
                         }
@@ -283,7 +283,6 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
                 .subscribe(new BaseObserver2<RespLoginInfo>() {
                     @Override
                     public void onError(String code, String msg) {
-                        Log.e("nb", msg + ":" + code);
                         if (code.equals(ApiConstants.ERROR_CODE_EXP) && "登录失败,请检查账户名和密码！！".equals(msg)) {
                             RxToast.showToast("登录失败,请重新输入,若连续错误5次,系统将锁定5分钟");
                             loginInfo.setLoginName(loginName);
@@ -309,43 +308,56 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
                             hideLoading();
                             return;
                         }
-                        RespLoginInfo.SsouserBean ssouser = respLoginInfo.getSsouser();
-                        Perference.setUserId(ssouser.getUserId());
-                        Perference.set(Perference.NICK_NAME, ssouser.getUserName());
-                        Perference.set(Perference.ROOT_ORG_ID, ssouser.getRootOrgId());
-                        Perference.set(Perference.ORG_ID, ssouser.getOrgId());
-                        Perference.setBoolean(Perference.OUT_SOURCE_FLAG,respLoginInfo.isOutsourceFlag());
+
                         RespLoginInfo.SsouserBean ssouserBean = respLoginInfo.getSsouser();
                         //保存登陆auth 信息
                         NetworkConfig.C.setAuth(ssouserBean.getToken());
+                        
+                        if ("Y".equals(respLoginInfo.getInitialPassword())) {
+                            //强制修改密码
+                            hideLoading();
+                            mEtPwd.setText("");
+                            RxToast.showToast("首次登录，请修改初始密码");
+                            Intent intent = new Intent(LoginActivity.this, ChangePasswordActivity.class);
+                            intent.putExtra("tlrNo", loginName);
+                            startActivity(intent);
 
-                        //用户登录信息
-                        Log.e("nb", "orgId" + ssouserBean.getOrgId());
-                        UserLoginInfo info = new UserLoginInfo();
-                        // info.setUserId(respLoginInfo.getUserId());
-                        info.setAuthorization(ssouserBean.getToken());
-                       // info.setPwd(password);
-                        info.setOrdId(ssouserBean.getOrgId());
-                        info.setRootOrgId(ssouserBean.getRootOrgId());
-                        info.setNickName(ssouserBean.getUserName());
-                        info.setLoginName(loginName);
-                        info.setLoginTime(System.currentTimeMillis());
-                        info.setLoginSuccess(true);
-                        info.setUserId(ssouserBean.getUserId());
-                        info.setLoginErrorCount(0);
-                        Perference.setBoolean(Perference.IS_LOGIN, true);
-                        //第一次登录成功的时间
-                        if (!OrmHelper.isUserExist(loginName)) {
-                            info.setFirstLoginTime(System.currentTimeMillis());
+                        } else {
+
+                            RespLoginInfo.SsouserBean ssouser = respLoginInfo.getSsouser();
+                            Perference.setUserId(ssouser.getUserId());
+                            Perference.set(Perference.NICK_NAME, ssouser.getUserName());
+                            Perference.set(Perference.ROOT_ORG_ID, ssouser.getRootOrgId());
+                            Perference.set(Perference.ORG_ID, ssouser.getOrgId());
+                            Perference.setBoolean(Perference.OUT_SOURCE_FLAG, respLoginInfo.isOutsourceFlag());
+
+
+                            //用户登录信息
+                            UserLoginInfo info = new UserLoginInfo();
+                            info.setAuthorization(ssouserBean.getToken());
+                            info.setOrdId(ssouserBean.getOrgId());
+                            info.setRootOrgId(ssouserBean.getRootOrgId());
+                            info.setNickName(ssouserBean.getUserName());
+                            info.setLoginName(loginName);
+                            info.setLoginTime(System.currentTimeMillis());
+                            info.setLoginSuccess(true);
+                            info.setUserId(ssouserBean.getUserId());
+                            info.setLoginErrorCount(0);
+                            Perference.setBoolean(Perference.IS_LOGIN, true);
+                            //第一次登录成功的时间
+                            if (!OrmHelper.isUserExist(loginName)) {
+                                info.setFirstLoginTime(System.currentTimeMillis());
+                            }
+                            Perference.setBoolean(Constants.CHECK_IS_LOGIN, true);
+                            EventBus.getDefault().post(new EventBean(BusEvent.LOGIN_SUCESS, info));
+
+                            SugarRecord.save(info);
+                            //  hideLoading();
+                            //获取业务字典
+                            // requestDicts();
+                            requestDictData();
                         }
-                        Perference.setBoolean(Constants.CHECK_IS_LOGIN, true);
-                        EventBus.getDefault().post(new EventBean(BusEvent.LOGIN_SUCESS, info));
 
-                        SugarRecord.save(info);
-                        //  hideLoading();
-                        //获取业务字典
-                        // requestDicts();
-                        requestDictData();
 
                     }
                 });
@@ -419,28 +431,8 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
 
     private void startToMain() {
         //网络未连接时  输入正确的账号密码进入离线模式
-       /* if (!NetworkUtils.isConnected()) {
-            final CommonContentDM dm = new DialogCenter(LoginActivity.this).showOfflineModeDialog();
-            dm.setOnFooterButtonClickListener(new CommonContentDM.OnFooterButtonClickListener() {
-                @Override
-                public void onLeftClicked(View v) {
-                    dm.getDialog().dismiss();
-                }
 
-                @Override
-                public void onRightClicked(View v) {
-                    dm.getDialog().dismiss();
-                    startActivity(new Intent(LoginActivity.this, NavigationActivity.class));
-                    finish();
-                }
-            });
-        } else {
-            startActivity(new Intent(this, NavigationActivity.class));
-            finish();
-        }*/
-        if (!isFirst) {
-            startActivity(new Intent(this, NavigationActivity.class));
-        }
+        startActivity(new Intent(this, NavigationActivity.class));
         finish();
     }
 

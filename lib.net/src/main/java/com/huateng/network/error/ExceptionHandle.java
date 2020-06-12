@@ -1,7 +1,6 @@
 package com.huateng.network.error;
 
 import com.google.gson.JsonParseException;
-import com.orhanobut.logger.Logger;
 import com.tools.utils.NetworkUtils;
 
 import org.json.JSONException;
@@ -29,7 +28,7 @@ public class ExceptionHandle {
 
     public static ResponeThrowable handleException(Throwable e) {
         ResponeThrowable ex;
-        Logger.i("e.toString = " + e.toString()+":");
+      //  Logger.i("e.toString = " + e.toString()+":");
 
         if (!NetworkUtils.isConnected()) {
             ex = new ResponeThrowable(e, ERROR.NETWORK_ERROR);
@@ -83,7 +82,10 @@ public class ExceptionHandle {
             if (null != e.getMessage() && e.getMessage().contains("Timeout")) {
                 ex = new ResponeThrowable(e, ERROR.TIMEOUT);
                 ex.message = "登录超时,请重新登录";
-            } else {
+            }else if (null != e.getMessage() && e.getMessage().contains("tokenOverdue")) {
+                ex = new ResponeThrowable(e, ERROR.TOKEN_OVERDUE);
+                ex.message = "Token过期,请重新登录";
+            }else {
                 ex = new ResponeThrowable(e, ERROR.UNKNOWN);
                 ex.message = "网络异常,请稍后重试";
             }
@@ -101,6 +103,9 @@ public class ExceptionHandle {
          * 登录超时
          */
         public static final int TIMEOUT = -1;
+
+
+        public static final int TOKEN_OVERDUE = 302;
 
         /**
          * 未知错误

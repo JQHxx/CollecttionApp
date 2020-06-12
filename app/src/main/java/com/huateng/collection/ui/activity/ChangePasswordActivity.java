@@ -1,6 +1,5 @@
 package com.huateng.collection.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -11,7 +10,6 @@ import android.widget.LinearLayout;
 
 import com.flyco.systembar.SystemBarHelper;
 import com.huateng.collection.R;
-import com.huateng.collection.app.Perference;
 import com.huateng.collection.base.BaseActivity;
 import com.huateng.collection.base.BasePresenter;
 import com.huateng.fm.ui.widget.FmButton;
@@ -60,8 +58,7 @@ public class ChangePasswordActivity extends BaseActivity {
     ImageView mIvOldPass;
     @BindView(R.id.ll_old_pass)
     LinearLayout mLlOldPass;
-
-    private boolean isFirst;
+    private String tlrNo;
 
     @Override
     protected BasePresenter createPresenter() {
@@ -71,6 +68,13 @@ public class ChangePasswordActivity extends BaseActivity {
     @Override
     protected void initView(Bundle savedInstanceState) {
         mBtnLogin.setEnabled(true);
+
+        mRxTitle.setLeftOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
     }
 
@@ -89,7 +93,7 @@ public class ChangePasswordActivity extends BaseActivity {
      */
     @Override
     protected void initData() {
-        isFirst = getIntent().getBooleanExtra("isFirst", false);
+        tlrNo = getIntent().getStringExtra("tlrNo");
     }
 
     /**
@@ -155,6 +159,11 @@ public class ChangePasswordActivity extends BaseActivity {
         String secondPass = mEdtSecondPassword.getText().toString();
         String oldPassword = mEdtOldPass.getText().toString();
 
+        if(TextUtils.isEmpty(tlrNo)) {
+            RxToast.showToast("操作员编号不能为空");
+            return;
+        }
+
         if (TextUtils.isEmpty(oldPassword)) {
             RxToast.showToast("旧密码不能为空");
             return;
@@ -183,7 +192,7 @@ public class ChangePasswordActivity extends BaseActivity {
 
         Map<String, String> map = new HashMap<>();
 
-        map.put("tlrNo", Perference.getUserId());
+        map.put("tlrNo", tlrNo);
         map.put("oldPassword", oldPassword);
         map.put("newPassword", firstPass);
 
@@ -223,9 +232,7 @@ public class ChangePasswordActivity extends BaseActivity {
                         }
                         RxToast.showToast(resultBean.getResultDesc());
                         hideLoading();
-                        if (isFirst) {
-                            startActivity(new Intent(ChangePasswordActivity.this, LoginActivity.class));
-                        }
+
                         finish();
 
                     }

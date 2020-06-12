@@ -2,7 +2,7 @@ package com.huateng.collection.ui.fragment.casebox.info;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.huateng.collection.R;
@@ -23,8 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -70,18 +70,32 @@ public class FragmentBaseInfo extends BaseFragment {
     TextView mTvSpouseMobilePhone;
     @BindView(R.id.tv_spouse_company)
     TextView mTvSpouseCompany;
-    @BindView(R.id.recycler_product_msg)
-    RecyclerView mRecyclerProductMsg;
-    @BindView(R.id.recycler_repayment)
-    RecyclerView mRecyclerRepayment;
-    @BindView(R.id.tv_amout)
-    TextView mTvAmout;
-    @BindView(R.id.tv_visitAddress)
-    TextView mTvVisitAddress;
     @BindView(R.id.tv_age)
     TextView mTvAge;
     @BindView(R.id.tv_resi_addr)
     TextView mTvResiAddr;
+    @BindView(R.id.iv_header)
+    CircleImageView mIvHeader;
+    @BindView(R.id.ll_head)
+    LinearLayout mLlHead;
+    @BindView(R.id.ll_update_version)
+    LinearLayout mLlUpdateVersion;
+    @BindView(R.id.ll_chage_password)
+    LinearLayout mLlChagePassword;
+    @BindView(R.id.ll_1)
+    LinearLayout mLl1;
+    @BindView(R.id.tv_resi_tel)
+    TextView mTvResiTel;
+    @BindView(R.id.tv_cert_type)
+    TextView mTvCertType;
+    @BindView(R.id.tv_census_addr)
+    TextView mTvCensusAddr;
+    @BindView(R.id.tv_has_children_flag)
+    TextView mTvHasChildrenFlag;
+    @BindView(R.id.tv_dept_office)
+    TextView mTvDeptOffice;
+    @BindView(R.id.tv_spouse_id_type)
+    TextView mTvSpouseIdType;
     private String caseId;
     private String custNo;
 
@@ -146,6 +160,8 @@ public class FragmentBaseInfo extends BaseFragment {
 
                         setEthnicGroup(custInfoBean.getEthnicGroup());
 
+
+
                     }
 
 
@@ -155,15 +171,13 @@ public class FragmentBaseInfo extends BaseFragment {
     }
 
     private void setEthnicGroup(String ethnicGroup) {
-
-        Log.e("nb", "ethnicGroup:" + ethnicGroup);
         if (TextUtils.isEmpty(ethnicGroup)) {
             mTvEthnicGroup.setText("");
             return;
         }
 
         List<DictItemBean> dictItemBeans = SugarRecord.find(DictItemBean.class, "DICT_CODE=?", "NATIONALITY");
-       // Log.e("nb", dictItemBeans.size() + ":");
+        // Log.e("nb", dictItemBeans.size() + ":");
         if (dictItemBeans == null || dictItemBeans.size() == 0) {
             return;
         }
@@ -181,27 +195,50 @@ public class FragmentBaseInfo extends BaseFragment {
     private void setCustData(CustInfoBean custInfoBean) {
         mTvCustName.setText(custInfoBean.getCustName());
         mTvAge.setText(custInfoBean.getAge() + "");
-        mTvGender.setText("1".equals(custInfoBean.getGender()) ? "男" : "女");
-        mTvCertNo.setText(custInfoBean.getCertNo());
+        if("1".equals(custInfoBean.getGender())) {
+            mTvGender.setText("男");
+        }else if("2".equals(custInfoBean.getGender())) {
+            mTvGender.setText("女");
+        }else {
+            mTvGender.setText("");
+        }
+       mTvCertNo.setText(custInfoBean.getCertNo());
 
-            mTvNativePlace.setText(TextUtils.isEmpty(custInfoBean.getNativePlace())?"":custInfoBean.getNativePlace().replaceAll("\\s*", ""));
-
-        // mTvEthnicGroup.setText("01".equals(custInfoBean.getEthnicGroup())?"汉族":"其他民族");
+        mTvNativePlace.setText(TextUtils.isEmpty(custInfoBean.getNativePlace()) ? "" : custInfoBean.getNativePlace().replaceAll("\\s*", ""));
         mTvMobilePhone.setText(custInfoBean.getMobilePhone());
         mTvEducation.setText(DictUtils.getEducation(custInfoBean.getEducation()));
         mTvCompName.setText(custInfoBean.getCompName());
-        mTvCompAddr.setText(TextUtils.isEmpty(custInfoBean.getCompAddr())?"":custInfoBean.getCompAddr().replaceAll("\\s*", ""));
+        mTvCompAddr.setText(TextUtils.isEmpty(custInfoBean.getCompAddr()) ? "" : custInfoBean.getCompAddr().replaceAll("\\s*", ""));
         mTvCompTel.setText(custInfoBean.getCompTel());
-        mTvEmailAddr.setText(TextUtils.isEmpty(custInfoBean.getEmailAddr())?"":custInfoBean.getEmailAddr().replaceAll("\\s*", ""));
+        mTvEmailAddr.setText(TextUtils.isEmpty(custInfoBean.getEmailAddr()) ? "" : custInfoBean.getEmailAddr().replaceAll("\\s*", ""));
         mTvUnitEstablishment.setText(DictUtils.getUnitsCompiled(custInfoBean.getUnitEstablishment()));
-        mTvDuty.setText(custInfoBean.getDuty());
-        mTvCardBlacklistFlag.setText("Y".equals(custInfoBean.getCardBlacklistFlag()) ? "是" : "否");
+        mTvDuty.setText(custInfoBean.getHeadShip());
+        if("Y".equals(custInfoBean.getCardBlacklistFlag())) {
+            mTvCardBlacklistFlag.setText("是");
+        }else if("N".equals(custInfoBean.getCardBlacklistFlag())) {
+            mTvCardBlacklistFlag.setText("否");
+        }else {
+            mTvCardBlacklistFlag.setText("");
+        }
+
         mTvSpouseName.setText(custInfoBean.getSpouseName());
         mTvSpouseIdNo.setText(custInfoBean.getSpouseIdno());
         mTvSpouseMobilePhone.setText(custInfoBean.getSpousePhoneno());
         mTvSpouseCompany.setText(custInfoBean.getSpouseCompany());
-        //mTvAge.setText(custInfoBean.getAge());
-        mTvResiAddr.setText(TextUtils.isEmpty(custInfoBean.getResiAddr())?"":custInfoBean.getResiAddr().replaceAll("\\s*", ""));
+        mTvResiTel.setText(custInfoBean.getResiTel());
+        mTvResiAddr.setText(TextUtils.isEmpty(custInfoBean.getResiAddr()) ? "" : custInfoBean.getResiAddr().replaceAll("\\s*", ""));
+        mTvCertType.setText(DictUtils.getCertType(custInfoBean.getCertType()));
+        mTvSpouseIdType.setText(DictUtils.getCertType(custInfoBean.getSpouseIdtype()));
+        mTvCensusAddr.setText(TextUtils.isEmpty(custInfoBean.getCensusAddr()) ? "" : custInfoBean.getCensusAddr().replaceAll("\\s*", ""));
+        if ("1".equals(custInfoBean.getHaveChildrenFlag())) {
+            mTvHasChildrenFlag.setText("有");
+        } else if ("2".equals(custInfoBean.getHaveChildrenFlag())) {
+            mTvHasChildrenFlag.setText("无");
+        }else {
+            mTvHasChildrenFlag.setText("");
+        }
+
+        mTvDeptOffice.setText(custInfoBean.getDeptOffice());
 
     }
 

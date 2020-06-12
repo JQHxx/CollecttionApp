@@ -2,6 +2,7 @@ package com.huateng.collection.widget;
 
 import android.app.Activity;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
@@ -163,7 +164,8 @@ public class Watermark {
             int height = getBounds().bottom;
             int diagonal = (int) Math.sqrt(width * width + height * height); // 对角线的长度
 
-            mPaint.setColor(mTextColor);
+            mPaint.setColor(Color.BLACK);
+            mPaint.setAlpha((int) (0.1*255f));
             mPaint.setTextSize(DensityUtil.dpToPx(mTextSize));
             mPaint.setAntiAlias(true);
             float textWidth = mPaint.measureText(mText);

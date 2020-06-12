@@ -38,9 +38,9 @@ public class TodoCasesAdapter extends BaseQuickAdapter<CaseBeanData.RecordsBean,
     protected void convert(final BaseViewHolder helper, final CaseBeanData.RecordsBean item) {
         helper.setText(R.id.tv_hostName, item.getCustName())
                 .setText(R.id.tv_id_number, item.getCertNo())
-                .setText(R.id.tv_overdue_days, item.getOverdueDays() + "天")
+                .setText(R.id.tv_overdue_days, item.getOverdueDays() + "")
                 .setText(R.id.tv_case_status,"1".equals(item.getCaseStatus())?"已处理":"未处理")
-                .setText(R.id.tv_overdue_amt, item.getOverdueAmt() + "元");
+                .setText(R.id.tv_overdue_amt, item.getOverdueAmt() + "");
 
       //
         if(map != null && map.size()>0) {

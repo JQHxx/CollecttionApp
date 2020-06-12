@@ -2,7 +2,6 @@ package com.huateng.collection.ui.adapter;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.EditText;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -65,8 +64,6 @@ public class BizAcctAdapter2 extends BaseQuickAdapter<BizAcctItemBean, BaseViewH
 
             @Override
             public void afterTextChanged(Editable editable) {
-
-              Log.e("nb", "afterTextChanged：--->" + editable.toString());
                 if(editable.length()>0 && !String.valueOf(item.getPlanRepayTotal()).equals(editable.toString())) {
                     EventBus.getDefault().post(new EventBean(BusEvent.BIZ_ACCT_REDUCE_INFO, new BizAcctEventBean(helper.getAdapterPosition(), editable.toString(), "0")));
                 }

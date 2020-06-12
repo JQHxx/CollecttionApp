@@ -42,7 +42,7 @@ public class CaseDetailPresenter extends BasePresenter<CaseDetailContract.View> 
 
                     @Override
                     public void onError(String code, String msg) {
-                        Log.e("nb", code + ":" + msg);
+                      //  Log.e("nb", code + ":" + msg);
                         RxToast.showToast(msg);
                         mView.hideLoading();
 
@@ -72,19 +72,25 @@ public class CaseDetailPresenter extends BasePresenter<CaseDetailContract.View> 
 
                     @Override
                     public void onError(String code, String msg) {
-                        Log.e("nb", code + ":" + msg);
-                        RxToast.showToast(msg);
+                        if(mView == null) {
+                            return;
+                        }
                         mView.hideLoading();
+                        mView.toCaseAction(false);
                     }
 
                     @Override
                     public void onNextData(CaseStatusBean caseStatusBean) {
+                        if(mView == null) {
+                            return;
+                        }
                         Log.e("nb", caseStatusBean.toString());
                         mView.hideLoading();
                         if ("N".equals(caseStatusBean.getResultCode())) {
-                            mView.toCaseAction(type);
+                            mView.toCaseAction(false);
                         } else if ("Y".equals(caseStatusBean.getResultCode())) {
-                            RxToast.showToast("有案件正在审批中");
+                           //
+                            mView.toCaseAction(true);
                         }
                     }
                 });

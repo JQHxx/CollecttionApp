@@ -3,12 +3,16 @@ package com.huateng.collection.ui.home.view;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
-import android.util.Log;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,14 +28,12 @@ import com.huateng.collection.bean.CaseBeanData;
 import com.huateng.collection.bean.orm.DictItemBean;
 import com.huateng.collection.ui.activity.CaseDetailActivity;
 import com.huateng.collection.ui.adapter.TodoCasesAdapter;
-import com.huateng.collection.ui.dialog.DialogCenter;
-import com.huateng.collection.ui.dialog.dm.BaseDM;
-import com.huateng.collection.ui.dialog.dm.SearchDM;
 import com.huateng.collection.ui.home.contract.HomeContract;
 import com.huateng.collection.ui.home.presenter.HomePresenter;
 import com.huateng.collection.widget.DividerItemDecoration;
 import com.orhanobut.logger.Logger;
 import com.orm.SugarRecord;
+import com.tools.SystemUtils;
 import com.tools.bean.BusEvent;
 import com.tools.bean.EventBean;
 import com.tools.utils.NetworkUtils;
@@ -63,6 +65,10 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRefreshLayout.OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener, HomeContract.View {
     private final String TAG = getClass().getSimpleName();
+    @BindView(R.id.edt_search)
+    EditText mEdtSearch;
+    @BindView(R.id.ll_clear_search)
+    LinearLayout mLlClearSearch;
     private String[] stringItems = {"拨号"};
     private ActionSheetDialog dialog;
     @BindView(R.id.recyclerview)
@@ -90,7 +96,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
 
     /**
      * 获取布局ID
-     *
      * @return
      */
     @Override
@@ -108,7 +113,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
         mAdapter.setEnableLoadMore(false);
         initDictData();
         mPresenter.loadData(Constants.REFRESH);
-
     }
 
     private void initDictData() {
@@ -131,7 +135,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
                 .subscribe(new Consumer<HashMap<String, String>>() {
                     @Override
                     public void accept(HashMap<String, String> stringStringHashMap) throws Exception {
-                        Log.e("nb", "Dict加载完成" + stringStringHashMap.size());
+                       // Log.e("nb", "Dict加载完成" + stringStringHashMap.size());
                         mAdapter.setDictData(stringStringHashMap);
                         if (mAdapter.getData() != null) {
                             mAdapter.notifyDataSetChanged();
@@ -161,9 +165,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
         TextView tvTip = (TextView) emptyView.findViewById(R.id.tv_tip);
 
         //使用字体
-       // Typeface typeFace = ResourcesCompat.getFont(mContext, R.font.zcool_black);
-      //  tvTip.setTypeface(typeFace);
-       // tvTip.setText("无待办案件");
+        // Typeface typeFace = ResourcesCompat.getFont(mContext, R.font.zcool_black);
+        //  tvTip.setTypeface(typeFace);
+        // tvTip.setText("无待办案件");
 
         mAdapter = new TodoCasesAdapter(R.layout.list_item_cases);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
@@ -173,7 +177,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.theme_color));
         recyclerView.setAdapter(mAdapter);
-      //  mAdapter.setEmptyView(emptyView);
+        //  mAdapter.setEmptyView(emptyView);
     }
 
     private void initListener() {
@@ -199,12 +203,12 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
 
                 } else if (view.getId() == R.id.iv_call_phone) {
 
-                    if(TextUtils.isEmpty(bean.getPhoneNo())) {
+                    if (TextUtils.isEmpty(bean.getPhoneNo())) {
                         RxToast.showToast("手机号码不能未空");
                         return;
                     }
                     //bean.getContactPnhone()
-                    String tiltle = String.format("拨打%s电话\r\n%s", bean.getCustName(),"13082961783" );
+                    String tiltle = String.format("拨打%s电话\r\n%s", bean.getCustName(), bean.getPhoneNo());
                     dialog = new ActionSheetDialog(mContext, stringItems, null);
                     dialog.title(tiltle)
                             .titleTextSize_SP(14.5f)
@@ -233,10 +237,65 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
         });
 
 
-        mLayoutSearch.setOnClickListener(new View.OnClickListener() {
+        mLlClearSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onSearchClicked();
+                mEdtSearch.setText("");
+            }
+        });
+
+        mEdtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+            @Override
+
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                if ((actionId == EditorInfo.IME_ACTION_SEARCH)) {//如果是搜索按钮
+                    String search = mEdtSearch.getText().toString();
+
+                    //点击搜索要做的操作       
+                    if (!TextUtils.isEmpty(search)) {
+                        mPresenter.loadSearchCase(search);
+
+                    } else {
+                        RxToast.showToast("查询条件不能为空");
+                    }
+                    mEdtSearch.setText("");
+                    SystemUtils.hideInputmethod(mEdtSearch);
+                    return true;
+
+                }
+
+                return false;
+
+            }
+
+        });
+
+        mEdtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                if (charSequence.length() > 0) {
+                    if (mLlClearSearch != null) {
+                        mLlClearSearch.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    if (mLlClearSearch != null) {
+                        mLlClearSearch.setVisibility(View.INVISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
     }
@@ -278,7 +337,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
     /**
      * 点击搜索按钮
      */
-    public void onSearchClicked() {
+   /* public void onSearchClicked() {
 
         final SearchDM dm = new DialogCenter(getActivity()).showSearchCaseDialog();
 
@@ -296,7 +355,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
                 dm.getDialog().dismiss();
             }
         });
-    }
+    }*/
 
 
     @Override
@@ -308,14 +367,16 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
 
 
     public void showEmptyView() {
-        if(!Perference.getBoolean(Perference.OUT_SOURCE_FLAG)) {
+        if (!Perference.getBoolean(Perference.OUT_SOURCE_FLAG)) {
             Logger.d("展示emptyView");
 
             if (mAdapter != null) {
+                mAdapter.getData().clear();
                 mAdapter.setEmptyView(emptyView);
+                mAdapter.notifyDataSetChanged();
             }
 
-            mAdapter.getData().clear();
+
 
             if (swipeRefreshLayout != null) {
                 swipeRefreshLayout.setRefreshing(false);
@@ -365,6 +426,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
                 mAdapter.loadMoreEnd();
             }
 
+
+
         }
 
         //停止刷新 并恢复下拉刷新功能
@@ -384,16 +447,17 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
     @Override
     public void setSearchCase(List<CaseBeanData.RecordsBean> respCaseSummaries) {
         if (respCaseSummaries == null || respCaseSummaries.size() == 0) {
+
+            if(Perference.getBoolean(Perference.OUT_SOURCE_FLAG)) {
+                mAdapter.getData().clear();
+                mAdapter.notifyDataSetChanged();
+            }
             RxToast.showToast("没有查询到相关案件信息");
+
             return;
         }
         mAdapter.setNewData(respCaseSummaries);
-        if (respCaseSummaries.size() >= 10) {
-
-            mAdapter.loadMoreComplete();
-        } else {
-            mAdapter.loadMoreEnd();
-        }
+        mAdapter.loadMoreEnd(true);
     }
 
     @Override

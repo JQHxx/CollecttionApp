@@ -47,7 +47,7 @@ public class FragmentAccountInfo extends BaseFragment {
     private String custId;
     private String caseId;
     private int pageSize = 20;
-    private int pageNum = 1;
+    private int pageNum = 0;
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;

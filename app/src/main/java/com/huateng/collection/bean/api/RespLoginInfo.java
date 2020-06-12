@@ -16,6 +16,7 @@ public class RespLoginInfo extends RespBase {
     private SsouserBean ssouser;
     private String userId;
     private boolean outsourceFlag;//true 委外 false 行员
+    private String initialPassword;// y 是 N  否
 
     public boolean isOutsourceFlag() {
         return outsourceFlag;
@@ -39,6 +40,14 @@ public class RespLoginInfo extends RespBase {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getInitialPassword() {
+        return initialPassword;
+    }
+
+    public void setInitialPassword(String initialPassword) {
+        this.initialPassword = initialPassword;
     }
 
     public static class SsouserBean {

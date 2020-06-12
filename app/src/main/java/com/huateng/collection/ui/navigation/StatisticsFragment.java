@@ -126,7 +126,7 @@ public class StatisticsFragment extends BaseFragment {
 
                         mTvCaseSumTotal.setText(String.valueOf(caseSunTotalBean.getCaseSumTotal()));
                         mTvCaseCount.setText(String.valueOf(caseSunTotalBean.getCaseCount()));
-                        mTvRecordTime.setText(String.valueOf(caseSunTotalBean.getRecordTime()));
+                        mTvRecordTime.setText(DateUtil.getTwoDecimalsValue(caseSunTotalBean.getRecordTime()/60)+"分"+DateUtil.getTwoDecimalsValue(caseSunTotalBean.getRecordTime()%60)+"秒");
 
                         mTvReportIntegrity.setText(caseSunTotalBean.getReportIntegrity());
                         if (caseSunTotalBean.getCrtTime() != 0) {

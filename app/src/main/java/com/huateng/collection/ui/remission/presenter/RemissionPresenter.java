@@ -90,11 +90,5 @@ public class RemissionPresenter extends BasePresenter<RemissionContract .View> i
      */
     @Override
     public void reliefBatchExcute(String custId) {
-
-        Map<String,String> map = new HashMap<>();
-
-
-
-
     }
 }

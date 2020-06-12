@@ -1,7 +1,6 @@
 package com.huateng.collection.ui.home.presenter;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.huateng.collection.app.Constants;
 import com.huateng.collection.app.Perference;
@@ -33,7 +32,6 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
 
     @Override
     public void loadData(int status) {
-        Log.i("nb", "-------loadTodoCases-------");
         Map<String, String> map = new HashMap<>();
 
         if (status == Constants.REFRESH) {
@@ -68,6 +66,7 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                         if (mView == null) {
                             return;
                         }
+                      //  NetworkConfig.C.setAuth("");
                         if (caseBeanData == null ) {
                             if (status == Constants.REFRESH) {
                                 mView.showEmptyView();
@@ -76,8 +75,6 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                         }
 
                         pageNum = caseBeanData.getNextPage();
-                        Log.e("nb","案件信息加载完成");
-
                         mView.setCaseSummaries(status, caseBeanData.getRecords());
                     }
                 });

@@ -254,4 +254,24 @@ public class DictUtils {
         return wrofFlag;
     }
 
+
+    public static final String getCertType(String key){
+        String wrofFlag = "";
+        switch (key) {
+            case "Ind01" :
+                wrofFlag = "居民身份证";
+                break;
+            case "Ind03" :
+                wrofFlag = "外国护照";
+                break;
+            case "Ind04" :
+                wrofFlag = "军官证";
+                break;
+            case "Ind15" :
+                wrofFlag = "其他对私证件";
+                break;
+        }
+        return wrofFlag;
+    }
+
 }

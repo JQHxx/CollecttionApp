@@ -11,7 +11,7 @@
         android:id="@+id/rx_title"
         style="@style/CommontRxToolBarStyle"
         app:rxLeftIconVisibility="true"
-        app:rxLeftTextVisibility="true"
+        app:rxLeftTextVisibility="false"
         app:rxLeftText="返回"
         app:rxRightIconVisibility="false"
         app:rxTitle="信用卡信息详情"
@@ -238,7 +238,7 @@
 
                     android:textColor="@color/text_color_333333"
                     android:gravity="center_vertical|right"
-                    android:text="逾期总金额 :"/>
+                    android:text="人民币逾期总金额 :"/>
 
                 <TextView
                     android:id="@+id/tv_ovdu_amts"
@@ -270,7 +270,7 @@
 
                     android:textColor="@color/text_color_333333"
                     android:gravity="center_vertical"
-                    android:text="逾期总本金 :"/>
+                    android:text="人民币逾期总本金 :"/>
 
                 <TextView
                     android:id="@+id/tv_ovdu_principal_amts"
@@ -303,7 +303,7 @@
 
                     android:textColor="@color/text_color_333333"
                     android:gravity="center_vertical"
-                    android:text="当前透支本金 :"/>
+                    android:text="人民币当前透支本金 :"/>
 
                 <TextView
                     android:id="@+id/tv_overdraw_amt"
@@ -335,7 +335,7 @@
 
                     android:textColor="@color/text_color_333333"
                     android:gravity="center_vertical"
-                    android:text="当前透支金额 :"/>
+                    android:text="人民币当前透支金额 :"/>
 
                 <TextView
                     android:id="@+id/tv_current_loan_cash_amount"
@@ -440,7 +440,6 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="16dp"
                     android:gravity="center_vertical"
-                    android:text="201222222222222222"
                     android:textColor="@color/text_color_666666"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -474,7 +473,6 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="16dp"
                     android:gravity="center_vertical"
-                    tools:text="201222222222222222"
                     android:textColor="@color/text_color_666666"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -499,7 +497,7 @@
 
                     android:textColor="@color/text_color_333333"
                     android:gravity="center_vertical"
-                    android:text="逾期期数 :"/>
+                    android:text="人民币逾期期数 :"/>
 
                 <TextView
                     android:id="@id/tv_overdue_periods"

@@ -87,13 +87,12 @@ public class DateUtil {
                 + getTwoDecimalsValue(seconds % 60);
     }
 
-    private static String getTwoDecimalsValue(int value) {
+    public static String getTwoDecimalsValue(int value) {
         if (value >= 0 && value <= 9) {
             return "0" + value;
         } else {
             return value + "";
         }
     }
-
 
 }

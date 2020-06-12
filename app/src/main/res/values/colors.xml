@@ -215,5 +215,6 @@
     <color name="text_color_ff8701">#FF8701</color>
     <color name="text_color_e3e3e3">#E3E3E3</color>
     <color name="line_color">#E7E7E7</color>
+    <color name="water_color">#F5F5F5</color>
 
 </resources>

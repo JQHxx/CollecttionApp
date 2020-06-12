@@ -1,4 +1,5 @@
 package com.luck.picture.lib;
+
 import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -83,6 +85,7 @@ public class PictureExternalPreviewActivity extends PictureBaseActivity implemen
     @Override
     protected void initWidgets() {
         super.initWidgets();
+
         titleViewBg = findViewById(R.id.titleViewBg);
         Log.e("nb","titleViewBg== null:"+(titleViewBg== null));
         tvTitle = findViewById(R.id.picture_title);

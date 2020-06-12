@@ -3,7 +3,6 @@ package com.huateng.collection.ui.report.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -15,6 +14,7 @@ import com.huateng.collection.base.BaseActivity;
 import com.huateng.collection.base.BasePresenter;
 import com.huateng.collection.bean.ReportListBean;
 import com.huateng.collection.ui.adapter.ReportListadapter;
+import com.huateng.collection.widget.Watermark;
 import com.huateng.network.ApiConstants;
 import com.huateng.network.BaseObserver2;
 import com.huateng.network.RetrofitManager;
@@ -39,7 +39,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class ReportListActivity extends BaseActivity {
+public class ReportListActivity extends BaseActivity implements BaseQuickAdapter.RequestLoadMoreListener {
 
     @BindView(R.id.rx_title)
     RxTitle mRxTitle;
@@ -50,7 +50,7 @@ public class ReportListActivity extends BaseActivity {
     private String custId;
     private String caseId;
     private String custName;
-    private int pageSize = 10;
+    private int pageSize = 20;
     private int pageNum = 0;
     private ReportListadapter mAdapter;
 
@@ -62,6 +62,10 @@ public class ReportListActivity extends BaseActivity {
     @Override
     protected void initView(Bundle savedInstanceState) {
 
+        Watermark.getInstance()
+                .setTextSize(12.0f)
+                .setText(Perference.getUserId() + Perference.get(Perference.NICK_NAME))
+                .show(this);
         mRecyclerview.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new ReportListadapter();
         mRecyclerview.setAdapter(mAdapter);
@@ -89,7 +93,7 @@ public class ReportListActivity extends BaseActivity {
         mRxTitle.setRightOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ReportListActivity.this, ReportActivity2.class);
+                Intent intent = new Intent(ReportListActivity.this, ReportActivity.class);
                 intent.putExtra(Constants.CASE_ID, caseId);
                 intent.putExtra(Constants.CUST_ID, custId);
                 intent.putExtra(Constants.CUST_NAME, custName);
@@ -108,9 +112,11 @@ public class ReportListActivity extends BaseActivity {
         mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadData();
+                loadMoreData(true);
             }
         });
+
+        mAdapter.setOnLoadMoreListener(this, mRecyclerview);
     }
 
     /**
@@ -132,11 +138,12 @@ public class ReportListActivity extends BaseActivity {
         custId = getIntent().getStringExtra(Constants.CUST_ID);
         custName = getIntent().getStringExtra(Constants.CUST_NAME);
 
-        loadData();
+        loadMoreData(true);
 
     }
 
-    private void loadData() {
+
+    private void loadMoreData(boolean isFresh) {
         Map<String, String> map = new HashMap<>();
         map.put("caseId", caseId);
         map.put("custNo", custId);
@@ -152,7 +159,11 @@ public class ReportListActivity extends BaseActivity {
                     @Override
                     public void accept(Disposable disposable) throws Exception {
                         // 订阅之前回调回去显示加载动画
-                        showLoading();
+                        if (isFresh) {
+                          //  showLoading();
+                            mSwipeRefresh.setRefreshing(true);
+                        }
+
                     }
                 })// 订阅之前操作在主线程
                 .observeOn(AndroidSchedulers.mainThread())
@@ -164,31 +175,55 @@ public class ReportListActivity extends BaseActivity {
                         if (isFinishing()) {
                             return;
                         }
-
+                        hideLoading();
+                        mSwipeRefresh.setRefreshing(false);
                         if (TextUtils.isEmpty(msg)) {
                             return;
 
                         }
-                        hideLoading();
-                        mSwipeRefresh.setRefreshing(false);
+
                         RxToast.showToast(msg);
 
                     }
 
                     @Override
                     public void onNextData(ReportListBean bean) {
-                        if (isFinishing()) {
-                            return;
+
+                        if (isFresh) {
+                            //下拉刷新
+                            if (bean == null || bean.getRecords().size() == 0) {
+                                mAdapter.setEmptyView(R.layout.layout_empty_view, mRecyclerview);
+                                mSwipeRefresh.setRefreshing(false);
+                                return;
+                            }
+                            mAdapter.setNewData(bean.getRecords());
+                            if (bean.getRecords().size() < 10) {
+                                mAdapter.setEnableLoadMore(false);
+                            } else {
+                                mAdapter.setEnableLoadMore(true);
+                            }
+                          //  hideLoading();
+                        } else {
+                            //加载更多
+                            mAdapter.addData(bean.getRecords());
+                            if (bean.getRecords().size() >= 10) {
+
+                                mAdapter.loadMoreComplete();
+                            } else {
+                                mAdapter.loadMoreEnd();
+                            }
+
                         }
-                        if (bean == null || bean.getRecords().size() == 0) {
-                            mAdapter.setEmptyView(R.layout.layout_empty_view, mRecyclerview);
+
+                        //停止刷新 并恢复下拉刷新功能
+                        if (mSwipeRefresh != null) {
+                            mSwipeRefresh.setRefreshing(false);
+                            mSwipeRefresh.setEnabled(true);
                         }
-                        mAdapter.setNewData(bean.getRecords());
-                        mSwipeRefresh.setRefreshing(false);
-                        hideLoading();
-                        //  RxToast.showToast("客户调查报告录入完成");
+
                     }
                 });
+
     }
 
     /**
@@ -210,12 +245,11 @@ public class ReportListActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(EventBean bean) {
-        Log.e("nb", bean.code + ":" + bean.getObject());
         if (bean == null) {
             return;
         }
         if (bean.getCode() == BusEvent.REPORT_REFRESH) {
-            loadData();
+            loadMoreData(true);
         }
 
 
@@ -224,5 +258,10 @@ public class ReportListActivity extends BaseActivity {
     @Override
     public boolean isUseEventBus() {
         return true;
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        loadMoreData(false);
     }
 }

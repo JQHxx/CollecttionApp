@@ -19,7 +19,7 @@ public class BizAcctItemBean {
     private double reducePri;//申请减免本金
     private double reduceInt;//申请减免利罚息
     private double reduceTotal;//申请减免总额
-    private double planRepayTotal;//计划归还总额
+    private String planRepayTotal;//计划归还总额
     private String acctNo;//卡号
     private double shouldBreach;//违约金
     private double penalAmt;// 分期提前结清手续费
@@ -28,6 +28,7 @@ public class BizAcctItemBean {
     private String isEarSettlement;//是否申请分期提前结清
     private String currency;//币种
     private String businessType;//业务类型
+    private String cardType;//卡种
 
     public String getBusinessType() {
         return businessType;
@@ -133,11 +134,11 @@ public class BizAcctItemBean {
         this.reduceTotal = reduceTotal;
     }
 
-    public double getPlanRepayTotal() {
+    public String getPlanRepayTotal() {
         return planRepayTotal;
     }
 
-    public void setPlanRepayTotal(double planRepayTotal) {
+    public void setPlanRepayTotal(String planRepayTotal) {
         this.planRepayTotal = planRepayTotal;
     }
 
@@ -187,6 +188,14 @@ public class BizAcctItemBean {
 
     public void setIsEarSettlement(String isEarSettlement) {
         this.isEarSettlement = isEarSettlement;
+    }
+
+    public String getCardType() {
+        return cardType;
+    }
+
+    public void setCardType(String cardType) {
+        this.cardType = cardType;
     }
 
     public String getCurrency() {

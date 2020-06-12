@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -9,11 +8,12 @@
     <com.tools.view.RxTitle
         android:id="@+id/rx_title"
         style="@style/CommontRxToolBarStyle"
-        app:rxTitle="调查报告详情"
+        app:rxTitle="调查报告"
+        app:rxLeftTextVisibility="false"
         app:rxRightTextVisibility="false"
         app:rxTitleVisibility="true" />
 
-    <com.huateng.collection.widget.recyclerview.RecyclerScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -32,7 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textSize="16sp"
-                    android:textColor="@color/text_color_333333"
+                    android:textColor="#343434"
                     android:gravity="center_vertical|right"
                     android:text="客户姓名"/>
 
@@ -43,8 +43,7 @@
                     android:textSize="16sp"
                     android:gravity="center_vertical|right"
                     android:layout_marginLeft="16dp"
-                    tools:text="张三"
-                    android:textColor="#969696" />
+                    android:textColor="@color/text_color_666666" />
             </LinearLayout>
 
             <View
@@ -63,20 +62,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textSize="16sp"
-                    android:textColor="@color/text_color_333333"
+                    android:textColor="#343434"
                     android:gravity="center_vertical|right"
                     android:text="外访人员"/>
 
-                <TextView
-                    android:id="@+id/edt_visit_name"
+                <EditText
+                    android:id="@+id/tv_visit_name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textSize="16sp"
+                    android:maxLines="1"
+                    android:hint="请输入外访人员姓名"
                     android:gravity="center_vertical|right"
                     android:layout_marginLeft="16dp"
                     android:layout_alignParentRight="true"
                     android:background="@null"
-                    android:textColor="@color/text_color_666666" />
+                    android:textColor="#343434" />
+
             </LinearLayout>
 
             <View
@@ -105,18 +107,18 @@
                     android:id="@+id/tv_visit_date"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:paddingRight="5dp"
                     android:layout_height="match_parent"
                     android:textSize="16sp"
                     android:gravity="center_vertical|right"
                     android:layout_marginLeft="16dp"
                     android:layout_alignParentRight="true"
-                    android:text="请选择"
                     android:textColor="@color/text_color_666666" />
+
                 <ImageView
-                    android:layout_gravity="center_vertical"
+                    android:layout_gravity="center_vertical|right"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
+                    android:layout_marginLeft="5dp"
                     android:src="@drawable/picker_calendar"/>
             </LinearLayout>
 
@@ -126,7 +128,8 @@
                 android:background="@color/line_color"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
+                android:minHeight="45dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="5dp"
@@ -139,16 +142,18 @@
                     android:gravity="center_vertical|right"
                     android:text="外访地址"/>
 
-                <TextView
+                <EditText
                     android:id="@+id/edt_visit_address"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textSize="16sp"
+                    android:maxLines="2"
+                    android:hint="请输入外访地址"
                     android:gravity="center_vertical|right"
                     android:layout_marginLeft="16dp"
                     android:layout_alignParentRight="true"
                     android:background="@null"
-                    android:textColor="@color/text_color_666666" />
+                    android:textColor="#343434" />
             </LinearLayout>
 
             <View
@@ -226,12 +231,11 @@
                     android:layout_alignParentRight="true"
                     android:text="请选择"
                     android:textColor="@color/text_color_666666" />
-
                 <ImageView
                     android:layout_gravity="center_vertical"
                     android:layout_width="18dp"
                     android:layout_height="16dp"
-                    android:src="@drawable/spinner_arrow" />
+                    android:src="@drawable/spinner_arrow"/>
             </LinearLayout>
 
 
@@ -285,358 +289,346 @@
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="75dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
                 <TextView
-                    android:layout_width="90dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:gravity="center"
                     android:textSize="16sp"
                     android:textColor="@color/text_color_343434"
-                    android:text="逾期\n原因"/>
+                    android:text="逾期原因"/>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:background="#fafafa"
-
+                    android:focusable="true"
+                    android:minHeight="75dp"
+                    android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_height="match_parent">
-                    <TextView
+                    android:focusableInTouchMode="true"
+                    android:layout_height="wrap_content">
+                    <EditText
                         android:id="@+id/edt_overdue_cause"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="5dp"
                         android:textSize="14sp"
+                        android:maxLength="200"
                         android:gravity="top|left"
-                        android:textColor="@color/text_color_666666"
+                        android:scrollbars="vertical"
+                        android:textColor="@color/text_color_343434"
+                        android:hint=" 200字以内"
                         android:background="@null"/>
                 </LinearLayout>
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/line_color"/>
-
             <LinearLayout
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="75dp">
+               android:orientation="vertical"
+                android:layout_height="wrap_content">
                 <TextView
-                    android:layout_width="90dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:gravity="center"
                     android:textSize="16sp"
                     android:textColor="@color/text_color_343434"
-                    android:text="其他有\n效地址"/>
+                    android:text="其他有效地址"/>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:background="#fafafa"
+                    android:focusable="true"
+                    android:minHeight="75dp"
+                    android:focusableInTouchMode="true"
                     android:layout_marginRight="16dp"
-                    android:layout_height="match_parent">
-                    <TextView
+                    android:layout_marginLeft="16dp"
+                    android:layout_height="wrap_content">
+                    <EditText
                         android:id="@+id/edt_other_valid_address"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textSize="14sp"
                         android:padding="5dp"
+                        android:maxLength="200"
+                        android:scrollbars="vertical"
                         android:gravity="top|left"
-                        android:textColor="@color/text_color_666666"
+                        android:textColor="@color/text_color_343434"
+                        android:hint=" 200字以内"
                         android:background="@null"/>
                 </LinearLayout>
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/line_color"/>
-
             <LinearLayout
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="75dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
                 <TextView
-                    android:layout_width="90dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:gravity="center"
                     android:textSize="16sp"
                     android:textColor="@color/text_color_343434"
-                    android:text="车辆\n信息"/>
+                    android:text="车辆信息"/>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:background="#fafafa"
+                    android:minHeight="75dp"
                     android:layout_marginRight="16dp"
-                    android:layout_height="match_parent">
-                    <TextView
+                    android:layout_marginLeft="16dp"
+                    android:layout_height="wrap_content">
+                    <EditText
                         android:id="@+id/edt_car_msg"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textSize="14sp"
+                        android:scrollbars="vertical"
                         android:padding="5dp"
                         android:gravity="top|left"
-                        android:textColor="@color/text_color_666666"
+                        android:textColor="@color/text_color_343434"
+                        android:hint=" 200字以内"
                         android:background="@null"/>
                 </LinearLayout>
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/line_color"/>
-
             <LinearLayout
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="75dp">
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
                 <TextView
-                    android:layout_width="90dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:gravity="center"
                     android:textSize="16sp"
                     android:textColor="@color/text_color_343434"
-                    android:text="房屋\n信息"/>
+                    android:text="房屋信息"/>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:background="#fafafa"
+                    android:focusable="true"
+                    android:minHeight="75dp"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="16dp"
+                    android:focusableInTouchMode="true"
                     android:layout_marginRight="16dp"
                     android:layout_height="match_parent">
-                    <TextView
+                    <EditText
                         android:id="@+id/edt_home_msg"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textSize="14sp"
                         android:padding="5dp"
+                        android:scrollbars="vertical"
                         android:gravity="top|left"
-                        android:textColor="@color/text_color_666666"
-
+                        android:textColor="@color/text_color_343434"
+                        android:hint=" 200字以内"
                         android:background="@null"/>
                 </LinearLayout>
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/line_color"/>
-
             <LinearLayout
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="75dp">
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
                 <TextView
-                    android:layout_width="90dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:gravity="center"
                     android:textSize="16sp"
-                    android:textColor="@color/text_color_333333"
-                    android:text="公积金\n信息"/>
+                    android:textColor="@color/text_color_343434"
+                    android:text="公积金信息"/>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:background="#fafafa"
                     android:layout_marginRight="16dp"
-                    android:layout_height="match_parent">
+                    android:layout_marginLeft="16dp"
+                    android:orientation="vertical"
+                    android:minHeight="75dp"
+                    android:layout_height="wrap_content">
                     <EditText
                         android:id="@+id/edt_provident_fund"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textSize="14sp"
                         android:padding="5dp"
+                        android:scrollbars="vertical"
                         android:gravity="top|left"
-                        android:textColor="@color/text_color_666666"
+                        android:textColor="@color/text_color_343434"
                         android:hint=" 200字以内"
                         android:background="@null"/>
                 </LinearLayout>
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/line_color"/>
 
             <LinearLayout
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="75dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
                 <TextView
-                    android:layout_width="90dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:gravity="center"
                     android:textSize="16sp"
-                    android:textColor="@color/text_color_333333"
-                    android:text="投资\n信息"/>
+                    android:textColor="@color/text_color_343434"
+                    android:text="投资信息"/>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:background="#fafafa"
                     android:layout_marginRight="16dp"
-                    android:layout_height="match_parent">
+                    android:layout_marginLeft="16dp"
+                    android:minHeight="75dp"
+                    android:layout_height="wrap_content">
                     <EditText
                         android:id="@+id/edt_investment_msg"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textSize="14sp"
                         android:gravity="top|left"
+                        android:scrollbars="vertical"
+                        android:maxLength="200"
                         android:padding="5dp"
-                        android:textColor="@color/text_color_666666"
+                        android:textColor="@color/text_color_343434"
                         android:hint=" 200字以内"
                         android:background="@null"/>
                 </LinearLayout>
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/line_color"/>
 
             <LinearLayout
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="75dp">
+                android:layout_height="wrap_content">
                 <TextView
-                    android:layout_width="90dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:gravity="center"
                     android:textSize="16sp"
-                    android:textColor="@color/text_color_333333"
-                    android:text="外债\n信息"/>
+                    android:textColor="@color/text_color_343434"
+                    android:text="外债信息"/>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:background="#fafafa"
                     android:layout_marginRight="16dp"
-                    android:layout_height="match_parent">
+                    android:layout_marginLeft="16dp"
+                    android:minHeight="75dp"
+                    android:layout_height="wrap_content">
                     <EditText
                         android:id="@+id/edt_debt_msg"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textSize="14sp"
                         android:padding="5dp"
+                        android:scrollbars="vertical"
                         android:gravity="top|left"
-                        android:textColor="@color/text_color_666666"
+                        android:textColor="@color/text_color_343434"
                         android:hint=" 200字以内"
                         android:background="@null"/>
                 </LinearLayout>
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/line_color"/>
 
             <LinearLayout
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="75dp">
+                android:layout_height="wrap_content">
                 <TextView
-                    android:layout_width="90dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:gravity="center"
                     android:textSize="16sp"
-                    android:textColor="@color/text_color_333333"
-                    android:text="其他财\n产信息"/>
+                    android:textColor="@color/text_color_343434"
+                    android:text="其他财产信息"/>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:background="#fafafa"
+                    android:minHeight="75dp"
+                    android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
                     <EditText
                         android:id="@+id/edt_other_assets_info"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textSize="14sp"
                         android:gravity="top|left"
+                        android:scrollbars="vertical"
                         android:padding="5dp"
-                        android:textColor="@color/text_color_666666"
+                        android:textColor="@color/text_color_343434"
                         android:hint=" 200字以内"
                         android:background="@null"/>
                 </LinearLayout>
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/line_color"/>
-
             <LinearLayout
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="75dp">
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
                 <TextView
-                    android:layout_width="90dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:gravity="center"
                     android:textSize="16sp"
-                    android:textColor="@color/text_color_333333"
-                    android:text="详细\n信息"/>
+                    android:textColor="@color/text_color_343434"
+                    android:text="详细信息"/>
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:minHeight="75dp"
+                    android:layout_width="match_parent"
                     android:background="#fafafa"
                     android:layout_marginRight="16dp"
-                    android:layout_height="match_parent">
+                    android:layout_marginLeft="16dp"
+                    android:layout_height="wrap_content">
                     <EditText
                         android:id="@+id/edt_detail_msg"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textSize="14sp"
                         android:padding="5dp"
+                        android:scrollbars="vertical"
                         android:gravity="top|left"
-                        android:textColor="@color/text_color_666666"
+                        android:textColor="@color/text_color_343434"
                         android:hint=" 200字以内"
                         android:background="@null"/>
                 </LinearLayout>
@@ -646,12 +638,29 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
+
                 android:background="@color/line_color"/>
+
+            <com.huateng.fm.ui.widget.FmButton
+                android:id="@+id/btn_login"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="50dp"
+                android:gravity="center"
+                android:minHeight="0dp"
+                android:singleLine="true"
+                android:text="确认修改"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_switch_bg"
+                android:textSize="16sp"/>
 
         </LinearLayout>
 
 
-    </com.huateng.collection.widget.recyclerview.RecyclerScrollView>
+    </ScrollView>
 
 
 </LinearLayout>

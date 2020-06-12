@@ -103,7 +103,7 @@ public class FragmentMap2 extends BaseFragment {
                     @Override
                     public void onError(String code, String msg) {
 
-                        Log.e("nb",msg);
+                      //  Log.e("nb",msg);
                     }
 
                     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -130,12 +130,6 @@ public class FragmentMap2 extends BaseFragment {
                             }
                             String s = GsonUtils.toJson(list);
                             mWebview.loadUrl("javascript:setData(" + s + ")");
-                           /* mWebview.evaluateJavascript("javascript:setData(s)", new ValueCallback<String>() {
-                                @Override
-                                public void onReceiveValue(String s) {
-
-                                }
-                            });*/
                         }
                     }
                 });
@@ -252,21 +246,21 @@ public class FragmentMap2 extends BaseFragment {
 
         @JavascriptInterface
         public void jumpAppOtherMap(String lon, String lat, String address) {
-            Log.e("nb", lon + ":" + lat + ":" + address);
+          //  Log.e("nb", lon + ":" + lat + ":" + address);
             maptypePopup = new MaptypePopup(getActivity());
             maptypePopup.setOnMaptypeClickListener(new MaptypePopup.onMaptypeClickListener() {
                 @Override
                 public void onClick(Constants.MapType type) {
-                    Log.e("nb", "type:" + type);
+                //    Log.e("nb", "type:" + type);
                     LatLng desLoc = new LatLng(Double.valueOf(lon), Double.valueOf(lat));
                     if (type.equals(Constants.MapType.MAP_TENCENT)) {
-                        Log.e("nb", "MAP_TENCENT");
+                      //  Log.e("nb", "MAP_TENCENT");
                         MapUtil.openTencentMap(mContext, desLoc, address);
                     } else if (type.equals(Constants.MapType.MAP_BAIDU)) {
-                        Log.e("nb", "MAP_BAIDU");
+                      //  Log.e("nb", "MAP_BAIDU");
                         MapUtil.openBaiDuNavi(mContext, currentLocation.getLatitude(), currentLocation.getLongitude(), "", Double.valueOf(lat), Double.valueOf(lon), address);
                     } else if (type.equals(Constants.MapType.MAP_GAODE)) {
-                        Log.e("nb", "MAP_GAODE");
+                     //   Log.e("nb", "MAP_GAODE");
                         MapUtil.openGaoDeNavi(mContext, 0, 0, null, Double.valueOf(lat), Double.valueOf(lon), address);
                     }
                 }

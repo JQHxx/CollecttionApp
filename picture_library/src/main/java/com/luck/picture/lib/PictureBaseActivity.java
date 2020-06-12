@@ -12,10 +12,8 @@ import android.os.Looper;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.luck.picture.lib.app.PictureAppMaster;
 import com.luck.picture.lib.compress.Luban;
@@ -55,7 +53,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 
 /**
@@ -149,6 +149,7 @@ public abstract class PictureBaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         if (savedInstanceState != null) {
             config = savedInstanceState.getParcelable(PictureConfig.EXTRA_CONFIG);
         }

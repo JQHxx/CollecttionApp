@@ -28,11 +28,11 @@ import butterknife.Unbinder;
  * @date 2018/5/16
  */
 public abstract class BaseActivity<P extends BasePresenter> extends RxAppCompatActivity implements IBaseView {
-   // protected final String TAG = getClass().getSimpleName();
-   private Unbinder unbinder;
+    // protected final String TAG = getClass().getSimpleName();
+    private Unbinder unbinder;
     protected P mPresenter;
     private boolean isUseEventBus;
-   private LoadingDialog dialog;
+    private LoadingDialog dialog;
 
     protected abstract P createPresenter();
 
@@ -61,25 +61,21 @@ public abstract class BaseActivity<P extends BasePresenter> extends RxAppCompatA
         if (dialog == null) {
             dialog = new LoadingDialog(this);
         }
-        /*if(!dialog.isShowing()) {
+        if (!dialog.isShowing()) {
 
             dialog.show();
-            Log.e("NBCB","dialog show");
-        }*/
-        dialog.show();
-        Log.e("NBCB","dialog show");
+            Log.e("NBCB", "dialog show");
+        }
     }
 
     @Override
     public void hideLoading() {
-        if(dialog  == null) {
+        if (dialog == null) {
             return;
         }
-        dialog.hide();
-
-     /* if (dialog != null && dialog.isShowing()) {
+        if (dialog != null && dialog.isShowing()) {
             dialog.hide();
-        }*/
+        }
     }
 
 
@@ -141,13 +137,12 @@ public abstract class BaseActivity<P extends BasePresenter> extends RxAppCompatA
         // 把actvity放到application栈中管理
         ActivityUtils.getAppManager().addActivity(this);
 
-        if(isUseEventBus) {
+        if (isUseEventBus) {
             EventBus.getDefault().register(this);
         }
-       // initListener();
+        // initListener();
         initData();
     }
-
 
 
     @Override
@@ -163,30 +158,31 @@ public abstract class BaseActivity<P extends BasePresenter> extends RxAppCompatA
             unbinder = null;
         }
 
-        if(dialog != null) {
+        if (dialog != null) {
             dialog.dismiss();
         }
 
-        if(isUseEventBus) {
-           EventBus.getDefault().unregister(this);
+        if (isUseEventBus) {
+            EventBus.getDefault().unregister(this);
         }
 
         // 把actvity放到application栈中管理
         ActivityUtils.getAppManager().removeActivity(this);
     }
 
-    public boolean isUseEventBus(){
+    public boolean isUseEventBus() {
         return false;
     }
 
     @Override
     public void showToast(String message) {
-        if(TextUtils.isEmpty(message)) {
+        if (TextUtils.isEmpty(message)) {
             return;
         }
         RxToast.showToast(message);
-      //  ToastUtil.showShortToast(Utils.getApp(),message);
+        //  ToastUtil.showShortToast(Utils.getApp(),message);
     }
+
     protected void immersiveStatusBar(View title) {
         SystemBarHelper.immersiveStatusBar(this, 0);
         SystemBarHelper.setHeightAndPadding(this, title);

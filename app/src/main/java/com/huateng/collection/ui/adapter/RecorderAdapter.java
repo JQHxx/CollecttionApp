@@ -2,7 +2,6 @@ package com.huateng.collection.ui.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -150,10 +149,8 @@ public class RecorderAdapter extends
         } else {
 
             LocalMedia media = list.get(position);
-            Log.e("nb", "media:--->" + media.toString());
             //  int mimeType = media.getMimeType();
             long itemDuration = media.getDuration();
-            Log.e("nb", "itemDuration->" + itemDuration);
             // int pictureType = PictureMimeType.isPictureType(media.getPictureType());
             final File file = new File(media.getPath());
 

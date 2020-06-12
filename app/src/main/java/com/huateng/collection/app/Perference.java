@@ -26,6 +26,7 @@ public class Perference {
     //是否登录
     public static final String IS_LOGIN = "is_login";
 
+
     //通话录音相关
     private static final String PREPARE_CALL_RECORDING = "prepare_call_recording";
     private static String PREPARE_RECORDING_PHONE_NUMBER = "prepare_recording_phone_number";

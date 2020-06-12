@@ -1,15 +1,19 @@
 package com.huateng.network;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.aes_util.AESUtils;
 import com.huateng.network.bean.ErrorMsgBean;
 import com.huateng.network.bean.ResponseDataBean;
 import com.huateng.network.bean.ResponseStructure;
 import com.huateng.network.error.ExceptionHandle;
+import com.orhanobut.logger.Logger;
 import com.tools.CommonUtils;
+import com.tools.bean.BusEvent;
+import com.tools.bean.EventBean;
 import com.tools.utils.GsonUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -39,6 +43,11 @@ public abstract class BaseObserver2<T> implements Observer<ResponseStructure> {
         if (e instanceof Exception) {
             //访问获得对应的Exception
             ExceptionHandle.ResponeThrowable responeThrowable = ExceptionHandle.handleException(e);
+            if(responeThrowable.code == 302) {
+                //token过期了
+                EventBus.getDefault().post(new EventBean(BusEvent.TOKEN_OVERDUE));
+            }
+
             onError(String.valueOf(responeThrowable.code), responeThrowable.message);
         } else {
             //将Throwable 和 未知错误的status code返回
@@ -52,23 +61,20 @@ public abstract class BaseObserver2<T> implements Observer<ResponseStructure> {
             String code = structure.getScubeHeader().getErrorCode();
             if (code.equals(ApiConstants.ERROR_CODE_SUC)) {
                 String respData = structure.getScubeBody().getContextData().getData();
-                Log.e("nb","respData--->"+respData);
-
                 ResponseDataBean responseDataBean = GsonUtils.fromJson(respData, ResponseDataBean.class);
 
                 if(!TextUtils.isEmpty(responseDataBean.getValue())) {
                     String data = AESUtils.decrypt(responseDataBean.getValue(), "aes-nbcbccms@123");
-                    Log.e("nb", "-----------------------");
-                    Log.e("nb", "data----->" + data);
-                    Log.e("nb", "-----------------------");
                     if ("{}".equals(data)) {
                         onNextData(null);
                     } else {
                         if(CommonUtils.isJson(data)) {
+                            Logger.i(data);
                             Type type = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
                             T t = GsonUtils.fromJson(data, type);
                             onNextData(t);
                         }else {
+                            Logger.i(data);
                             onNextData((T) data);
                         }
 
@@ -77,11 +83,8 @@ public abstract class BaseObserver2<T> implements Observer<ResponseStructure> {
                 }else if(!TextUtils.isEmpty(responseDataBean.getEncode())) {
                     onNextData((T) responseDataBean.getEncode());
                 } else {
-                    Log.e("nb","encode:"+responseDataBean.getEncode());
                     onNextData((T) responseDataBean.getEncode());
                 }
-
-
 
             } else {
                 String msg = structure.getScubeHeader().getErrorMsg();

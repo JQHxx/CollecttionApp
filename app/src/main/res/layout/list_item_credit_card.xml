@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:text="信用卡卡号："
+                android:text="信用卡卡号:"
                 android:textColor="@color/text_color_333333"
                 android:textSize="@dimen/title_text_size" />
 
@@ -38,7 +38,6 @@
                 android:layout_marginRight="4dp"
                 android:gravity="left|center_vertical"
                 android:singleLine="true"
-                android:text="20080808"
                 android:textColor="@color/text_color_333333"
                 android:textSize="@dimen/content_text_size" />
 
@@ -76,10 +75,11 @@
 
 
             <TextView
+                android:id="@+id/tv_ovdu_amts_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:text="人民币逾期总金额："
+                android:text="人民币逾期总金额:"
                 android:textColor="@color/text_color_333333"
                 android:textSize="@dimen/title_text_size" />
 
@@ -92,7 +92,6 @@
                 android:layout_marginRight="4dp"
                 android:gravity="left|center_vertical"
                 android:singleLine="true"
-                tools:text="13000元"
                 android:textColor="#333333"
                 android:textSize="@dimen/content_text_size" />
 
@@ -108,10 +107,11 @@
 
 
             <TextView
+                android:id="@+id/tv_overdue_periods_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:text="人民币逾期期数："
+                android:text="人民币逾期期数:"
                 android:textColor="@color/text_color_333333"
                 android:textSize="@dimen/title_text_size" />
 
@@ -125,7 +125,6 @@
                 android:gravity="left|center_vertical"
                 android:singleLine="true"
                 android:textColor="#333333"
-                tools:text="2期"
                 android:textSize="@dimen/content_text_size" />
 
         </LinearLayout>
@@ -143,7 +142,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:text="卡片状态："
+                android:text="核销标记:"
                 android:textColor="@color/text_color_333333"
                 android:textSize="@dimen/title_text_size" />
 
@@ -156,7 +155,6 @@
                 android:layout_marginRight="4dp"
                 android:gravity="left|center_vertical"
                 android:singleLine="true"
-                android:text="核销转销户"
                 android:textColor="#333333"
                 android:textSize="@dimen/content_text_size" />
 
@@ -172,8 +170,8 @@
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginTop="15dp"
             android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:src="@drawable/icon_back"/>
 
     </RelativeLayout>

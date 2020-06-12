@@ -38,7 +38,6 @@ public class ActivityUtils {
                     instance.activityStack = new Stack();
                 }
             }
-
         }
         return instance;
     }

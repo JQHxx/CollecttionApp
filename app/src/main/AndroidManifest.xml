@@ -12,9 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup,android:supportsRtl">
-        <activity android:name=".ui.activity.ChangePasswordActivity"></activity>
-        <activity android:name=".ui.report.view.ReportActivity" />
-        <activity android:name=".ui.activity.CreditCardDetailActivity" />
+
+        <activity android:name=".ui.activity.ChangePasswordActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.report.view.ReportActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".ui.activity.CreditCardDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".ui.report.view.ReportListActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -43,8 +50,13 @@
             android:name=".ui.activity.AboutActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustPan" />
+
+        <activity android:name=".ui.activity.LoginActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan"></activity>
         <activity
-            android:name=".ui.activity.LoginActivity"
+            android:name=".ui.activity.SplashActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/SplashTheme"
             android:windowSoftInputMode="stateHidden">
@@ -134,12 +146,11 @@
             android:enabled="true"
             android:exported="true" />
         <service android:name=".service.LocationFakeService" />
-    </application>
-
+    </application> <!-- 用于申请调用A-GPS模块 -->
     <permission
         android:name="android.permission.INTERACT_ACROSS_USERS_FULL"
-        android:protectionLevel="signature" /> <!-- 用于申请调用A-GPS模块 -->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" /> <!-- 用于申请获取蓝牙信息进行室内定位 -->
+        android:protectionLevel="signature" /> <!-- 用于申请获取蓝牙信息进行室内定位 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />

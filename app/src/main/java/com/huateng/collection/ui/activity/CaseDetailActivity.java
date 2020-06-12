@@ -17,9 +17,6 @@ import com.huateng.collection.base.BaseFragment;
 import com.huateng.collection.ui.caseInfo.contract.CaseDetailContract;
 import com.huateng.collection.ui.caseInfo.presenter.CaseDetailPresenter;
 import com.huateng.collection.ui.dialog.BottomDialogFragment2;
-import com.huateng.collection.ui.dialog.DialogCenter;
-import com.huateng.collection.ui.dialog.dm.BaseDM;
-import com.huateng.collection.ui.dialog.dm.WrongEndCaseDM;
 import com.huateng.collection.ui.fragment.casebox.casefill.PhotoSelectorActivity;
 import com.huateng.collection.ui.fragment.casebox.casefill.RecordSelectorActivity;
 import com.huateng.collection.ui.fragment.casebox.info.CreditCardMsgFragment;
@@ -28,6 +25,7 @@ import com.huateng.collection.ui.fragment.casebox.info.FragmentBaseInfo;
 import com.huateng.collection.ui.fragment.casebox.info.FragmentContactsBook;
 import com.huateng.collection.ui.report.view.ReportListActivity;
 import com.huateng.collection.widget.NoScrollViewPager;
+import com.huateng.collection.widget.Watermark;
 import com.huateng.collection.widget.tab.TabEntity;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tools.view.RxTitle;
@@ -74,7 +72,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
 
     private String[] mCaseMoreFillTitles = {"录音", "拍照", "调查报告", "结束处理", "停催", "留案", "退案", "申请减免"};
     private int[] mCaseMoreFillIcons = {R.drawable.icon_voice, R.drawable.icon_photo,
-            R.drawable.icon_report_list, R.drawable.icon_report_end,R.drawable.icon_stop_urging
+            R.drawable.icon_report_list, R.drawable.icon_report_end, R.drawable.icon_stop_urging
             , R.drawable.icon_leave_case, R.drawable.icon_case_back, R.drawable.icon_remission};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
 
@@ -84,44 +82,43 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
     private String custId;
     private String custName;
     private String businessType;
+    private boolean caseStatus;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
 
-    /*    Watermark.getInstance()
-                .setTextColor(getResources().getColor(R.color.dialogplus_card_shadow))
+        Watermark.getInstance()
                 .setTextSize(12.0f)
-                .setText("测试文本")
-                .show(this);*/
+                .setText(Perference.getUserId()  + "-" + Perference.get(Perference.NICK_NAME))
+                .show(this);
         initListener();
-
 
         Intent intent = getIntent();
         caseId = intent.getStringExtra(Constants.CASE_ID);
         custId = intent.getStringExtra(Constants.CUST_ID);
         custName = intent.getStringExtra(Constants.CUST_NAME);
         businessType = intent.getStringExtra(Constants.BUSINESS_TYPE);
-        //保存当前案件信息
-        // Perference.setCurrentCaseId(caseId);
+        rxTitle.setTitle("客户信息");
 
-        boolean outSourceFlag =  Perference.getBoolean(Perference.OUT_SOURCE_FLAG);
-        if(outSourceFlag) {
+        boolean outSourceFlag = Perference.getBoolean(Perference.OUT_SOURCE_FLAG);
+        if (outSourceFlag) {
             mCaseMoreFillTitles = new String[]{"录音", "拍照", "调查报告", "结束处理", "停催", "留案", "退案", "申请减免"};
-        }else {
+        } else {
             mCaseMoreFillTitles = new String[]{"录音", "拍照", "调查报告", "结束处理"};
         }
+       //  mCaseMoreFillTitles = new String[]{"录音", "拍照", "调查报告", "结束处理", "停催", "留案", "退案", "申请减免"};
 
         //删除临时文件夹里的文件
         //        FileUtils.deleteFilesInDir(AttachmentProcesser.getInstance(mContext).getTempsDir());
         if ("03".equals(businessType)) {
-            mDoneCaseFillTitles = new String[]{"客户信息", "信用卡信息", "联系人"};
+            mDoneCaseFillTitles = new String[]{"客户信息", "信用卡列表", "联系人列表"};
             mIconUnselectIds = new int[]{
                     R.drawable.icon_cust_msg, R.drawable.icon_card_info,
                     R.drawable.icon_contact_book};
             mIconSelectIds = new int[]{
                     R.drawable.icon_cust_msg_selected, R.drawable.icon_card_info_selected,
                     R.drawable.icon_contact_book_selected};
-            mInfoTitles = new String[]{"客户信息", "信用卡信息", "联系人"};
+            mInfoTitles = new String[]{"客户信息", "信用卡列表", "联系人列表"};
         } else {
             mIconUnselectIds = new int[]{
                     R.drawable.icon_cust_msg, R.drawable.icon_account_info,
@@ -129,8 +126,8 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
             mIconSelectIds = new int[]{
                     R.drawable.icon_cust_msg_selected, R.drawable.icon_account_info_selected,
                     R.drawable.icon_contact_book_selected};
-            mDoneCaseFillTitles = new String[]{"客户信息", "账户信息", "联系人"};
-            mInfoTitles = new String[]{"客户信息", "账户信息", "联系人"};
+            mDoneCaseFillTitles = new String[]{"客户信息", "账户列表", "联系人列表"};
+            mInfoTitles = new String[]{"客户信息", "账户列表", "联系人列表"};
         }
 
         //下方tab
@@ -143,6 +140,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
         mTlCaseFill.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
+                rxTitle.setTitle(mInfoTitles[position]);
                 mFlContainer.setCurrentItem(position, false);
             }
 
@@ -194,7 +192,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
         }
 
         BottomDialogFragment2.newInstance()
-                .setData("案件处理", list, true, false)
+                .setData("案件处理", list, caseStatus, false)
                 .setDialogItemClicklistener(bottomDialogBean -> {
                     String title = bottomDialogBean.getTitle();
 
@@ -202,7 +200,6 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
                         case "录音":
                             //录音
                             toAudio();
-
                             break;
                         case "拍照":
                             //拍照
@@ -229,7 +226,13 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
                         case "停催":
                         case "留案":
                         case "退案":
-                            toCaseAction(title);
+                            if (!caseStatus) {
+                                toCaseAction(title);
+                            } else {
+                                RxToast.showToast("已存在相同审核节点，不允许此操作");
+                            }
+
+
                             break;
                     }
                 }).show(getSupportFragmentManager());
@@ -293,12 +296,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
         contactBook.putString(Constants.CUST_ID, custId);
         contactBook.putString(Constants.CASE_ID, caseId);
         mFragments.add(BaseFragment.newInstance(FragmentContactsBook.class, contactBook));
-        //外出流水
-       /* Bundle historyActions = new Bundle();
-        historyActions.putString(Constants.CUST_ID, custId);
-        historyActions.putString(Constants.CASE_ID, caseId);
-        mFragments.add(BaseFragment.newInstance(FragmentHistoryActions.class, historyActions));
-*/
+
         mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
 
             @Override
@@ -315,26 +313,9 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
         };
 
         mFlContainer.setAdapter(mAdapter);
-        mFlContainer.setOffscreenPageLimit(5);
+        mFlContainer.setOffscreenPageLimit(3);
 
 
-    }
-
-
-    private void showWrongTodoDialog(String wrongMsg) {
-        final WrongEndCaseDM dm = new DialogCenter(this).showWrongEndCaseDialog();
-        dm.setContent(wrongMsg);
-        dm.setOnFooterButtonClickListener(new BaseDM.OnFooterButtonClickListener() {
-            @Override
-            public void onLeftClicked(View v) {
-                dm.getDialog().dismiss();
-            }
-
-            @Override
-            public void onRightClicked(View v) {
-                dm.getDialog().dismiss();
-            }
-        });
     }
 
 
@@ -361,6 +342,8 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
     protected void initData() {
 
         initFragments();
+        mPresenter.getCaseStatus(caseId, "");
+
 
     }
 
@@ -394,23 +377,31 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
         finish();
     }
 
+    @Override
+    public void toCaseAction(boolean isProcess) {
+        caseStatus = isProcess;
+    }
+
     /**
      * 校验完成 跳转操作页面
      *
      * @param type
      */
-    @Override
     public void toCaseAction(String type) {
         switch (type) {
             case "申请减免":
+                if (!"02".equals(businessType)) {
+                    //减免申请
+                    Intent intent1 = new Intent(CaseDetailActivity.this, RemissionActivity.class);
+                    intent1.putExtra(Constants.CUST_ID, custId);
+                    intent1.putExtra(Constants.CASE_ID, caseId);
+                    intent1.putExtra(Constants.BUSINESS_TYPE, businessType);
 
-                //减免申请
-                Intent intent1 = new Intent(CaseDetailActivity.this, RemissionActivity.class);
-                intent1.putExtra(Constants.CUST_ID, custId);
-                intent1.putExtra(Constants.CASE_ID, caseId);
-                intent1.putExtra("businessType", businessType);
+                    startActivity(intent1);
+                } else {
+                    RxToast.showToast("直销案件不可以申请减免");
+                }
 
-                startActivity(intent1);
                 break;
             case "停催":
                 //停催

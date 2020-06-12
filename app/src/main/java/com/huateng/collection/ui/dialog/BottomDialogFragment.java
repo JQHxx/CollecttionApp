@@ -161,7 +161,10 @@ public class BottomDialogFragment extends RxDialogFragment {
                 .onStart(new AnimationListener.Start() {
                     @Override
                     public void onStart() {
-                        mRlView.setVisibility(View.VISIBLE);
+                        if(mRlView != null) {
+                            mRlView.setVisibility(View.VISIBLE);
+                        }
+
                     }
                 })
                 .start();
@@ -174,7 +177,10 @@ public class BottomDialogFragment extends RxDialogFragment {
                 .onStop(new AnimationListener.Stop() {
                     @Override
                     public void onStop() {
-                        mRlView.setVisibility(View.GONE);
+                        if(mRlView != null) {
+                            mRlView.setVisibility(View.GONE);
+                        }
+
                         dismiss();
                     }
                 })
@@ -200,9 +206,6 @@ public class BottomDialogFragment extends RxDialogFragment {
                     callBack.onItemClick(list.get(position));
                 }
                 hideView();
-              /*  if (isCancle) {
-                    hideView();
-                }*/
             }
         });
 
