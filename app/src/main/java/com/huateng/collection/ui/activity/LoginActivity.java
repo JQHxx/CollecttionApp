@@ -199,15 +199,6 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
         mBtnLogin.setEnabled(false);
         Perference.setBoolean(Constants.CHECK_IS_LOGIN, false);
 
-        //        ivSetting.setOnLongClickListener(new View.OnLongClickListener() {
-        //            @Override
-        //            public boolean onLongClick(View v) {
-        //                Intent intent = new Intent(ActivityLogin.this, ActivityApiSetting.class);
-        //                startActivity(intent);
-        //                return false;
-        //            }
-        //        });
-
         //账户名改动后
         RxTextView.textChanges(mEtUserName).debounce(600, TimeUnit.MILLISECONDS)
                 .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
@@ -225,10 +216,6 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
                                 mLlClearPassword.setVisibility(View.INVISIBLE);
                             }
                         }
-
-                        loginInfo.setLoginName(charSequence.toString());
-                        loginInfo.setUserId(null);
-                        loginInfo.setAuthorization(null);
                     }
                 });
 
@@ -246,12 +233,23 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
             RxToast.showToast("用户名或密码不能为空");
             return;
         }
+
+        loginInfo = OrmHelper.getLoginUserIInfo(loginName);
+
         long loginDelayTime = System.currentTimeMillis() - loginInfo.getLoginTime();
-        if (loginName.equals(loginInfo.getLoginName()) && loginInfo.getLoginErrorCount() >= 5 && loginDelayTime < SYSTEM_LOCK_TIME) {
-            RxToast.showToast(String.format("账号密码连续输入错误超过五次,系统锁定中,剩余时间：%s", DateUtil.timeParse(SYSTEM_LOCK_TIME - loginDelayTime)));
-            return;
+        Log.e("nb", loginInfo.getLoginName() + ":" + loginName);
+        if(loginInfo.getLoginErrorCount() >= 5) {
+            if(loginDelayTime < SYSTEM_LOCK_TIME) {
+                RxToast.showToast(String.format("账号密码连续输入错误超过五次,系统锁定中,剩余时间：%s", DateUtil.timeParse(SYSTEM_LOCK_TIME - loginDelayTime)));
+                return;
+            }else {
+                loginInfo.setLoginErrorCount(0);
+            }
         }
 
+        loginInfo.setLoginName(loginName);
+        loginInfo.setUserId(null);
+        loginInfo.setAuthorization(null);
         Map<String, String> map = new HashMap<>();
         map.put("userId", loginName);
         map.put("password", password);

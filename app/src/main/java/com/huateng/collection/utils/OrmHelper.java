@@ -27,4 +27,15 @@ public class OrmHelper {
         return false;
     }
 
+    public static UserLoginInfo getLoginUserIInfo(String name){
+
+        List<UserLoginInfo> infos = SugarRecord.find(UserLoginInfo.class, "LOGIN_NAME=?", name);
+        if(infos == null ||infos.size() ==0) {
+            return new UserLoginInfo();
+        }else {
+            return infos.get(0);
+        }
+
+    }
+
 }
