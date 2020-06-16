@@ -97,4 +97,11 @@
         <item name="android:windowExitAnimation">@anim/top_exit_anim</item>
     </style>
 
+    <!--自定义dialog,backgroundDimEnabled 是否允许背景框变暗，windowBackground设置主题的背景样式-->
+    <style name="CustomDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="colorAccent">#ffffff</item>
+    </style>
+
 </resources>

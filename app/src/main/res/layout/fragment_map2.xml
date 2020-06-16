@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -12,14 +12,28 @@
         app:rxLeftTextVisibility="false"
         app:rxRightIconVisibility="false"
         app:rxTitle="案件分布"
-        app:rxRightText="刷新"
         app:rxTitleSize="18sp"
-        app:rxRightTextVisibility="true"
+        app:rxRightTextVisibility="false"
         app:rxTitleIconVisibility="false"
         app:rxTitleVisibility="true" />
 
     <WebView
         android:id="@+id/web_view"
+        android:layout_below="@+id/rx_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-</LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_refresh"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="70dp"
+        android:gravity="center"
+        android:textSize="13sp"
+        android:textColor="@color/white"
+        android:background="@drawable/shape_map_refresh_oval"
+        android:text="刷新"/>
+</RelativeLayout>

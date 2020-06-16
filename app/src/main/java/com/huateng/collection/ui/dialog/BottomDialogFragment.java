@@ -181,6 +181,8 @@ public class BottomDialogFragment extends RxDialogFragment {
                             mRlView.setVisibility(View.GONE);
                         }
 
+
+
                         dismiss();
                     }
                 })

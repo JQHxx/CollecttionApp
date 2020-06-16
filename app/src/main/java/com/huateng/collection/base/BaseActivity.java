@@ -58,23 +58,31 @@ public abstract class BaseActivity<P extends BasePresenter> extends RxAppCompatA
 
     @Override
     public void showLoading() {
-        if (dialog == null) {
-            dialog = new LoadingDialog(this);
+        if (isFinishing()) {
+            return;
         }
-        if (!dialog.isShowing()) {
 
-            dialog.show();
-            Log.e("NBCB", "dialog show");
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
         }
+
+        dialog = new LoadingDialog(this);
+        dialog.show();
+
     }
 
     @Override
     public void hideLoading() {
+        if(isFinishing()) {
+            dialog = null;
+            return;
+        }
         if (dialog == null) {
             return;
         }
         if (dialog != null && dialog.isShowing()) {
-            dialog.hide();
+            dialog.dismiss();
+            Log.e("NBCB", "dialog hide");
         }
     }
 

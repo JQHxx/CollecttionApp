@@ -16,8 +16,8 @@ import com.huateng.collection.base.BaseActivity;
 import com.huateng.collection.base.BaseFragment;
 import com.huateng.collection.ui.caseInfo.contract.CaseDetailContract;
 import com.huateng.collection.ui.caseInfo.presenter.CaseDetailPresenter;
-import com.huateng.collection.ui.dialog.BottomDialogFragment2;
-import com.huateng.collection.ui.fragment.casebox.casefill.PhotoSelectorActivity;
+import com.huateng.collection.ui.dialog.BottomDialogView;
+import com.huateng.collection.ui.fragment.casebox.casefill.PhotoSelectorActivity2;
 import com.huateng.collection.ui.fragment.casebox.casefill.RecordSelectorActivity;
 import com.huateng.collection.ui.fragment.casebox.info.CreditCardMsgFragment;
 import com.huateng.collection.ui.fragment.casebox.info.FragmentAccountInfo;
@@ -41,6 +41,7 @@ import java.util.List;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.functions.Consumer;
 
 import static android.Manifest.permission.CAMERA;
@@ -56,6 +57,8 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
     ImageView mIvLoadMore;
     @BindView(R.id.tl_caseFill)
     CommonTabLayout mTlCaseFill;
+    @BindView(R.id.bottom_dialog)
+    BottomDialogView mBottomDialog;
     private FragmentPagerAdapter mAdapter;
     @BindView(R.id.container_root)
     View container_root;
@@ -63,9 +66,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
     RxTitle rxTitle;
     @BindView(R.id.fl_container)
     NoScrollViewPager mFlContainer;
-
     private String[] mDoneCaseFillTitles;
-
     private int[] mIconUnselectIds;
     private int[] mIconSelectIds;
     private String[] mInfoTitles;
@@ -89,7 +90,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
 
         Watermark.getInstance()
                 .setTextSize(12.0f)
-                .setText(Perference.getUserId()  + "-" + Perference.get(Perference.NICK_NAME))
+                .setText(Perference.getUserId() + "-" + Perference.get(Perference.NICK_NAME))
                 .show(this);
         initListener();
 
@@ -106,7 +107,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
         } else {
             mCaseMoreFillTitles = new String[]{"录音", "拍照", "调查报告", "结束处理"};
         }
-       //  mCaseMoreFillTitles = new String[]{"录音", "拍照", "调查报告", "结束处理", "停催", "留案", "退案", "申请减免"};
+        //  mCaseMoreFillTitles = new String[]{"录音", "拍照", "调查报告", "结束处理", "停催", "留案", "退案", "申请减免"};
 
         //删除临时文件夹里的文件
         //        FileUtils.deleteFilesInDir(AttachmentProcesser.getInstance(mContext).getTempsDir());
@@ -191,51 +192,52 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
             list.add(new BottomDialogBean(mCaseMoreFillIcons[i], mCaseMoreFillTitles[i], true));
         }
 
-        BottomDialogFragment2.newInstance()
-                .setData("案件处理", list, caseStatus, false)
-                .setDialogItemClicklistener(bottomDialogBean -> {
-                    String title = bottomDialogBean.getTitle();
-
-                    switch (title) {
-                        case "录音":
-                            //录音
-                            toAudio();
-                            break;
-                        case "拍照":
-                            //拍照
-                            toPhoto();
-                            break;
-                        case "调查报告":
-                            toReport();
-                            break;
-
-                        case "外访录入":
+        mBottomDialog.initData(caseStatus,list);
+        mBottomDialog.setOnItemClickListener(new BottomDialogView.OnItemClickListener() {
+            @Override
+            public void onItemClick(BottomDialogBean bean) {
+                String title = bean.getTitle();
+                switch (title) {
+                    case "录音":
+                        //录音
+                        toAudio();
+                        break;
+                    case "拍照":
+                        //拍照
+                        toPhoto();
+                        break;
+                    case "调查报告":
+                        toReport();
+                        break;
+                    case "外访录入":
                           /*  //外访录入
                             Intent intent5 = new Intent(CaseDetailActivity.this, OutboundEntryActivity.class);
                             intent5.putExtra(Constants.CASE_ID, caseId);
                             intent5.putExtra(Constants.CUST_ID, custId);
                             intent5.putExtra(Constants.CUST_NAME, custName);
                             startActivity(intent5);*/
-                            break;
-                        case "结束处理":
-                            //结束案件
-                            mPresenter.stopDealWithCase(caseId, custId);
-                            break;
+                        break;
+                    case "结束处理":
+                        //结束案件
+                        mPresenter.stopDealWithCase(caseId, custId);
+                        break;
 
-                        case "申请减免":
-                        case "停催":
-                        case "留案":
-                        case "退案":
-                            if (!caseStatus) {
-                                toCaseAction(title);
-                            } else {
-                                RxToast.showToast("已存在相同审核节点，不允许此操作");
-                            }
+                    case "申请减免":
+                    case "停催":
+                    case "留案":
+                    case "退案":
+                        if (!caseStatus) {
+                            toCaseAction(title);
+                        } else {
+                            RxToast.showToast("已存在相同审核节点，不允许此操作");
+                        }
 
 
-                            break;
-                    }
-                }).show(getSupportFragmentManager());
+                        break;
+                }
+            }
+        });
+        mBottomDialog.showView();
 
     }
 
@@ -259,7 +261,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
     }
 
     private void toPhoto() {
-        Intent intent1 = new Intent(CaseDetailActivity.this, PhotoSelectorActivity.class);
+        Intent intent1 = new Intent(CaseDetailActivity.this, PhotoSelectorActivity2.class);
         intent1.putExtra(Constants.CASE_ID, caseId);
         intent1.putExtra(Constants.CUST_ID, custId);
         intent1.putExtra(Constants.CUST_NAME, custName);
@@ -422,5 +424,12 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
                 startActivity(intent4);
                 break;
         }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

@@ -23,7 +23,7 @@ import io.reactivex.schedulers.Schedulers;
  * description:
  */
 public class HomePresenter extends BasePresenter<HomeContract.View> implements HomeContract.Presenter {
-    private int pageSize = 10;
+    private int pageSize =10;
     private int pageNum = 0;
 
     public HomePresenter(HomeContract.View view) {

@@ -27,7 +27,7 @@ import com.huateng.collection.bean.api.RespLoginInfo;
 import com.huateng.collection.bean.orm.DictItemBean;
 import com.huateng.collection.bean.orm.UserLoginInfo;
 import com.huateng.collection.ui.navigation.NavigationActivity;
-import com.huateng.collection.utils.CommonUtils;
+import com.huateng.collection.utils.DateUtil;
 import com.huateng.collection.utils.OrmHelper;
 import com.huateng.collection.utils.StringUtils;
 import com.huateng.fm.ui.widget.FmButton;
@@ -192,18 +192,12 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
         Perference.clear();
         loginInfo = OrmHelper.getLastLoginUserInfo();
         String loginName = loginInfo.getLoginName();
-        //String password = loginInfo.getPwd();
-        // Log.e("nb", loginName + ":" + password);
-        mEtUserName.setText(loginName);
-        // mEtPwd.setText(password);
+        if (!TextUtils.isEmpty(loginName)) {
+            mEtUserName.setText(loginName);
+            mEtUserName.setSelection(loginName.length());
+        }
         mBtnLogin.setEnabled(false);
-       /* if (StringUtils.isEmpty(loginName, password)) {
-            mBtnLogin.setEnabled(false);
-        } else {
-            mBtnLogin.setEnabled(true);
-        }*/
         Perference.setBoolean(Constants.CHECK_IS_LOGIN, false);
-
 
         //        ivSetting.setOnLongClickListener(new View.OnLongClickListener() {
         //            @Override
@@ -238,12 +232,6 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
                     }
                 });
 
-        mBtnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onLogin();
-            }
-        });
 
         LoginActivityPermissionsDispatcher.initSDcardPermissionsWithPermissionCheck(this);
     }
@@ -258,10 +246,9 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
             RxToast.showToast("用户名或密码不能为空");
             return;
         }
-
         long loginDelayTime = System.currentTimeMillis() - loginInfo.getLoginTime();
-        if (loginInfo.getLoginErrorCount() >= 5 && loginDelayTime < SYSTEM_LOCK_TIME) {
-            RxToast.showToast(String.format("账号密码连续输入错误超过五次,系统锁定中,剩余时间：%s", CommonUtils.formatTimeMillis(SYSTEM_LOCK_TIME - loginDelayTime)));
+        if (loginName.equals(loginInfo.getLoginName()) && loginInfo.getLoginErrorCount() >= 5 && loginDelayTime < SYSTEM_LOCK_TIME) {
+            RxToast.showToast(String.format("账号密码连续输入错误超过五次,系统锁定中,剩余时间：%s", DateUtil.timeParse(SYSTEM_LOCK_TIME - loginDelayTime)));
             return;
         }
 
@@ -283,6 +270,7 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
                 .subscribe(new BaseObserver2<RespLoginInfo>() {
                     @Override
                     public void onError(String code, String msg) {
+                        Log.e("nb", code + ":" + msg);
                         if (code.equals(ApiConstants.ERROR_CODE_EXP) && "登录失败,请检查账户名和密码！！".equals(msg)) {
                             RxToast.showToast("登录失败,请重新输入,若连续错误5次,系统将锁定5分钟");
                             loginInfo.setLoginName(loginName);
@@ -312,7 +300,7 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
                         RespLoginInfo.SsouserBean ssouserBean = respLoginInfo.getSsouser();
                         //保存登陆auth 信息
                         NetworkConfig.C.setAuth(ssouserBean.getToken());
-                        
+
                         if ("Y".equals(respLoginInfo.getInitialPassword())) {
                             //强制修改密码
                             hideLoading();
@@ -457,7 +445,7 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
     }
 
 
-    @OnClick({R.id.ll_clear_password, R.id.ll_show_pssword,})
+    @OnClick({R.id.ll_clear_password, R.id.ll_show_pssword, R.id.btn_login})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_clear_password:
@@ -475,7 +463,16 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
                     mEtPwd.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                     mIvShowPassword.setImageResource(R.drawable.icon_eyes_open);
                 }
+                //移动光标到末尾
+                String pwd = mEtPwd.getText().toString().trim();
+                if (!TextUtils.isEmpty(pwd)) {
+                    mEtPwd.setSelection(pwd.length());
+                }
 
+                break;
+
+            case R.id.btn_login:
+                onLogin();
                 break;
         }
     }

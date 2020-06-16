@@ -27,7 +27,7 @@ import butterknife.Unbinder;
  * @param <P>
  */
 
-public abstract class BaseFragment<P extends BasePresenter> extends RxFragment implements IBaseView{
+public abstract class BaseFragment<P extends BasePresenter> extends RxFragment implements IBaseView {
     public View view;
     private Unbinder unbinder;
 
@@ -48,8 +48,8 @@ public abstract class BaseFragment<P extends BasePresenter> extends RxFragment i
         mPresenter = createPresenter();
         unbinder = ButterKnife.bind(this, view);
         isUseEventBus = isUseEventBus();
-        if(isUseEventBus) {
-          // RxBus.get().register(this);
+        if (isUseEventBus) {
+            // RxBus.get().register(this);
             EventBus.getDefault().register(this);
 
         }
@@ -66,6 +66,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends RxFragment i
         SystemBarHelper.immersiveStatusBar((Activity) mContext, 0);
         SystemBarHelper.setHeightAndPadding(mContext, title);
     }
+
     /**
      * 获取布局ID
      *
@@ -89,20 +90,23 @@ public abstract class BaseFragment<P extends BasePresenter> extends RxFragment i
 
     @Override
     public void showLoading() {
-        if (dialog == null) {
-            dialog = new LoadingDialog(getActivity());
-        }
-        if(dialog.isShowing()) {
+
+        if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
+
+        dialog = new LoadingDialog(getActivity());
         dialog.show();
     }
 
     @Override
     public void hideLoading() {
 
-    if (dialog != null) {
-            dialog.hide();
+        if (dialog == null) {
+            return;
+        }
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
         }
     }
 
@@ -111,7 +115,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends RxFragment i
         if (TextUtils.isEmpty(message)) {
             return;
         }
-      //  ToastUtil.showShortToast(Utils.getApp(), message);
+        //  ToastUtil.showShortToast(Utils.getApp(), message);
     }
 
 
@@ -171,7 +175,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends RxFragment i
         try {
             fragment = (BaseFragment) clazz.newInstance();
             fragment.setArguments(args);
-        }catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (java.lang.InstantiationException e) {
             e.printStackTrace();
@@ -184,7 +188,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends RxFragment i
         try {
             fragment = (BaseFragment) clazz.newInstance();
             fragment.setArguments(args);
-        }catch (IllegalAccessException e) {
+        } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (java.lang.InstantiationException e) {
             e.printStackTrace();
@@ -197,8 +201,8 @@ public abstract class BaseFragment<P extends BasePresenter> extends RxFragment i
     @CallSuper
     public void onDestroy() {
         super.onDestroy();
-        if(isUseEventBus) {
-           // xBus.get().unRegister(this);
+        if (isUseEventBus) {
+            // xBus.get().unRegister(this);
             EventBus.getDefault().unregister(this);
         }
         if (mPresenter != null) {
@@ -209,11 +213,11 @@ public abstract class BaseFragment<P extends BasePresenter> extends RxFragment i
             unbinder.unbind();
             unbinder = null;
         }
-        if(dialog != null) {
+        if (dialog != null) {
             dialog.dismiss();
         }
-        if(mContext != null) {
-           mContext = null ;
+        if (mContext != null) {
+            mContext = null;
         }
     }
 
@@ -224,7 +228,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends RxFragment i
     }
 
 
-    public boolean isUseEventBus(){
+    public boolean isUseEventBus() {
         return false;
     }
 }

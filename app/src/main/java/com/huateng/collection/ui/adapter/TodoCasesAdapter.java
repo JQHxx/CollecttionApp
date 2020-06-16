@@ -23,14 +23,14 @@ public class TodoCasesAdapter extends BaseQuickAdapter<CaseBeanData.RecordsBean,
     private final String TAG = getClass().getSimpleName();
 
     private SparseArray<Boolean> checkStates;
-    private HashMap<String,String> map;
+    private HashMap<String, String> map;
     private boolean isInSelectMode;
 
     public TodoCasesAdapter(@LayoutRes int layoutResId) {
         super(layoutResId);
     }
 
-    public void setDictData(HashMap<String,String> map){
+    public void setDictData(HashMap<String, String> map) {
         this.map = map;
     }
 
@@ -39,22 +39,29 @@ public class TodoCasesAdapter extends BaseQuickAdapter<CaseBeanData.RecordsBean,
         helper.setText(R.id.tv_hostName, item.getCustName())
                 .setText(R.id.tv_id_number, item.getCertNo())
                 .setText(R.id.tv_overdue_days, item.getOverdueDays() + "")
-                .setText(R.id.tv_case_status,"1".equals(item.getCaseStatus())?"已处理":"未处理")
+                .setText(R.id.tv_case_status, "1".equals(item.getCaseStatus()) ? "已处理" : "未处理")
                 .setText(R.id.tv_overdue_amt, item.getOverdueAmt() + "");
 
-      //
-        if(map != null && map.size()>0) {
+        //
+        if (map != null && map.size() > 0) {
             String productName = map.get(item.getProductType());
-            if(TextUtils.isEmpty(productName)) {
+            if (TextUtils.isEmpty(productName)) {
                 helper.setText(R.id.tv_product_name, item.getProductType());
-            }else {
-                helper.setText(R.id.tv_product_name,productName);
+            } else {
+                helper.setText(R.id.tv_product_name, productName);
             }
-        }else {
+        } else {
             helper.setText(R.id.tv_product_name, item.getProductType());
         }
         helper.addOnClickListener(R.id.ll_layout);
         helper.addOnClickListener(R.id.iv_call_phone);
+
+        if (TextUtils.isEmpty(item.getPhoneNo())) {
+            helper.setVisible(R.id.iv_call_phone, true);
+        } else {
+            helper.setVisible(R.id.iv_call_phone, false);
+
+        }
 
     }
 

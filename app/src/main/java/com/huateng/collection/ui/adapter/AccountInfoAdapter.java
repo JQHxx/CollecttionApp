@@ -36,8 +36,6 @@ public class AccountInfoAdapter extends BaseQuickAdapter<AccountInfoBean.Records
     @Override
     protected void convert(BaseViewHolder helper, AccountInfoBean.RecordsBean bean) {
         helper.setText(R.id.tv_acct_status, DictUtils.getAcctStatus(bean.getAcctStatus()))
-                // .setText(R.id.tv_baserial_no, bean.getBaserialno())
-                //.setText(R.id.tv_product_type, bean.getProductType())
                 .setText(R.id.tv_overdue_days, String.valueOf(bean.getOverdueDays()))
                 .setText(R.id.tv_ovdu_amts, bean.getOvduAmts());
 

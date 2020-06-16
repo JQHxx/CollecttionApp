@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.facebook.stetho.Stetho;
 import com.huateng.collection.BuildConfig;
-import com.huateng.collection.utils.CrashAppUtil;
 import com.huateng.fm.app.FmAttributeValues;
 import com.huateng.fm.core.app.FmApplication;
 import com.huateng.network.NetworkConfig;
@@ -54,7 +53,7 @@ public class MainApplication extends FmApplication {
                             .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
                             .build());
         }
-        CrashAppUtil.getInstance().init(this, "com.huateng.phone.collection", "1.0.0", 0);//捕获全局异常闪退信息
+      //  CrashAppUtil.getInstance().init(this, "com.huateng.phone.collection", "1.0.0", 0);//捕获全局异常闪退信息
 
         /**
          * 如果存在SD卡则将缓存写入SD卡,否则写入手机内部存储

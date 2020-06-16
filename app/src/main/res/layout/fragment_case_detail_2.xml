@@ -49,6 +49,7 @@
             tl:tl_textSelectColor="@color/accent_color"
             tl:tl_textUnselectColor="@color/gray_textcolor" />
     </LinearLayout>
+
     <ImageView
         android:id="@+id/iv_load_more"
         android:layout_width="60dp"
@@ -57,4 +58,12 @@
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="80dp"
         android:layout_marginRight="40dp"/>
+
+    <com.huateng.collection.ui.dialog.BottomDialogView
+        android:visibility="gone"
+        android:id="@+id/bottom_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
 </FrameLayout>

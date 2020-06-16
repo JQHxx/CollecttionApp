@@ -110,9 +110,9 @@ public class RetrofitManager {
             Request request = chain.request();
             //headers
           Headers requestHeaders = request.headers();
-            if (requestHeaders != null) {
-                Logger.i("headers: %s", requestHeaders.toString());
-            }
+           // if (requestHeaders != null) {
+           //     Logger.i("headers: %s", requestHeaders.toString());
+           // }
 
             RequestBody requestBody = request.body();
 
@@ -150,9 +150,9 @@ public class RetrofitManager {
                 throw new RuntimeException("tokenOverdue");
             }
             Headers responseHeaders = response.headers();
-            if (requestHeaders != null) {
-                Logger.i("responseHeaders: %s", responseHeaders.toString());
-            }
+          //  if (requestHeaders != null) {
+          //      Logger.i("responseHeaders: %s", responseHeaders.toString());
+          //  }
 
             BufferedSource source = responseBody.source();
             source.request(Long.MAX_VALUE); // Buffer the entire body.

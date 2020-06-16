@@ -1,7 +1,6 @@
 package com.huateng.collection.ui.navigation;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.huateng.collection.R;
@@ -23,8 +22,6 @@ import java.util.Map;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -97,20 +94,10 @@ public class StatisticsFragment extends BaseFragment {
                 .compose(getRxlifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        // 订阅之前回调回去显示加载动画
-                        showLoading();
-                    }
-                })// 订阅之前操作在主线程
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver2<CaseSunTotalBean>() {
                     @Override
                     public void onError(String code, String msg) {
-                        hideLoading();
                         RxToast.showToast(msg);
-                        Log.e("nb", code + ":" + msg);
                         mSwipeRefresh.setEnabled(true);
                     }
 
@@ -120,7 +107,6 @@ public class StatisticsFragment extends BaseFragment {
                         mSwipeRefresh.setEnabled(true);
                         mSwipeRefresh.setRefreshing(false);
                         if (caseSunTotalBean == null) {
-                            hideLoading();
                             return;
                         }
 
@@ -134,7 +120,6 @@ public class StatisticsFragment extends BaseFragment {
                         }
 
                         mTvOutBoundName.setText(caseSunTotalBean.getOutBoundName());
-                        hideLoading();
 
                     }
                 });

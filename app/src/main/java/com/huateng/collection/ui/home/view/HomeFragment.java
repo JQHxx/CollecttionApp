@@ -36,7 +36,6 @@ import com.orm.SugarRecord;
 import com.tools.SystemUtils;
 import com.tools.bean.BusEvent;
 import com.tools.bean.EventBean;
-import com.tools.utils.NetworkUtils;
 import com.tools.view.RxTitle;
 import com.tools.view.RxToast;
 import com.trello.rxlifecycle3.LifecycleTransformer;
@@ -83,8 +82,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
     LinearLayout mLayoutHead;
 
     private TodoCasesAdapter mAdapter;
-
-    private String custName;
 
     private View emptyView;
 
@@ -162,12 +159,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
         LayoutInflater inflater = LayoutInflater.from(mContext);
 
         emptyView = inflater.inflate(R.layout.layout_empty_view, (ViewGroup) recyclerView.getParent(), false);
-        TextView tvTip = (TextView) emptyView.findViewById(R.id.tv_tip);
-
-        //使用字体
-        // Typeface typeFace = ResourcesCompat.getFont(mContext, R.font.zcool_black);
-        //  tvTip.setTypeface(typeFace);
-        // tvTip.setText("无待办案件");
 
         mAdapter = new TodoCasesAdapter(R.layout.list_item_cases);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
@@ -177,7 +168,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.theme_color));
         recyclerView.setAdapter(mAdapter);
-        //  mAdapter.setEmptyView(emptyView);
     }
 
     private void initListener() {
@@ -314,49 +304,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
 
     }
 
-    /**
-     * 加载搜索案件
-     */
-    public void loadSearchCase(String custName) {
-        boolean isConnected = NetworkUtils.isConnected();
-        if (!isConnected) {
-            //  List<CaseBeanData.RecordsBean> respCaseSummaries = SugarRecord.find(RespCaseSummary.class, "DONE=?", "0");
-            //  refresh(respCaseSummaries);
-            return;
-        }
-
-        if (TextUtils.isEmpty(custName)) {
-            RxToast.showToast("查询条件不能为空");
-            return;
-        }
-
-        mPresenter.loadSearchCase(custName);
-
-    }
-
-    /**
-     * 点击搜索按钮
-     */
-   /* public void onSearchClicked() {
-
-        final SearchDM dm = new DialogCenter(getActivity()).showSearchCaseDialog();
-
-        dm.setOnFooterButtonClickListener(new BaseDM.OnFooterButtonClickListener() {
-            @Override
-            public void onLeftClicked(View v) {
-                custName = dm.getCustName();
-
-                loadSearchCase(custName);
-                dm.getDialog().dismiss();
-            }
-
-            @Override
-            public void onRightClicked(View v) {
-                dm.getDialog().dismiss();
-            }
-        });
-    }*/
-
 
     @Override
     public void onRefresh() {
@@ -419,11 +366,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
         } else {
             //加载更多
             mAdapter.addData(respCaseSummaries);
-            if (respCaseSummaries.size() >= 10) {
-
-                mAdapter.loadMoreComplete();
-            } else {
+            if (respCaseSummaries.size() < 10) {
                 mAdapter.loadMoreEnd();
+
+            } else {
+                mAdapter.loadMoreComplete();
             }
 
 

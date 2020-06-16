@@ -11,6 +11,7 @@ import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.TextView;
 
 import com.flyco.systembar.SystemBarHelper;
 import com.huateng.collection.R;
@@ -38,6 +39,7 @@ import java.util.Map;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import butterknife.BindView;
+import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -52,6 +54,8 @@ public class FragmentMap2 extends BaseFragment {
     WebView mWebview;
     @BindView(R.id.rx_title)
     RxTitle mRxTitle;
+    @BindView(R.id.tv_refresh)
+    TextView mTvRefresh;
     private MaptypePopup maptypePopup;
     private LatLng currentLocation = new LatLng(31.247241, 121.492696);
 
@@ -80,15 +84,6 @@ public class FragmentMap2 extends BaseFragment {
         initWebSettings();
         immersiveStatusBar(mRxTitle);
         mWebview.loadUrl("file:///android_asset/map.html");
-
-        mRxTitle.setRightOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                requestCaseData();
-
-            }
-        });
     }
 
     private void requestCaseData() {
@@ -103,7 +98,7 @@ public class FragmentMap2 extends BaseFragment {
                     @Override
                     public void onError(String code, String msg) {
 
-                      //  Log.e("nb",msg);
+                        //  Log.e("nb",msg);
                     }
 
                     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -217,6 +212,11 @@ public class FragmentMap2 extends BaseFragment {
         return bindToLifecycle();
     }
 
+    @OnClick(R.id.tv_refresh)
+    public void onClick() {
+        requestCaseData();
+    }
+
 
     public class AndroidJsInterface {
 
@@ -246,21 +246,21 @@ public class FragmentMap2 extends BaseFragment {
 
         @JavascriptInterface
         public void jumpAppOtherMap(String lon, String lat, String address) {
-          //  Log.e("nb", lon + ":" + lat + ":" + address);
+            //  Log.e("nb", lon + ":" + lat + ":" + address);
             maptypePopup = new MaptypePopup(getActivity());
             maptypePopup.setOnMaptypeClickListener(new MaptypePopup.onMaptypeClickListener() {
                 @Override
                 public void onClick(Constants.MapType type) {
-                //    Log.e("nb", "type:" + type);
+                    //    Log.e("nb", "type:" + type);
                     LatLng desLoc = new LatLng(Double.valueOf(lon), Double.valueOf(lat));
                     if (type.equals(Constants.MapType.MAP_TENCENT)) {
-                      //  Log.e("nb", "MAP_TENCENT");
+                        //  Log.e("nb", "MAP_TENCENT");
                         MapUtil.openTencentMap(mContext, desLoc, address);
                     } else if (type.equals(Constants.MapType.MAP_BAIDU)) {
-                      //  Log.e("nb", "MAP_BAIDU");
+                        //  Log.e("nb", "MAP_BAIDU");
                         MapUtil.openBaiDuNavi(mContext, currentLocation.getLatitude(), currentLocation.getLongitude(), "", Double.valueOf(lat), Double.valueOf(lon), address);
                     } else if (type.equals(Constants.MapType.MAP_GAODE)) {
-                     //   Log.e("nb", "MAP_GAODE");
+                        //   Log.e("nb", "MAP_GAODE");
                         MapUtil.openGaoDeNavi(mContext, 0, 0, null, Double.valueOf(lat), Double.valueOf(lon), address);
                     }
                 }

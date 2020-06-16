@@ -4,13 +4,11 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Pair;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.appeaser.sublimepickerlibrary.helpers.SublimeOptions;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.flyco.systembar.SystemBarHelper;
@@ -286,7 +284,7 @@ public class StopUrgingActivity extends BaseActivity {
         }
 
         if (TextUtils.isEmpty(applyReason)) {
-            RxToast.showToast("停催原因说明为空");
+            RxToast.showToast("停催原因说明不能为空");
             return;
         }
 
@@ -343,15 +341,6 @@ public class StopUrgingActivity extends BaseActivity {
 
     }
 
-
-    private Pair<Boolean, SublimeOptions> getOptions() {
-        SublimeOptions options = new SublimeOptions();
-        int displayOptions = 0;
-        displayOptions |= SublimeOptions.ACTIVATE_DATE_PICKER;
-        options.setPickerToShow(SublimeOptions.Picker.DATE_PICKER);
-        options.setDisplayOptions(displayOptions);
-        return new Pair<>(displayOptions != 0 ? Boolean.TRUE : Boolean.FALSE, options);
-    }
 
 
     @Override

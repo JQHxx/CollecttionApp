@@ -337,7 +337,9 @@ public class RxToast {
         if (mToast == null) {
             mToast = Toast.makeText(getApp(), msg, Toast.LENGTH_LONG);
         } else {
-            mToast.setText(msg);
+            mToast.cancel();
+            mToast = Toast.makeText(getApp(), msg, Toast.LENGTH_LONG);
+          //  mToast.setText(msg);
         }
         mToast.show();
     }
@@ -351,7 +353,9 @@ public class RxToast {
         if (mToast == null) {
             mToast = Toast.makeText(getApp(), getApp().getString(resId), Toast.LENGTH_LONG);
         } else {
-            mToast.setText(getApp().getString(resId));
+            mToast.cancel();
+            mToast = Toast.makeText(getApp(), getApp().getString(resId), Toast.LENGTH_LONG);
+          //  mToast.setText(getApp().getString(resId));
         }
         mToast.show();
     }
@@ -379,7 +383,9 @@ public class RxToast {
         if (mToast == null) {
             mToast = Toast.makeText(context, msg, duration);
         } else {
-            mToast.setText(msg);
+            mToast.cancel();
+            mToast = Toast.makeText(context, msg, duration);
+           // mToast.setText(msg);
         }
         mToast.show();
     }

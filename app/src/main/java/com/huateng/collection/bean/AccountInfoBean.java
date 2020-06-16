@@ -206,29 +206,19 @@ public class AccountInfoBean {
          * updUser : SYSTEM
          */
 
-        private String acctBusinessType;
         private String acctClass;
-        private String acctClassType;
-        private String acctLimit;
         private String acctNo;
         private String acctStatus;
-        private String acctType;
-        private String amountNo;
         private String bacctNo;
         private String baserialno;
         private String belongFirstTeam;
-        private String belongSecondTeam;
         private String borrowerLocation;
-        private long btDate;
         private String businessrate;
         private String caseId;
         private String collStrategy;
         private String collStrength;
         private double credLimit;
-        private long crtTime;
         private String crtUser;
-        private String curCashAmt;
-        private String curCycBal;
         private String curCycStmtBal;
         private String curInsSpendBal;
         private String curSpendBal;
@@ -249,14 +239,6 @@ public class AccountInfoBean {
         private String lastLoanTransAmt;
         private String loanAmt;
         private long loanDate;
-        private String m1Amt;
-        private String m2Amt;
-        private String m3Amt;
-        private String m4Amt;
-        private String m5Amt;
-        private String m6Amt;
-        private String m7Amt;
-        private String m7PlusAmt;
         private String mainAcctFlag;
         private String manager;
         private String managerOrg;
@@ -275,14 +257,11 @@ public class AccountInfoBean {
         private String overdueStage;
         private int overdueTimes;
         private String paidAmt;
-        private String paidFlag;
         private long payDueDate;
         private String penalAmt;
         private String productType;
         private String projectNo;
-        private String repayDay;
         private String repayType;
-        private String repaymentInt;
         private String repaymentPri;
         private String riskLevel;
         private String rootOrgId;
@@ -296,38 +275,23 @@ public class AccountInfoBean {
         private String straMailId;
         private String straSmsId;
         private long straUpdDate;
-        private String straVoiceId;
-        private String subChannel;
-        private String tenLevelClass;
-        private long updTime;
-        private String updUser;
         private long overdueDate;
         private String businessType;
 
         protected RecordsBean(Parcel in) {
-            acctBusinessType = in.readString();
             acctClass = in.readString();
-            acctClassType = in.readString();
-            acctLimit = in.readString();
             acctNo = in.readString();
             acctStatus = in.readString();
-            acctType = in.readString();
-            amountNo = in.readString();
             bacctNo = in.readString();
             baserialno = in.readString();
             belongFirstTeam = in.readString();
-            belongSecondTeam = in.readString();
             borrowerLocation = in.readString();
-            btDate = in.readLong();
             businessrate = in.readString();
             caseId = in.readString();
             collStrategy = in.readString();
             collStrength = in.readString();
             credLimit = in.readDouble();
-            crtTime = in.readLong();
             crtUser = in.readString();
-            curCashAmt = in.readString();
-            curCycBal = in.readString();
             curCycStmtBal = in.readString();
             curInsSpendBal = in.readString();
             curSpendBal = in.readString();
@@ -348,14 +312,7 @@ public class AccountInfoBean {
             lastLoanTransAmt = in.readString();
             loanAmt = in.readString();
             loanDate = in.readLong();
-            m1Amt = in.readString();
-            m2Amt = in.readString();
-            m3Amt = in.readString();
-            m4Amt = in.readString();
-            m5Amt = in.readString();
-            m6Amt = in.readString();
-            m7Amt = in.readString();
-            m7PlusAmt = in.readString();
+
             mainAcctFlag = in.readString();
             manager = in.readString();
             managerOrg = in.readString();
@@ -374,14 +331,11 @@ public class AccountInfoBean {
             overdueStage = in.readString();
             overdueTimes = in.readInt();
             paidAmt = in.readString();
-            paidFlag = in.readString();
             payDueDate = in.readLong();
             penalAmt = in.readString();
             productType = in.readString();
             projectNo = in.readString();
-            repayDay = in.readString();
             repayType = in.readString();
-            repaymentInt = in.readString();
             repaymentPri = in.readString();
             riskLevel = in.readString();
             rootOrgId = in.readString();
@@ -395,40 +349,32 @@ public class AccountInfoBean {
             straMailId = in.readString();
             straSmsId = in.readString();
             straUpdDate = in.readLong();
-            straVoiceId = in.readString();
-            subChannel = in.readString();
-            tenLevelClass = in.readString();
-            updTime = in.readLong();
-            updUser = in.readString();
+
             overdueDate = in.readLong();
             businessType = in.readString();
         }
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(acctBusinessType);
+
             dest.writeString(acctClass);
-            dest.writeString(acctClassType);
-            dest.writeString(acctLimit);
+
+
             dest.writeString(acctNo);
             dest.writeString(acctStatus);
-            dest.writeString(acctType);
-            dest.writeString(amountNo);
+
             dest.writeString(bacctNo);
             dest.writeString(baserialno);
             dest.writeString(belongFirstTeam);
-            dest.writeString(belongSecondTeam);
             dest.writeString(borrowerLocation);
-            dest.writeLong(btDate);
             dest.writeString(businessrate);
             dest.writeString(caseId);
             dest.writeString(collStrategy);
             dest.writeString(collStrength);
             dest.writeDouble(credLimit);
-            dest.writeLong(crtTime);
+
             dest.writeString(crtUser);
-            dest.writeString(curCashAmt);
-            dest.writeString(curCycBal);
+
             dest.writeString(curCycStmtBal);
             dest.writeString(curInsSpendBal);
             dest.writeString(curSpendBal);
@@ -449,14 +395,6 @@ public class AccountInfoBean {
             dest.writeString(lastLoanTransAmt);
             dest.writeString(loanAmt);
             dest.writeLong(loanDate);
-            dest.writeString(m1Amt);
-            dest.writeString(m2Amt);
-            dest.writeString(m3Amt);
-            dest.writeString(m4Amt);
-            dest.writeString(m5Amt);
-            dest.writeString(m6Amt);
-            dest.writeString(m7Amt);
-            dest.writeString(m7PlusAmt);
             dest.writeString(mainAcctFlag);
             dest.writeString(manager);
             dest.writeString(managerOrg);
@@ -475,14 +413,11 @@ public class AccountInfoBean {
             dest.writeString(overdueStage);
             dest.writeInt(overdueTimes);
             dest.writeString(paidAmt);
-            dest.writeString(paidFlag);
             dest.writeLong(payDueDate);
             dest.writeString(penalAmt);
             dest.writeString(productType);
             dest.writeString(projectNo);
-            dest.writeString(repayDay);
             dest.writeString(repayType);
-            dest.writeString(repaymentInt);
             dest.writeString(repaymentPri);
             dest.writeString(riskLevel);
             dest.writeString(rootOrgId);
@@ -496,11 +431,6 @@ public class AccountInfoBean {
             dest.writeString(straMailId);
             dest.writeString(straSmsId);
             dest.writeLong(straUpdDate);
-            dest.writeString(straVoiceId);
-            dest.writeString(subChannel);
-            dest.writeString(tenLevelClass);
-            dest.writeLong(updTime);
-            dest.writeString(updUser);
             dest.writeLong(overdueDate);
             dest.writeString(businessType);
         }
@@ -522,13 +452,7 @@ public class AccountInfoBean {
             }
         };
 
-        public String getAcctBusinessType() {
-            return acctBusinessType;
-        }
 
-        public void setAcctBusinessType(String acctBusinessType) {
-            this.acctBusinessType = acctBusinessType;
-        }
 
         public String getAcctClass() {
             return acctClass;
@@ -538,21 +462,7 @@ public class AccountInfoBean {
             this.acctClass = acctClass;
         }
 
-        public String getAcctClassType() {
-            return acctClassType;
-        }
 
-        public void setAcctClassType(String acctClassType) {
-            this.acctClassType = acctClassType;
-        }
-
-        public String getAcctLimit() {
-            return acctLimit;
-        }
-
-        public void setAcctLimit(String acctLimit) {
-            this.acctLimit = acctLimit;
-        }
 
         public String getAcctNo() {
             return acctNo;
@@ -570,21 +480,9 @@ public class AccountInfoBean {
             this.acctStatus = acctStatus;
         }
 
-        public String getAcctType() {
-            return acctType;
-        }
 
-        public void setAcctType(String acctType) {
-            this.acctType = acctType;
-        }
 
-        public String getAmountNo() {
-            return amountNo;
-        }
 
-        public void setAmountNo(String amountNo) {
-            this.amountNo = amountNo;
-        }
 
         public String getBacctNo() {
             return bacctNo;
@@ -610,13 +508,7 @@ public class AccountInfoBean {
             this.belongFirstTeam = belongFirstTeam;
         }
 
-        public String getBelongSecondTeam() {
-            return belongSecondTeam;
-        }
 
-        public void setBelongSecondTeam(String belongSecondTeam) {
-            this.belongSecondTeam = belongSecondTeam;
-        }
 
         public String getBorrowerLocation() {
             return borrowerLocation;
@@ -626,13 +518,6 @@ public class AccountInfoBean {
             this.borrowerLocation = borrowerLocation;
         }
 
-        public long getBtDate() {
-            return btDate;
-        }
-
-        public void setBtDate(long btDate) {
-            this.btDate = btDate;
-        }
 
         public String getBusinessrate() {
             return businessrate;
@@ -674,13 +559,6 @@ public class AccountInfoBean {
             this.credLimit = credLimit;
         }
 
-        public long getCrtTime() {
-            return crtTime;
-        }
-
-        public void setCrtTime(long crtTime) {
-            this.crtTime = crtTime;
-        }
 
         public String getCrtUser() {
             return crtUser;
@@ -690,21 +568,6 @@ public class AccountInfoBean {
             this.crtUser = crtUser;
         }
 
-        public String getCurCashAmt() {
-            return curCashAmt;
-        }
-
-        public void setCurCashAmt(String curCashAmt) {
-            this.curCashAmt = curCashAmt;
-        }
-
-        public String getCurCycBal() {
-            return curCycBal;
-        }
-
-        public void setCurCycBal(String curCycBal) {
-            this.curCycBal = curCycBal;
-        }
 
         public String getCurCycStmtBal() {
             return curCycStmtBal;
@@ -866,69 +729,6 @@ public class AccountInfoBean {
             this.loanDate = loanDate;
         }
 
-        public String getM1Amt() {
-            return m1Amt;
-        }
-
-        public void setM1Amt(String m1Amt) {
-            this.m1Amt = m1Amt;
-        }
-
-        public String getM2Amt() {
-            return m2Amt;
-        }
-
-        public void setM2Amt(String m2Amt) {
-            this.m2Amt = m2Amt;
-        }
-
-        public String getM3Amt() {
-            return m3Amt;
-        }
-
-        public void setM3Amt(String m3Amt) {
-            this.m3Amt = m3Amt;
-        }
-
-        public String getM4Amt() {
-            return m4Amt;
-        }
-
-        public void setM4Amt(String m4Amt) {
-            this.m4Amt = m4Amt;
-        }
-
-        public String getM5Amt() {
-            return m5Amt;
-        }
-
-        public void setM5Amt(String m5Amt) {
-            this.m5Amt = m5Amt;
-        }
-
-        public String getM6Amt() {
-            return m6Amt;
-        }
-
-        public void setM6Amt(String m6Amt) {
-            this.m6Amt = m6Amt;
-        }
-
-        public String getM7Amt() {
-            return m7Amt;
-        }
-
-        public void setM7Amt(String m7Amt) {
-            this.m7Amt = m7Amt;
-        }
-
-        public String getM7PlusAmt() {
-            return m7PlusAmt;
-        }
-
-        public void setM7PlusAmt(String m7PlusAmt) {
-            this.m7PlusAmt = m7PlusAmt;
-        }
 
         public String getMainAcctFlag() {
             return mainAcctFlag;
@@ -1074,13 +874,6 @@ public class AccountInfoBean {
             this.paidAmt = paidAmt;
         }
 
-        public String getPaidFlag() {
-            return paidFlag;
-        }
-
-        public void setPaidFlag(String paidFlag) {
-            this.paidFlag = paidFlag;
-        }
 
         public long getPayDueDate() {
             return payDueDate;
@@ -1114,13 +907,6 @@ public class AccountInfoBean {
             this.projectNo = projectNo;
         }
 
-        public String getRepayDay() {
-            return repayDay;
-        }
-
-        public void setRepayDay(String repayDay) {
-            this.repayDay = repayDay;
-        }
 
         public String getRepayType() {
             return repayType;
@@ -1130,13 +916,6 @@ public class AccountInfoBean {
             this.repayType = repayType;
         }
 
-        public String getRepaymentInt() {
-            return repaymentInt;
-        }
-
-        public void setRepaymentInt(String repaymentInt) {
-            this.repaymentInt = repaymentInt;
-        }
 
         public String getRepaymentPri() {
             return repaymentPri;
@@ -1242,45 +1021,6 @@ public class AccountInfoBean {
             this.straUpdDate = straUpdDate;
         }
 
-        public String getStraVoiceId() {
-            return straVoiceId;
-        }
-
-        public void setStraVoiceId(String straVoiceId) {
-            this.straVoiceId = straVoiceId;
-        }
-
-        public String getSubChannel() {
-            return subChannel;
-        }
-
-        public void setSubChannel(String subChannel) {
-            this.subChannel = subChannel;
-        }
-
-        public String getTenLevelClass() {
-            return tenLevelClass;
-        }
-
-        public void setTenLevelClass(String tenLevelClass) {
-            this.tenLevelClass = tenLevelClass;
-        }
-
-        public long getUpdTime() {
-            return updTime;
-        }
-
-        public void setUpdTime(long updTime) {
-            this.updTime = updTime;
-        }
-
-        public String getUpdUser() {
-            return updUser;
-        }
-
-        public void setUpdUser(String updUser) {
-            this.updUser = updUser;
-        }
 
         public long getOverdueDate() {
             return overdueDate;

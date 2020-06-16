@@ -138,6 +138,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textSize="16sp"
+                    android:textColor="@color/red"
+                    android:gravity="center_vertical|right"
+                    android:text="*"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="5dp"
                     android:textColor="@color/text_color_333333"
                     android:gravity="center_vertical|right"
                     android:text="外访地址"/>

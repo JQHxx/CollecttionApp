@@ -1,6 +1,7 @@
 package com.huateng.collection.ui.dialog;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.huateng.collection.R;
 import com.luck.picture.lib.tools.ScreenUtils;
 import com.tools.utils.Utils;
-import com.trello.rxlifecycle3.components.support.RxDialogFragment;
 import com.zrht.common.animation.AnimationListener;
 import com.zrht.common.animation.ViewAnimator;
 import com.zrht.common.bean.BottomDialogBean;
@@ -22,9 +22,9 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,7 +35,7 @@ import butterknife.Unbinder;
  * Created on: 2020-04-17 10:07
  * description:
  */
-public class BottomDialogFragment2 extends RxDialogFragment {
+public class BottomDialogFragment2 extends DialogFragment {
     private DialogItemClick callBack;
     @BindView(R.id.tv_title)
     TextView mTvTitle;
@@ -70,11 +70,8 @@ public class BottomDialogFragment2 extends RxDialogFragment {
 
 
     protected void initView(View view) {
-        LinearLayoutManager linearLayoutManager = null;
 
-        linearLayoutManager = new GridLayoutManager(getActivity(), 4);
-
-        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         showView();
     }
 
@@ -114,7 +111,7 @@ public class BottomDialogFragment2 extends RxDialogFragment {
             return;
         }
         mTvTitle.setText(title);
-        mAdapter = new BottomDialogAdapter(R.layout.item_bottom_dialog2,isProcess);
+        mAdapter = new BottomDialogAdapter(R.layout.item_bottom_dialog2, isProcess);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setNewData(list);
     }
@@ -128,11 +125,11 @@ public class BottomDialogFragment2 extends RxDialogFragment {
 
     public static class BottomDialogAdapter extends BaseQuickAdapter<BottomDialogBean, BaseViewHolder> {
         boolean isProcess;
-        public BottomDialogAdapter(int layoutResId,boolean isProcess) {
+
+        public BottomDialogAdapter(int layoutResId, boolean isProcess) {
             super(layoutResId);
             this.isProcess = isProcess;
         }
-
 
 
         @Override
@@ -142,22 +139,21 @@ public class BottomDialogFragment2 extends RxDialogFragment {
                 helper.setImageResource(R.id.iv_icon, item.getImageId());
 
             }
-            if(isProcess && helper.getAdapterPosition()>3) {
+            if (isProcess && helper.getAdapterPosition() > 3) {
 
-                helper.setAlpha(R.id.tv_title,0.5f);
-                helper.setAlpha(R.id.iv_icon,0.5f);
+                helper.setAlpha(R.id.tv_title, 0.5f);
+                helper.setAlpha(R.id.iv_icon, 0.5f);
             }
 
             helper.setGone(R.id.iv_icon, item.getImageId() != 0);
         }
 
 
-
     }
 
 
     public void showView() {
-        if(mRlParent != null) {
+        if (mRlParent != null) {
             mRlParent.setVisibility(View.VISIBLE);
         }
         ViewAnimator.animate(mRlView).translationY(ScreenUtils.dip2px(Utils.getApp(), 350), 0)
@@ -165,7 +161,7 @@ public class BottomDialogFragment2 extends RxDialogFragment {
                 .onStart(new AnimationListener.Start() {
                     @Override
                     public void onStart() {
-                        if(mRlView != null) {
+                        if (mRlView != null) {
                             mRlView.setVisibility(View.VISIBLE);
                         }
 
@@ -181,20 +177,21 @@ public class BottomDialogFragment2 extends RxDialogFragment {
                 .onStop(new AnimationListener.Stop() {
                     @Override
                     public void onStop() {
-                        if(mRlView != null) {
+                        if (mRlView != null) {
                             mRlView.setVisibility(View.GONE);
+                            Log.e("nb", "mRlView hide");
                         }
-                        if(mRlParent != null) {
+                        if (mRlParent != null) {
                             mRlParent.setVisibility(View.GONE);
+                            Log.e("nb", "mRlParent hide");
                         }
-
-                        try{
+                        try {
                             dismiss();
-                        }catch (IllegalStateException ignore){
-                            if(mRlView != null) {
+                        } catch (IllegalStateException ignore) {
+                            if (mRlView != null) {
                                 mRlView.setVisibility(View.GONE);
                             }
-                            if(mRlParent != null) {
+                            if (mRlParent != null) {
                                 mRlParent.setVisibility(View.GONE);
                             }
 

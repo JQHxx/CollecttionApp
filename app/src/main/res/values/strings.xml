@@ -4,7 +4,7 @@
     <string name="text_title">测试文本</string>
 
 
-    <string name="app_name">外访清收</string>
+    <string name="app_name">零售清收</string>
     <string-array name="segment_control_titles">
         <item>基础信息</item>
         <item>账户信息</item>

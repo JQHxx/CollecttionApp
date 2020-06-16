@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="75dp"
+    android:layout_height="75dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/shape_dialog"
+    android:layout_centerInParent="true"
+    android:orientation="vertical">
+    <ProgressBar
+        android:id="@+id/pb_load"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_centerInParent="true"
+        />
+    <TextView
+        tools:text="加载中..."
+        android:id="@+id/tv_load_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/pb_load"
+        android:textColor="#f7f7f7"
+        android:visibility="visible"
+        android:textSize="12sp"/>
+
+</RelativeLayout>
