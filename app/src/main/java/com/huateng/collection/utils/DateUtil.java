@@ -74,6 +74,9 @@ public class DateUtil {
     }
 
     public static String getDate(long time){
+        if(time == 0) {
+            return "";
+        }
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time);
@@ -82,6 +85,9 @@ public class DateUtil {
     }
 
     public static String getDate2(long time){
+        if(time == 0) {
+            return "";
+        }
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time);

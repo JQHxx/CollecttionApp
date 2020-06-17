@@ -12,6 +12,7 @@ import com.flyco.dialog.listener.OnOperItemClickL;
 import com.flyco.dialog.widget.ActionSheetDialog;
 import com.huateng.collection.R;
 import com.huateng.collection.bean.orm.FileData;
+import com.huateng.collection.utils.DateUtil;
 import com.huateng.collection.utils.FileUtil;
 import com.huateng.collection.utils.Utils;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -157,11 +158,7 @@ public class RecorderAdapter extends
             viewHolder.tv_duration.setText(DateUtils.formatDurationTime(itemDuration));
             viewHolder.tv_name.setText(media.getFileName());
             viewHolder.tv_fileSize.setText(String.format("(%s)", FileUtil.formatFileSize(new File(media.getPath()).length(), "0")));
-            viewHolder.tv_addDate.setText(android.text.format.DateUtils.formatDateTime(
-                    context,
-                    file.lastModified(),
-                    android.text.format.DateUtils.FORMAT_SHOW_DATE | android.text.format.DateUtils.FORMAT_NUMERIC_DATE | android.text.format.DateUtils.FORMAT_SHOW_TIME | android.text.format.DateUtils.FORMAT_SHOW_YEAR
-            ));
+            viewHolder.tv_addDate.setText(DateUtil.getDate2( file.lastModified()));
 
             //itemView 的点击事件
             if (mItemClickListener != null) {
