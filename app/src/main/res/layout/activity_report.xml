@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -14,6 +14,7 @@
         app:rxTitleVisibility="true" />
 
     <ScrollView
+        android:layout_below="@+id/rx_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -54,6 +55,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
+                android:focusableInTouchMode="true"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="5dp"
@@ -629,6 +631,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_height="wrap_content">
                     <EditText
+
                         android:id="@+id/edt_detail_msg"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -641,22 +644,23 @@
                         android:background="@null"/>
                 </LinearLayout>
 
+
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-
                 android:background="@color/line_color"/>
 
             <com.huateng.fm.ui.widget.FmButton
-                android:id="@+id/btn_login"
+                android:id="@+id/btn_send1"
+                android:visibility="invisible"
                 android:layout_marginRight="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="50dp"
+                android:layout_marginBottom="20dp"
                 android:gravity="center"
                 android:minHeight="0dp"
                 android:singleLine="true"
@@ -670,5 +674,31 @@
 
     </ScrollView>
 
+    <LinearLayout
+        android:id="@+id/ll_send"
 
-</LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <com.huateng.fm.ui.widget.FmButton
+            android:id="@+id/btn_send2"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:minHeight="0dp"
+            android:singleLine="true"
+            android:text="确认修改"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_switch_bg"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+
+
+</RelativeLayout>

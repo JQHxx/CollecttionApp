@@ -6,6 +6,7 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -31,6 +32,7 @@ import com.huateng.collection.ui.dialog.BottomDialogFragment;
 import com.huateng.collection.ui.remission.contract.RemissionContract;
 import com.huateng.collection.ui.remission.presenter.RemissionPresenter;
 import com.huateng.collection.utils.DateUtil;
+import com.huateng.collection.utils.SoftKeyBoardListener;
 import com.huateng.collection.widget.Watermark;
 import com.huateng.fm.ui.widget.FmButton;
 import com.huateng.network.ApiConstants;
@@ -60,6 +62,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -73,6 +76,10 @@ import io.reactivex.schedulers.Schedulers;
  * 减免申请
  */
 public class RemissionActivity extends BaseActivity<RemissionPresenter> implements RemissionContract.View {
+    @BindView(R.id.btn_send2)
+    FmButton mBtnSend2;
+    @BindView(R.id.ll_send)
+    LinearLayout mLlSend;
     private boolean dialogHintShow;
     @BindView(R.id.ll_card)
     LinearLayout mLlCard;
@@ -119,7 +126,7 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
     protected void initView(Bundle savedInstanceState) {
         Watermark.getInstance()
                 .setTextSize(12.0f)
-                .setText(Perference.getUserId()  + "-" + Perference.get(Perference.NICK_NAME))
+                .setText(Perference.getUserId() + "-" + Perference.get(Perference.NICK_NAME))
                 .show(this);
         custId = getIntent().getStringExtra(Constants.CUST_ID);
         caseId = getIntent().getStringExtra(Constants.CASE_ID);
@@ -155,6 +162,24 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
                 }
             }
         });
+
+        SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
+
+            @Override
+            public void keyBoardShow(int height) {
+                Log.e("nb", "height" + height);
+                mLlSend.setVisibility(View.GONE);
+                mBtnSave.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void keyBoardHide(int height) {
+                Log.e("nb", "height" + height);
+                mLlSend.setVisibility(View.VISIBLE);
+                mBtnSave.setVisibility(View.INVISIBLE);
+            }
+        });
+
 
     }
 
@@ -248,11 +273,12 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
     }
 
 
-    @OnClick({R.id.btn_save})
+    @OnClick({R.id.btn_save,R.id.btn_send2})
     public void onClick(View view) {
         switch (view.getId()) {
 
             case R.id.btn_save:
+            case R.id.btn_send2:
                 reliefBatchExcute();
                 break;
         }
@@ -555,7 +581,9 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
                     }
                 }
             }
-
+            // double reduceFee;// 申请减免违约金
+            // double reduceOth;//申请减免分期提前结清手续费
+            // double loanInt;//欠款利罚息/透支利息
             mList.get(position).setReducePri(reducePri);//减免本金
             mList.get(position).setReduceInt(reduceInt);//申请减免利罚息
             mList.get(position).setReduceTotal(reduceTotal);//申请减免总额
@@ -622,18 +650,15 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
                             }
 
                         }
-
-
                     }
-
 
                 }
             }
-
+            double mainReduceInt = ArithUtil.add(ArithUtil.add(reduceInt, reduceFee), reduceOth);
             bizAcctItemBean.setReduceOth(reduceOth);
             bizAcctItemBean.setReduceFee(reduceFee);
             mList.get(position).setReducePri(reducePri);//减免本金
-            mList.get(position).setReduceInt(reduceInt);//申请减免利罚息
+            mList.get(position).setReduceInt(mainReduceInt);//申请减免利罚息
             mList.get(position).setReduceTotal(reduceTotal);//申请减免总额
 
             mList.get(position).setPlanRepayTotal(planRepayTotal);
@@ -675,6 +700,13 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
     private static final int MESSAGE_CHANGE = 0x1;
     private static long INTERVAL = 2000; // 输入变化时间间隔
     MyHandler mHandler = new MyHandler(this);
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 
 
     private static class MyHandler extends Handler {

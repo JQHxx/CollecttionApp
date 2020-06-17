@@ -104,7 +104,7 @@ public class RemoteAudioBean {
         this.records = records;
     }
 
-    public static class RecordsBean {
+    public static class RecordsBean implements Comparable<RecordsBean> {
         /**
          * crtTime : 1590580722000
          * crtUser : 093809
@@ -248,5 +248,19 @@ public class RemoteAudioBean {
         public void setUpdUser(String updUser) {
             this.updUser = updUser;
         }
+
+        @Override
+        public int compareTo(RecordsBean recordsBean) {
+            if(this.getFileTime() < recordsBean.getFileTime()) {
+                return 1;
+            }
+
+            if(this.getFileTime() == recordsBean.getFileTime()) {
+                return 0;
+            }
+
+            return -1;
+        }
     }
+
 }

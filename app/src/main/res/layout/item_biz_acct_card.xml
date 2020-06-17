@@ -334,6 +334,12 @@
     </LinearLayout>
 
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/color_fafafa"/>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="35dp"
@@ -548,11 +554,6 @@
 <!--
       android:background="@color/text_color_e3e3e3"
  -->
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/color_fafafa"/>
 
 
 </LinearLayout>

@@ -10,6 +10,8 @@
         android:id="@+id/rx_title"
         style="@style/CommontRxToolBarStyle"
         app:rxRightIconVisibility="false"
+        app:rxLeftIconVisibility="true"
+        app:rxLeftTextVisibility="false"
         app:rxTitle="拍照"
         app:rxRightTextVisibility="true"
         app:rxRightText="上传"

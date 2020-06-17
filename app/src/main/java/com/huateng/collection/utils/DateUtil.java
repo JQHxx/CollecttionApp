@@ -81,6 +81,14 @@ public class DateUtil {
 
     }
 
+    public static String getDate2(long time){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        return dateFormat.format(calendar.getTime());
+
+    }
+
 
     public static String formatSeconds(int seconds) {
         return  getTwoDecimalsValue(seconds / 60) + ":"

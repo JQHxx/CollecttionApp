@@ -108,8 +108,7 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        SystemBarHelper.immersiveStatusBar(this, 0);
-        SystemBarHelper.setHeightAndPadding(this, mRxTitle);
+
         ActivityUtils.getAppManager().finishAllActivity();
         init();
         initListener();
@@ -143,7 +142,8 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
      */
     @Override
     protected void setStatusBar() {
-
+        SystemBarHelper.immersiveStatusBar(this, 0);
+        SystemBarHelper.setHeightAndPadding(this, mRxTitle);
     }
 
 
@@ -238,11 +238,11 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
 
         long loginDelayTime = System.currentTimeMillis() - loginInfo.getLoginTime();
         Log.e("nb", loginInfo.getLoginName() + ":" + loginName);
-        if(loginInfo.getLoginErrorCount() >= 5) {
-            if(loginDelayTime < SYSTEM_LOCK_TIME) {
+        if (loginInfo.getLoginErrorCount() >= 5) {
+            if (loginDelayTime < SYSTEM_LOCK_TIME) {
                 RxToast.showToast(String.format("账号密码连续输入错误超过五次,系统锁定中,剩余时间：%s", DateUtil.timeParse(SYSTEM_LOCK_TIME - loginDelayTime)));
                 return;
-            }else {
+            } else {
                 loginInfo.setLoginErrorCount(0);
             }
         }
@@ -497,10 +497,16 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
 
                     @Override
                     public void onNextData(DictDataBean dictDataBean) {
+                        if (isFinishing()) {
+                            return;
+                        }
+                        if(dictDataBean != null) {
+                            SugarRecord.deleteAll(DictItemBean.class);
+                        }
                         // mDictItemBeanList = dictDataBean.getZdtaayList();
+
                         if (dictDataBean.getEducationList() != null && dictDataBean.getEducationList().size() > 0) {
                             SugarRecord.saveInTx(dictDataBean.getEducationList());
-
 
                         }
 

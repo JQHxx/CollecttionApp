@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -114,7 +115,11 @@ public class FragmentMap2 extends BaseFragment {
                                         if ("ok".equals(dataListBean.getResultMsg())) {
                                             dataListBean.setCustNo(mapDisplayBean.getCustNo());
                                             dataListBean.setCustName(mapDisplayBean.getCustName());
-                                            list.add(dataListBean);
+                                            if(!TextUtils.isEmpty(dataListBean.getAddress())) {
+                                                dataListBean.setAddress(dataListBean.getAddress().replaceAll("\\s*", ""));
+
+                                            }
+                                           list.add(dataListBean);
                                         }
 
                                     }

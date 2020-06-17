@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.huateng.collection">
-
+    <!-- 用于申请调用A-GPS模块 -->
     <application
         android:name=".app.MainApplication"
         android:allowBackup="false"
@@ -12,16 +12,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup,android:supportsRtl">
-
-        <activity android:name=".ui.activity.ChangePasswordActivity"
+        <activity android:name=".ui.activity.AudioPlayActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".ui.report.view.ReportActivity"
+            android:windowSoftInputMode="adjustPan"
+            ></activity>
+        <activity
+            android:name=".ui.activity.ChangePasswordActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".ui.activity.CreditCardDetailActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.report.view.ReportActivity"
+            android:configChanges="orientation|screenSize"/>
+        <activity
+            android:name=".ui.activity.CreditCardDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.report.view.ReportListActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -32,29 +37,26 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.activity.RemissionActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="adjustPan" />
+            android:configChanges="orientation|screenSize" />
         <activity
             android:name=".ui.activity.CaseBackActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.activity.LeaveCaseActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="adjustPan" />
+            android:configChanges="orientation|screenSize" />
         <activity
             android:name=".ui.activity.StopUrgingActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="adjustPan" />
+            android:configChanges="orientation|screenSize" />
         <activity
             android:name=".ui.activity.AboutActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustPan" />
-
-        <activity android:name=".ui.activity.LoginActivity"
+        <activity
+            android:name=".ui.activity.LoginActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.activity.SplashActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -70,6 +72,7 @@
             android:name=".ui.activity.AccountInfoDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustPan" />
+
         <activity
             android:name=".ui.activity.CaseManagerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -87,15 +90,11 @@
             android:name=".ui.fragment.casebox.casefill.RecordSelectorActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".ui.report.view.ReportActivity2"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="adjustPan" />
+
         <activity
             android:name=".ui.fragment.casebox.casefill.PhotoSelectorActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustPan" />
-
         <activity
             android:name=".ui.fragment.casebox.casefill.PhotoSelectorActivity2"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -151,10 +150,10 @@
             android:enabled="true"
             android:exported="true" />
         <service android:name=".service.LocationFakeService" />
-    </application> <!-- 用于申请调用A-GPS模块 -->
+    </application> <!-- 用于申请获取蓝牙信息进行室内定位 -->
     <permission
         android:name="android.permission.INTERACT_ACROSS_USERS_FULL"
-        android:protectionLevel="signature" /> <!-- 用于申请获取蓝牙信息进行室内定位 -->
+        android:protectionLevel="signature" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />

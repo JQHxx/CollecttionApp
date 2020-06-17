@@ -76,7 +76,7 @@ public class BottomDialogView extends RelativeLayout {
         }
         this.list = list;
         this.isProcess = isProcess;
-        mAdapter = new BottomDialogAdapter(R.layout.item_bottom_dialog2, true);
+        mAdapter = new BottomDialogAdapter(R.layout.item_bottom_dialog2, isProcess);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setNewData(list);
         initListener();

@@ -69,7 +69,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-
 /**
  * author：shanyong
  * data：2018/12/27
@@ -251,6 +250,11 @@ public class PhotoSelectorActivity2 extends BaseActivity {
                     return;
                 }
                 sendData();
+              /*  Intent intent = new Intent();
+                intent.putExtra("caseId",caseId);
+                intent.putParcelableArrayListExtra("list", (ArrayList<? extends Parcelable>) fileList);
+                UploadService.enqueueWork(getApplicationContext(),intent);*/
+                // 启动后台service上传图片
             }
         });
 
@@ -299,8 +303,6 @@ public class PhotoSelectorActivity2 extends BaseActivity {
                     fileDate = fileDate + "," + localMedia.getFileName() + "/" + time;
 
                 }
-
-
                 imageSize++;
             }
         }
@@ -470,8 +472,6 @@ public class PhotoSelectorActivity2 extends BaseActivity {
                                 fileData.setRealPath(newFile.getPath());
                                 fileData.setFileName(newFile.getName());
                                 SugarRecord.save(fileData);
-
-
                             }
                         }
                     }
@@ -560,7 +560,7 @@ public class PhotoSelectorActivity2 extends BaseActivity {
                             localMedia.setPath(path);
                             remoteFileList.add(localMedia);
                             if (!FileUtils.isFileExists(path)) {
-                                downLoad(recordsBean.getFileName(), recordsBean.getFilePath(), isFresh);
+                                downLoad(recordsBean.getFileName(), recordsBean.getFilePath(),i);
                             }
                         }
                         mRemoteImageAdapter.setNewData(remoteFileList);
@@ -613,7 +613,7 @@ public class PhotoSelectorActivity2 extends BaseActivity {
         }
     }
 
-    private void downLoad(String name, String filePath, boolean isFresh) {
+    private void downLoad(String name, String filePath, int position) {
         //Log.e("nb", name + ":" + filePath);
         RetrofitManager.getInstance()
                 .download(name, filePath, "mobileAppFileOperServiceImpl/appDownload", localfilePath)
@@ -622,15 +622,11 @@ public class PhotoSelectorActivity2 extends BaseActivity {
                     @Override
                     public void _onNext(String result) {
                         Utils.scanMediaFile(PhotoSelectorActivity2.this, new File(result));
-                        mRemoteImageAdapter.notifyDataSetChanged();
+                        mRemoteImageAdapter.notifyItemChanged(position);
                     }
-
 
                     @Override
                     public void _onError(Throwable e) {
-                        if (isFresh) {
-                            hideLoading();
-                        }
                     }
                 });
 
@@ -657,4 +653,22 @@ public class PhotoSelectorActivity2 extends BaseActivity {
 
     }
 
+
+/*    @Override
+    public boolean isUseEventBus() {
+        return true;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(EventBean bean) {
+        // Log.e("nb", bean.code + "a:c" + bean.getObject());
+        if (bean == null) {
+            return;
+        }
+
+        if(BusEvent.UPLOAD_STATUS ==bean.getCode() ) {
+
+        }
+
+    }*/
 }

@@ -19,8 +19,7 @@ public interface CaseDetailContract {
     interface Presenter {
         void stopDealWithCase(String caseId,String custNo);
 
-
-        void getCaseStatus(String caseId,String type);
+        void getCaseStatus(String caseId);
     }
 
 }

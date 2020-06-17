@@ -50,7 +50,7 @@
                     android:layout_height="match_parent"
                     android:textSize="16sp"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="8dp"
                     android:layout_alignParentRight="true"
                     android:textColor="@color/text_color_666666" />
             </LinearLayout>
@@ -83,7 +83,7 @@
                     android:layout_height="match_parent"
                     android:textSize="16sp"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="8dp"
                     android:layout_alignParentRight="true"
                     android:textColor="@color/text_color_666666" />
             </LinearLayout>
@@ -114,7 +114,7 @@
                     android:layout_height="match_parent"
                     android:textSize="16sp"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="8dp"
                     android:layout_alignParentRight="true"
                     android:textColor="@color/text_color_666666" />
             </LinearLayout>
@@ -146,7 +146,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="8dp"
                     android:gravity="center_vertical"
                     android:textColor="@color/text_color_666666"
                     android:textSize="16sp" />
@@ -179,7 +179,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:layout_marginLeft="16dp"
+                android:layout_marginLeft="8dp"
                 android:gravity="center_vertical"
                 android:textColor="@color/text_color_666666"
                 android:textSize="16sp"/>
@@ -212,7 +212,7 @@
                     android:layout_height="match_parent"
                     android:textSize="16sp"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="8dp"
                     android:layout_alignParentRight="true"
                     android:textColor="@color/text_color_666666" />
             </LinearLayout>
@@ -232,10 +232,10 @@
                 android:layout_marginBottom="5dp"
                 android:gravity="center_vertical">
                 <TextView
+                    android:id="@+id/tv_ovdu_amts_type"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textSize="16sp"
-
                     android:textColor="@color/text_color_333333"
                     android:gravity="center_vertical|right"
                     android:text="人民币逾期总金额 :"/>
@@ -246,7 +246,7 @@
                     android:layout_height="match_parent"
                     android:textSize="16sp"
                     android:gravity="center_vertical|right"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="8dp"
                     android:layout_alignParentRight="true"
                     android:textColor="@color/text_color_666666" />
             </LinearLayout>
@@ -264,10 +264,10 @@
                 android:layout_marginBottom="5dp"
                 android:gravity="center_vertical">
                 <TextView
+                    android:id="@+id/tv_ovdu_principal_amts_type"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textSize="16sp"
-
                     android:textColor="@color/text_color_333333"
                     android:gravity="center_vertical"
                     android:text="人民币逾期总本金 :"/>
@@ -277,7 +277,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="8dp"
                     android:gravity="center_vertical"
                     android:textColor="@color/text_color_666666"
                     android:textSize="16sp" />
@@ -297,10 +297,10 @@
                 android:layout_marginBottom="5dp"
                 android:gravity="center_vertical">
                 <TextView
+                    android:id="@+id/tv_overdraw_amt_type"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textSize="16sp"
-
                     android:textColor="@color/text_color_333333"
                     android:gravity="center_vertical"
                     android:text="人民币当前透支本金 :"/>
@@ -310,7 +310,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="8dp"
                     android:gravity="center_vertical"
                     android:textColor="@color/text_color_666666"
                     android:textSize="16sp" />
@@ -329,6 +329,7 @@
                 android:layout_marginBottom="5dp"
                 android:gravity="center_vertical">
                 <TextView
+                    android:id="@+id/tv_current_loan_cash_amount_type"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textSize="16sp"
@@ -342,7 +343,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="8dp"
                     android:gravity="center_vertical"
                     android:textColor="@color/text_color_666666"
                     android:textSize="16sp" />
@@ -374,7 +375,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="8dp"
                     android:gravity="center_vertical"
                     android:textColor="@color/text_color_666666"
                     android:textSize="16sp" />
@@ -406,7 +407,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="8dp"
                     android:gravity="center_vertical"
                     android:textColor="@color/text_color_666666"
                     android:textSize="16sp" />
@@ -438,7 +439,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="8dp"
                     android:gravity="center_vertical"
                     android:textColor="@color/text_color_666666"
                     android:textSize="16sp" />
@@ -471,7 +472,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="8dp"
                     android:gravity="center_vertical"
                     android:textColor="@color/text_color_666666"
                     android:textSize="16sp" />
@@ -504,7 +505,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="8dp"
                     android:gravity="center_vertical"
                     android:textColor="@color/text_color_666666"
                     android:textSize="16sp" />
@@ -536,7 +537,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:layout_marginLeft="16dp"
+                    android:layout_marginLeft="8dp"
                     android:gravity="center_vertical"
                     android:textColor="@color/text_color_666666"
                     android:textSize="16sp" />

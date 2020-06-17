@@ -1,6 +1,5 @@
 package com.huateng.collection.ui.adapter;
 
-import android.text.format.DateUtils;
 import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -35,11 +34,14 @@ public class RemoteAudioAdapter extends BaseQuickAdapter<RemoteAudioBean.Records
 
         linearLayout.setBackgroundResource(bgs[helper.getAdapterPosition() % 4]);
         helper.setText(R.id.tv_name, item.getFileName())
-                .setText(R.id.tv_addDate, DateUtils.formatDateTime(
-                        mContext,
-                        item.getCrtTime(),
-                        DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_TIME |DateUtils.FORMAT_SHOW_YEAR
-                ))
+                .setText(R.id.tv_addDate,DateUtil.getDate2(item.getFileTime()))
                 .setText(R.id.tv_duration, DateUtil.formatSeconds(Integer.valueOf(item.getFileSize())));
+
+      /*  DateUtils.formatDateTime(
+                mContext,
+                item.getFileTime(),
+                DateUtils.FORMAT_SHOW_DATE  | DateUtils.FORMAT_SHOW_TIME |DateUtils.FORMAT_SHOW_YEAR
+        )*/
+
     }
 }

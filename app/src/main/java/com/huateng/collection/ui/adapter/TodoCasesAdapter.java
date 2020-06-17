@@ -56,12 +56,12 @@ public class TodoCasesAdapter extends BaseQuickAdapter<CaseBeanData.RecordsBean,
         helper.addOnClickListener(R.id.ll_layout);
         helper.addOnClickListener(R.id.iv_call_phone);
 
-        if (TextUtils.isEmpty(item.getPhoneNo())) {
+       /* if (!TextUtils.isEmpty(item.getPhoneNo())) {
             helper.setVisible(R.id.iv_call_phone, true);
         } else {
             helper.setVisible(R.id.iv_call_phone, false);
 
-        }
+        }*/
 
     }
 

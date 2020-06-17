@@ -14,6 +14,7 @@ import com.huateng.collection.base.BaseActivity;
 import com.huateng.collection.base.BasePresenter;
 import com.huateng.collection.bean.RemoteAudioBean;
 import com.huateng.collection.bean.orm.FileData;
+import com.huateng.collection.ui.activity.AudioPlayActivity;
 import com.huateng.collection.ui.adapter.RecorderAdapter;
 import com.huateng.collection.ui.adapter.RemoteAudioAdapter;
 import com.huateng.collection.utils.Utils;
@@ -44,11 +45,11 @@ import com.zr.lib_audio.androidaudiorecorder.AndroidAudioRecorder;
 import com.zr.lib_audio.androidaudiorecorder.AudioChannel;
 import com.zr.lib_audio.androidaudiorecorder.AudioSampleRate;
 import com.zr.lib_audio.androidaudiorecorder.AudioSource;
-import com.zr.lib_audio.androidaudiorecorder.PicturePlayAudioFragment;
 import com.zr.lib_audio.androidaudiorecorder.RecordService;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -90,15 +91,10 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
     private RecorderAdapter adapter;
     private RemoteAudioAdapter mRemoteAudioAdapter;
     private int maxSelectNum = 20;
-    //private LocalMediaLoader mediaLoader;
-    private String localAudioPath;
-    // private int compressMode = PictureConfig.SYSTEM_COMPRESS_MODE;
     private int themeId;
-
     private String filePath;
     private String currentCustName;
-
-    private String tempFilePath;
+    //private String tempFilePath;
     private String caseId;
     private String custId;
     private String custName;
@@ -107,7 +103,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
     protected void initView(Bundle savedInstanceState) {
         Watermark.getInstance()
                 .setTextSize(12.0f)
-                .setText(Perference.getUserId()  + "-" + Perference.get(Perference.NICK_NAME))
+                .setText(Perference.getUserId() + "-" + Perference.get(Perference.NICK_NAME))
                 .show(this);
         caseId = getIntent().getStringExtra(Constants.CASE_ID);
         custId = getIntent().getStringExtra(Constants.CUST_ID);
@@ -136,10 +132,8 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
 
         currentCustName = Perference.getCurrentCustName();
 
-        // AttachmentProcesser processer = AttachmentProcesser.getInstance(this);
         filePath = AttachmentProcesser.getInstance(RecordSelectorActivity.this).getVoicePath(caseId);
-        localAudioPath = AttachmentProcesser.getInstance(RecordSelectorActivity.this).getLocalVoicePath(caseId);
-        tempFilePath = AttachmentProcesser.getInstance(RecordSelectorActivity.this).getTempsDir();
+      //  tempFilePath = AttachmentProcesser.getInstance(RecordSelectorActivity.this).getTempsDir();
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -155,8 +149,18 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
             public void onItemClick(int position, View v) {
                 LocalMedia media = fileList.get(position);
                 if (!DoubleUtils.isFastDoubleClick()) {
-                    PicturePlayAudioFragment fragment = PicturePlayAudioFragment.newInstance(media.getPath());
+                    
+                    if(FileUtils.isFileExists(media.getPath())) {
+                        Intent intent = new Intent(RecordSelectorActivity.this, AudioPlayActivity.class);
+                        intent.putExtra("filePath", media.getPath());
+                        startActivity(intent);
+                    }else {
+                        RxToast.showToast("录音文件播放失败");
+                    }
+
+                   /* PicturePlayAudioFragment fragment = PicturePlayAudioFragment.newInstance(media.getPath());
                     fragment.show(getSupportFragmentManager(), "PicturePlayAudioActivity");
+              */
                 }
             }
         });
@@ -175,8 +179,11 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
                     String path = filePath + File.separator + recordsBean.getFileName();
 
                     if (FileUtils.isFileExists(path)) {
-                        PicturePlayAudioFragment fragment = PicturePlayAudioFragment.newInstance(path);
-                        fragment.show(getSupportFragmentManager(), "PicturePlayAudioActivity");
+                        Intent intent = new Intent(RecordSelectorActivity.this, AudioPlayActivity.class);
+                        intent.putExtra("filePath", path);
+                        startActivity(intent);
+                      //  PicturePlayAudioFragment fragment = PicturePlayAudioFragment.newInstance(path);
+                       // fragment.show(getSupportFragmentManager(), "PicturePlayAudioActivity");
                     } else {
                         downLoad(recordsBean);
                     }
@@ -227,9 +234,6 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
             if (b) {
                 fileList.add(localMedia);
             }
-           /* if (!b) {
-                fileList.add(localMedia);
-            }*/
             adapter.notifyDataSetChanged();
 
         }
@@ -426,6 +430,10 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
 
                         }
                         removeAudioData.addAll(remoteAudioBean.getRecords());
+
+                        Collections.sort(removeAudioData);
+
+
                         mRemoteAudioAdapter.setNewData(removeAudioData);
 
                         pageNo++;
@@ -601,15 +609,22 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
         showLoading();
         Log.e("nb", recordsBean.getFileName() + ":" + recordsBean.getFilePath());
         RetrofitManager.getInstance()
-                .download(recordsBean.getFileName(), recordsBean.getFilePath(), "mobileAppFileOperServiceImpl/appDownload", localAudioPath)
+                .download(recordsBean.getFileName(), recordsBean.getFilePath(), "mobileAppFileOperServiceImpl/appDownload", filePath)
                 .compose(RxSchedulers.io_main())
                 .subscribe(new DownLoadObserver() {
                     @Override
                     public void _onNext(String result) {
                         //去播放音频
+                        if(FileUtils.isFileExists(result)) {
+                            Intent intent = new Intent(RecordSelectorActivity.this, AudioPlayActivity.class);
+                            intent.putExtra("filePath", result);
+                            startActivity(intent);
+                        }else {
+                            RxToast.showToast("录音文件播放失败");
+                        }
 
-                        PicturePlayAudioFragment fragment = PicturePlayAudioFragment.newInstance(result);
-                        fragment.show(getSupportFragmentManager(), "PicturePlayAudioActivity");
+                       // PicturePlayAudioFragment fragment = PicturePlayAudioFragment.newInstance(result);
+                       // fragment.show(getSupportFragmentManager(), "PicturePlayAudioActivity");
 
                         File file = new File(result);
                         if (file.exists()) {
@@ -635,4 +650,8 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
                     }
                 });
     }
+
+
+
+
 }

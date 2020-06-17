@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <com.tools.view.RxTitle
+        android:id="@+id/rx_title"
+        style="@style/CommontRxToolBarStyle"
+        app:rxLeftIconVisibility="true"
+        android:background="#00000000"
+        app:rxLeftTextVisibility="false"
+        app:rxLeftIcon="@drawable/aar_ic_clear"
+        app:rxRightIconVisibility="false"
+        app:rxTitleSize="18sp"
+        app:rxTitleIconVisibility="false"
+        app:rxTitleVisibility="false" />
+
+
+    <LinearLayout
+        android:id="@+id/ll_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="-10dp"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-thin"
+            android:text="00:00"
+            android:textColor="@android:color/white"
+            android:textSize="60sp" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_below="@+id/ll_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        android:layout_centerVertical="true"
+        android:gravity="center_horizontal|center_vertical">
+
+        <!--显示当前进度-->
+        <TextView
+            android:id="@+id/tv_musicTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="00:00"
+            android:textColor="@color/tab_color_false"
+            android:textSize="13sp" />
+
+
+        <SeekBar
+            android:id="@+id/musicSeekBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/tv_musicTime"
+            android:layout_weight="1"
+            android:max="100"
+            android:maxHeight="4.0dp"
+            android:minHeight="4.0dp"
+            android:progressDrawable="@drawable/picture_layer_progress"
+            android:thumb="@drawable/picture_sb_thumb"
+            android:thumbOffset="0dp" />
+
+        <!--显示总进度-->
+        <TextView
+            android:id="@+id/tv_musicTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/musicSeekBar"
+            android:text="00:00"
+            android:textColor="@color/tab_color_false"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/aar_footer_height"
+        android:layout_alignParentBottom="true">
+
+        <ImageButton
+            android:id="@+id/restart"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="50dp"
+            android:layout_toLeftOf="@+id/record"
+            android:layout_toStartOf="@+id/record"
+            android:onClick="restartRecording"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/aar_ic_restart"
+            android:visibility="invisible" />
+
+        <ImageButton
+            android:id="@+id/record"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            android:layout_margin="15dp"
+            android:layout_marginTop="50dp"
+            android:onClick="toggleRecording"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/iv_audio_stop" />
+
+        <ImageButton
+            android:id="@+id/play"
+            android:visibility="invisible"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="50dp"
+            android:layout_toEndOf="@+id/record"
+            android:layout_toRightOf="@+id/record"
+            android:onClick="togglePlaying"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/aar_ic_play" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -14,6 +14,8 @@
             android:id="@+id/rx_title"
             style="@style/CommontRxToolBarStyle"
             app:rxRightIconVisibility="false"
+            app:rxLeftIconVisibility="true"
+            app:rxLeftTextVisibility="false"
             android:background="@color/transparent"
             app:rxTitle="案件详情"
             app:rxTitleVisibility="true" />

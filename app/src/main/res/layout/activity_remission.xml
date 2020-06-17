@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,7 +8,8 @@
     android:background="@color/white"
     tools:context="com.huateng.collection.ui.activity.StopUrgingActivity">
 
-    <com.tools.view.RxTitle xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.tools.view.RxTitle
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/rx_title"
         app:rxLeftTextVisibility="false"
         style="@style/CommontRxToolBarStyle"
@@ -18,6 +19,7 @@
         app:rxTitleVisibility="true" />
 
     <com.huateng.collection.widget.recyclerview.RecyclerScrollView
+        android:layout_below="@+id/rx_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -353,6 +355,7 @@
 
             <com.huateng.fm.ui.widget.FmButton
                 android:id="@+id/btn_save"
+                android:visibility="invisible"
                 android:layout_marginRight="25dp"
                 android:layout_marginLeft="25dp"
                 android:layout_width="match_parent"
@@ -370,4 +373,28 @@
 
     </com.huateng.collection.widget.recyclerview.RecyclerScrollView>
 
-</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_send"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <com.huateng.fm.ui.widget.FmButton
+            android:id="@+id/btn_send2"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:minHeight="0dp"
+            android:singleLine="true"
+            android:text="提交"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_switch_bg"
+            android:textSize="16sp"/>
+    </LinearLayout>
+</RelativeLayout>

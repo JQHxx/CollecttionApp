@@ -72,7 +72,9 @@ public abstract class BaseObserver2<T> implements Observer<ResponseStructure> {
                             Logger.i(data);
                             Type type = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
                             T t = GsonUtils.fromJson(data, type);
-                            onNextData(t);
+                            if(null != t) {
+                                onNextData(t);
+                            }
                         }else {
                             Logger.i(data);
                             onNextData((T) data);

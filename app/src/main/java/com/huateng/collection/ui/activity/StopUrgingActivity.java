@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -19,6 +20,7 @@ import com.huateng.collection.base.BaseActivity;
 import com.huateng.collection.base.BasePresenter;
 import com.huateng.collection.ui.dialog.BottomDialogFragment;
 import com.huateng.collection.utils.DateUtil;
+import com.huateng.collection.utils.SoftKeyBoardListener;
 import com.huateng.collection.widget.Watermark;
 import com.huateng.fm.ui.widget.FmButton;
 import com.huateng.network.ApiConstants;
@@ -74,10 +76,15 @@ public class StopUrgingActivity extends BaseActivity {
     FmButton mBtnSend;
     @BindView(R.id.tv_forever_stop)
     TextView mTvForeverStop;
+    @BindView(R.id.btn_send2)
+    FmButton mBtnSend2;
+    @BindView(R.id.ll_send)
+    LinearLayout mLlSend;
 
     private String caseId;
 
     private String stopCallReason;//停催原因
+
 
     @Override
     protected BasePresenter createPresenter() {
@@ -89,7 +96,7 @@ public class StopUrgingActivity extends BaseActivity {
 
         Watermark.getInstance()
                 .setTextSize(12.0f)
-                .setText(Perference.getUserId()  + "-" +Perference.get(Perference.NICK_NAME))
+                .setText(Perference.getUserId() + "-" + Perference.get(Perference.NICK_NAME))
                 .show(this);
         mRxTitle.setLeftOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,12 +115,15 @@ public class StopUrgingActivity extends BaseActivity {
                         // Log.e("nb", "12345");
                         if (charSequence.length() > 0) {
                             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                            mTvForeverStop.setText("否");
                             try {
                                 Date date2 = format.parse(mTvStopCallStartDate.getText().toString());
+
                                 if (!"0".equals(charSequence)) {
-                                  //  Log.e("nb",date2.getTime()+":"+Long.valueOf(charSequence.toString()) * 24 * 60 * 60 * 1000+":"+charSequence.toString());
+                                    //  Log.e("nb",date2.getTime()+":"+Long.valueOf(charSequence.toString()) * 24 * 60 * 60 * 1000+":"+charSequence.toString());
                                     long l = date2.getTime() + Long.valueOf(charSequence.toString()) * 24 * 60 * 60 * 1000;
                                     mTvStopCallEndDate.setText(DateUtil.getDate(l));
+
                                 }
                             } catch (ParseException e) {
                                 e.printStackTrace();
@@ -143,6 +153,24 @@ public class StopUrgingActivity extends BaseActivity {
                     RxToast.showToast("停催原因不能超过200字");
                     mEdtStopCallReason.setText(s.toString().substring(0, 200));
                 }
+            }
+        });
+
+
+        SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
+
+            @Override
+            public void keyBoardShow(int height) {
+                Log.e("nb", "height" + height);
+                mLlSend.setVisibility(View.GONE);
+                mBtnSend.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void keyBoardHide(int height) {
+                Log.e("nb", "height" + height);
+                mLlSend.setVisibility(View.VISIBLE);
+                mBtnSend.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -181,7 +209,7 @@ public class StopUrgingActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.ll_stop_call_reason, R.id.ll_stop_call_end_date, R.id.btn_send, R.id.ll_for_ever_stop})
+    @OnClick({R.id.ll_stop_call_reason, R.id.ll_stop_call_end_date, R.id.btn_send, R.id.btn_send2, R.id.ll_for_ever_stop})
     public void onClick(View view) {
         List<BottomDialogBean> list = new ArrayList<>();
         switch (view.getId()) {
@@ -212,11 +240,12 @@ public class StopUrgingActivity extends BaseActivity {
                         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                         String format1 = format.format(date);
                         String format2 = format.format(new Date(System.currentTimeMillis()));
-                        if( format1.compareTo(format2) == -1) {
+                        if (format1.compareTo(format2) == -1) {
                             RxToast.showToast("留案截止日期不能小于当前日期");
                             return;
                         }
                         mTvStopCallEndDate.setText(format.format(date));
+                        mTvForeverStop.setText("否");
                         try {
                             Date date2 = format.parse(mTvStopCallStartDate.getText().toString());
                             long days = (date.getTime() - date2.getTime()) / 1000 / 60 / 60 / 24;
@@ -230,6 +259,7 @@ public class StopUrgingActivity extends BaseActivity {
 
                 break;
             case R.id.btn_send:
+            case R.id.btn_send2:
                 sendData();
                 //finish();
                 break;
@@ -273,10 +303,8 @@ public class StopUrgingActivity extends BaseActivity {
 
         if ("是".equals(foreverStopCall)) {
             foreverStopCall = "1";
-        } else if ("否".equals(foreverStopCall)) {
+        } else {
             foreverStopCall = "0";
-        }else {
-            foreverStopCall = "";
         }
         if (TextUtils.isEmpty(stopCallReason)) {
             RxToast.showToast("停催原因不能为空");
@@ -293,7 +321,7 @@ public class StopUrgingActivity extends BaseActivity {
             return;
         }
 
-        if (!"0".equals(foreverStopCall) && "请选择".equals(stopCallEndDate)) {
+        if ("0".equals(foreverStopCall) && "请选择".equals(stopCallEndDate)) {
             //不是永久停催
             RxToast.showToast("案件结束日期不能为空");
             return;
@@ -303,7 +331,7 @@ public class StopUrgingActivity extends BaseActivity {
         if ("0".equals(foreverStopCall)) {
             map.put("stopCollEndDate", stopCallEndDate);
         }
-        map.put("foreverStopCall",foreverStopCall);
+        map.put("foreverStopCall", foreverStopCall);
         map.put("caseIds", caseId);
         map.put("tlrNo", Perference.getUserId());
         map.put("applyReason", applyReason);
@@ -340,7 +368,6 @@ public class StopUrgingActivity extends BaseActivity {
                 });
 
     }
-
 
 
     @Override

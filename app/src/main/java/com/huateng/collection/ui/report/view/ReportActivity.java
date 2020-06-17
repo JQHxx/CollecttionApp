@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ import com.huateng.collection.bean.ReportListBean;
 import com.huateng.collection.ui.dialog.BottomDialogFragment;
 import com.huateng.collection.ui.report.contract.ReportContract;
 import com.huateng.collection.ui.report.presenter.ReportPresenter;
+import com.huateng.collection.utils.SoftKeyBoardListener;
 import com.huateng.collection.widget.Watermark;
 import com.huateng.fm.ui.widget.FmButton;
 import com.huateng.network.ApiConstants;
@@ -97,8 +99,12 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements Rep
     RxTitle mRxTitle;
     @BindView(R.id.ll_is_self)
     LinearLayout mLlIsSelf;
-    @BindView(R.id.btn_login)
-    FmButton mBtnLogin;
+    @BindView(R.id.btn_send1)
+    FmButton mBtnSend1;
+    @BindView(R.id.btn_send2)
+    FmButton mBtnSend2;
+    @BindView(R.id.ll_send)
+    LinearLayout mLlSend;
 
     private String custId;
     private String caseId;
@@ -321,6 +327,23 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements Rep
             }
         });
 
+        SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
+
+            @Override
+            public void keyBoardShow(int height) {
+                Log.e("nb", "height" + height);
+                 mLlSend.setVisibility(View.GONE);
+                  mBtnSend1.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void keyBoardHide(int height) {
+                Log.e("nb", "height" + height);
+                mLlSend.setVisibility(View.VISIBLE);
+                mBtnSend1.setVisibility(View.INVISIBLE);
+            }
+        });
+
     }
 
 
@@ -343,9 +366,10 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements Rep
         custId = getIntent().getStringExtra(Constants.CUST_ID);
         custName = getIntent().getStringExtra(Constants.CUST_NAME);
         isAdd = getIntent().getBooleanExtra("isAdd", true);
+        mRxTitle.setTitle("调查报告");
         if (isAdd) {
-            mBtnLogin.setText("提交");
-            mRxTitle.setTitle("调查报告");
+            mBtnSend1.setText("提交");
+            mBtnSend2.setText("提交");
             mTvVisitName.setText(Perference.get(Perference.NICK_NAME));
             mTvCustName.setText(custName);
             //获取当前时间
@@ -353,9 +377,8 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements Rep
             mTvVisitDate.setText(formatter.format(new Date()));
 
         } else {
-            mBtnLogin.setText("修改");
-            mRxTitle.setTitle("调查报告");
-
+            mBtnSend1.setText("修改");
+            mBtnSend2.setText("修改");
         }
         if (!isAdd) {
             recordsBean = getIntent().getParcelableExtra("reportData");
@@ -507,25 +530,25 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements Rep
         }
         if ("请选择".equals(meetHimselfFlag)) {
             meetHimselfFlag = "";
-        }else if("是".equals(meetHimselfFlag)) {
+        } else if ("是".equals(meetHimselfFlag)) {
             meetHimselfFlag = "0";
-        }else if("否".equals(meetHimselfFlag)) {
+        } else if ("否".equals(meetHimselfFlag)) {
             meetHimselfFlag = "1";
         }
 
         if ("请选择".equals(incumbencyFlag)) {
             incumbencyFlag = "";
-        }else if("已入职".equals(incumbencyFlag)) {
+        } else if ("已入职".equals(incumbencyFlag)) {
             incumbencyFlag = "1";
 
-        }else if("未入职".equals(incumbencyFlag)) {
+        } else if ("未入职".equals(incumbencyFlag)) {
             incumbencyFlag = "0";
         }
         if ("请选择".equals(maritalStatus)) {
             maritalStatus = "";
-        }else if("未婚".equals(maritalStatus)) {
+        } else if ("未婚".equals(maritalStatus)) {
             maritalStatus = "0";
-        }else if("已婚".equals(maritalStatus)) {
+        } else if ("已婚".equals(maritalStatus)) {
             maritalStatus = "1";
         }
 
@@ -542,7 +565,7 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements Rep
         map.put("visitAddress", visitAddress);
         map.put("tlrNo", Perference.getUserId());
         map.put("overdueCause", overdueCause);
-        map.put("meetHimselfFlag",meetHimselfFlag);
+        map.put("meetHimselfFlag", meetHimselfFlag);
         map.put("unitIncumbency", incumbencyFlag);
         map.put("maritalStatus", maritalStatus);
         map.put("otherValidAddress", otherValidAddress);
@@ -606,7 +629,7 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements Rep
                 });
     }
 
-    @OnClick({R.id.ll_is_self, R.id.ll_is_work, R.id.ll_is_marriage, R.id.btn_login,R.id.ll_visit_date})
+    @OnClick({R.id.ll_is_self, R.id.ll_is_work, R.id.ll_is_marriage, R.id.btn_send1, R.id.btn_send2, R.id.ll_visit_date})
     public void onClick(View view) {
         List<BottomDialogBean> list = new ArrayList<>();
         switch (view.getId()) {
@@ -655,7 +678,8 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements Rep
 
                 break;
 
-            case R.id.btn_login:
+            case R.id.btn_send1:
+            case R.id.btn_send2:
                 collectData();
                 break;
 
@@ -666,7 +690,7 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements Rep
                         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                         String format1 = format.format(date);
                         String format2 = format.format(new Date(System.currentTimeMillis()));
-                        if( format1.compareTo(format2) ==1) {
+                        if (format1.compareTo(format2) == 1) {
                             RxToast.showToast("外访日期不能大于当前日期");
                             return;
                         }
@@ -680,10 +704,13 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements Rep
         }
     }
 
+
     @Override
     public <T> LifecycleTransformer<T> getRxlifecycle() {
         return bindToLifecycle();
     }
+
+
 
    /* @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {

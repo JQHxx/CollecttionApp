@@ -67,6 +67,14 @@ public class CreditCardDetailActivity extends BaseActivity {
     TextView mTvOverduePeriods;
     @BindView(R.id.tv_wrof_flag)
     TextView mTvWrofFlag;
+    @BindView(R.id.tv_ovdu_amts_type)
+    TextView mTvOvduAmtsType;
+    @BindView(R.id.tv_ovdu_principal_amts_type)
+    TextView mTvOvduPrincipalAmtsType;
+    @BindView(R.id.tv_overdraw_amt_type)
+    TextView mTvOverdrawAmtType;
+    @BindView(R.id.tv_current_loan_cash_amount_type)
+    TextView mTvCurrentLoanCashAmountType;
     private CreditCardBean.RecordsBean recordsBean;
 
     @Override
@@ -78,7 +86,7 @@ public class CreditCardDetailActivity extends BaseActivity {
     protected void initView(Bundle savedInstanceState) {
         Watermark.getInstance()
                 .setTextSize(12.0f)
-                .setText(Perference.getUserId()  + "-" + Perference.get(Perference.NICK_NAME))
+                .setText(Perference.getUserId() + "-" + Perference.get(Perference.NICK_NAME))
                 .show(this);
         mRxTitle.setLeftOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,37 +118,37 @@ public class CreditCardDetailActivity extends BaseActivity {
 
         initDictData();
 
-        Log.e("nb",recordsBean.toString());
+        Log.e("nb", recordsBean.toString());
         mTvCreditCardNo.setText(recordsBean.getCreditCardNo());
         //卡种
-       // mTvProductName.setText(recordsBean.getProductName());
-        if("0000".equals(recordsBean.getBusinessLine())) {
+        // mTvProductName.setText(recordsBean.getProductName());
+        if ("0000".equals(recordsBean.getBusinessLine())) {
             mTvBusinessLine.setText("总行业务");
-        }else if("0001".equals(recordsBean.getBusinessLine())) {
+        } else if ("0001".equals(recordsBean.getBusinessLine())) {
             mTvBusinessLine.setText("个人条线业务");
-        }else if("0002".equals(recordsBean.getBusinessLine())) {
+        } else if ("0002".equals(recordsBean.getBusinessLine())) {
             mTvBusinessLine.setText("个人条线业务");
-        }else if("0003".equals(recordsBean.getBusinessLine())) {
+        } else if ("0003".equals(recordsBean.getBusinessLine())) {
             mTvBusinessLine.setText("零售条线业务");
-        }else if("0004".equals(recordsBean.getBusinessLine())) {
+        } else if ("0004".equals(recordsBean.getBusinessLine())) {
             mTvBusinessLine.setText("尊尚卡业务");
-        }else if("1000".equals(recordsBean.getBusinessLine())) {
+        } else if ("1000".equals(recordsBean.getBusinessLine())) {
             mTvBusinessLine.setText("总行业务剥离");
-        }else if("1002".equals(recordsBean.getBusinessLine())) {
+        } else if ("1002".equals(recordsBean.getBusinessLine())) {
             mTvBusinessLine.setText("个人业务剥离");
-        }else if("1003".equals(recordsBean.getBusinessLine())) {
+        } else if ("1003".equals(recordsBean.getBusinessLine())) {
             mTvBusinessLine.setText("零售业务剥离");
         }
-        if( recordsBean.getOpenAcctDate().length() == 8) {
+        if (recordsBean.getOpenAcctDate().length() == 8) {
 
-            mTvOpenAcctDate.setText(recordsBean.getOpenAcctDate().substring(0,4)+"-"+recordsBean.getOpenAcctDate().substring(4,6)+"-"+recordsBean.getOpenAcctDate().substring(6,8));
-        }else {
+            mTvOpenAcctDate.setText(recordsBean.getOpenAcctDate().substring(0, 4) + "-" + recordsBean.getOpenAcctDate().substring(4, 6) + "-" + recordsBean.getOpenAcctDate().substring(6, 8));
+        } else {
             mTvOpenAcctDate.setText("");
         }
 
         mTvOpenBankName.setText(recordsBean.getOpenBankName());
         mTvStatementDate.setText(recordsBean.getStatementDate());
-        mTvOvduAmts.setText(TextUtils.isEmpty(recordsBean.getAcctBalance())?"0.00":recordsBean.getAcctBalance()+"");
+        mTvOvduAmts.setText(TextUtils.isEmpty(recordsBean.getAcctBalance()) ? "0.00" : recordsBean.getAcctBalance() + "");
         mTvOvduPrincipalAmts.setText(recordsBean.getOvduPrincipalAmts());
         mTvOverdrawAmt.setText(recordsBean.getOverdrawAmt());
         mTvCurrentLoanCashAmount.setText(recordsBean.getCurrAcctBalance());
@@ -148,17 +156,30 @@ public class CreditCardDetailActivity extends BaseActivity {
         mTvInterestAmt.setText(recordsBean.getInterestAmt());
         mTvPeriodRestPri.setText(recordsBean.getPeriodRestPri());
         mTvPeriodRestFee.setText(recordsBean.getPeriodRestFee());
-        Log.e("nb",recordsBean.getPeriodRestFee());
-        mTvOverduePeriods.setText(recordsBean.getOverPeriodRmb()+"");
-        if("0".equals(recordsBean.getWrofFlag())) {
+        Log.e("nb", recordsBean.getPeriodRestFee());
+        mTvOverduePeriods.setText(recordsBean.getOverPeriodRmb() + "");
+        if ("0".equals(recordsBean.getWrofFlag())) {
             mTvWrofFlag.setText("未核销");
-        }else if("1".equals(recordsBean.getWrofFlag())) {
+        } else if ("1".equals(recordsBean.getWrofFlag())) {
             mTvWrofFlag.setText("部分核销");
-        }else if("2".equals(recordsBean.getWrofFlag())) {
+        } else if ("2".equals(recordsBean.getWrofFlag())) {
             mTvWrofFlag.setText("核销");
-        }else {
+        } else {
             mTvWrofFlag.setText("");
         }
+
+        if ("840".equals(recordsBean.getCurrency())) {
+            mTvOvduAmtsType.setText("美元逾期总金额:");
+            mTvOvduPrincipalAmtsType.setText("美元逾期总本金:");
+            mTvOverdrawAmtType.setText("美元当前透支本金:");
+            mTvCurrentLoanCashAmountType.setText("美元当前透支金额:");
+        } else {
+            mTvOvduAmtsType.setText("人民币逾期总金额:");
+            mTvOvduPrincipalAmtsType.setText("人民币逾期总本金:");
+            mTvOverdrawAmtType.setText("人民币当前透支本金:");
+            mTvCurrentLoanCashAmountType.setText("人民币当前透支金额:");
+        }
+
 
     }
 
@@ -171,7 +192,6 @@ public class CreditCardDetailActivity extends BaseActivity {
         SystemBarHelper.setHeightAndPadding(this, mRxTitle);
 
     }
-
 
 
     private void initDictData() {
@@ -195,19 +215,19 @@ public class CreditCardDetailActivity extends BaseActivity {
                     @Override
                     public void accept(HashMap<String, String> stringStringHashMap) throws Exception {
 
-                            //  mTvProductType.setText(mRecordsBean.getProductType());
-                            if (stringStringHashMap != null) {
-                                String cardType = stringStringHashMap.get(recordsBean.getCardType());
-                                mTvProductName.setText(TextUtils.isEmpty(cardType) ? recordsBean.getCardType() : cardType);
-                            }
+                        //  mTvProductType.setText(mRecordsBean.getProductType());
+                        if (stringStringHashMap != null) {
+                            String cardType = stringStringHashMap.get(recordsBean.getCardType());
+                            mTvProductName.setText(TextUtils.isEmpty(cardType) ? recordsBean.getCardType() : cardType);
+                        }
                     }
                 });
     }
-
 
 
     @Override
     public LifecycleTransformer<T> getRxlifecycle() {
         return bindToLifecycle();
     }
+
 }

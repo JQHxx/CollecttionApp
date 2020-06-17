@@ -62,8 +62,9 @@ public class CaseDetailPresenter extends BasePresenter<CaseDetailContract.View> 
                 });
     }
 
+
     @Override
-    public void getCaseStatus(String caseId, String type) {
+    public void getCaseStatus(String caseId) {
         Map<String, String> map = new HashMap<>();
         map.put("caseIds", caseId);
 
@@ -87,9 +88,10 @@ public class CaseDetailPresenter extends BasePresenter<CaseDetailContract.View> 
                         Log.e("nb", caseStatusBean.toString());
                         mView.hideLoading();
                         if ("N".equals(caseStatusBean.getResultCode())) {
+                           // RxToast.showToast("");
                             mView.toCaseAction(false);
+
                         } else if ("Y".equals(caseStatusBean.getResultCode())) {
-                           //
                             mView.toCaseAction(true);
                         }
                     }

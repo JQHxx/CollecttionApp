@@ -41,7 +41,6 @@ import java.util.List;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import io.reactivex.functions.Consumer;
 
 import static android.Manifest.permission.CAMERA;
@@ -83,7 +82,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
     private String custId;
     private String custName;
     private String businessType;
-    private boolean caseStatus;
+   // private boolean caseStatus;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -177,69 +176,14 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
         mIvLoadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showLoadMore();
-
+             //   showLoadMore();
+                mPresenter.getCaseStatus(caseId);
             }
         });
 
 
     }
 
-    private void showLoadMore() {
-        List<BottomDialogBean> list = new ArrayList<>();
-        for (int i = 0; i < mCaseMoreFillTitles.length; i++) {
-
-            list.add(new BottomDialogBean(mCaseMoreFillIcons[i], mCaseMoreFillTitles[i], true));
-        }
-
-        mBottomDialog.initData(caseStatus,list);
-        mBottomDialog.setOnItemClickListener(new BottomDialogView.OnItemClickListener() {
-            @Override
-            public void onItemClick(BottomDialogBean bean) {
-                String title = bean.getTitle();
-                switch (title) {
-                    case "录音":
-                        //录音
-                        toAudio();
-                        break;
-                    case "拍照":
-                        //拍照
-                        toPhoto();
-                        break;
-                    case "调查报告":
-                        toReport();
-                        break;
-                    case "外访录入":
-                          /*  //外访录入
-                            Intent intent5 = new Intent(CaseDetailActivity.this, OutboundEntryActivity.class);
-                            intent5.putExtra(Constants.CASE_ID, caseId);
-                            intent5.putExtra(Constants.CUST_ID, custId);
-                            intent5.putExtra(Constants.CUST_NAME, custName);
-                            startActivity(intent5);*/
-                        break;
-                    case "结束处理":
-                        //结束案件
-                        mPresenter.stopDealWithCase(caseId, custId);
-                        break;
-
-                    case "申请减免":
-                    case "停催":
-                    case "留案":
-                    case "退案":
-                        if (!caseStatus) {
-                            toCaseAction(title);
-                        } else {
-                            RxToast.showToast("已存在相同审核节点，不允许此操作");
-                        }
-
-
-                        break;
-                }
-            }
-        });
-        mBottomDialog.showView();
-
-    }
 
     private void toReport() {
         Intent intent6 = new Intent(CaseDetailActivity.this, ReportListActivity.class);
@@ -344,9 +288,6 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
     protected void initData() {
 
         initFragments();
-        mPresenter.getCaseStatus(caseId, "");
-
-
     }
 
 
@@ -381,7 +322,49 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
 
     @Override
     public void toCaseAction(boolean isProcess) {
-        caseStatus = isProcess;
+     //   caseStatus = isProcess;
+        List<BottomDialogBean> list = new ArrayList<>();
+        for (int i = 0; i < mCaseMoreFillTitles.length; i++) {
+
+            list.add(new BottomDialogBean(mCaseMoreFillIcons[i], mCaseMoreFillTitles[i], true));
+        }
+        mBottomDialog.initData(isProcess, list);
+        mBottomDialog.setOnItemClickListener(new BottomDialogView.OnItemClickListener() {
+            @Override
+            public void onItemClick(BottomDialogBean bean) {
+                String title = bean.getTitle();
+                switch (title) {
+                    case "录音":
+                        //录音
+                        toAudio();
+                        break;
+                    case "拍照":
+                        //拍照
+                        toPhoto();
+                        break;
+                    case "调查报告":
+                        toReport();
+                        break;
+                    case "结束处理":
+                        //结束案件
+                        mPresenter.stopDealWithCase(caseId, custId);
+                        break;
+                    case "申请减免":
+                    case "停催":
+                    case "留案":
+                    case "退案":
+                        if (!isProcess) {
+                            toCaseAction(title);
+                        } else {
+                            RxToast.showToast("已存在相同审核节点，不允许此操作");
+                        }
+
+
+                        break;
+                }
+            }
+        });
+        mBottomDialog.showView();
     }
 
     /**
@@ -424,12 +407,5 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
                 startActivity(intent4);
                 break;
         }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 }

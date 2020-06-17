@@ -12,7 +12,7 @@ import java.lang.reflect.Type;
 
 public class GsonUtils {
 
-    private static Gson gson = null;
+    private static Gson gson;
 
     static {
         gson = new Gson();
@@ -30,10 +30,13 @@ public class GsonUtils {
 
     //解析Json数据
     public static <T> T fromJson(String jsonData, Type type) {
-        T t = gson.fromJson(jsonData, type);
-        return t;
+        try {
+            T t = gson.fromJson(jsonData, type);
+            return t;
+        }catch (Exception e){
+            return null;
+        }
     }
-
 
     //转成json
     public static String toJson(Object obj) {

@@ -26,6 +26,7 @@ import com.tools.bean.BusEvent;
 import com.tools.bean.EventBean;
 import com.tools.view.RxToast;
 import com.trello.rxlifecycle3.LifecycleTransformer;
+import com.zr.lib_audio.androidaudiorecorder.RecordService;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -133,10 +134,31 @@ public class MineFragment extends BaseFragment {
                 break;
             case R.id.ll_change_account:
                 //账号切换
-                Intent intent = new Intent(mContext, LoginActivity.class);
-                intent.putExtra(Constants.IS_FIRST, true);
-                startActivity(intent);
-                getActivity().finish();
+                if(RecordService.isRecording()) {
+
+                    AlertFragmentUtil.showAlertDialog(getActivity(), "后台有案件正在录音中，切换账号后录音将停止，确定要切换账号吗？", new AlertDialogFragment.OnDialogButtonClickListener() {
+                        @Override
+                        public void onClickLeft() {
+
+                        }
+
+                        @Override
+                        public void onClickRight() {
+                            RecordService.cancelNotification(mContext);
+                            Intent intent = new Intent(mContext, LoginActivity.class);
+                            intent.putExtra(Constants.IS_FIRST, true);
+                            startActivity(intent);
+                            getActivity().finish();
+
+                        }
+                    });
+                }else {
+                    Intent intent = new Intent(mContext, LoginActivity.class);
+                    intent.putExtra(Constants.IS_FIRST, true);
+                    startActivity(intent);
+                    getActivity().finish();
+                }
+
                 break;
             case R.id.ll_update_version:
                 //检查版本更新
