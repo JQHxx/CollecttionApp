@@ -144,7 +144,6 @@ public class FragmentBaseInfo extends BaseFragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver2<CustInfoBean>() {
 
-
                     @Override
                     public void onError(String code, String msg) {
 

@@ -93,10 +93,8 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
     private int maxSelectNum = 20;
     private int themeId;
     private String filePath;
-    private String currentCustName;
     //private String tempFilePath;
     private String caseId;
-    private String custId;
     private String custName;
 
     @Override
@@ -106,7 +104,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
                 .setText(Perference.getUserId() + "-" + Perference.get(Perference.NICK_NAME))
                 .show(this);
         caseId = getIntent().getStringExtra(Constants.CASE_ID);
-        custId = getIntent().getStringExtra(Constants.CUST_ID);
+       // custId = getIntent().getStringExtra(Constants.CUST_ID);
         custName = getIntent().getStringExtra(Constants.CUST_NAME);
         themeId = R.style.picture_white_style;
         immersiveStatusBar(rxTitle);
@@ -130,7 +128,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
             }
         });
 
-        currentCustName = Perference.getCurrentCustName();
+       // currentCustName = Perference.getCurrentCustName();
 
         filePath = AttachmentProcesser.getInstance(RecordSelectorActivity.this).getVoicePath(caseId);
       //  tempFilePath = AttachmentProcesser.getInstance(RecordSelectorActivity.this).getTempsDir();
@@ -174,16 +172,12 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 RemoteAudioBean.RecordsBean recordsBean = removeAudioData.get(position);
                 if (!DoubleUtils.isFastDoubleClick()) {
-                    // PicturePlayAudioFragment fragment = PicturePlayAudioFragment.newInstance(recordsBean.getFilePath());
-                    // fragment.show(getSupportFragmentManager(), "PicturePlayAudioActivity");
-                    String path = filePath + File.separator + recordsBean.getFileName();
+                   String path = filePath + File.separator + recordsBean.getFileName();
 
                     if (FileUtils.isFileExists(path)) {
                         Intent intent = new Intent(RecordSelectorActivity.this, AudioPlayActivity.class);
                         intent.putExtra("filePath", path);
                         startActivity(intent);
-                      //  PicturePlayAudioFragment fragment = PicturePlayAudioFragment.newInstance(path);
-                       // fragment.show(getSupportFragmentManager(), "PicturePlayAudioActivity");
                     } else {
                         downLoad(recordsBean);
                     }
@@ -615,6 +609,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void _onNext(String result) {
                         //去播放音频
+                        Log.e("nb","_onNext _onNext _onNext");
                         if(FileUtils.isFileExists(result)) {
                             Intent intent = new Intent(RecordSelectorActivity.this, AudioPlayActivity.class);
                             intent.putExtra("filePath", result);
@@ -644,7 +639,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
 
                     @Override
                     public void _onError(Throwable e) {
-
+                        Log.e("nb","_onError _onError _onError");
                         hideLoading();
 
                     }

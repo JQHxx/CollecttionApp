@@ -104,7 +104,7 @@ public class UploadImageDataBean {
         this.records = records;
     }
 
-    public static class RecordsBean {
+    public static class RecordsBean{
         /**
          * crtTime : 1590373566000
          * crtUser : 093809

@@ -1,11 +1,12 @@
 package com.huateng.fm.util;
 
-import java.util.List;
 import android.app.Activity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.util.List;
 
 /**
  * @author Devin
@@ -45,18 +46,6 @@ public class FmValueUtil {
 	}
 
 
-	/**
-	 * 把输入的数字变成大写
-	 * 
-	 * @author carlos carlosk@163.com
-	 * @version 创建时间：2012-11-27 下午3:12:09
-	 * @param balance
-	 * @return
-	 */
-	public static String getUppercaseBalance(String balance) {
-		// TODO Auto-generated method stub
-		return "壹佰元整";
-	}
 
 	/**
 	 * 判断在多个EditText或者TextView的内容中有一个为空就返回true

@@ -1,5 +1,6 @@
 package com.huateng.collection.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -33,7 +34,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class ChangePasswordActivity extends BaseActivity {
-
+    private boolean isFirst;
     @BindView(R.id.rx_title)
     RxTitle mRxTitle;
     @BindView(R.id.edt_first_password)
@@ -94,6 +95,7 @@ public class ChangePasswordActivity extends BaseActivity {
     @Override
     protected void initData() {
         tlrNo = getIntent().getStringExtra("tlrNo");
+        isFirst = getIntent().getBooleanExtra("isFirst",false);
     }
 
     /**
@@ -159,7 +161,7 @@ public class ChangePasswordActivity extends BaseActivity {
         String secondPass = mEdtSecondPassword.getText().toString();
         String oldPassword = mEdtOldPass.getText().toString();
 
-        if(TextUtils.isEmpty(tlrNo)) {
+        if (TextUtils.isEmpty(tlrNo)) {
             RxToast.showToast("操作员编号不能为空");
             return;
         }
@@ -230,10 +232,16 @@ public class ChangePasswordActivity extends BaseActivity {
                         if (resultBean == null) {
                             return;
                         }
-                        RxToast.showToast(resultBean.getResultDesc());
                         hideLoading();
+                        RxToast.showToast(resultBean.getResultDesc());
 
-                        finish();
+                        if(isFirst) {
+                            finish();
+                        }else {
+                            startActivity(new Intent(ChangePasswordActivity.this, LoginActivity.class));
+                            finish();
+                        }
+
 
                     }
 

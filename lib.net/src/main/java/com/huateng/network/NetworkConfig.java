@@ -134,8 +134,7 @@ public final class NetworkConfig {
         } else if (apiMode.equals(ApiConstants.API_MODE_CUSTOM)) {
             baseUrl = getCustomURL();
         }*/
-
-        return ApiConstants.DEVELOP_BASE_URL;
+       return ApiConstants.DEVELOP_BASE_URL;
     }
 
     public Context getCtx() {

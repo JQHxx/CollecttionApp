@@ -169,6 +169,7 @@ public class MineFragment extends BaseFragment {
                 if (Perference.getBoolean(Perference.IS_LOGIN)) {
                     Intent intent1 = new Intent(mContext,ChangePasswordActivity.class);
                     intent1.putExtra("tlrNo",Perference.getUserId());
+                    intent1.putExtra("isFirst",false);
                     startActivity(intent1);
                 } else {
                     startActivity(new Intent(mContext, LoginActivity.class));

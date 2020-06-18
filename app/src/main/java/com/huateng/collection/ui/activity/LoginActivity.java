@@ -306,6 +306,7 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
                             RxToast.showToast("首次登录，请修改初始密码");
                             Intent intent = new Intent(LoginActivity.this, ChangePasswordActivity.class);
                             intent.putExtra("tlrNo", loginName);
+                            intent.putExtra("isFirst",true);
                             startActivity(intent);
 
                         } else {

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.aes_util.AESUtils;
@@ -87,7 +88,6 @@ public class PhotoSelectorActivity2 extends BaseActivity {
     private List<LocalMedia> remoteFileList = new ArrayList<>();
     private GridImageAdapter adapter;
     private RemoteImageAdapter mRemoteImageAdapter;
-    private int maxSelectNum = 9;
     private int imageSize = 0;
 
     // private int compressMode = PictureConfig.SYSTEM_COMPRESS_MODE;
@@ -174,7 +174,7 @@ public class PhotoSelectorActivity2 extends BaseActivity {
 
         adapter = new GridImageAdapter(PhotoSelectorActivity2.this, onAddPicClickListener);
         adapter.setList(fileList);
-        adapter.setSelectMax(maxSelectNum);
+       // adapter.setSelectMax(maxSelectNum);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new GridImageAdapter.OnItemClickListener() {
             @Override
@@ -394,6 +394,7 @@ public class PhotoSelectorActivity2 extends BaseActivity {
         @Override
         public void onAddPicClick() {
 
+            Log.e("nb","onAddPicClick onAddPicClick");
             PictureSelector.create(PhotoSelectorActivity2.this)
                     .openCamera(PictureMimeType.ofImage())
                     .loadImageEngine(GlideEngine.createGlideEngine()) // 请参考Demo GlideEngine.java
@@ -563,6 +564,7 @@ public class PhotoSelectorActivity2 extends BaseActivity {
                                 downLoad(recordsBean.getFileName(), recordsBean.getFilePath(),i);
                             }
                         }
+
                         mRemoteImageAdapter.setNewData(remoteFileList);
 
                         saveDataToDb();
@@ -614,7 +616,6 @@ public class PhotoSelectorActivity2 extends BaseActivity {
     }
 
     private void downLoad(String name, String filePath, int position) {
-        //Log.e("nb", name + ":" + filePath);
         RetrofitManager.getInstance()
                 .download(name, filePath, "mobileAppFileOperServiceImpl/appDownload", localfilePath)
                 .compose(RxSchedulers.io_main())
