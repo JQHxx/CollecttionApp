@@ -112,6 +112,9 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
         ActivityUtils.getAppManager().finishAllActivity();
         init();
         initListener();
+        LoginActivityPermissionsDispatcher.initSDcardPermissionsWithPermissionCheck(this);
+        LoginActivityPermissionsDispatcher.initLocationPermissionsWithPermissionCheck(this);
+
 
     }
 
@@ -170,14 +173,6 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
 
             }
         });
-       /* mIvSetting.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, ActivityApiSetting.class);
-                startActivity(intent);
-                return false;
-            }
-        });*/
         mRxTitle.setLeftOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -219,8 +214,6 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
                     }
                 });
 
-
-        LoginActivityPermissionsDispatcher.initSDcardPermissionsWithPermissionCheck(this);
     }
 
 
@@ -306,7 +299,7 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
                             RxToast.showToast("首次登录，请修改初始密码");
                             Intent intent = new Intent(LoginActivity.this, ChangePasswordActivity.class);
                             intent.putExtra("tlrNo", loginName);
-                            intent.putExtra("isFirst",true);
+                            intent.putExtra("isFirst", true);
                             startActivity(intent);
 
                         } else {
@@ -352,21 +345,17 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
 
 
     //权限设置
+    // 1.存储权限
     @NeedsPermission({READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE})
     public void initSDcardPermissions() {
         // btnLogin.setEnabled(true);
-        LoginActivityPermissionsDispatcher.initLocationPermissionsWithPermissionCheck(this);
+        //权限同意时调用
     }
-
     @OnPermissionDenied({READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE})
     public void onPermissionsDenied() {
-        // NOTE: Deal with a denied permission, e.g. by showing specific UI
-        // or disabling certain functionality
         RxToast.showToast("读写存储卡权限被禁止，应用将无法正常使用");
         mBtnLogin.setEnabled(false);
     }
-
-
     @OnShowRationale({READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE})
     public void showRationaleForPermission(final PermissionRequest request) {
         new AlertDialog.Builder(this)
@@ -385,22 +374,21 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
                 }).show();
     }
 
+
+
+    // 定位权限
     @NeedsPermission({ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, READ_PHONE_STATE})
     public void initLocationPermissions() {
-
     }
-
     @OnPermissionDenied({ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, READ_PHONE_STATE})
     public void onLocationPermissionsDenied() {
-        // NOTE: Deal with a denied permission, e.g. by showing specific UI
-        // or disabling certain functionality
         RxToast.showToast("定位权限被禁止，将无法获取定位信息");
     }
 
     @OnShowRationale({ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, READ_PHONE_STATE})
     public void showLocationRationaleForPermission(final PermissionRequest request) {
         new AlertDialog.Builder(this)
-                .setMessage("外访轨迹需要定位权限，是否申请？")
+                .setMessage("外访报告上传图片需要定位权限，是否申请？")
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -501,7 +489,7 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
                         if (isFinishing()) {
                             return;
                         }
-                        if(dictDataBean != null) {
+                        if (dictDataBean != null) {
                             SugarRecord.deleteAll(DictItemBean.class);
                         }
                         // mDictItemBeanList = dictDataBean.getZdtaayList();

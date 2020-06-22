@@ -17,7 +17,7 @@ public class BusEvent {
     public static final int BIZ_ACCT_REDUCE_INFO = 100000012;
     public static final int REFRESH_HISTORY_ACTIONS = 100000013;
 
-    public static final int UPLOAD_STATUS = 100000014;
+    public static final int STOP_AUDIO = 100000014;
 
     public static final int TOKEN_OVERDUE = 302;
 

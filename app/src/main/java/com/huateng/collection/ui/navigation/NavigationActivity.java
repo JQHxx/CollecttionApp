@@ -114,13 +114,14 @@ public class NavigationActivity extends AppCompatActivity implements ViewPager.O
         // Perference.setCurrentCaseId(null);
         Perference.setPrepareCallRecording(false);
         Perference.setPrepareRecordingPhoneNumber(null);
+        //创建案件文件目录
+        AttachmentProcesser.getInstance(getApplicationContext()).initPath();
+        //设置不是第一次登录
+        Config.setBoolean(Config.FIRST_OPEN, false);
         //切换
         // eventEnv = new EventEnv(BusEvent.START_SETTING_PAGE);
 
-        //创建案件文件目录
-        AttachmentProcesser.getInstance(getApplicationContext()).initPath();
-        //        //设置不是第一次登录
-        Config.setBoolean(Config.FIRST_OPEN, false);
+
 
         //加载图片数据
         //        dataSource = new ImageDataSource(ActivityMain.this, AttachmentProcesser.ATTACHMENT_ROOT, ActivityMain.this);

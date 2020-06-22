@@ -144,7 +144,9 @@ public class MineFragment extends BaseFragment {
 
                         @Override
                         public void onClickRight() {
-                            RecordService.cancelNotification(mContext);
+                          //  EventBus.getDefault().post(new EventBean(BusEvent.STOP_AUDIO));
+
+                             RecordService.cancelRecording(mContext);
                             Intent intent = new Intent(mContext, LoginActivity.class);
                             intent.putExtra(Constants.IS_FIRST, true);
                             startActivity(intent);

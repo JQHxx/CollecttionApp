@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-
 import com.aes_util.AESUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.huateng.collection.R;
@@ -36,6 +35,7 @@ import com.luck.picture.lib.model.LocalMediaLoader;
 import com.luck.picture.lib.thread.PictureThreadUtils;
 import com.luck.picture.lib.tools.DoubleUtils;
 import com.orm.SugarRecord;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tools.utils.FileUtils;
 import com.tools.utils.GsonUtils;
 import com.tools.view.RxTitle;
@@ -60,8 +60,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.RECORD_AUDIO;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.zr.lib_audio.androidaudiorecorder.AndroidAudioRecorder.EXTRA_FILE_PATH;
 import static com.zr.lib_audio.androidaudiorecorder.AndroidAudioRecorder.EXTRA_RECORD_TASK_ID;
 import static com.zr.lib_audio.androidaudiorecorder.AndroidAudioRecorder.EXTRA_RECORD_TASK_NAME;
@@ -71,8 +75,8 @@ import static com.zr.lib_audio.androidaudiorecorder.AndroidAudioRecorder.EXTRA_R
  * data：2018/12/27
  * 录音列表展示
  */
-
 public class RecordSelectorActivity extends BaseActivity implements View.OnClickListener {
+    private boolean isShowMyPermissionsDialog;
     private int pageNo = 1;
     private int pageSize = 10;
     private static final int REQUEST_RECORD_AUDIO = 0;
@@ -104,7 +108,6 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
                 .setText(Perference.getUserId() + "-" + Perference.get(Perference.NICK_NAME))
                 .show(this);
         caseId = getIntent().getStringExtra(Constants.CASE_ID);
-       // custId = getIntent().getStringExtra(Constants.CUST_ID);
         custName = getIntent().getStringExtra(Constants.CUST_NAME);
         themeId = R.style.picture_white_style;
         immersiveStatusBar(rxTitle);
@@ -127,11 +130,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
                 upAudioData();
             }
         });
-
-       // currentCustName = Perference.getCurrentCustName();
-
         filePath = AttachmentProcesser.getInstance(RecordSelectorActivity.this).getVoicePath(caseId);
-      //  tempFilePath = AttachmentProcesser.getInstance(RecordSelectorActivity.this).getTempsDir();
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -147,18 +146,15 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
             public void onItemClick(int position, View v) {
                 LocalMedia media = fileList.get(position);
                 if (!DoubleUtils.isFastDoubleClick()) {
-                    
-                    if(FileUtils.isFileExists(media.getPath())) {
+
+                    if (FileUtils.isFileExists(media.getPath())) {
                         Intent intent = new Intent(RecordSelectorActivity.this, AudioPlayActivity.class);
                         intent.putExtra("filePath", media.getPath());
                         startActivity(intent);
-                    }else {
+                    } else {
                         RxToast.showToast("录音文件播放失败");
                     }
 
-                   /* PicturePlayAudioFragment fragment = PicturePlayAudioFragment.newInstance(media.getPath());
-                    fragment.show(getSupportFragmentManager(), "PicturePlayAudioActivity");
-              */
                 }
             }
         });
@@ -172,7 +168,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 RemoteAudioBean.RecordsBean recordsBean = removeAudioData.get(position);
                 if (!DoubleUtils.isFastDoubleClick()) {
-                   String path = filePath + File.separator + recordsBean.getFileName();
+                    String path = filePath + File.separator + recordsBean.getFileName();
 
                     if (FileUtils.isFileExists(path)) {
                         Intent intent = new Intent(RecordSelectorActivity.this, AudioPlayActivity.class);
@@ -239,8 +235,20 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
     private RecorderAdapter.onAddPicClickListener onAddPicClickListener = new RecorderAdapter.onAddPicClickListener() {
         @Override
         public void onAddPicClick() {
-
-            record();
+            //查看是否有录音和存储权限
+            //获取权限
+            RxPermissions rxPermissions = new RxPermissions(RecordSelectorActivity.this);
+            rxPermissions.request(RECORD_AUDIO, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE)
+                    .subscribe(new Consumer<Boolean>() {
+                        @Override
+                        public void accept(Boolean granted) throws Exception {
+                            if (!granted) {
+                                RxToast.showToast("录音权限被拒绝，请授权后操作");
+                            } else {
+                                record();
+                            }
+                        }
+                    });
 
         }
 
@@ -585,8 +593,6 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
                         isUpload = false;
                     }
                 });
-
-
     }
 
     @Override
@@ -609,17 +615,17 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
                     @Override
                     public void _onNext(String result) {
                         //去播放音频
-                        Log.e("nb","_onNext _onNext _onNext");
-                        if(FileUtils.isFileExists(result)) {
+                        Log.e("nb", "_onNext _onNext _onNext");
+                        if (FileUtils.isFileExists(result)) {
                             Intent intent = new Intent(RecordSelectorActivity.this, AudioPlayActivity.class);
                             intent.putExtra("filePath", result);
                             startActivity(intent);
-                        }else {
+                        } else {
                             RxToast.showToast("录音文件播放失败");
                         }
 
-                       // PicturePlayAudioFragment fragment = PicturePlayAudioFragment.newInstance(result);
-                       // fragment.show(getSupportFragmentManager(), "PicturePlayAudioActivity");
+                        // PicturePlayAudioFragment fragment = PicturePlayAudioFragment.newInstance(result);
+                        // fragment.show(getSupportFragmentManager(), "PicturePlayAudioActivity");
 
                         File file = new File(result);
                         if (file.exists()) {
@@ -639,14 +645,10 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
 
                     @Override
                     public void _onError(Throwable e) {
-                        Log.e("nb","_onError _onError _onError");
+                        Log.e("nb", "_onError _onError _onError");
                         hideLoading();
 
                     }
                 });
     }
-
-
-
-
 }

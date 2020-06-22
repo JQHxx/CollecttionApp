@@ -47,6 +47,7 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.thread.PictureThreadUtils;
 import com.orhanobut.logger.Logger;
 import com.orm.SugarRecord;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.mapsdk.raster.model.LatLng;
 import com.tools.utils.FileUtils;
@@ -69,11 +70,18 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.CAMERA;
+
 /**
  * author：shanyong
  * data：2018/12/27
  */
+
 public class PhotoSelectorActivity2 extends BaseActivity {
     private int pageNo = 1;
     private int pageSize = 10;
@@ -99,6 +107,7 @@ public class PhotoSelectorActivity2 extends BaseActivity {
     private String custName;
     private boolean isUpload;//是否在上传文件
     private LocationHelper mLocationHelper;
+    private RxPermissions rxPermissions;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -127,6 +136,8 @@ public class PhotoSelectorActivity2 extends BaseActivity {
                 initStandardModel(localMedias);
             }
         });
+        //   PhotoSelectorActivity2PermissionsDispatcher.initCameraPermissionsWithPermissionCheck(this);
+
     }
 
     private void initStandardModel(List<LocalMedia> images) {
@@ -174,7 +185,7 @@ public class PhotoSelectorActivity2 extends BaseActivity {
 
         adapter = new GridImageAdapter(PhotoSelectorActivity2.this, onAddPicClickListener);
         adapter.setList(fileList);
-       // adapter.setSelectMax(maxSelectNum);
+        // adapter.setSelectMax(maxSelectNum);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new GridImageAdapter.OnItemClickListener() {
             @Override
@@ -394,13 +405,23 @@ public class PhotoSelectorActivity2 extends BaseActivity {
         @Override
         public void onAddPicClick() {
 
-            Log.e("nb","onAddPicClick onAddPicClick");
-            PictureSelector.create(PhotoSelectorActivity2.this)
-                    .openCamera(PictureMimeType.ofImage())
-                    .loadImageEngine(GlideEngine.createGlideEngine()) // 请参考Demo GlideEngine.java
-                    .forResult(PictureConfig.REQUEST_CAMERA);
-
-
+            //获取权限
+            RxPermissions rxPermissions = new RxPermissions(PhotoSelectorActivity2.this);
+            rxPermissions.request(CAMERA, ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION)
+                    .subscribe(new Consumer<Boolean>() {
+                        @Override
+                        public void accept(Boolean granted) throws Exception {
+                            Log.e("nb", "granted:" + granted);
+                            if (!granted) {
+                                RxToast.showToast("相机或定位权限被拒绝，请授权后操作");
+                            } else {
+                                PictureSelector.create(PhotoSelectorActivity2.this)
+                                        .openCamera(PictureMimeType.ofImage())
+                                        .loadImageEngine(GlideEngine.createGlideEngine()) // 请参考Demo GlideEngine.java
+                                        .forResult(PictureConfig.REQUEST_CAMERA);
+                            }
+                        }
+                    });
         }
     };
 
@@ -561,7 +582,7 @@ public class PhotoSelectorActivity2 extends BaseActivity {
                             localMedia.setPath(path);
                             remoteFileList.add(localMedia);
                             if (!FileUtils.isFileExists(path)) {
-                                downLoad(recordsBean.getFileName(), recordsBean.getFilePath(),i);
+                                downLoad(recordsBean.getFileName(), recordsBean.getFilePath(), i);
                             }
                         }
 
@@ -672,4 +693,39 @@ public class PhotoSelectorActivity2 extends BaseActivity {
         }
 
     }*/
+
+
+/*
+    @NeedsPermission({CAMERA})
+    public void initCameraPermissions() {
+     //   PhotoSelectorActivity2PermissionsDispatcher.initCameraPermissionsWithPermissionCheck(this);
+
+    }
+
+    @OnPermissionDenied({CAMERA})
+    public void onPermissionsDenied() {
+        // NOTE: Deal with a denied permission, e.g. by showing specific UI
+        // or disabling certain functionality
+        RxToast.showToast("相机权限被禁止，将无法完成拍照");
+    }
+
+    @OnShowRationale({CAMERA})
+    public void showRationaleForPermission(final PermissionRequest request) {
+        new AlertDialog.Builder(this)
+                .setMessage("应用需要相机权限才能完成拍照，是否申请？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        request.proceed();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        request.cancel();
+                    }
+                }).show();
+    }
+*/
+
 }

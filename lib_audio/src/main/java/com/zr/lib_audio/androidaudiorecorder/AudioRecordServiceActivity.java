@@ -68,7 +68,6 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.aar_activity_audio_recorder2);
         SystemBarHelper.immersiveStatusBar(this, 0);
-
         if (savedInstanceState != null) {
             filePath = savedInstanceState.getString(AndroidAudioRecorder.EXTRA_FILE_PATH);
             color = savedInstanceState.getInt(AndroidAudioRecorder.EXTRA_COLOR);
@@ -400,7 +399,10 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
 
     //停止录音
     private void stopRecording() {
-        visualizerView.release();
+        if (visualizerView != null) {
+            visualizerView.release();
+        }
+
         if (visualizerHandler != null) {
             visualizerHandler.stop();
         }
@@ -519,4 +521,6 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
         }
         return imageUri;
     }
+
+
 }

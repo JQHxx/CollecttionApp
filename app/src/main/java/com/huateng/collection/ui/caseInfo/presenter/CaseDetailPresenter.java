@@ -1,7 +1,5 @@
 package com.huateng.collection.ui.caseInfo.presenter;
 
-import android.util.Log;
-
 import com.huateng.collection.app.Perference;
 import com.huateng.collection.base.BasePresenter;
 import com.huateng.collection.bean.CaseStatusBean;
@@ -85,8 +83,12 @@ public class CaseDetailPresenter extends BasePresenter<CaseDetailContract.View> 
                         if(mView == null) {
                             return;
                         }
-                        Log.e("nb", caseStatusBean.toString());
                         mView.hideLoading();
+                        if(caseStatusBean == null) {
+                            mView.toCaseAction(false);
+                            return;
+                        }
+
                         if ("N".equals(caseStatusBean.getResultCode())) {
                            // RxToast.showToast("");
                             mView.toCaseAction(false);

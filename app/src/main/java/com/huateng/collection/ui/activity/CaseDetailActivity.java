@@ -27,7 +27,6 @@ import com.huateng.collection.ui.report.view.ReportListActivity;
 import com.huateng.collection.widget.NoScrollViewPager;
 import com.huateng.collection.widget.Watermark;
 import com.huateng.collection.widget.tab.TabEntity;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tools.view.RxTitle;
 import com.tools.view.RxToast;
 import com.trello.rxlifecycle3.LifecycleTransformer;
@@ -41,10 +40,6 @@ import java.util.List;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import butterknife.BindView;
-import io.reactivex.functions.Consumer;
-
-import static android.Manifest.permission.CAMERA;
-import static android.Manifest.permission.RECORD_AUDIO;
 
 /**
  * 案件详情fragment
@@ -150,18 +145,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
         });
 
 
-        //获取权限
-        RxPermissions rxPermissions = new RxPermissions(this);
 
-        rxPermissions.request(CAMERA, RECORD_AUDIO)
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean granted) throws Exception {
-                        if (!granted) {
-                            RxToast.showToast("录音权限被禁止,请在设置页面开启");
-                        }
-                    }
-                });
     }
 
     private void initListener() {
