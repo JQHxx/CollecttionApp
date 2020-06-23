@@ -18,7 +18,7 @@ import com.huateng.collection.ui.caseInfo.contract.CaseDetailContract;
 import com.huateng.collection.ui.caseInfo.presenter.CaseDetailPresenter;
 import com.huateng.collection.ui.dialog.BottomDialogView;
 import com.huateng.collection.ui.fragment.casebox.casefill.PhotoSelectorActivity2;
-import com.huateng.collection.ui.fragment.casebox.casefill.RecordSelectorActivity;
+import com.huateng.collection.ui.fragment.casebox.casefill.RecordSelectorActivity2;
 import com.huateng.collection.ui.fragment.casebox.info.CreditCardMsgFragment;
 import com.huateng.collection.ui.fragment.casebox.info.FragmentAccountInfo;
 import com.huateng.collection.ui.fragment.casebox.info.FragmentBaseInfo;
@@ -27,6 +27,7 @@ import com.huateng.collection.ui.report.view.ReportListActivity;
 import com.huateng.collection.widget.NoScrollViewPager;
 import com.huateng.collection.widget.Watermark;
 import com.huateng.collection.widget.tab.TabEntity;
+import com.luck.picture.lib.tools.DoubleUtils;
 import com.tools.view.RxTitle;
 import com.tools.view.RxToast;
 import com.trello.rxlifecycle3.LifecycleTransformer;
@@ -170,30 +171,39 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
 
 
     private void toReport() {
-        Intent intent6 = new Intent(CaseDetailActivity.this, ReportListActivity.class);
-        intent6.putExtra(Constants.CASE_ID, caseId);
-        intent6.putExtra(Constants.CUST_ID, custId);
-        intent6.putExtra(Constants.CUST_NAME, custName);
-        startActivity(intent6);
+        if (!DoubleUtils.isFastDoubleClick()) {
+            Intent intent6 = new Intent(CaseDetailActivity.this, ReportListActivity.class);
+            intent6.putExtra(Constants.CASE_ID, caseId);
+            intent6.putExtra(Constants.CUST_ID, custId);
+            intent6.putExtra(Constants.CUST_NAME, custName);
+            startActivity(intent6);
+        }
+
     }
 
     /**
      * 跳转到录音页面
      */
     private void toAudio() {
-        Intent intent = new Intent(CaseDetailActivity.this, RecordSelectorActivity.class);
-        intent.putExtra(Constants.CASE_ID, caseId);
-        intent.putExtra(Constants.CUST_ID, custId);
-        intent.putExtra(Constants.CUST_NAME, custName);
-        startActivity(intent);
+        if (!DoubleUtils.isFastDoubleClick()) {
+            Intent intent = new Intent(CaseDetailActivity.this, RecordSelectorActivity2.class);
+            intent.putExtra(Constants.CASE_ID, caseId);
+            intent.putExtra(Constants.CUST_ID, custId);
+            intent.putExtra(Constants.CUST_NAME, custName);
+            startActivity(intent);
+        }
+
     }
 
     private void toPhoto() {
-        Intent intent1 = new Intent(CaseDetailActivity.this, PhotoSelectorActivity2.class);
-        intent1.putExtra(Constants.CASE_ID, caseId);
-        intent1.putExtra(Constants.CUST_ID, custId);
-        intent1.putExtra(Constants.CUST_NAME, custName);
-        startActivity(intent1);
+        if (!DoubleUtils.isFastDoubleClick()) {
+            Intent intent1 = new Intent(CaseDetailActivity.this, PhotoSelectorActivity2.class);
+            intent1.putExtra(Constants.CASE_ID, caseId);
+            intent1.putExtra(Constants.CUST_ID, custId);
+            intent1.putExtra(Constants.CUST_NAME, custName);
+            startActivity(intent1);
+        }
+
     }
 
 

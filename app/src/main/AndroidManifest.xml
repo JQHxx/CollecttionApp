@@ -92,6 +92,11 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
+            android:name=".ui.fragment.casebox.casefill.RecordSelectorActivity2"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
             android:name=".ui.fragment.casebox.casefill.PhotoSelectorActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustPan" />

@@ -490,6 +490,11 @@ public class ReportActivity extends BaseActivity<ReportPresenter> implements Rep
             RxToast.showToast("外访地址不能为空");
             return;
         }
+        if (!TextUtils.isEmpty(visitAddress) && visitAddress.length() > 200) {
+            RxToast.showToast("外访地址不能超过200字");
+            return;
+        }
+
 
         if (!TextUtils.isEmpty(otherValidAddress) && otherValidAddress.length() > 200) {
             RxToast.showToast("其他有效地址内容不能超过200字");

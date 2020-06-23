@@ -6,24 +6,35 @@ import android.util.Log;
 import android.view.View;
 
 import com.aes_util.AESUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.huateng.collection.R;
 import com.huateng.collection.app.Constants;
 import com.huateng.collection.app.Perference;
 import com.huateng.collection.base.BaseActivity;
 import com.huateng.collection.base.BasePresenter;
+import com.huateng.collection.bean.AudioSectionBean;
+import com.huateng.collection.bean.RecorderBean;
+import com.huateng.collection.bean.RemoteAudioBean;
 import com.huateng.collection.bean.orm.FileData;
 import com.huateng.collection.ui.activity.AudioPlayActivity;
-import com.huateng.collection.ui.adapter.RecorderAdapter;
+import com.huateng.collection.ui.adapter.RemoteAudioAdapter2;
 import com.huateng.collection.utils.Utils;
 import com.huateng.collection.utils.cases.AttachmentProcesser;
 import com.huateng.collection.utils.cases.CaseManager;
 import com.huateng.collection.widget.Watermark;
+import com.huateng.network.ApiConstants;
+import com.huateng.network.BaseObserver2;
+import com.huateng.network.DownLoadObserver;
 import com.huateng.network.NetworkConfig;
 import com.huateng.network.RetrofitManager;
+import com.huateng.network.RxSchedulers;
 import com.huateng.network.UploadObserver;
 import com.huateng.network.bean.ResponseStructure;
 import com.huateng.network.upload.UploadParam;
+import com.luck.picture.lib.config.PictureSelectionConfig;
 import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.model.LocalMediaLoader;
+import com.luck.picture.lib.thread.PictureThreadUtils;
 import com.luck.picture.lib.tools.DoubleUtils;
 import com.orm.SugarRecord;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -40,8 +51,8 @@ import com.zr.lib_audio.androidaudiorecorder.RecordService;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -65,7 +76,7 @@ import static com.zr.lib_audio.androidaudiorecorder.AndroidAudioRecorder.EXTRA_R
  * data：2018/12/27
  * 录音列表展示
  */
-public class RecordSelectorActivity extends BaseActivity implements View.OnClickListener {
+public class RecordSelectorActivity2 extends BaseActivity implements View.OnClickListener {
     private int pageNo = 1;
     private int pageSize = 10;
     private static final int REQUEST_RECORD_AUDIO = 0;
@@ -79,14 +90,12 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
     private boolean isUpload;//是否在上传文件
 
     private int imageSize = 0;
-    private List<LocalMedia> fileList = new ArrayList<>();
-  //  private List<RemoteAudioBean.RecordsBean> removeAudioData = new ArrayList();
-    private RecorderAdapter adapter;
-   // private RemoteAudioAdapter mRemoteAudioAdapter;
+    private List<AudioSectionBean> dataList = new ArrayList<>();
+    private List<LocalMedia> localData = new ArrayList<>();
+    private RemoteAudioAdapter2 mRemoteAudioAdapter;
     private int maxSelectNum = 20;
     private int themeId;
     private String filePath;
-    //private String tempFilePath;
     private String caseId;
     private String custName;
 
@@ -100,6 +109,19 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
         custName = getIntent().getStringExtra(Constants.CUST_NAME);
         themeId = R.style.picture_white_style;
         immersiveStatusBar(rxTitle);
+        filePath = AttachmentProcesser.getInstance(RecordSelectorActivity2.this).getVoicePath(caseId);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(llm);
+        mRemoteAudioAdapter = new RemoteAudioAdapter2();
+        mRecyclerRemote.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerRemote.setAdapter(mRemoteAudioAdapter);
+
+        initListener();
+    }
+
+    private void initListener() {
         rxTitle.getLlLeft().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,52 +141,54 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
                 upAudioData();
             }
         });
-        filePath = AttachmentProcesser.getInstance(RecordSelectorActivity.this).getVoicePath(caseId);
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
 
-        recyclerView.setLayoutManager(llm);
-
-        adapter = new RecorderAdapter(this, onAddPicClickListener);
-        adapter.setList(fileList);
-        adapter.setSelectMax(maxSelectNum);
-        recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(new RecorderAdapter.OnItemClickListener() {
+        mRemoteAudioAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public void onItemClick(int position, View v) {
-                LocalMedia media = fileList.get(position);
-                if (!DoubleUtils.isFastDoubleClick()) {
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()) {
+                    case R.id.ll_add:
+                        //查看是否有录音和存储权限
+                        //获取权限
+                        if (!DoubleUtils.isFastDoubleClick()) {
 
-                    if (FileUtils.isFileExists(media.getPath())) {
-                        Intent intent = new Intent(RecordSelectorActivity.this, AudioPlayActivity.class);
-                        intent.putExtra("filePath", media.getPath());
-                        startActivity(intent);
-                    } else {
-                        RxToast.showToast("录音文件播放失败");
-                    }
+                            RxPermissions rxPermissions = new RxPermissions(RecordSelectorActivity2.this);
+                            rxPermissions.request(RECORD_AUDIO, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE)
+                                    .subscribe(new Consumer<Boolean>() {
+                                        @Override
+                                        public void accept(Boolean granted) throws Exception {
+                                            if (!granted) {
+                                                RxToast.showToast("录音权限被拒绝，请授权后操作");
+                                            } else {
+                                                record();
+                                            }
+                                        }
+                                    });
+                        }
 
+
+                        break;
                 }
             }
         });
 
-
-     /*   mRemoteAudioAdapter = new RemoteAudioAdapter();
-        mRecyclerRemote.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerRemote.setAdapter(mRemoteAudioAdapter);
         mRemoteAudioAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                RemoteAudioBean.RecordsBean recordsBean = removeAudioData.get(position);
+                if(dataList.get(position).isAdd() || dataList.get(position).isHeader) {
+                    return;
+                }
+                RecorderBean recorderBean = dataList.get(position).t;
+
                 if (!DoubleUtils.isFastDoubleClick()) {
-                    String path = filePath + File.separator + recordsBean.getFileName();
+
+                    String path = filePath + File.separator + recorderBean.getFileName();
 
                     if (FileUtils.isFileExists(path)) {
-                        Intent intent = new Intent(RecordSelectorActivity.this, AudioPlayActivity.class);
+                        Intent intent = new Intent(RecordSelectorActivity2.this, AudioPlayActivity.class);
                         intent.putExtra("filePath", path);
                         startActivity(intent);
                     } else {
-                        downLoad(recordsBean);
+                        downLoad(recorderBean);
                     }
                 }
             }
@@ -173,75 +197,50 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
         mRemoteAudioAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                loadMoreData(false);
+                loadMoreData();
             }
         }, mRecyclerRemote);
-        PictureThreadUtils.executeByIo(new PictureThreadUtils.SimpleTask<List<LocalMedia>>() {
 
-            @Override
-            public List<LocalMedia> doInBackground() {
-                Log.e("nb", "doInBackground doInBackground doInBackground");
-                return new LocalMediaLoader(RecordSelectorActivity.this, PictureSelectionConfig.getInstance()).getAudios(filePath);
-            }
-
-            @Override
-            public void onSuccess(List<LocalMedia> localMedias) {
-                Log.e("nb", "onSuccess onSuccess onSuccess:" + localMedias.size());
-                initStandardModel(localMedias);
-            }
-        });
-
-*/
     }
 
 
     private void initStandardModel(List<LocalMedia> localMedias) {
-
-        fileList.clear();
+        Log.e("nb", "initStandardModel ");
+        dataList.clear();
+        dataList.add(new AudioSectionBean(true, "未上传图片", false));
         List<FileData> fileDatas = CaseManager.obtainRecordDatas(caseId);
-        Log.e("nb", "fileDatas size" + fileDatas.size());
         for (LocalMedia localMedia : localMedias) {
             //过滤掉已上传的文件和下载的文件
             boolean b = false;
             for (FileData fileData : fileDatas) {
                 b = localMedia.getPath().equals(fileData.getRealPath()) && (fileData.getFileType() == 2);
-
                 if (b) {
                     break;
                 }
             }
             if (b) {
-                fileList.add(localMedia);
+                RecorderBean recorderBean = new RecorderBean();
+                recorderBean.setLocal(true);
+                recorderBean.setFileName(localMedia.getFileName());
+                recorderBean.setFileType("1");
+                recorderBean.setFileSize(String.valueOf(localMedia.getDuration() / 1000));
+                recorderBean.setFileTime(new File(localMedia.getPath()).lastModified());
+                recorderBean.setFilePath(localMedia.getPath());
+                dataList.add(new AudioSectionBean(recorderBean));
+                localData.add(localMedia);
+
             }
-            adapter.notifyDataSetChanged();
 
         }
+
+        dataList.add(new AudioSectionBean(true, "", true));
+        dataList.add(new AudioSectionBean(true, "已上传图片", false));
+        mRemoteAudioAdapter.setNewData(dataList);
         //对文件进行同步
-        Utils.mediaFileSync(RecordSelectorActivity.this, filePath, fileDatas, fileList, FileData.TYPE_AUDIO, caseId, caseId);
+        Utils.mediaFileSync(RecordSelectorActivity2.this, filePath, fileDatas, localData, FileData.TYPE_AUDIO, caseId, caseId);
 
     }
 
-    private RecorderAdapter.onAddPicClickListener onAddPicClickListener = new RecorderAdapter.onAddPicClickListener() {
-        @Override
-        public void onAddPicClick() {
-            //查看是否有录音和存储权限
-            //获取权限
-            RxPermissions rxPermissions = new RxPermissions(RecordSelectorActivity.this);
-            rxPermissions.request(RECORD_AUDIO, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE)
-                    .subscribe(new Consumer<Boolean>() {
-                        @Override
-                        public void accept(Boolean granted) throws Exception {
-                            if (!granted) {
-                                RxToast.showToast("录音权限被拒绝，请授权后操作");
-                            } else {
-                                record();
-                            }
-                        }
-                    });
-
-        }
-
-    };
 
     private void record() {
         //存在录音任务时判断  如果任务id相同则进入，不同的话提示有任务在进行请结束当前录音任务后再进行新的录音任务
@@ -287,20 +286,30 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
         if (requestCode == REQUEST_RECORD_AUDIO) {
             if (resultCode == RESULT_OK) {
                 int duration = data.getIntExtra("duration", 0);
-                Log.e("nb", "time:" + duration);
+                Log.e("nb", "time:" + duration + ":" + audioUrl);
                 File newFile = new File(audioUrl);
                 if (newFile.exists()) {
                     File file = new File(audioUrl);
                     if (!file.exists()) {
+                        Log.e("nb", "exists not");
                         return;
                     }
 
-
                     LocalMedia localMedia = new LocalMedia();
-                    localMedia.setPath(newFile.getPath());
+                    localMedia.setDuration(Long.valueOf(duration)*1000);
                     localMedia.setFileName(newFile.getName());
-                    localMedia.setDuration(duration * 1000);
-                    fileList.add(0, localMedia);
+                    localMedia.setPath(newFile.getPath());
+                    localData.add(localMedia);
+
+                    RecorderBean recorderBean = new RecorderBean();
+                    recorderBean.setLocal(true);
+                    recorderBean.setFileName(newFile.getName());
+                    recorderBean.setFileType("1");
+                    recorderBean.setFileSize(String.valueOf(duration));
+                    recorderBean.setFileTime(newFile.lastModified());
+                    recorderBean.setFilePath(newFile.getPath());
+
+                    dataList.add(1, new AudioSectionBean(recorderBean));
 
                     FileData fileData = new FileData();
                     fileData.setBizId(caseId);
@@ -311,14 +320,9 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
                     fileData.setRealPath(newFile.getPath());
                     fileData.setFileName(newFile.getName());
                     SugarRecord.save(fileData);
-
-                    Utils.scanMediaFile(RecordSelectorActivity.this, newFile);
+                    Utils.scanMediaFile(RecordSelectorActivity2.this, newFile);
+                    mRemoteAudioAdapter.notifyDataSetChanged();
                 }
-                adapter.setList(fileList);
-                adapter.notifyDataSetChanged();
-                // Toast.makeText(this, "Audio recorded successfully!", Toast.LENGTH_SHORT).show();
-            } else if (resultCode == RESULT_CANCELED) {
-                //   Toast.makeText(this, "Audio was not recorded", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -354,19 +358,34 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
     @Override
     protected void initData() {
 
-      //  loadMoreData(true);
+        PictureThreadUtils.executeByIo(new PictureThreadUtils.SimpleTask<List<LocalMedia>>() {
+
+            @Override
+            public List<LocalMedia> doInBackground() {
+                Log.e("nb", "doInBackground doInBackground doInBackground");
+                return new LocalMediaLoader(RecordSelectorActivity2.this, PictureSelectionConfig.getInstance()).getAudios(filePath);
+            }
+
+            @Override
+            public void onSuccess(List<LocalMedia> localMedias) {
+                Log.e("nb", "onSuccess onSuccess onSuccess:" + localMedias.size());
+                initStandardModel(localMedias);
+
+                // loadMoreData(true);
+
+                //  loadData();
+            }
+        });
+
 
     }
 
-
-  /*  public void loadMoreData(boolean isFresh) {
-
-        if (isFresh) {
-            showLoading();
-            pageNo = 1;
-            removeAudioData.clear();
-        }
+    /**
+     * 加载更多
+     */
+    public void loadMoreData() {
         Map<String, String> map = new HashMap<>();
+        Log.e("nb", "pageNo:" + pageNo);
         map.put("pageNo", pageNo + "");
         map.put("pageSize", pageSize + "");
         map.put("tlrNo", Perference.getUserId());
@@ -392,40 +411,25 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
                             return;
                         }
                         if (remoteAudioBean == null || remoteAudioBean.getRecords().size() == 0) {
-                            // mRemoteAudioAdapter.setNewData(remoteFileList);
                             mRemoteAudioAdapter.loadMoreEnd();
-                            hideLoading();
                             return;
                         }
 
-                        if (isFresh) {
-                            removeAudioData.clear();
-                        }
+                        //加载更多
+                        if (remoteAudioBean.getRecords().size() >= 10) {
 
-                        if (isFresh) {
-                            //下拉刷新
-                            if (remoteAudioBean.getRecords().size() < 10) {
-                                mRemoteAudioAdapter.setEnableLoadMore(false);
-                            } else {
-                                mRemoteAudioAdapter.setEnableLoadMore(true);
-                            }
-                            hideLoading();
+                            mRemoteAudioAdapter.loadMoreComplete();
                         } else {
-                            //加载更多
-                            if (remoteAudioBean.getRecords().size() >= 10) {
-
-                                mRemoteAudioAdapter.loadMoreComplete();
-                            } else {
-                                mRemoteAudioAdapter.loadMoreEnd();
-                            }
-
+                            mRemoteAudioAdapter.loadMoreEnd();
                         }
-                        removeAudioData.addAll(remoteAudioBean.getRecords());
 
-                        Collections.sort(removeAudioData);
+                        List<RecorderBean> records = remoteAudioBean.getRecords();
+                        Collections.sort(records);
 
-
-                        mRemoteAudioAdapter.setNewData(removeAudioData);
+                        for (int i = 0; i < records.size(); i++) {
+                            dataList.add(0,new AudioSectionBean(records.get(i)));
+                        }
+                        mRemoteAudioAdapter.notifyDataSetChanged();
 
                         pageNo++;
                     }
@@ -434,7 +438,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
 
 
     }
-*/
+
     /**
      * 此处设置沉浸式地方
      */
@@ -443,6 +447,9 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
 
     }
 
+    /**
+     * 文件上传
+     */
     private void upAudioData() {
         String fileDuration = "";
         String fileDate = "";
@@ -457,7 +464,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
         //过滤掉已上传的文件
         //数据库查找保存的数据
 
-        for (LocalMedia localMedia : fileList) {
+        for (LocalMedia localMedia : localData) {
             boolean b = false;
             for (FileData fileData : fileDatas) {
                 //当待上传的图片路径 和数据库中已上传的文件路径相同 说明不需要再次上传
@@ -528,24 +535,26 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
 
                             RxToast.showToast(o.getScubeHeader().getErrorMsg());
                         } else if (o.getScubeHeader() != null && "SUC".equals(o.getScubeHeader().getErrorCode())) {
-
-                            Iterator<LocalMedia> iterator = fileList.iterator();
-                            while (iterator.hasNext()) {
-                                LocalMedia localMedia = iterator.next();
-                                File file = new File(localMedia.getPath());
-                                if (file.isFile()) {
-                                    /*RemoteAudioBean.RecordsBean recordsBean = new RemoteAudioBean.RecordsBean();
-                                    recordsBean.setCrtUser(Perference.getUserId());
-                                    recordsBean.setFileName(localMedia.getFileName());
-                                    recordsBean.setFilePath(localMedia.getPath());
-                                    recordsBean.setFileSize(localMedia.getDuration()/1000 + "");
-                                    recordsBean.setFileType(FileData.TYPE_AUDIO);
-                                    recordsBean.setFileTime( file.lastModified());
-                                    removeAudioData.add(recordsBean);*/
-                                    iterator.remove();
-                                    Log.e("nb", "设置为已上传");
+                            //将已上传数据添加到已上传文件头后面
+                            int addNum = 1;
+                            for (int i = 0; i < dataList.size(); i++) {
+                                if (dataList.get(i).isAdd()) {
+                                    addNum = i;
+                                    break;
                                 }
                             }
+
+                            for (int i = 1; i < addNum; i++) {
+                                dataList.add(addNum + 2, dataList.get(i));
+
+                            }
+
+                            for (;1<addNum;){
+
+                                    dataList.remove(1);
+                                    addNum --;
+                            }
+
 
                             for (FileData fileData : fileDatas) {
                                 fileData.setUpload(true);
@@ -554,24 +563,15 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
                             }
 
 
-                            RxToast.showToast("录音文件上传成功了");
+                            RxToast.showToast("录音文件上传成功");
                         }
 
                         //刷新远程图片
-
-                     /*   if (mRemoteAudioAdapter.getData().size() == 0) {
-                            mRemoteAudioAdapter.setNewData(removeAudioData);
-                        } else {
-                            mRemoteAudioAdapter.notifyDataSetChanged();
-                        }*/
-                        adapter.notifyDataSetChanged();
-
-
-                        Log.e("nb", "录音文件上传成功了");
+                        mRemoteAudioAdapter.notifyDataSetChanged();
+                        Log.e("nb", "录音文件上传成功");
 
                         isUpload = false;
                         hideLoading();
-                      //  loadMoreData(true);
                     }
 
                     @Override
@@ -594,7 +594,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
      *
      * @param recordsBean
      */
-  /*  private void downLoad(RemoteAudioBean.RecordsBean recordsBean) {
+    private void downLoad(RecorderBean recordsBean) {
         showLoading();
         Log.e("nb", recordsBean.getFileName() + ":" + recordsBean.getFilePath());
         RetrofitManager.getInstance()
@@ -606,7 +606,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
                         //去播放音频
                         Log.e("nb", "_onNext _onNext _onNext");
                         if (FileUtils.isFileExists(result)) {
-                            Intent intent = new Intent(RecordSelectorActivity.this, AudioPlayActivity.class);
+                            Intent intent = new Intent(RecordSelectorActivity2.this, AudioPlayActivity.class);
                             intent.putExtra("filePath", result);
                             startActivity(intent);
                         } else {
@@ -641,5 +641,4 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
                 });
     }
 
-*/
 }

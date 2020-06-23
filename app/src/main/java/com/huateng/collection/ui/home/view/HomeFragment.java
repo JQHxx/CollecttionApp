@@ -31,6 +31,7 @@ import com.huateng.collection.ui.adapter.TodoCasesAdapter;
 import com.huateng.collection.ui.home.contract.HomeContract;
 import com.huateng.collection.ui.home.presenter.HomePresenter;
 import com.huateng.collection.widget.DividerItemDecoration;
+import com.luck.picture.lib.tools.DoubleUtils;
 import com.orhanobut.logger.Logger;
 import com.orm.SugarRecord;
 import com.tools.SystemUtils;
@@ -93,6 +94,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
 
     /**
      * 获取布局ID
+     *
      * @return
      */
     @Override
@@ -132,7 +134,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
                 .subscribe(new Consumer<HashMap<String, String>>() {
                     @Override
                     public void accept(HashMap<String, String> stringStringHashMap) throws Exception {
-                       // Log.e("nb", "Dict加载完成" + stringStringHashMap.size());
+                        // Log.e("nb", "Dict加载完成" + stringStringHashMap.size());
                         mAdapter.setDictData(stringStringHashMap);
                         if (mAdapter.getData() != null) {
                             mAdapter.notifyDataSetChanged();
@@ -176,52 +178,53 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
         //加载数据监听
         mAdapter.setOnLoadMoreListener(this, recyclerView);
 
-
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                CaseBeanData.RecordsBean bean = (CaseBeanData.RecordsBean) adapter.getData().get(position);
-                if (view.getId() == R.id.ll_layout) {
-                    Intent intent = new Intent(mContext, CaseDetailActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString(Constants.BUSINESS_TYPE, bean.getBusinessType());
-                    bundle.putString(Constants.CASE_ID, bean.getCaseId());
-                    bundle.putString(Constants.CUST_ID, bean.getCustNo());
-                    bundle.putString(Constants.CUST_NAME, bean.getCustName());
-                    intent.putExtras(bundle);
-                    startActivity(intent);
 
-                } else if (view.getId() == R.id.iv_call_phone) {
+                if (!DoubleUtils.isFastDoubleClick()) {
+                    CaseBeanData.RecordsBean bean = (CaseBeanData.RecordsBean) adapter.getData().get(position);
+                    if (view.getId() == R.id.ll_layout) {
 
-                    if (TextUtils.isEmpty(bean.getPhoneNo())) {
-                        RxToast.showToast("手机号码不能未空");
-                        return;
-                    }
-                    //bean.getContactPnhone()
-                    String tiltle = String.format("拨打%s电话\r\n%s", bean.getCustName(), bean.getPhoneNo());
-                    dialog = new ActionSheetDialog(mContext, stringItems, null);
-                    dialog.title(tiltle)
-                            .titleTextSize_SP(14.5f)
-                            .show();
+                        Intent intent = new Intent(mContext, CaseDetailActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString(Constants.BUSINESS_TYPE, bean.getBusinessType());
+                        bundle.putString(Constants.CASE_ID, bean.getCaseId());
+                        bundle.putString(Constants.CUST_ID, bean.getCustNo());
+                        bundle.putString(Constants.CUST_NAME, bean.getCustName());
+                        intent.putExtras(bundle);
+                        startActivity(intent);
 
-                    dialog.setOnOperItemClickL(new OnOperItemClickL() {
-                        @Override
-                        public void onOperItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            String phoneNumber = bean.getPhoneNo();
+                    } else if (view.getId() == R.id.iv_call_phone) {
 
-                            Perference.setPrepareCallRecording(true);
-                            Perference.setPrepareRecordingPhoneNumber(phoneNumber);
-
-                            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber));
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            mContext.startActivity(intent);
-
-                            dialog.dismiss();
+                        if (TextUtils.isEmpty(bean.getPhoneNo())) {
+                            RxToast.showToast("手机号码不能未空");
+                            return;
                         }
-                    });
-                  /*  Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + bean.getPhoneNo()));
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mContext.startActivity(intent);*/
+                        //bean.getContactPnhone()
+                        String tiltle = String.format("拨打%s电话\r\n%s", bean.getCustName(), bean.getPhoneNo());
+                        dialog = new ActionSheetDialog(mContext, stringItems, null);
+                        dialog.title(tiltle)
+                                .titleTextSize_SP(14.5f)
+                                .show();
+
+                        dialog.setOnOperItemClickL(new OnOperItemClickL() {
+                            @Override
+                            public void onOperItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                String phoneNumber = bean.getPhoneNo();
+
+                                Perference.setPrepareCallRecording(true);
+                                Perference.setPrepareRecordingPhoneNumber(phoneNumber);
+
+                                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber));
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                mContext.startActivity(intent);
+
+                                dialog.dismiss();
+                            }
+                        });
+                    }
+
                 }
             }
         });
@@ -324,7 +327,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
             }
 
 
-
             if (swipeRefreshLayout != null) {
                 swipeRefreshLayout.setRefreshing(false);
                 swipeRefreshLayout.setEnabled(true);
@@ -374,7 +376,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
             }
 
 
-
         }
 
         //停止刷新 并恢复下拉刷新功能
@@ -395,7 +396,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
     public void setSearchCase(List<CaseBeanData.RecordsBean> respCaseSummaries) {
         if (respCaseSummaries == null || respCaseSummaries.size() == 0) {
 
-            if(Perference.getBoolean(Perference.OUT_SOURCE_FLAG)) {
+            if (Perference.getBoolean(Perference.OUT_SOURCE_FLAG)) {
                 mAdapter.getData().clear();
                 mAdapter.notifyDataSetChanged();
             }

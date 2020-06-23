@@ -1,84 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="@color/page_gray_bg"
-android:orientation="vertical">
-
-<com.tools.view.RxTitle xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rx_title"
-    style="@style/CommontRxToolBarStyle"
-    app:rxRightIconVisibility="false"
-    app:rxLeftIconVisibility="true"
-    app:rxLeftTextVisibility="false"
-    app:rxTitle="录音"
-    app:rxRightTextVisibility="true"
-    app:rxRightText="上传"
-    app:rxTitleVisibility="true" />
-
-
-
-<com.huateng.collection.widget.recyclerview.RecyclerScrollView
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/page_gray_bg"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <com.tools.view.RxTitle xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/rx_title"
+        style="@style/CommontRxToolBarStyle"
+        app:rxLeftIconVisibility="true"
+        app:rxLeftTextVisibility="false"
+        app:rxRightIconVisibility="false"
+        app:rxRightText="上传"
+        app:rxRightTextVisibility="true"
+        app:rxTitle="录音"
+        app:rxTitleVisibility="true" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_remote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="8dp"
+        android:overScrollMode="never" />
+
+
+    <com.huateng.collection.widget.recyclerview.RecyclerScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <LinearLayout
-            android:background="@color/white"
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:textSize="16sp"
-
-                android:textColor="@color/text_color_666666"
-                android:text="待上传录音"/>
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="5dp"
-            android:overScrollMode="never" />
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/white">
-            <TextView
-                android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:text="待上传录音"
+
+                    android:textColor="@color/text_color_666666"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:text="已上传录音"
+
+                    android:textColor="@color/text_color_666666"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:textSize="16sp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="8dp"
+                android:overScrollMode="never" />
 
-                android:textColor="@color/text_color_666666"
-                android:text="已上传录音"/>
+
         </LinearLayout>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_remote"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="5dp"
-            android:overScrollMode="never" />
 
 
-
-    </LinearLayout>
-
-
-</com.huateng.collection.widget.recyclerview.RecyclerScrollView>
-
+    </com.huateng.collection.widget.recyclerview.RecyclerScrollView>
 
 </LinearLayout>
 
