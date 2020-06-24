@@ -3,6 +3,7 @@ package com.huateng.network;
 
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.aes_util.AESUtils;
 import com.baronzhang.retrofit2.converter.FastJsonConverterFactory;
@@ -172,20 +173,22 @@ public class RetrofitManager {
             if (contentLength != 0) {
                 String key = sb.toString();
                 String data = buffer.clone().readString(charset);
-                // Log.e("nb", "data--->" + data);
+                 Log.e("nb", "data--->" + data);
                 if (CommonUtils.isJson(data)) {
                     Logger.json(data);
                     CacheManager.getInstance().putCache(key, data);
                 } else {
-                    Logger.w(data);
+                   // Logger.w(data);
                     //登录超时判断
+                   // Log.e("nb",data);
+                    if (null != data && data.contains("<title>登录</title>")) {
+                     //   Log.e("nb","tokenOverdue tokenOverdue tokenOverdue");
+                        throw new RuntimeException("tokenOverdue");
+                    }
+
                     if (data.contains(ApiConstants.WEB_LOGIN_URL)) {
                         throw new RuntimeException("Timeout");
 
-                    }
-
-                    if (data.contains("<title>登录</title>")) {
-                        throw new RuntimeException("tokenOverdue");
                     }
                 }
 

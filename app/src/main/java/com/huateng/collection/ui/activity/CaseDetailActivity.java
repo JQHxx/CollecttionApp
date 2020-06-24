@@ -272,6 +272,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
     protected void initData() {
 
         initFragments();
+
     }
 
 

@@ -37,11 +37,5 @@ public class RemoteAudioAdapter extends BaseQuickAdapter<RemoteAudioBean.Records
                 .setText(R.id.tv_addDate,DateUtil.getDate2(item.getFileTime()))
                 .setText(R.id.tv_duration, DateUtil.formatSeconds(Integer.valueOf(item.getFileSize())));
 
-      /*  DateUtils.formatDateTime(
-                mContext,
-                item.getFileTime(),
-                DateUtils.FORMAT_SHOW_DATE  | DateUtils.FORMAT_SHOW_TIME |DateUtils.FORMAT_SHOW_YEAR
-        )*/
-
     }
 }

@@ -76,7 +76,6 @@ import static com.zr.lib_audio.androidaudiorecorder.AndroidAudioRecorder.EXTRA_R
  * 录音列表展示
  */
 public class RecordSelectorActivity extends BaseActivity implements View.OnClickListener {
-    private boolean isShowMyPermissionsDialog;
     private int pageNo = 1;
     private int pageSize = 10;
     private static final int REQUEST_RECORD_AUDIO = 0;
@@ -408,7 +407,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
                             hideLoading();
                             return;
                         }
-
+                        Log.e("nb","sixe--->"+remoteAudioBean.getRecords().size());
                         if (isFresh) {
                             removeAudioData.clear();
                         }
