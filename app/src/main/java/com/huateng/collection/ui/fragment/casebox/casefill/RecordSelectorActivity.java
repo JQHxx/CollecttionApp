@@ -363,9 +363,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
      */
     @Override
     protected void initData() {
-
         loadMoreData(true);
-
     }
 
 
