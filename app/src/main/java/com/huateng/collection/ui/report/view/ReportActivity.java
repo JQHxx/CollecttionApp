@@ -1,5 +1,4 @@
 package com.huateng.collection.ui.report.view;
-
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -49,7 +48,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-
 /**
  * author: yichuan
  * Created on: 2020-04-01 18:03
