@@ -109,8 +109,8 @@ public class RetrofitManager {
             //请求部分
             Request request = chain.request();
             //headers
-          Headers requestHeaders = request.headers();
-           if (requestHeaders != null) {
+            Headers requestHeaders = request.headers();
+            if (requestHeaders != null) {
                 Logger.i("headers: %s", requestHeaders.toString());
             }
 
@@ -146,11 +146,11 @@ public class RetrofitManager {
             final long contentLength = responseBody.contentLength();
 
             String httpStatus = response.header("GW_BACK_HTTP_STATUS");
-            if (!TextUtils.isEmpty(httpStatus)&& "302".equals(httpStatus)) {
+            if (!TextUtils.isEmpty(httpStatus) && "302".equals(httpStatus)) {
                 throw new RuntimeException("tokenOverdue");
             }
             Headers responseHeaders = response.headers();
-           if (requestHeaders != null) {
+            if (requestHeaders != null) {
                 Logger.i("responseHeaders: %s", responseHeaders.toString());
             }
 
@@ -172,15 +172,21 @@ public class RetrofitManager {
             if (contentLength != 0) {
                 String key = sb.toString();
                 String data = buffer.clone().readString(charset);
-               // Log.e("nb", "data--->" + data);
+                // Log.e("nb", "data--->" + data);
                 if (CommonUtils.isJson(data)) {
                     Logger.json(data);
                     CacheManager.getInstance().putCache(key, data);
                 } else {
                     Logger.w(data);
                     //登录超时判断
-                    if (data.contains(ApiConstants.WEB_LOGIN_URL))
+                    if (data.contains(ApiConstants.WEB_LOGIN_URL)) {
                         throw new RuntimeException("Timeout");
+
+                    }
+
+                    if (data.contains("<title>登录</title>")) {
+                        throw new RuntimeException("tokenOverdue");
+                    }
                 }
 
             }
@@ -199,7 +205,7 @@ public class RetrofitManager {
             e.printStackTrace();
             //报错 将其初始化
             NetworkConfig.C.setApiMode(ApiConstants.API_MODE_RELEASE);
-         //   baseURL = ApiConstants.RELEASE_BASE_URL;
+            //   baseURL = ApiConstants.RELEASE_BASE_URL;
             retrofit = build(baseURL);
         }
         commonApiService = retrofit.create(CommonApiService.class);
@@ -231,7 +237,7 @@ public class RetrofitManager {
     public Observable<ResponseStructure> loginRequest(Object obj) {
         String uri = ApiConstants.format("mobileAppInterface", "login");
         String request = generateRequestJson(uri, obj);
-     okhttp3.RequestBody body = okhttp3.RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), request);
+        okhttp3.RequestBody body = okhttp3.RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), request);
         return commonApiService.request(body);
     }
 
@@ -243,7 +249,7 @@ public class RetrofitManager {
         String s = GsonUtils.toJson(obj);
         Logger.i(s);
         dataBean.setAppData(AESUtils.encrypt(s, "aes-nbcbccms@123"));
-       // String decrypt = AESUtils.decrypt(dataBean.getAppData(), "aes-nbcbccms@123");
+        // String decrypt = AESUtils.decrypt(dataBean.getAppData(), "aes-nbcbccms@123");
 
         baseRequest.getQueryTable().getScubeBody().getContextData().setData(dataBean);
         return GsonUtils.toJson(baseRequest);
