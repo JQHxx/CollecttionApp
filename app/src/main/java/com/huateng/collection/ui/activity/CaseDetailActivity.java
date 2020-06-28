@@ -1,4 +1,5 @@
 package com.huateng.collection.ui.activity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +18,7 @@ import com.huateng.collection.ui.caseInfo.contract.CaseDetailContract;
 import com.huateng.collection.ui.caseInfo.presenter.CaseDetailPresenter;
 import com.huateng.collection.ui.dialog.BottomDialogView;
 import com.huateng.collection.ui.fragment.casebox.casefill.PhotoSelectorActivity2;
-import com.huateng.collection.ui.fragment.casebox.casefill.RecordSelectorActivity;
+import com.huateng.collection.ui.fragment.casebox.casefill.RecordSelectorActivity2;
 import com.huateng.collection.ui.fragment.casebox.info.CreditCardMsgFragment;
 import com.huateng.collection.ui.fragment.casebox.info.FragmentAccountInfo;
 import com.huateng.collection.ui.fragment.casebox.info.FragmentBaseInfo;
@@ -179,7 +180,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
      * 跳转到录音页面
      */
     private void toAudio() {
-        Intent intent = new Intent(CaseDetailActivity.this, RecordSelectorActivity.class);
+        Intent intent = new Intent(CaseDetailActivity.this, RecordSelectorActivity2.class);
         intent.putExtra(Constants.CASE_ID, caseId);
         intent.putExtra(Constants.CUST_ID, custId);
         intent.putExtra(Constants.CUST_NAME, custName);
