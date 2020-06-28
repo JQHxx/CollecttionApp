@@ -95,6 +95,17 @@ public class DateUtil {
 
     }
 
+    //yyyy-MM-dd HH:mm:ss
+    public static String getDate3(long time){
+        if(time == 0) {
+            return "";
+        }
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        return dateFormat.format(calendar.getTime());
+
+    }
 
     public static String formatSeconds(int seconds) {
         return  getTwoDecimalsValue(seconds / 60) + ":"

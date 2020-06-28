@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
 import com.aes_util.AESUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.huateng.collection.R;
@@ -11,6 +12,7 @@ import com.huateng.collection.app.Constants;
 import com.huateng.collection.app.Perference;
 import com.huateng.collection.base.BaseActivity;
 import com.huateng.collection.base.BasePresenter;
+import com.huateng.collection.bean.RecorderBean;
 import com.huateng.collection.bean.RemoteAudioBean;
 import com.huateng.collection.bean.orm.FileData;
 import com.huateng.collection.ui.activity.AudioPlayActivity;
@@ -91,7 +93,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
 
     private int imageSize = 0;
     private List<LocalMedia> fileList = new ArrayList<>();
-    private List<RemoteAudioBean.RecordsBean> removeAudioData = new ArrayList();
+    private List<RecorderBean> removeAudioData = new ArrayList();
     private RecorderAdapter adapter;
     private RemoteAudioAdapter mRemoteAudioAdapter;
     private int maxSelectNum = 20;
@@ -165,7 +167,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
         mRemoteAudioAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                RemoteAudioBean.RecordsBean recordsBean = removeAudioData.get(position);
+                RecorderBean recordsBean = removeAudioData.get(position);
                 if (!DoubleUtils.isFastDoubleClick()) {
                     String path = filePath + File.separator + recordsBean.getFileName();
 
@@ -259,7 +261,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
 
         if (RecordService.isRecording()) {
             Intent taskIntent = RecordService.getTaskIntent();
-            Log.e("nb", "id->" + taskIntent.getStringExtra(EXTRA_RECORD_TASK_ID));
+           // Log.e("nb", "id->" + taskIntent.getStringExtra(EXTRA_RECORD_TASK_ID));
             if (!taskIntent.getStringExtra(EXTRA_RECORD_TASK_ID).equals(caseId)) {
                 RxToast.showToast(String.format("当前 %s 正在进行录音任务，请在结束该录音任务后再进行录音", taskIntent.getStringExtra(EXTRA_RECORD_TASK_NAME)));
                 return;
@@ -268,9 +270,9 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
             }
         } else {
         //    audioUrl = String.format("%s%s%s.wav", filePath, Perference.getUserId(), System.currentTimeMillis());
-            audioUrl = String.format("%s%s_%s.wav", filePath, Perference.getUserId(), DateUtil.getDate2(System.currentTimeMillis()));
+            audioUrl = String.format("%s%s%s.wav", filePath, Perference.getUserId(), DateUtil.getDate3(System.currentTimeMillis()));
 
-            Log.e("nb","audioUrl:"+audioUrl);
+         //   Log.e("nb","audioUrl:"+audioUrl);
         }
 
         AndroidAudioRecorder.with(this)
@@ -603,7 +605,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
      *
      * @param recordsBean
      */
-    private void downLoad(RemoteAudioBean.RecordsBean recordsBean) {
+    private void downLoad(RecorderBean recordsBean) {
         showLoading();
         Log.e("nb", recordsBean.getFileName() + ":" + recordsBean.getFilePath());
         RetrofitManager.getInstance()

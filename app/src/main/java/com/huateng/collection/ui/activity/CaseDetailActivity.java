@@ -18,7 +18,7 @@ import com.huateng.collection.ui.caseInfo.contract.CaseDetailContract;
 import com.huateng.collection.ui.caseInfo.presenter.CaseDetailPresenter;
 import com.huateng.collection.ui.dialog.BottomDialogView;
 import com.huateng.collection.ui.fragment.casebox.casefill.PhotoSelectorActivity2;
-import com.huateng.collection.ui.fragment.casebox.casefill.RecordSelectorActivity2;
+import com.huateng.collection.ui.fragment.casebox.casefill.RecordSelectorActivity;
 import com.huateng.collection.ui.fragment.casebox.info.CreditCardMsgFragment;
 import com.huateng.collection.ui.fragment.casebox.info.FragmentAccountInfo;
 import com.huateng.collection.ui.fragment.casebox.info.FragmentBaseInfo;
@@ -100,7 +100,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
         } else {
             mCaseMoreFillTitles = new String[]{"录音", "拍照", "调查报告", "结束处理"};
         }
-        //  mCaseMoreFillTitles = new String[]{"录音", "拍照", "调查报告", "结束处理", "停催", "留案", "退案", "申请减免"};
+         // mCaseMoreFillTitles = new String[]{"录音", "拍照", "调查报告", "结束处理", "停催", "留案", "退案", "申请减免"};
 
         //删除临时文件夹里的文件
         //        FileUtils.deleteFilesInDir(AttachmentProcesser.getInstance(mContext).getTempsDir());
@@ -180,7 +180,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
      * 跳转到录音页面
      */
     private void toAudio() {
-        Intent intent = new Intent(CaseDetailActivity.this, RecordSelectorActivity2.class);
+        Intent intent = new Intent(CaseDetailActivity.this, RecordSelectorActivity.class);
         intent.putExtra(Constants.CASE_ID, caseId);
         intent.putExtra(Constants.CUST_ID, custId);
         intent.putExtra(Constants.CUST_NAME, custName);
@@ -316,7 +316,9 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
             @Override
             public void onItemClick(BottomDialogBean bean) {
                 String title = bean.getTitle();
-                switch (title) {
+
+
+               switch (title) {
                     case "录音":
                         //录音
                         toAudio();
@@ -336,7 +338,8 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
                     case "停催":
                     case "留案":
                     case "退案":
-                        if (!isProcess) {
+
+                       if (!isProcess) {
                             toCaseAction(title);
                         } else {
                             RxToast.showToast("已存在相同审核节点，不允许此操作");

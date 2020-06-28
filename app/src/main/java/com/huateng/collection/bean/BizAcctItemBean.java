@@ -18,6 +18,7 @@ public class BizAcctItemBean {
     private double loanTotal;//尚欠总额
     private double reducePri;//申请减免本金
     private double reduceInt;//申请减免利罚息
+    private double reduceAccrual;//申请减免利息
     private double reduceTotal;//申请减免总额
     private String planRepayTotal;//计划归还总额
     private String acctNo;//卡号
@@ -204,5 +205,13 @@ public class BizAcctItemBean {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public double getReduceAccrual() {
+        return reduceAccrual;
+    }
+
+    public void setReduceAccrual(double reduceAccrual) {
+        this.reduceAccrual = reduceAccrual;
     }
 }

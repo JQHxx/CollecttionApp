@@ -1,5 +1,4 @@
 package com.huateng.collection.ui.fragment.casebox.casefill;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +17,7 @@ import com.huateng.collection.bean.RemoteAudioBean;
 import com.huateng.collection.bean.orm.FileData;
 import com.huateng.collection.ui.activity.AudioPlayActivity;
 import com.huateng.collection.ui.adapter.RemoteAudioAdapter2;
+import com.huateng.collection.utils.DateUtil;
 import com.huateng.collection.utils.Utils;
 import com.huateng.collection.utils.cases.AttachmentProcesser;
 import com.huateng.collection.utils.cases.CaseManager;
@@ -70,7 +70,6 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.zr.lib_audio.androidaudiorecorder.AndroidAudioRecorder.EXTRA_FILE_PATH;
 import static com.zr.lib_audio.androidaudiorecorder.AndroidAudioRecorder.EXTRA_RECORD_TASK_ID;
 import static com.zr.lib_audio.androidaudiorecorder.AndroidAudioRecorder.EXTRA_RECORD_TASK_NAME;
-
 /**
  * author：shanyong
  * data：2018/12/27
@@ -93,8 +92,6 @@ public class RecordSelectorActivity2 extends BaseActivity implements View.OnClic
     private List<AudioSectionBean> dataList = new ArrayList<>();
     private List<LocalMedia> localData = new ArrayList<>();
     private RemoteAudioAdapter2 mRemoteAudioAdapter;
-    private int maxSelectNum = 20;
-    private int themeId;
     private String filePath;
     private String caseId;
     private String custName;
@@ -107,7 +104,6 @@ public class RecordSelectorActivity2 extends BaseActivity implements View.OnClic
                 .show(this);
         caseId = getIntent().getStringExtra(Constants.CASE_ID);
         custName = getIntent().getStringExtra(Constants.CUST_NAME);
-        themeId = R.style.picture_white_style;
         immersiveStatusBar(rxTitle);
         filePath = AttachmentProcesser.getInstance(RecordSelectorActivity2.this).getVoicePath(caseId);
         recyclerView.setHasFixedSize(true);
@@ -227,6 +223,7 @@ public class RecordSelectorActivity2 extends BaseActivity implements View.OnClic
                 recorderBean.setFileTime(new File(localMedia.getPath()).lastModified());
                 recorderBean.setFilePath(localMedia.getPath());
                 dataList.add(new AudioSectionBean(recorderBean));
+                Log.e("nb","11111");
                 localData.add(localMedia);
 
             }
@@ -255,7 +252,7 @@ public class RecordSelectorActivity2 extends BaseActivity implements View.OnClic
                 audioUrl = taskIntent.getStringExtra(EXTRA_FILE_PATH);
             }
         } else {
-            audioUrl = String.format("%s%s%s.wav", filePath, Perference.getUserId(), System.currentTimeMillis());
+            audioUrl = String.format("%s%s%s.wav", filePath, Perference.getUserId(), DateUtil.getDate3(System.currentTimeMillis()));
 
         }
         // 进入相册 以下是例子：不需要的api可以不写
@@ -429,6 +426,7 @@ public class RecordSelectorActivity2 extends BaseActivity implements View.OnClic
                         for (int i = 0; i < records.size(); i++) {
                             dataList.add(0,new AudioSectionBean(records.get(i)));
                         }
+                        Log.e("nb","2222");
                         mRemoteAudioAdapter.notifyDataSetChanged();
 
                         pageNo++;

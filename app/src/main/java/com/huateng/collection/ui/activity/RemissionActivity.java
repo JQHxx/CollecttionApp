@@ -526,7 +526,8 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
          * 贷款减免的处理
          */
         double reducePri;//申请减免本金
-        double reduceInt;//申请减免利罚息/透支利息
+        double reduceInt;//申请减免利罚息
+        double reduceAccrual;//申请减免利息
         double reduceTotal;//申请减免总额
         double reduceFee;// 申请减免违约金
         double reduceOth;//申请减免分期提前结清手续费
@@ -598,6 +599,7 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
                 reducePri = 0;
                 reduceInt = 0;
                 reduceTotal = 0;
+                reduceAccrual = 0;
             } else {
                 loanInt = bizAcctItemBean.getLoanInt();//透支利息
                 shouldBreach = bizAcctItemBean.getShouldBreach();//违约金
@@ -613,6 +615,7 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
                 if (reduceTotal <= 0) {
                     //计划归还总额 大于等于总欠款
                     reduceInt = 0.00;
+                    reduceAccrual = 0.00;
                     reducePri = 0.00;
                     reduceTotal = 0.00;
                     reduceFee = 0.00;
@@ -623,20 +626,24 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
                     if (reduceTotal < shouldBreach) {
                         reduceFee = reduceTotal;
                         reduceInt = 0.00;
+                        reduceAccrual = 0.00;
                         reducePri = 0.00;
                         reduceOth = 0.00;
+
                     } else {
                         reduceFee = shouldBreach;//申请减免违约金
                         //2 减免透支利息
                         double totalSubShould = ArithUtil.sub(reduceTotal, shouldBreach);
                         if (totalSubShould <= loanInt) {
-                            reduceInt = ArithUtil.sub(reduceTotal, shouldBreach);
+                            reduceAccrual = ArithUtil.sub(reduceTotal, shouldBreach);
+                            reduceInt = reduceAccrual;
                             reducePri = 0.00;
                             reduceOth = 0.00;
 
                         } else {
                             //3 减免分期提前结清手续费
-                            reduceInt = loanInt;
+                            reduceAccrual  = loanInt;
+                            reduceInt = reduceAccrual;
                             double sub = ArithUtil.sub(totalSubShould, loanInt);
                             if (sub <= penalAmt) {
                                 // 分期提前结清手续费
@@ -660,7 +667,7 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
             mList.get(position).setReducePri(reducePri);//减免本金
             mList.get(position).setReduceInt(mainReduceInt);//申请减免利罚息
             mList.get(position).setReduceTotal(reduceTotal);//申请减免总额
-
+            mList.get(position).setReduceAccrual(reduceAccrual);
             mList.get(position).setPlanRepayTotal(planRepayTotal);
             mBizAcctCardAdapter.notifyItemChanged(position);
 

@@ -333,13 +333,10 @@
 
     </LinearLayout>
 
-
     <View
         android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/color_fafafa"/>
-
-
+        android:layout_height="1dp"
+        android:background="@color/line_color"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="35dp"
@@ -407,36 +404,7 @@
         android:layout_height="1dp"
         android:background="@color/line_color"/>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_color_333333"
-            android:textSize="14sp"
-            android:text="申请减免总额"/>
-
-        <TextView
-            android:id="@+id/tv_reduce_total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:textColor="@color/text_color_666666"
-            />
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/line_color"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -459,6 +427,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:textSize="15sp"
+            android:textColor="@color/text_color_666666"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_color"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_color_333333"
+            android:textSize="14sp"
+            android:text="申请减免总额"/>
+
+        <TextView
+            android:id="@+id/tv_reduce_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:textSize="15sp"
             android:textColor="@color/text_color_666666"
             />

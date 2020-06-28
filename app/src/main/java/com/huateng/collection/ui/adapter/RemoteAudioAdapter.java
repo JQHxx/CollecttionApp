@@ -5,7 +5,7 @@ import android.widget.LinearLayout;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.huateng.collection.R;
-import com.huateng.collection.bean.RemoteAudioBean;
+import com.huateng.collection.bean.RecorderBean;
 import com.huateng.collection.utils.DateUtil;
 
 /**
@@ -13,7 +13,7 @@ import com.huateng.collection.utils.DateUtil;
  * Created on: 2020/5/27 20:54
  * description:
  */
-public class RemoteAudioAdapter extends BaseQuickAdapter<RemoteAudioBean.RecordsBean, BaseViewHolder> {
+public class RemoteAudioAdapter extends BaseQuickAdapter<RecorderBean, BaseViewHolder> {
     int[] bgs = new int[]{R.drawable.icon_audio_bg1, R.drawable.icon_audio_bg2, R.drawable.icon_audio_bg3, R.drawable.icon_audio_bg4};
 
 
@@ -29,7 +29,7 @@ public class RemoteAudioAdapter extends BaseQuickAdapter<RemoteAudioBean.Records
      * @param item   The item that needs to be displayed.
      */
     @Override
-    protected void convert(BaseViewHolder helper, RemoteAudioBean.RecordsBean item) {
+    protected void convert(BaseViewHolder helper, RecorderBean item) {
         LinearLayout linearLayout = helper.getView(R.id.card_view);
 
         linearLayout.setBackgroundResource(bgs[helper.getAdapterPosition() % 4]);

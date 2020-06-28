@@ -45,7 +45,7 @@ public class BizAcctCardAdapter extends BaseQuickAdapter<BizAcctItemBean, BaseVi
                 .setText(R.id.tv_penal_amt, item.getPenalAmt() + "元")
                 .setText(R.id.tv_reduce_pri, item.getReducePri() + "元")
                 .setText(R.id.tv_reduce_fee, item.getReduceFee() + "元")
-                .setText(R.id.tv_reduce_int, item.getReduceInt() + "元")
+                .setText(R.id.tv_reduce_int, item.getReduceAccrual() + "元")
                 .setText(R.id.tv_reduce_total, item.getReduceTotal() + "元")
                 .setText(R.id.tv_reduce_oth, item.getReduceOth() + "元")
                 .setText(R.id.edt_plan_repay_total, "0".equals(item.getPlanRepayTotal()) ? "" : item.getPlanRepayTotal())
