@@ -1,5 +1,4 @@
 package com.huateng.collection.ui.activity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -40,7 +39,6 @@ import java.util.List;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import butterknife.BindView;
-
 /**
  * 案件详情fragment
  */

@@ -209,7 +209,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
 
         fileList.clear();
         List<FileData> fileDatas = CaseManager.obtainRecordDatas(caseId);
-        Log.e("nb", "fileDatas size" + fileDatas.size());
+       // Log.e("nb", "fileDatas size" + fileDatas.size());
         for (LocalMedia localMedia : localMedias) {
             //过滤掉已上传的文件和下载的文件
             boolean b = false;
@@ -217,6 +217,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
                 b = localMedia.getPath().equals(fileData.getRealPath()) && (fileData.getFileType() == 2);
 
                 if (b) {
+                    
                     break;
                 }
             }
