@@ -30,9 +30,10 @@ public class RemissionPresenter extends BasePresenter<RemissionContract .View> i
      * @param custId
      */
     @Override
-    public void loadData(String custId) {
+    public void loadData(String custId,String caseId) {
         Map<String,String> map = new HashMap<>();
         map.put("custNo",custId);
+        map.put("caseId",caseId);
         request(ApiConstants.MOBILE_APP_INTERFACE, ApiConstants.SELECT_APPLICATION_RELIEF, map)
                 .subscribe(new BaseObserver2<BizAcctInfoBean>() {
                     @Override

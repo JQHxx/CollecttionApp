@@ -243,7 +243,7 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
 
         initDictData();
         mPresenter.loadCustInfo(custId);
-        mPresenter.loadData(custId);
+        mPresenter.loadData(custId,caseId);
 
         if ("03".equals(businessType)) {
             //信用卡

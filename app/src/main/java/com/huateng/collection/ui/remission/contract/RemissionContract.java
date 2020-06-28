@@ -26,7 +26,7 @@ public interface RemissionContract {
 
     interface Presenter {
 
-        void loadData(String custId);
+        void loadData(String custId,String caseId);
 
         void loadCustInfo(String custId);
 

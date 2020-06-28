@@ -16,6 +16,7 @@ import com.huateng.collection.bean.orm.FileData;
 import com.huateng.collection.ui.activity.AudioPlayActivity;
 import com.huateng.collection.ui.adapter.RecorderAdapter;
 import com.huateng.collection.ui.adapter.RemoteAudioAdapter;
+import com.huateng.collection.utils.DateUtil;
 import com.huateng.collection.utils.Utils;
 import com.huateng.collection.utils.cases.AttachmentProcesser;
 import com.huateng.collection.utils.cases.CaseManager;
@@ -96,7 +97,6 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
     private int maxSelectNum = 20;
     private int themeId;
     private String filePath;
-    //private String tempFilePath;
     private String caseId;
     private String custName;
 
@@ -267,11 +267,11 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
                 audioUrl = taskIntent.getStringExtra(EXTRA_FILE_PATH);
             }
         } else {
-            audioUrl = String.format("%s%s%s.wav", filePath, Perference.getUserId(), System.currentTimeMillis());
+        //    audioUrl = String.format("%s%s%s.wav", filePath, Perference.getUserId(), System.currentTimeMillis());
+            audioUrl = String.format("%s%s_%s.wav", filePath, Perference.getUserId(), DateUtil.getDate2(System.currentTimeMillis()));
 
+            Log.e("nb","audioUrl:"+audioUrl);
         }
-        // 进入相册 以下是例子：不需要的api可以不写
-        // Log.e("nb", "tempFilePath:" + tempFilePath);
 
         AndroidAudioRecorder.with(this)
                 // Required
@@ -293,12 +293,12 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e("nb", requestCode + ":" + resultCode);
+       // Log.e("nb", requestCode + ":" + resultCode);
 
         if (requestCode == REQUEST_RECORD_AUDIO) {
             if (resultCode == RESULT_OK) {
                 int duration = data.getIntExtra("duration", 0);
-                Log.e("nb", "time:" + duration);
+              //  Log.e("nb", "time:" + duration);
                 File newFile = new File(audioUrl);
                 if (newFile.exists()) {
                     File file = new File(audioUrl);
