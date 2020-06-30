@@ -2,6 +2,7 @@ package com.huateng.collection.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -27,6 +28,7 @@ import com.huateng.collection.ui.report.view.ReportListActivity;
 import com.huateng.collection.widget.NoScrollViewPager;
 import com.huateng.collection.widget.Watermark;
 import com.huateng.collection.widget.tab.TabEntity;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tools.view.RxTitle;
 import com.tools.view.RxToast;
 import com.trello.rxlifecycle3.LifecycleTransformer;
@@ -40,6 +42,12 @@ import java.util.List;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import butterknife.BindView;
+import io.reactivex.functions.Consumer;
+
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.RECORD_AUDIO;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 /**
  * 案件详情fragment
  */
@@ -76,7 +84,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
     private String custId;
     private String custName;
     private String businessType;
-   // private boolean caseStatus;
+    // private boolean caseStatus;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -100,7 +108,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
         } else {
             mCaseMoreFillTitles = new String[]{"录音", "拍照", "调查报告", "结束处理"};
         }
-         // mCaseMoreFillTitles = new String[]{"录音", "拍照", "调查报告", "结束处理", "停催", "留案", "退案", "申请减免"};
+        // mCaseMoreFillTitles = new String[]{"录音", "拍照", "调查报告", "结束处理", "停催", "留案", "退案", "申请减免"};
 
         //删除临时文件夹里的文件
         //        FileUtils.deleteFilesInDir(AttachmentProcesser.getInstance(mContext).getTempsDir());
@@ -144,7 +152,6 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
         });
 
 
-
     }
 
     private void initListener() {
@@ -159,7 +166,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
         mIvLoadMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             //   showLoadMore();
+                //   showLoadMore();
                 mPresenter.getCaseStatus(caseId);
             }
         });
@@ -180,11 +187,25 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
      * 跳转到录音页面
      */
     private void toAudio() {
-        Intent intent = new Intent(CaseDetailActivity.this, RecordSelectorActivity.class);
-        intent.putExtra(Constants.CASE_ID, caseId);
-        intent.putExtra(Constants.CUST_ID, custId);
-        intent.putExtra(Constants.CUST_NAME, custName);
-        startActivity(intent);
+        RxPermissions rxPermissions = new RxPermissions(CaseDetailActivity.this);
+        rxPermissions.request(RECORD_AUDIO,READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE)
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean granted) throws Exception {
+
+                        Log.e("nb","granted:"+granted);
+                        if (!granted) {
+                            RxToast.showToast("录音权限被拒绝，请授权后操作");
+                        } else {
+                            Intent intent = new Intent(CaseDetailActivity.this, RecordSelectorActivity.class);
+                            intent.putExtra(Constants.CASE_ID, caseId);
+                            intent.putExtra(Constants.CUST_ID, custId);
+                            intent.putExtra(Constants.CUST_NAME, custName);
+                            startActivity(intent);
+                        }
+                    }
+                });
+
     }
 
     private void toPhoto() {
@@ -305,7 +326,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
 
     @Override
     public void toCaseAction(boolean isProcess) {
-     //   caseStatus = isProcess;
+        //   caseStatus = isProcess;
         List<BottomDialogBean> list = new ArrayList<>();
         for (int i = 0; i < mCaseMoreFillTitles.length; i++) {
 
@@ -318,7 +339,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
                 String title = bean.getTitle();
 
 
-               switch (title) {
+                switch (title) {
                     case "录音":
                         //录音
                         toAudio();
@@ -339,7 +360,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
                     case "留案":
                     case "退案":
 
-                       if (!isProcess) {
+                        if (!isProcess) {
                             toCaseAction(title);
                         } else {
                             RxToast.showToast("已存在相同审核节点，不允许此操作");

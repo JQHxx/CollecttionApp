@@ -10,11 +10,6 @@
         android:supportsRtl="true"
         tools:replace="android:allowBackup,android:supportsRtl">
 
-        <activity
-            android:name=".ui.ActivityApiSetting"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
-
     </application>
 
 </manifest>

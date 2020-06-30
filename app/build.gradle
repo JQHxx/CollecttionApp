@@ -23,11 +23,12 @@ android {
 
     signingConfigs {
         demo {
-            storeFile file("../huateng-android.jks")
-            storePassword "1234567"
-            keyAlias "collections_hejun"
-            keyPassword "123456"
+            storeFile file("../app/nbcb_collection_app.jks")
+            storePassword "nbcb,123"
+            keyAlias "nbcb"
+            keyPassword "nbcb,123"
         }
+
     }
 
     buildTypes {
@@ -190,10 +191,6 @@ dependencies {
     implementation project(':lib.common')
     //图片和录音
     implementation project(':lib_audio')
-
-    //
-    //implementation project(':uploadservice')
-    // implementation project(':uploadservice-okhttp')
     implementation 'com.jakewharton:butterknife:10.2.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
 
@@ -216,6 +213,7 @@ dependencies {
     /*   implementation("android.arch.work:work-runtime:1.0.0-alpha09") {
         exclude group: 'com.google.guava', module: 'listenablefuture'
     }*/
+    implementation 'com.github.adrielcafe:AndroidAudioRecorder:0.3.0'
 
     configurations {
 //这里要排除到这个包，这个包会与 com.google.guava 冲突，导致编译不过

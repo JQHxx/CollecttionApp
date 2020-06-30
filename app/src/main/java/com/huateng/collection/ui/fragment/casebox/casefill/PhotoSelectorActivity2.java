@@ -45,6 +45,7 @@ import com.luck.picture.lib.config.PictureSelectionConfig;
 import com.luck.picture.lib.decoration.GridSpacingItemDecoration;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.thread.PictureThreadUtils;
+import com.luck.picture.lib.tools.SdkVersionUtils;
 import com.orhanobut.logger.Logger;
 import com.orm.SugarRecord;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -438,15 +439,22 @@ public class PhotoSelectorActivity2 extends BaseActivity {
                     for (int i = 0; i < selectList.size(); i++) {
                         boolean contains = false;
                         LocalMedia selectMedia = selectList.get(i);
+                        String path ="";
+                        if(SdkVersionUtils.checkedAndroid_Q()){
+                            path = selectMedia.getAndroidQToPath();
+                        }else{
+                            path = selectMedia.getPath();
+                        }
                         for (int j = 0; j < fileList.size(); j++) {
                             LocalMedia localMedia = fileList.get(j);
                             //路径一样且名字一样
-                            if (localMedia.getPath().equals(selectMedia.getPath()) && localMedia.getFileName().equals(selectMedia.getFileName())) {
+                         //   Log.i(TAG, "Android Q 特有Path:" + media.getAndroidQToPath());
+                            if (localMedia.getPath().equals(path) && localMedia.getFileName().equals(selectMedia.getFileName())) {
                                 contains = true;
                             }
                         }
                         if (!contains) {
-                            File file = new File(selectMedia.getPath());
+                            File file = new File(path);
                             File tempFile = new File(tempFilePath, file.getName());
                             File newFile = new File(localfilePath, file.getName());
                             //复制选择图片文件
@@ -455,7 +463,7 @@ public class PhotoSelectorActivity2 extends BaseActivity {
                             //  Log.e("nb", "isTempExist:" + isTempExist);
                             if (!isTempExist) {
                                 isCopy = FileUtils.copyFile(file, tempFile);
-                                Logger.i("%s copy:%s", selectMedia.getPath(), String.valueOf(isCopy));
+                                Logger.i("%s copy:%s", path, String.valueOf(isCopy));
                             }
                             // Log.e("nb", "isCopy:" + isCopy);
                             if (isCopy || isTempExist) {

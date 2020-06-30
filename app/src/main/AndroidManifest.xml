@@ -4,6 +4,7 @@
     package="com.huateng.collection">
     <!-- 用于申请调用A-GPS模块 -->
     <application
+        android:requestLegacyExternalStorage="true"
         android:name=".app.MainApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
@@ -55,7 +56,6 @@
         <activity
             android:name=".ui.activity.LoginActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.activity.SplashActivity"
@@ -74,13 +74,8 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity
-            android:name=".ui.activity.CaseManagerActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
             android:name=".ui.navigation.NavigationActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.activity.CaseDetailActivity"

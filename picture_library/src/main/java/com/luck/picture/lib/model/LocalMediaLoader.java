@@ -343,7 +343,7 @@ public final class LocalMediaLoader {
                     continue;
                 }
                 fileItem.setFileName(cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME)));
-                fileItem.setDuration(cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)));
+                fileItem.setDuration(cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION)));
 
                 images.add(fileItem);
 

@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.luck.picture.lib">
 
-    <application>
+    <application
+        android:requestLegacyExternalStorage="true"
+        >
         <activity android:name=".PictureExternalPreviewActivity2"></activity>
 
         <activity

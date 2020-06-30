@@ -42,6 +42,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.0.0'
     //录音
     api 'com.kailashdabhi:om-recorder:1.1.0'
+   // api 'com.kailashdabhi:om-recorder:1.1.5'
     api 'com.cleveroad:audiovisualization:1.0.0'
 
     implementation project(':lib.common')
