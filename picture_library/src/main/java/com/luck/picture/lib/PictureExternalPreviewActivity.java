@@ -1,6 +1,5 @@
 package com.luck.picture.lib;
 
-import android.Manifest;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,7 +14,6 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -29,7 +27,6 @@ import com.luck.picture.lib.config.PictureSelectionConfig;
 import com.luck.picture.lib.dialog.PictureCustomDialog;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.listener.OnImageCompleteCallback;
-import com.luck.picture.lib.permissions.PermissionChecker;
 import com.luck.picture.lib.photoview.PhotoView;
 import com.luck.picture.lib.thread.PictureThreadUtils;
 import com.luck.picture.lib.tools.AttrsUtils;
@@ -317,7 +314,7 @@ public class PictureExternalPreviewActivity extends PictureBaseActivity implemen
                     exitAnimation();
                 });
                 if (!isHasVideo) {
-                    longImageView.setOnLongClickListener(v -> {
+                   /* longImageView.setOnLongClickListener(v -> {
                         if (config.isNotPreviewDownload) {
                             if (PermissionChecker.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                                 downloadPath = path;
@@ -330,10 +327,10 @@ public class PictureExternalPreviewActivity extends PictureBaseActivity implemen
                             }
                         }
                         return true;
-                    });
+                    });*/
                 }
                 if (!isHasVideo) {
-                    imageView.setOnLongClickListener(v -> {
+                  /*  imageView.setOnLongClickListener(v -> {
                         if (config.isNotPreviewDownload) {
                             if (PermissionChecker.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                                 downloadPath = path;
@@ -346,7 +343,7 @@ public class PictureExternalPreviewActivity extends PictureBaseActivity implemen
                             }
                         }
                         return true;
-                    });
+                    });*/
                 }
                 ivPlay.setOnClickListener(v -> {
                     if (PictureSelectionConfig.customVideoPlayCallback != null) {

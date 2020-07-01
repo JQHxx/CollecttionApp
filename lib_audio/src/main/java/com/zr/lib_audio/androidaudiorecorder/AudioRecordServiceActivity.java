@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,8 +40,6 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
     private int color;
     private boolean autoStart;
     private boolean keepDisplayOn;
-
-    private MediaPlayer player;
     private VisualizerHandler visualizerHandler;
 
     private Timer timer;
@@ -53,12 +50,8 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
     private GLAudioVisualizationView visualizerView;
     private TextView statusView;
     private TextView timerView;
-    // private ImageButton restartView;
     private ImageButton recordView;
-    //  private ImageButton playView;
-
     private int recordLength;
-
     private Intent intent;
 
     @Override
@@ -195,7 +188,7 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
         int i = item.getItemId();
         if (i == android.R.id.home) {
             if (!RecordService.isRecording()) {
-               // stopRecording();
+                stopRecording();
                 finish();
             } else {
                 finish();

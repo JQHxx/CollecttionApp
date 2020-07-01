@@ -5,29 +5,34 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.huateng.collection.R;
-import com.huateng.collection.base.BaseActivity;
-import com.huateng.collection.base.BasePresenter;
-import com.trello.rxlifecycle3.LifecycleTransformer;
+import com.trello.rxlifecycle3.components.support.RxAppCompatActivity;
 
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.Nullable;
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends RxAppCompatActivity {
 
 
     @Override
-    protected BasePresenter createPresenter() {
-        return null;
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //避免每次启动都走splash界面
+        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+            finish();
+            return;
+        }
+        setContentView(R.layout.activity_splash);
+        initData();
     }
 
-    @Override
-    protected void initView(Bundle savedInstanceState) {
+    protected void initData() {
         Flowable.intervalRange(0, 2, 0, 1, TimeUnit.SECONDS)
-                .compose(getRxlifecycle())
+                .compose(bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Long>() {
@@ -48,38 +53,6 @@ public class SplashActivity extends BaseActivity {
                         finish();
                     }
                 });
-    }
-
-    /**
-     * 获取布局ID
-     *
-     * @return
-     */
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_splash;
-    }
-
-    /**
-     * 数据初始化操作
-     */
-    @Override
-    protected void initData() {
-
-
-    }
-
-    /**
-     * 此处设置沉浸式地方
-     */
-    @Override
-    protected void setStatusBar() {
-
-    }
-
-    @Override
-    public <T> LifecycleTransformer<T> getRxlifecycle() {
-        return bindToLifecycle();
     }
 
 }

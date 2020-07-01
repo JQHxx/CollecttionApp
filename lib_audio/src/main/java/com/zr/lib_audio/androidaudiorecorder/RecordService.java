@@ -220,7 +220,7 @@ public class RecordService extends Service {
             cancelNotification(context);
             try {
                 recordTask.recorder.stopRecording();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             recordTask.mElapsedSeconds = 0;
