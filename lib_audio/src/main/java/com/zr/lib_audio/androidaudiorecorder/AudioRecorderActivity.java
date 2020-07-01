@@ -23,15 +23,13 @@ import com.flyco.systembar.SystemBarHelper;
 import com.zr.lib_audio.R;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
-import omrecorder.AudioChunk;
-import omrecorder.OmRecorder;
-import omrecorder.PullTransport;
 import omrecorder.Recorder;
 
 public class AudioRecorderActivity extends AppCompatActivity {
@@ -58,9 +56,7 @@ public class AudioRecorderActivity extends AppCompatActivity {
     private GLAudioVisualizationView visualizerView;
     private TextView statusView;
     private TextView timerView;
-    private ImageButton restartView;
     private ImageButton recordView;
-    private ImageButton playView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,15 +114,9 @@ public class AudioRecorderActivity extends AppCompatActivity {
         contentLayout = (RelativeLayout) findViewById(R.id.content);
         statusView = (TextView) findViewById(R.id.status);
         timerView = (TextView) findViewById(R.id.timer);
-        restartView = (ImageButton) findViewById(R.id.restart);
         recordView = (ImageButton) findViewById(R.id.record);
-        playView = (ImageButton) findViewById(R.id.play);
-
         contentLayout.setBackgroundColor(Util.getDarkerColor(color));
         contentLayout.addView(visualizerView, 0);
-        restartView.setVisibility(View.INVISIBLE);
-        playView.setVisibility(View.INVISIBLE);
-
         if (Util.isBrightColor(color)) {
             ContextCompat.getDrawable(this, R.drawable.aar_ic_clear)
                     .setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
@@ -134,10 +124,8 @@ public class AudioRecorderActivity extends AppCompatActivity {
                     .setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
             statusView.setTextColor(Color.BLACK);
             timerView.setTextColor(Color.BLACK);
-            restartView.setColorFilter(Color.BLACK);
             recordView.setColorFilter(Color.BLACK);
-            playView.setColorFilter(Color.BLACK);
-        }
+       }
     }
 
     @Override
@@ -148,24 +136,6 @@ public class AudioRecorderActivity extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        try {
-//            visualizerView.onResume();
-//        } catch (Exception e) {
-//        }
-//    }
-//
-//    @Override
-//    protected void onPause() {
-//        restartRecording(null);
-//        try {
-//            visualizerView.onPause();
-//        } catch (Exception e) {
-//        }
-//        super.onPause();
-//    }
 
     @Override
     protected void onDestroy() {
@@ -263,8 +233,6 @@ public class AudioRecorderActivity extends AppCompatActivity {
         }
         saveMenuItem.setVisible(false);
         statusView.setVisibility(View.INVISIBLE);
-        restartView.setVisibility(View.INVISIBLE);
-        playView.setVisibility(View.INVISIBLE);
         recordView.setImageResource(R.drawable.aar_ic_rec);
         timerView.setText("00:00:00");
         recorderSecondsElapsed = 0;
@@ -276,10 +244,7 @@ public class AudioRecorderActivity extends AppCompatActivity {
         saveMenuItem.setVisible(false);
         statusView.setText(R.string.aar_recording);
         statusView.setVisibility(View.VISIBLE);
-        restartView.setVisibility(View.INVISIBLE);
-        playView.setVisibility(View.INVISIBLE);
         recordView.setImageResource(R.drawable.aar_ic_pause);
-        playView.setImageResource(R.drawable.aar_ic_play);
 
         visualizerHandler = new VisualizerHandler();
         visualizerView.linkTo(visualizerHandler);
@@ -287,7 +252,7 @@ public class AudioRecorderActivity extends AppCompatActivity {
         if (recorder == null) {
             timerView.setText("00:00:00");
 
-            recorder = OmRecorder.wav(
+           /* recorder = OmRecorder.wav(
                     new PullTransport.Default(Util.getMic(source, channel, sampleRate), new PullTransport.OnAudioChunkPulledListener() {
                         @Override
                         public void onAudioChunkPulled(AudioChunk audioChunk) {
@@ -295,7 +260,7 @@ public class AudioRecorderActivity extends AppCompatActivity {
                             visualizerHandler.onDataReceived(amplitude);
                         }
                     }),
-                    new File(filePath));
+                    new File(filePath));*/
         }
         recorder.resumeRecording();
 
@@ -309,10 +274,7 @@ public class AudioRecorderActivity extends AppCompatActivity {
         }
         statusView.setText(R.string.aar_paused);
         statusView.setVisibility(View.VISIBLE);
-        restartView.setVisibility(View.VISIBLE);
-        playView.setVisibility(View.VISIBLE);
         recordView.setImageResource(R.drawable.aar_ic_rec);
-        playView.setImageResource(R.drawable.aar_ic_play);
 
         visualizerView.release();
         if (visualizerHandler != null) {
@@ -334,7 +296,11 @@ public class AudioRecorderActivity extends AppCompatActivity {
 
         recorderSecondsElapsed = 0;
         if (recorder != null) {
-            recorder.stopRecording();
+            try {
+                recorder.stopRecording();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             recorder = null;
         }
 
@@ -365,7 +331,6 @@ public class AudioRecorderActivity extends AppCompatActivity {
             timerView.setText("00:00:00");
             statusView.setText(R.string.aar_playing);
             statusView.setVisibility(View.VISIBLE);
-            playView.setImageResource(R.drawable.aar_ic_stop);
 
             playerSecondsElapsed = 0;
             startTimer();
@@ -377,7 +342,6 @@ public class AudioRecorderActivity extends AppCompatActivity {
     private void stopPlaying() {
         statusView.setText("");
         statusView.setVisibility(View.INVISIBLE);
-        playView.setImageResource(R.drawable.aar_ic_play);
 
         visualizerView.release();
         if (visualizerHandler != null) {

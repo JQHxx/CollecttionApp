@@ -35,9 +35,9 @@ public class ApiConstants {
     // public static String DEVELOP_BASE_URL = "http://12.99.114.235:8080/apms/api/ccms-app/";//uat
     // public static String DEVELOP_BASE_URL = "http://12.99.129.113:18088/ccms-app/";
     // public static String DEVELOP_BASE_URL = "http://12.99.123.180:18088/ccms-app/";
-    //public static String DEVELOP_BASE_URL = "http://12.99.114.208:8080/apms/api/ccms-app/";//sit
+    public static String DEVELOP_BASE_URL = "http://12.99.114.208:8080/apms/api/ccms-app/";//sit
 
-    public static String DEVELOP_BASE_URL = "https://aaph.nbcb.com.cn/apms/api/ccms-app/";//生产环境
+   // public static String DEVELOP_BASE_URL = "https://aaph.nbcb.com.cn/apms/api/ccms-app/";//生产环境
 
     public static String MOBILE_APP_INTERFACE = "mobileAppInterface";
     public static String MOBILE_APP_OPER_INTERFACE = "mobileAppOperInterface";

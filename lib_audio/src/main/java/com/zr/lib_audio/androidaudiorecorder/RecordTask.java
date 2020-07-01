@@ -1,15 +1,21 @@
 package com.zr.lib_audio.androidaudiorecorder;
+
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioFormat;
+import android.media.MediaRecorder;
 import android.util.Log;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import omrecorder.AudioChunk;
+import omrecorder.AudioRecordConfig;
 import omrecorder.OmRecorder;
 import omrecorder.PullTransport;
+import omrecorder.PullableSource;
 import omrecorder.Recorder;
 
 /**
@@ -46,21 +52,34 @@ public class RecordTask implements PullTransport.OnAudioChunkPulledListener {
         channel = (AudioChannel) intent.getSerializableExtra(AndroidAudioRecorder.EXTRA_CHANNEL);
         sampleRate = (AudioSampleRate) intent.getSerializableExtra(AndroidAudioRecorder.EXTRA_SAMPLE_RATE);
 
-        Log.e("nb",source+":"+channel+":"+sampleRate+":"+filePath);
+        Log.e("nb", source + ":" + channel + ":" + sampleRate + ":" + filePath);
     }
 
     //开始录音或者恢复录音
     protected void resumeRecording() {
         isRecording = true;
-        Log.e("nb","filePath:"+filePath);
+        Log.e("nb", "filePath:" + filePath);
         if (recorder == null) {
+            Log.e("nb","resumeRecording resumeRecording resumeRecording");
             recorder = OmRecorder.wav(
-                    new PullTransport.Default(Util.getMic(source, channel, sampleRate), this),
-                    new File(filePath));
+                    new PullTransport.Default(mic(), this), new File(filePath));
+            recorder.startRecording();
+        }else {
+            recorder.resumeRecording();
         }
-        recorder.resumeRecording();
+
 
         startTimer();
+    }
+
+
+    private PullableSource mic() {
+        return new PullableSource.Default(
+                new AudioRecordConfig.Default(
+                        MediaRecorder.AudioSource.MIC, AudioFormat.ENCODING_PCM_16BIT,
+                        AudioFormat.CHANNEL_IN_MONO, 44100
+                )
+        );
     }
 
     //启动计时器
@@ -79,10 +98,24 @@ public class RecordTask implements PullTransport.OnAudioChunkPulledListener {
         mTimer.scheduleAtFixedRate(mIncrementTimerTask, 1000, 1000);
     }
 
+
+    protected  void  startRecording(){
+
+        if(recorder == null) {
+            return;
+        }
+        recorder.startRecording();
+    }
+
     //结束录音
     protected void stopRecording(Context context) {
+        Log.e("nb","stopRecording stopRecording stopRecording");
         if (recorder != null) {
-            recorder.stopRecording();
+            try {
+                recorder.stopRecording();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             if (mDelegate != null) {
                 mDelegate.onStop();
             }
@@ -115,6 +148,7 @@ public class RecordTask implements PullTransport.OnAudioChunkPulledListener {
 
     @Override
     public void onAudioChunkPulled(AudioChunk audioChunk) {
+        Log.e("nb","audioChunk audioChunk audioChunk");
         float amplitude = isRecording ? (float) audioChunk.maxAmplitude() : 0f;
         if (mDelegate != null) {
             mDelegate.onAudioChunkPull(amplitude);

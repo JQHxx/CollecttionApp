@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import com.aes_util.AESUtils;
@@ -21,6 +20,7 @@ import com.huateng.collection.bean.UploadImageDataBean;
 import com.huateng.collection.bean.orm.FileData;
 import com.huateng.collection.ui.adapter.GridImageAdapter;
 import com.huateng.collection.ui.adapter.RemoteImageAdapter;
+import com.huateng.collection.utils.DateUtil;
 import com.huateng.collection.utils.GlideEngine;
 import com.huateng.collection.utils.Utils;
 import com.huateng.collection.utils.WatermarkSettings;
@@ -48,7 +48,6 @@ import com.luck.picture.lib.thread.PictureThreadUtils;
 import com.luck.picture.lib.tools.SdkVersionUtils;
 import com.orhanobut.logger.Logger;
 import com.orm.SugarRecord;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.mapsdk.raster.model.LatLng;
 import com.tools.utils.FileUtils;
@@ -59,9 +58,7 @@ import com.tools.view.RxToast;
 import com.trello.rxlifecycle3.LifecycleTransformer;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -71,12 +68,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-
-import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-import static android.Manifest.permission.CAMERA;
 
 /**
  * author：shanyong
@@ -108,7 +100,6 @@ public class PhotoSelectorActivity2 extends BaseActivity {
     private String custName;
     private boolean isUpload;//是否在上传文件
     private LocationHelper mLocationHelper;
-    private RxPermissions rxPermissions;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -241,6 +232,10 @@ public class PhotoSelectorActivity2 extends BaseActivity {
                 //  Log.e("nb",location.getAddress()+":"+latLng.getLatitude()+":"+latLng.getLongitude());
             }
         });
+
+
+        recyclerView.setNestedScrollingEnabled(false);
+        mRecyclerRemote.setNestedScrollingEnabled(false);
     }
 
     private void initListener() {
@@ -407,22 +402,11 @@ public class PhotoSelectorActivity2 extends BaseActivity {
         public void onAddPicClick() {
 
             //获取权限
-            RxPermissions rxPermissions = new RxPermissions(PhotoSelectorActivity2.this);
-            rxPermissions.request(CAMERA, ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION)
-                    .subscribe(new Consumer<Boolean>() {
-                        @Override
-                        public void accept(Boolean granted) throws Exception {
-                            Log.e("nb", "granted:" + granted);
-                            if (!granted) {
-                                RxToast.showToast("相机或定位权限被拒绝，请授权后操作");
-                            } else {
-                                PictureSelector.create(PhotoSelectorActivity2.this)
-                                        .openCamera(PictureMimeType.ofImage())
-                                        .loadImageEngine(GlideEngine.createGlideEngine()) // 请参考Demo GlideEngine.java
-                                        .forResult(PictureConfig.REQUEST_CAMERA);
-                            }
-                        }
-                    });
+            PictureSelector.create(PhotoSelectorActivity2.this)
+                    .openCamera(PictureMimeType.ofImage())
+                    .loadImageEngine(GlideEngine.createGlideEngine()) // 请参考Demo GlideEngine.java
+                    .forResult(PictureConfig.REQUEST_CAMERA);
+
         }
     };
 
@@ -467,8 +451,6 @@ public class PhotoSelectorActivity2 extends BaseActivity {
                             }
                             // Log.e("nb", "isCopy:" + isCopy);
                             if (isCopy || isTempExist) {
-                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                                String time = formatter.format(new Date());
                                 double latitude = 0;
                                 double longitude = 0;
                                 String lastAddress = Config.getLastAddress();
@@ -480,7 +462,7 @@ public class PhotoSelectorActivity2 extends BaseActivity {
 
                                 WatermarkSettings.getmInstance(this);
 
-                                Bitmap bitmap2 = WatermarkSettings.createWatermark(tempFile.getPath(), Perference.getUserId(), custName, lastAddress, String.format("( %s,%s)", latitude, longitude), time);
+                                Bitmap bitmap2 = WatermarkSettings.createWatermark(tempFile.getPath(), Perference.getUserId(), custName, lastAddress, String.format("( %s,%s)", latitude, longitude), DateUtil.getDate2(System.currentTimeMillis()));
                                 boolean saved = ImageUtils.save(bitmap2, newFile.getPath(), Bitmap.CompressFormat.JPEG);
                                 //  Log.e("nb", "save:" + saved);
                                 if (saved) {

@@ -173,16 +173,16 @@ public class RetrofitManager {
             if (contentLength != 0) {
                 String key = sb.toString();
                 String data = buffer.clone().readString(charset);
-                 Log.e("nb", "data--->" + data);
+                Log.e("nb", "data--->" + data);
                 if (CommonUtils.isJson(data)) {
                     Logger.json(data);
                     CacheManager.getInstance().putCache(key, data);
                 } else {
-                   // Logger.w(data);
+                    // Logger.w(data);
                     //登录超时判断
-                   // Log.e("nb",data);
+                    // Log.e("nb",data);
                     if (null != data && data.contains("<title>登录</title>")) {
-                     //   Log.e("nb","tokenOverdue tokenOverdue tokenOverdue");
+                        //   Log.e("nb","tokenOverdue tokenOverdue tokenOverdue");
                         throw new RuntimeException("tokenOverdue");
                     }
 
@@ -377,7 +377,6 @@ public class RetrofitManager {
         return commonApiService.startDownLoad(NetworkConfig.C.getAuth(), requestBodyMap)
                 .compose(RetrofitManager.handleDownload(savePath, name));
     }
-
 
     /**
      * 下载监听转换

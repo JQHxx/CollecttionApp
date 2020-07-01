@@ -17,7 +17,6 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.cleveroad.audiovisualization.DbmHandler;
 import com.cleveroad.audiovisualization.GLAudioVisualizationView;
 import com.flyco.systembar.SystemBarHelper;
 import com.orhanobut.logger.Logger;
@@ -26,7 +25,6 @@ import com.zr.lib_audio.R;
 
 import java.io.File;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -123,9 +121,6 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
 
         contentLayout.setBackgroundColor(Util.getDarkerColor(color));
         contentLayout.addView(visualizerView, 0);
-        //  restartView.setVisibility(View.INVISIBLE);
-        // playView.setVisibility(View.INVISIBLE);
-
         if (Util.isBrightColor(color)) {
             ContextCompat.getDrawable(this, R.drawable.aar_ic_clear)
                     .setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
@@ -200,7 +195,7 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
         int i = item.getItemId();
         if (i == android.R.id.home) {
             if (!RecordService.isRecording()) {
-                stopRecording();
+               // stopRecording();
                 finish();
             } else {
                 finish();
@@ -228,14 +223,17 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
     }
 
     public void toggleRecording(View v) {
-        stopPlaying();
+
+
         Util.wait(100, new Runnable() {
             @Override
             public void run() {
                 if (RecordService.isRecording()) {
+                    //暂停
                     pauseRecording();
                 } else {
-
+                    //继续录音
+                    //第一次打开调用初始化录音方法
                     resumeRecording();
                 }
             }
@@ -255,28 +253,12 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
         RecordService.startRecording(this, intent, delegate);
     }
 
-    //切换录音状态
-    public void togglePlaying(View v) {
-        pauseRecording();
-        Util.wait(100, new Runnable() {
-            @Override
-            public void run() {
-                if (isPlaying()) {
-                    stopPlaying();
-                } else {
-                    startPlaying();
-                }
-            }
-        });
-    }
 
     //更新UI状态 重启录音
     public void restartRecording(View v) {
 
         if (RecordService.isRecording()) {
-            stopRecording();
-        } else if (isPlaying()) {
-            stopPlaying();
+           pauseRecording();
         }
 
         visualizerHandler = new VisualizerHandler();
@@ -288,8 +270,6 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
 
         saveMenuItem.setVisible(false);
         statusView.setVisibility(View.INVISIBLE);
-        //  restartView.setVisibility(View.INVISIBLE);
-        //  playView.setVisibility(View.INVISIBLE);
         recordView.setImageResource(R.drawable.aar_ic_rec);
         timerView.setText("00:00:00");
         playerSecondsElapsed = 0;
@@ -384,10 +364,7 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
         }
         statusView.setText(R.string.aar_paused);
         statusView.setVisibility(View.VISIBLE);
-        // restartView.setVisibility(View.VISIBLE);
-        //  playView.setVisibility(View.VISIBLE);
         recordView.setImageResource(R.drawable.aar_ic_rec);
-        //  playView.setImageResource(R.drawable.aar_ic_play);
 
         visualizerView.release();
         if (visualizerHandler != null) {
@@ -408,100 +385,6 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
         }
 
         RecordService.stopRecording(this);
-    }
-
-    private void startPlaying() {
-        try {
-            stopRecording();
-            player = new MediaPlayer();
-            player.setDataSource(filePath);
-            player.prepare();
-            player.start();
-
-            visualizerView.linkTo(DbmHandler.Factory.newVisualizerHandler(this, player));
-            visualizerView.post(new Runnable() {
-                @Override
-                public void run() {
-                    player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                        @Override
-                        public void onCompletion(MediaPlayer mediaPlayer) {
-                            stopPlaying();
-                        }
-                    });
-                }
-            });
-
-            timerView.setText("00:00:00");
-            statusView.setText(R.string.aar_playing);
-            statusView.setVisibility(View.VISIBLE);
-            // playView.setImageResource(R.drawable.aar_ic_stop);
-
-            playerSecondsElapsed = 0;
-            startTimer();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void stopPlaying() {
-        statusView.setText("");
-        statusView.setVisibility(View.INVISIBLE);
-        //   playView.setImageResource(R.drawable.aar_ic_play);
-
-        visualizerView.release();
-        if (visualizerHandler != null) {
-            visualizerHandler.stop();
-        }
-
-        if (player != null) {
-            try {
-                player.stop();
-                player.reset();
-            } catch (Exception e) {
-            }
-        }
-
-        stopTimer();
-    }
-
-    private boolean isPlaying() {
-        try {
-            return player != null && player.isPlaying() && !RecordService.isRecording();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    private void startTimer() {
-        stopTimer();
-        timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                updateTimer();
-            }
-        }, 0, 1000);
-    }
-
-    private void stopTimer() {
-        if (timer != null) {
-            timer.cancel();
-            timer.purge();
-            timer = null;
-        }
-    }
-
-    private void updateTimer() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (isPlaying()) {
-                    playerSecondsElapsed++;
-                    timerView.setText(Util.formatSeconds(playerSecondsElapsed));
-
-                }
-            }
-        });
     }
 
     /**

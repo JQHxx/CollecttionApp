@@ -37,7 +37,6 @@ import com.luck.picture.lib.model.LocalMediaLoader;
 import com.luck.picture.lib.thread.PictureThreadUtils;
 import com.luck.picture.lib.tools.DoubleUtils;
 import com.orm.SugarRecord;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tools.utils.FileUtils;
 import com.tools.utils.GsonUtils;
 import com.tools.view.RxTitle;
@@ -61,12 +60,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.Manifest.permission.RECORD_AUDIO;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.zr.lib_audio.androidaudiorecorder.AndroidAudioRecorder.EXTRA_FILE_PATH;
 import static com.zr.lib_audio.androidaudiorecorder.AndroidAudioRecorder.EXTRA_RECORD_TASK_ID;
 import static com.zr.lib_audio.androidaudiorecorder.AndroidAudioRecorder.EXTRA_RECORD_TASK_NAME;
@@ -147,18 +142,7 @@ public class RecordSelectorActivity2 extends BaseActivity implements View.OnClic
                         //获取权限
                         if (!DoubleUtils.isFastDoubleClick()) {
 
-                            RxPermissions rxPermissions = new RxPermissions(RecordSelectorActivity2.this);
-                            rxPermissions.request(RECORD_AUDIO, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE)
-                                    .subscribe(new Consumer<Boolean>() {
-                                        @Override
-                                        public void accept(Boolean granted) throws Exception {
-                                            if (!granted) {
-                                                RxToast.showToast("录音权限被拒绝，请授权后操作");
-                                            } else {
-                                                record();
-                                            }
-                                        }
-                                    });
+                            record();
                         }
 
 

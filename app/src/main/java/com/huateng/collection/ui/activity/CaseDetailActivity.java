@@ -1,6 +1,7 @@
 package com.huateng.collection.ui.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,9 @@ import com.flyco.systembar.SystemBarHelper;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.hjq.permissions.OnPermission;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 import com.huateng.collection.R;
 import com.huateng.collection.app.Constants;
 import com.huateng.collection.app.Perference;
@@ -28,7 +32,7 @@ import com.huateng.collection.ui.report.view.ReportListActivity;
 import com.huateng.collection.widget.NoScrollViewPager;
 import com.huateng.collection.widget.Watermark;
 import com.huateng.collection.widget.tab.TabEntity;
-import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.luck.picture.lib.config.PictureConfig;
 import com.tools.view.RxTitle;
 import com.tools.view.RxToast;
 import com.trello.rxlifecycle3.LifecycleTransformer;
@@ -39,14 +43,10 @@ import org.apache.poi.ss.formula.functions.T;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import butterknife.BindView;
-import io.reactivex.functions.Consumer;
-
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.Manifest.permission.RECORD_AUDIO;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 /**
  * 案件详情fragment
@@ -187,33 +187,70 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
      * 跳转到录音页面
      */
     private void toAudio() {
-        RxPermissions rxPermissions = new RxPermissions(CaseDetailActivity.this);
-        rxPermissions.request(RECORD_AUDIO,READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE)
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean granted) throws Exception {
 
-                        Log.e("nb","granted:"+granted);
-                        if (!granted) {
-                            RxToast.showToast("录音权限被拒绝，请授权后操作");
-                        } else {
-                            Intent intent = new Intent(CaseDetailActivity.this, RecordSelectorActivity.class);
-                            intent.putExtra(Constants.CASE_ID, caseId);
-                            intent.putExtra(Constants.CUST_ID, custId);
-                            intent.putExtra(Constants.CUST_NAME, custName);
-                            startActivity(intent);
-                        }
+        XXPermissions.with(this)
+                // 可设置被拒绝后继续申请，直到用户授权或者永久拒绝
+                //.constantRequest()
+                // 支持请求6.0悬浮窗权限8.0请求安装权限
+                //.permission(Permission.SYSTEM_ALERT_WINDOW, Permission.REQUEST_INSTALL_PACKAGES)
+                // 不指定权限则自动获取清单中的危险权限
+                .permission(new String[]{
+                        Permission.RECORD_AUDIO,
+                        Permission.READ_EXTERNAL_STORAGE,
+                        Permission.WRITE_EXTERNAL_STORAGE})
+                .request(new OnPermission() {
+
+                    @Override
+                    public void hasPermission(List<String> granted, boolean all) {
+
+                        Log.e("nb", granted + ":" + all);
+                        Intent intent = new Intent(CaseDetailActivity.this, RecordSelectorActivity.class);
+                        intent.putExtra(Constants.CASE_ID, caseId);
+                        intent.putExtra(Constants.CUST_ID, custId);
+                        intent.putExtra(Constants.CUST_NAME, custName);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void noPermission(List<String> denied, boolean quick) {
+                        Log.e("nb", denied + ":" + quick);
                     }
                 });
+
 
     }
 
     private void toPhoto() {
-        Intent intent1 = new Intent(CaseDetailActivity.this, PhotoSelectorActivity2.class);
-        intent1.putExtra(Constants.CASE_ID, caseId);
-        intent1.putExtra(Constants.CUST_ID, custId);
-        intent1.putExtra(Constants.CUST_NAME, custName);
-        startActivity(intent1);
+
+        XXPermissions.with(this)
+                // 可设置被拒绝后继续申请，直到用户授权或者永久拒绝
+                //.constantRequest()
+                // 支持请求6.0悬浮窗权限8.0请求安装权限
+                //.permission(Permission.SYSTEM_ALERT_WINDOW, Permission.REQUEST_INSTALL_PACKAGES)
+                // 不指定权限则自动获取清单中的危险权限
+                .permission(new String[]{
+                        Permission.CAMERA,
+                        Permission.ACCESS_COARSE_LOCATION,
+                        Permission.READ_EXTERNAL_STORAGE,
+                        Permission.WRITE_EXTERNAL_STORAGE})
+                .request(new OnPermission() {
+
+                    @Override
+                    public void hasPermission(List<String> granted, boolean all) {
+
+                        Intent intent1 = new Intent(CaseDetailActivity.this, PhotoSelectorActivity2.class);
+                        intent1.putExtra(Constants.CASE_ID, caseId);
+                        intent1.putExtra(Constants.CUST_ID, custId);
+                        intent1.putExtra(Constants.CUST_NAME, custName);
+                        startActivity(intent1);
+                    }
+
+                    @Override
+                    public void noPermission(List<String> denied, boolean quick) {
+                        Log.e("nb", denied + ":" + quick);
+                    }
+                });
+
     }
 
 
@@ -415,4 +452,27 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
                 break;
         }
     }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+
+            case PictureConfig.APPLY_RECORD_AUDIO_PERMISSIONS_CODE:
+                // 录音权限
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent intent = new Intent(CaseDetailActivity.this, RecordSelectorActivity.class);
+                    intent.putExtra(Constants.CASE_ID, caseId);
+                    intent.putExtra(Constants.CUST_ID, custId);
+                    intent.putExtra(Constants.CUST_NAME, custName);
+                    startActivity(intent);
+                } else {
+                    RxToast.showToast("录音权限被拒绝，请前往设置页面打开录音权限");
+                    // showPermissionsDialog(false, getString(com.luck.picture.lib.R.string.picture_audio));
+                }
+                break;
+        }
+    }
+
+
 }

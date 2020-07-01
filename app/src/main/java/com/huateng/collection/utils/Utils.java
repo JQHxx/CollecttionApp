@@ -220,7 +220,7 @@ public class Utils {
      * @return
      */
     public static boolean deleteAudioFile(Context context, File file) {
-        boolean deleted = false;
+        boolean deleted = true;
         if (file.isFile()) {
             String filePath = file.getPath();
             String name = file.getName();
@@ -234,15 +234,18 @@ public class Utils {
                         MediaStore.Audio.Media.DATA + "= \"" + filePath + "\"",
                         null);
 
+                Log.e("nb","res:"+res);
                 if (res > 0) {
-                    deleted = file.delete();
+                    file.delete();
                 } else {
                     deleted = false;
                 }
 
             } else {
-                deleted = file.delete();
+                file.delete();
             }
+        }else {
+            deleted = false;
         }
         return deleted;
     }

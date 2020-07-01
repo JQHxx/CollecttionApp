@@ -12,11 +12,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.camera.core.CameraX;
-import androidx.camera.view.CameraView;
-
 import com.luck.picture.lib.camera.CustomCameraView;
 import com.luck.picture.lib.camera.listener.CameraListener;
 import com.luck.picture.lib.camera.view.CaptureLayout;
@@ -28,6 +23,11 @@ import com.luck.picture.lib.permissions.PermissionChecker;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.camera.core.CameraX;
+import androidx.camera.view.CameraView;
 
 /**
  * @author：luck
@@ -70,8 +70,7 @@ public class PictureCustomCameraActivity extends PictureSelectorCameraEmptyActiv
         }
 
         // 验证相机权限和麦克风权限
-        if (PermissionChecker
-                .checkSelfPermission(this, Manifest.permission.CAMERA)) {
+        if (PermissionChecker.checkSelfPermission(this, Manifest.permission.CAMERA)) {
             boolean isRecordAudio = PermissionChecker.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO);
             if (isRecordAudio) {
                 createCameraView();

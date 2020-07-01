@@ -39,20 +39,6 @@
         android:layout_height="@dimen/aar_footer_height"
         android:layout_alignParentBottom="true">
 
-        <ImageButton
-            android:id="@+id/restart"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="50dp"
-            android:layout_toLeftOf="@+id/record"
-            android:layout_toStartOf="@+id/record"
-            android:onClick="restartRecording"
-            android:padding="10dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/aar_ic_restart"
-            android:visibility="invisible" />
 
         <ImageButton
             android:id="@+id/record"
@@ -67,20 +53,6 @@
             android:scaleType="fitCenter"
             android:src="@drawable/aar_ic_rec" />
 
-        <ImageButton
-            android:id="@+id/play"
-            android:visibility="invisible"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="50dp"
-            android:layout_toEndOf="@+id/record"
-            android:layout_toRightOf="@+id/record"
-            android:onClick="togglePlaying"
-            android:padding="10dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/aar_ic_play" />
 
     </RelativeLayout>
 

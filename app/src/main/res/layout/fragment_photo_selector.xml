@@ -18,7 +18,7 @@
         app:rxTitleVisibility="true" />
 
 
-    <com.huateng.collection.widget.recyclerview.RecyclerScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -75,7 +75,7 @@
         </LinearLayout>
 
 
-    </com.huateng.collection.widget.recyclerview.RecyclerScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
 </LinearLayout>

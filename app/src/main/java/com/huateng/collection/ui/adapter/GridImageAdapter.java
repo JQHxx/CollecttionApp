@@ -216,12 +216,10 @@ public class GridImageAdapter extends
                     if (file.isFile()) {
                         //删除文件
                         boolean isDel = Utils.deleteMediaFile(context, file);
+
                         if (isDel) {
                             list.remove(index);
                             notifyDataSetChanged();
-                            // notifyItemRemoved(index);
-                            //                        notifyItemRangeChanged(index, list.size());
-
                             //删除sqlite中保存的数据
                             List<FileData> fileDatas = SugarRecord.find(FileData.class, "FILE_NAME=?", file.getName());
                             if (null != fileDatas && fileDatas.size() > 0) {

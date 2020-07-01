@@ -13,6 +13,7 @@ import android.os.IBinder;
 
 import com.zr.lib_audio.R;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 
 import androidx.core.app.NotificationCompat;
@@ -217,12 +218,20 @@ public class RecordService extends Service {
     public static void restart(Context context) {
         if (isInit()) {
             cancelNotification(context);
-            recordTask.recorder.stopRecording();
+            try {
+                recordTask.recorder.stopRecording();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             recordTask.mElapsedSeconds = 0;
         }
     }
 
     public static void resumeRecording() {
+        recordTask.resumeRecording();
+    }
+
+    public static void startRecording() {
         recordTask.resumeRecording();
     }
 

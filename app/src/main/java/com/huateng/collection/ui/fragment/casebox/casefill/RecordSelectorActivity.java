@@ -1,7 +1,7 @@
 package com.huateng.collection.ui.fragment.casebox.casefill;
 
+import android.Manifest;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,9 +33,11 @@ import com.huateng.network.RxSchedulers;
 import com.huateng.network.UploadObserver;
 import com.huateng.network.bean.ResponseStructure;
 import com.huateng.network.upload.UploadParam;
+import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureSelectionConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.model.LocalMediaLoader;
+import com.luck.picture.lib.permissions.PermissionChecker;
 import com.luck.picture.lib.thread.PictureThreadUtils;
 import com.luck.picture.lib.tools.DoubleUtils;
 import com.orm.SugarRecord;
@@ -106,7 +108,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
                 .show(this);
         caseId = getIntent().getStringExtra(Constants.CASE_ID);
         custName = getIntent().getStringExtra(Constants.CUST_NAME);
-       // themeId = R.style.picture_white_style;
+        // themeId = R.style.picture_white_style;
         immersiveStatusBar(rxTitle);
         rxTitle.getLlLeft().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,7 +145,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
             public void onItemClick(int position, View v) {
                 LocalMedia media = fileList.get(position);
                 if (!DoubleUtils.isFastDoubleClick()) {
-                    Log.e("nb","path:"+media.getPath());
+                    Log.e("nb", "path:" + media.getPath());
                     if (FileUtils.isFileExists(media.getPath())) {
                         Intent intent = new Intent(RecordSelectorActivity.this, AudioPlayActivity.class);
                         intent.putExtra("filePath", media.getPath());
@@ -194,12 +196,12 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
 
             @Override
             public void onSuccess(List<LocalMedia> localMedias) {
-               // Log.e("nb", "onSuccess onSuccess onSuccess:" + localMedias.size());
+                // Log.e("nb", "onSuccess onSuccess onSuccess:" + localMedias.size());
                 initStandardModel(localMedias);
             }
         });
-
-
+        recyclerView.setNestedScrollingEnabled(false);
+        mRecyclerRemote.setNestedScrollingEnabled(false);
     }
 
 
@@ -207,15 +209,15 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
 
         fileList.clear();
         List<FileData> fileDatas = CaseManager.obtainRecordDatas(caseId);
-       // Log.e("nb", "fileDatas size" + fileDatas.size());
+        // Log.e("nb", "fileDatas size" + fileDatas.size());
         for (LocalMedia localMedia : localMedias) {
             //过滤掉已上传的文件和下载的文件
             boolean b = false;
             for (FileData fileData : fileDatas) {
                 b = localMedia.getPath().equals(fileData.getRealPath()) && (fileData.getFileType() == 2);
-                Log.e("nb","localMedia:"+localMedia.toString());
+                Log.e("nb", "localMedia:" + localMedia.toString());
                 if (b) {
-                    
+
                     break;
                 }
             }
@@ -246,7 +248,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
     private void record() {
         //存在录音任务时判断  如果任务id相同则进入，不同的话提示有任务在进行请结束当前录音任务后再进行新的录音任务
 
-       if (RecordService.isRecording()) {
+        if (RecordService.isRecording()) {
             Intent taskIntent = RecordService.getTaskIntent();
             if (!taskIntent.getStringExtra(EXTRA_RECORD_TASK_ID).equals(caseId)) {
                 RxToast.showToast(String.format("当前 %s 正在进行录音任务，请在结束该录音任务后再进行录音", taskIntent.getStringExtra(EXTRA_RECORD_TASK_NAME)));
@@ -255,38 +257,41 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
                 audioUrl = taskIntent.getStringExtra(EXTRA_FILE_PATH);
             }
         } else {
-        audioUrl = String.format("%s%s%s.wav", filePath, Perference.getUserId(), DateUtil.getDate3(System.currentTimeMillis()));
+            audioUrl = String.format("%s%s%s.wav", filePath, Perference.getUserId(), DateUtil.getDate3(System.currentTimeMillis()));
         }
 
 
-        AndroidAudioRecorder.with(this)
-                // Required
-                .setFilePath(audioUrl)
-                .setColor(ContextCompat.getColor(this, R.color.accent_color))
-                .setRequestCode(REQUEST_RECORD_AUDIO)
-                // Optional
-                .setTaskId(caseId)
-                .setTaskName(custName + "外访录音")
-                .setSource(AudioSource.MIC)
-                .setChannel(AudioChannel.MONO)
-                .setSampleRate(AudioSampleRate.HZ_8000)
-                .setAutoStart(false)
-                .setKeepDisplayOn(true)
-                // Start recording
-                .record();
+        if (PermissionChecker.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)) {
+            AndroidAudioRecorder.with(this)
+                    // Required
+                    .setFilePath(audioUrl)
+                    .setColor(ContextCompat.getColor(this, R.color.accent_color))
+                    .setRequestCode(REQUEST_RECORD_AUDIO)
+                    // Optional
+                    .setTaskId(caseId)
+                    .setTaskName(custName + "外访录音")
+                    .setSource(AudioSource.MIC)
+                    .setChannel(AudioChannel.MONO)
+                    .setSampleRate(AudioSampleRate.HZ_8000)
+                    .setAutoStart(false)
+                    .setKeepDisplayOn(true)
+                    // Start recording
+                    .record();
+        } else {
+            PermissionChecker.requestPermissions(this,
+                    new String[]{Manifest.permission.RECORD_AUDIO}, PictureConfig.APPLY_RECORD_AUDIO_PERMISSIONS_CODE);
+        }
+
+
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Uri data1 = data.getData();
-
-        Log.e("nb", requestCode + ":" + resultCode+":"+data1.getPath());
 
         if (requestCode == REQUEST_RECORD_AUDIO) {
             if (resultCode == RESULT_OK) {
                 int duration = data.getIntExtra("duration", 0);
-             // Log.e("nb", "time:" + duration+":"+);
                 File newFile = new File(audioUrl);
                 if (newFile.exists()) {
                     File file = new File(audioUrl);
@@ -313,9 +318,6 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
                 }
                 adapter.setList(fileList);
                 adapter.notifyDataSetChanged();
-                // Toast.makeText(this, "Audio recorded successfully!", Toast.LENGTH_SHORT).show();
-            } else if (resultCode == RESULT_CANCELED) {
-                //   Toast.makeText(this, "Audio was not recorded", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -392,7 +394,7 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
                             hideLoading();
                             return;
                         }
-                        Log.e("nb","sixe--->"+remoteAudioBean.getRecords().size());
+                        Log.e("nb", "sixe--->" + remoteAudioBean.getRecords().size());
                         if (isFresh) {
                             removeAudioData.clear();
                         }
@@ -631,4 +633,5 @@ public class RecordSelectorActivity extends BaseActivity implements View.OnClick
                     }
                 });
     }
+
 }
