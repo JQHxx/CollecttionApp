@@ -337,8 +337,8 @@ public class RetrofitManager {
                     if (param.getFile() == null || !param.getFile().exists()) {
                         break;
                     }
-                    UploadRequestBody uploadRequestBody = new UploadRequestBody(param.getFile());
-                    //                    设置总长度
+                  UploadRequestBody uploadRequestBody = new UploadRequestBody(param.getFile());
+                    //       设置总长度
                     uploadOnSubscribe.addSumLength(param.getFile().length());
                     uploadRequestBody.setUploadOnSubscribe(uploadOnSubscribe);
                     parts.add(MultipartBody.Part.createFormData(param.getName(), param.getFileName(), uploadRequestBody));
