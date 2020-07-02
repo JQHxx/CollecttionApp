@@ -24,6 +24,7 @@ import com.huateng.collection.ui.caseInfo.presenter.CaseDetailPresenter;
 import com.huateng.collection.ui.dialog.BottomDialogView;
 import com.huateng.collection.ui.fragment.casebox.casefill.PhotoSelectorActivity2;
 import com.huateng.collection.ui.fragment.casebox.casefill.RecordSelectorActivity;
+import com.huateng.collection.ui.fragment.casebox.casefill.RecordSelectorActivity2;
 import com.huateng.collection.ui.fragment.casebox.info.CreditCardMsgFragment;
 import com.huateng.collection.ui.fragment.casebox.info.FragmentAccountInfo;
 import com.huateng.collection.ui.fragment.casebox.info.FragmentBaseInfo;
@@ -84,7 +85,6 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
     private String custId;
     private String custName;
     private String businessType;
-    // private boolean caseStatus;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -204,7 +204,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
                     public void hasPermission(List<String> granted, boolean all) {
 
                         Log.e("nb", granted + ":" + all);
-                        Intent intent = new Intent(CaseDetailActivity.this, RecordSelectorActivity.class);
+                        Intent intent = new Intent(CaseDetailActivity.this, RecordSelectorActivity2.class);
                         intent.putExtra(Constants.CASE_ID, caseId);
                         intent.putExtra(Constants.CUST_ID, custId);
                         intent.putExtra(Constants.CUST_NAME, custName);

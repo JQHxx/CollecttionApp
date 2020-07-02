@@ -37,7 +37,7 @@ public class RemoteAudioAdapter2 extends BaseSectionQuickAdapter<AudioSectionBea
             helper.setGone(R.id.ll_add,false);
             helper.setText(R.id.tv_title,item.header);
         }
-        helper.addOnClickListener(R.id.ll_add);
+       // helper.addOnClickListener(R.id.ll_add);
     }
 
     public RemoteAudioAdapter2() {
