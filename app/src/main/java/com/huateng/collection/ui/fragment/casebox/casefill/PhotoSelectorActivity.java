@@ -16,10 +16,12 @@ import com.huateng.collection.app.Constants;
 import com.huateng.collection.app.Perference;
 import com.huateng.collection.base.BaseActivity;
 import com.huateng.collection.base.BasePresenter;
+import com.huateng.collection.bean.ImageRecordsBean;
 import com.huateng.collection.bean.UploadImageDataBean;
 import com.huateng.collection.bean.orm.FileData;
 import com.huateng.collection.ui.adapter.GridImageAdapter;
 import com.huateng.collection.ui.adapter.RemoteImageAdapter;
+import com.huateng.collection.utils.DateUtil;
 import com.huateng.collection.utils.GlideEngine;
 import com.huateng.collection.utils.Utils;
 import com.huateng.collection.utils.WatermarkSettings;
@@ -44,6 +46,7 @@ import com.luck.picture.lib.config.PictureSelectionConfig;
 import com.luck.picture.lib.decoration.GridSpacingItemDecoration;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.thread.PictureThreadUtils;
+import com.luck.picture.lib.tools.SdkVersionUtils;
 import com.orhanobut.logger.Logger;
 import com.orm.SugarRecord;
 import com.tencent.map.geolocation.TencentLocation;
@@ -56,9 +59,7 @@ import com.tools.view.RxToast;
 import com.trello.rxlifecycle3.LifecycleTransformer;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -74,6 +75,7 @@ import io.reactivex.schedulers.Schedulers;
  * author：shanyong
  * data：2018/12/27
  */
+
 public class PhotoSelectorActivity extends BaseActivity {
     private int pageNo = 1;
     private int pageSize = 10;
@@ -88,11 +90,7 @@ public class PhotoSelectorActivity extends BaseActivity {
     private List<LocalMedia> remoteFileList = new ArrayList<>();
     private GridImageAdapter adapter;
     private RemoteImageAdapter mRemoteImageAdapter;
-    private int maxSelectNum = 9;
     private int imageSize = 0;
-    // private LocalMediaLoader mediaLoader;
-    private int number;
-    private int remoteImageNum;
 
     // private int compressMode = PictureConfig.SYSTEM_COMPRESS_MODE;
     private int themeId;
@@ -108,7 +106,7 @@ public class PhotoSelectorActivity extends BaseActivity {
     protected void initView(Bundle savedInstanceState) {
         Watermark.getInstance()
                 .setTextSize(12.0f)
-                .setText(Perference.getUserId()  + "-" + Perference.get(Perference.NICK_NAME))
+                .setText(Perference.getUserId() + "-" + Perference.get(Perference.NICK_NAME))
                 .show(this);
         themeId = R.style.picture_white_style;
         immersiveStatusBar(rxTitle);
@@ -123,14 +121,15 @@ public class PhotoSelectorActivity extends BaseActivity {
 
             @Override
             public List<LocalMedia> doInBackground() {
-               return new LocalMediaLoader(PhotoSelectorActivity.this, PictureSelectionConfig.getInstance()).getImages(localfilePath);
+                return new LocalMediaLoader(PhotoSelectorActivity.this, PictureSelectionConfig.getInstance()).getImages(localfilePath);
             }
 
             @Override
             public void onSuccess(List<LocalMedia> localMedias) {
-               initStandardModel(localMedias);
+                initStandardModel(localMedias);
             }
         });
+
     }
 
     private void initStandardModel(List<LocalMedia> images) {
@@ -144,7 +143,7 @@ public class PhotoSelectorActivity extends BaseActivity {
             fileList.clear();
             remoteFileList.clear();
 
-           for (LocalMedia localMedia : images) {
+            for (LocalMedia localMedia : images) {
                 //过滤掉已上传的文件和下载的文件
                 boolean b = false;
                 for (FileData fileData : fileDatas) {
@@ -178,7 +177,7 @@ public class PhotoSelectorActivity extends BaseActivity {
 
         adapter = new GridImageAdapter(PhotoSelectorActivity.this, onAddPicClickListener);
         adapter.setList(fileList);
-        adapter.setSelectMax(maxSelectNum);
+        // adapter.setSelectMax(maxSelectNum);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new GridImageAdapter.OnItemClickListener() {
             @Override
@@ -190,7 +189,7 @@ public class PhotoSelectorActivity extends BaseActivity {
                         .isNotPreviewDownload(true)
                         .loadImageEngine(GlideEngine.createGlideEngine()) // 请参考Demo GlideEngine.java
                         .openExternalPreview(position, fileList);
-             }
+            }
         });
 
         //远程图片加载
@@ -233,6 +232,10 @@ public class PhotoSelectorActivity extends BaseActivity {
                 //  Log.e("nb",location.getAddress()+":"+latLng.getLatitude()+":"+latLng.getLongitude());
             }
         });
+
+
+        recyclerView.setNestedScrollingEnabled(false);
+        mRecyclerRemote.setNestedScrollingEnabled(false);
     }
 
     private void initListener() {
@@ -254,6 +257,11 @@ public class PhotoSelectorActivity extends BaseActivity {
                     return;
                 }
                 sendData();
+              /*  Intent intent = new Intent();
+                intent.putExtra("caseId",caseId);
+                intent.putParcelableArrayListExtra("list", (ArrayList<? extends Parcelable>) fileList);
+                UploadService.enqueueWork(getApplicationContext(),intent);*/
+                // 启动后台service上传图片
             }
         });
 
@@ -277,7 +285,7 @@ public class PhotoSelectorActivity extends BaseActivity {
         showLoading();
         ArrayList<UploadParam> uploadParams = new ArrayList<>();
         Map<String, String> map = new HashMap<>();
-       //过滤掉已上传的文件
+        //过滤掉已上传的文件
         //数据库查找保存的数据
         List<FileData> fileDatas = CaseManager.obtainPhotoDatas(caseId);
         for (LocalMedia localMedia : fileList) {
@@ -293,17 +301,15 @@ public class PhotoSelectorActivity extends BaseActivity {
 
             if (!b) {
                 uploadParams.add(new UploadParam("file", new File(localMedia.getPath()), localMedia.getFileName()));
-              //  Log.e("nb", "新增一张图片:");
+                //  Log.e("nb", "新增一张图片:");
                 long time = new File(localMedia.getPath()).lastModified();
                 if (imageSize == 0) {
-                    fileDate = localMedia.getFileName() + "/" + time ;
+                    fileDate = localMedia.getFileName() + "/" + time;
 
                 } else {
-                   fileDate = fileDate + "," + localMedia.getFileName() + "/" + time;
+                    fileDate = fileDate + "," + localMedia.getFileName() + "/" + time;
 
                 }
-
-
                 imageSize++;
             }
         }
@@ -318,7 +324,7 @@ public class PhotoSelectorActivity extends BaseActivity {
         imageSize = 0;
         map.put("caseId", caseId);
         map.put("fileType", "0");
-        map.put("fileDate",fileDate);
+        map.put("fileDate", fileDate);
         map.put("tlrNo", Perference.getUserId());
         String appData = GsonUtils.toJson(map);
         uploadParams.add(new UploadParam("appData", AESUtils.encrypt(appData, "aes-nbcbccms@123")));
@@ -332,7 +338,7 @@ public class PhotoSelectorActivity extends BaseActivity {
                     @Override
                     public void _onProgress(Integer percent) {
                         super._onProgress(percent);
-                       // Log.e("nb", "进度：" + percent);
+                        // Log.e("nb", "进度：" + percent);
                     }
 
                     @Override
@@ -350,14 +356,14 @@ public class PhotoSelectorActivity extends BaseActivity {
 
                             RxToast.showToast(o.getScubeHeader().getErrorMsg());
                         } else if (o.getScubeHeader() != null && "SUC".equals(o.getScubeHeader().getErrorCode())) {
-                           // Log.e("nb", "fileDatas.size():" + fileDatas.size());
+                            // Log.e("nb", "fileDatas.size():" + fileDatas.size());
 
                             Iterator<LocalMedia> iterator = fileList.iterator();
                             while (iterator.hasNext()) {
                                 LocalMedia localMedia = iterator.next();
                                 File file = new File(localMedia.getPath());
                                 if (file.isFile()) {
-                                   // remoteFileList.add(localMedia);
+                                    // remoteFileList.add(localMedia);
                                     iterator.remove();
                                 }
                             }
@@ -395,11 +401,11 @@ public class PhotoSelectorActivity extends BaseActivity {
         @Override
         public void onAddPicClick() {
 
+            //获取权限
             PictureSelector.create(PhotoSelectorActivity.this)
                     .openCamera(PictureMimeType.ofImage())
                     .loadImageEngine(GlideEngine.createGlideEngine()) // 请参考Demo GlideEngine.java
                     .forResult(PictureConfig.REQUEST_CAMERA);
-
 
         }
     };
@@ -407,7 +413,7 @@ public class PhotoSelectorActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-      //  Log.e("nb", requestCode + ":" + resultCode);
+        //  Log.e("nb", requestCode + ":" + resultCode);
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case PictureConfig.REQUEST_CAMERA:
@@ -417,29 +423,34 @@ public class PhotoSelectorActivity extends BaseActivity {
                     for (int i = 0; i < selectList.size(); i++) {
                         boolean contains = false;
                         LocalMedia selectMedia = selectList.get(i);
+                        String path = "";
+                        if (SdkVersionUtils.checkedAndroid_Q()) {
+                            path = selectMedia.getAndroidQToPath();
+                        } else {
+                            path = selectMedia.getPath();
+                        }
                         for (int j = 0; j < fileList.size(); j++) {
                             LocalMedia localMedia = fileList.get(j);
                             //路径一样且名字一样
-                            if (localMedia.getPath().equals(selectMedia.getPath()) && localMedia.getFileName().equals(selectMedia.getFileName())) {
+                            //   Log.i(TAG, "Android Q 特有Path:" + media.getAndroidQToPath());
+                            if (localMedia.getPath().equals(path) && localMedia.getFileName().equals(selectMedia.getFileName())) {
                                 contains = true;
                             }
                         }
                         if (!contains) {
-                            File file = new File(selectMedia.getPath());
+                            File file = new File(path);
                             File tempFile = new File(tempFilePath, file.getName());
                             File newFile = new File(localfilePath, file.getName());
                             //复制选择图片文件
                             boolean isCopy = false;
                             boolean isTempExist = tempFile.exists();
-                          //  Log.e("nb", "isTempExist:" + isTempExist);
+                            //  Log.e("nb", "isTempExist:" + isTempExist);
                             if (!isTempExist) {
                                 isCopy = FileUtils.copyFile(file, tempFile);
-                                Logger.i("%s copy:%s", selectMedia.getPath(), String.valueOf(isCopy));
+                                Logger.i("%s copy:%s", path, String.valueOf(isCopy));
                             }
-                           // Log.e("nb", "isCopy:" + isCopy);
+                            // Log.e("nb", "isCopy:" + isCopy);
                             if (isCopy || isTempExist) {
-                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                                String time = formatter.format(new Date());
                                 double latitude = 0;
                                 double longitude = 0;
                                 String lastAddress = Config.getLastAddress();
@@ -451,9 +462,9 @@ public class PhotoSelectorActivity extends BaseActivity {
 
                                 WatermarkSettings.getmInstance(this);
 
-                                Bitmap bitmap2 = WatermarkSettings.createWatermark(tempFile.getPath(), Perference.getUserId(), custName, lastAddress, String.format("( %s,%s)", latitude, longitude), time);
+                                Bitmap bitmap2 = WatermarkSettings.createWatermark(tempFile.getPath(), Perference.getUserId(), custName, lastAddress, String.format("( %s,%s)", latitude, longitude), DateUtil.getDate2(System.currentTimeMillis()));
                                 boolean saved = ImageUtils.save(bitmap2, newFile.getPath(), Bitmap.CompressFormat.JPEG);
-                              //  Log.e("nb", "save:" + saved);
+                                //  Log.e("nb", "save:" + saved);
                                 if (saved) {
                                     //                                     删除临时文件
                                     Utils.deleteImage(PhotoSelectorActivity.this, tempFile.getPath());
@@ -473,8 +484,6 @@ public class PhotoSelectorActivity extends BaseActivity {
                                 fileData.setRealPath(newFile.getPath());
                                 fileData.setFileName(newFile.getName());
                                 SugarRecord.save(fileData);
-
-
                             }
                         }
                     }
@@ -521,7 +530,6 @@ public class PhotoSelectorActivity extends BaseActivity {
             pageNo = 1;
             remoteFileList.clear();
         }
-        number = 0;
         Map<String, String> map = new HashMap<>();
         map.put("pageNo", String.valueOf(pageNo));
         map.put("pageSize", String.valueOf(pageSize));
@@ -553,32 +561,25 @@ public class PhotoSelectorActivity extends BaseActivity {
                             hideLoading();
                             return;
                         }
-                        remoteImageNum = uploadImageDataBean.getRecords().size();
+                        if (TextUtils.isEmpty(localfilePath)) {
+                            localfilePath = AttachmentProcesser.getInstance(PhotoSelectorActivity.this).getPhotoPath(caseId);
+                        }
                         for (int i = 0; i < uploadImageDataBean.getRecords().size(); i++) {
-                            UploadImageDataBean.RecordsBean recordsBean = uploadImageDataBean.getRecords().get(i);
-                            if (TextUtils.isEmpty(localfilePath)) {
-                             //   Log.e("nb", "localfilePath:" + localfilePath);
-                                localfilePath = AttachmentProcesser.getInstance(PhotoSelectorActivity.this).getPhotoPath(caseId);
-                            }
+                            ImageRecordsBean recordsBean = uploadImageDataBean.getRecords().get(i);
 
                             String path = localfilePath + File.separator + recordsBean.getFileName();
-                          //  Log.e("nb", "path-->" + path);
-                            if (FileUtils.isFileExists(path)) {
-                                LocalMedia localMedia = new LocalMedia();
-                                localMedia.setPath(path);
-                                remoteFileList.add(localMedia);
-                                number++;
-                                if (number == remoteImageNum && number > 0) {
-                                    mRemoteImageAdapter.setNewData(remoteFileList);
-                                    saveDataToDb();
-
-                                    hideLoading();
-                                }
-                            } else {
-                                downLoad(recordsBean.getFileName(), recordsBean.getFilePath(), isFresh);
+                            LocalMedia localMedia = new LocalMedia();
+                            localMedia.setPath(path);
+                            remoteFileList.add(localMedia);
+                            if (!FileUtils.isFileExists(path)) {
+                                downLoad(recordsBean.getFileName(), recordsBean.getFilePath(), i);
                             }
                         }
 
+                        mRemoteImageAdapter.setNewData(remoteFileList);
+
+                        saveDataToDb();
+                        hideLoading();
                         if (isFresh) {
                             //下拉刷新
                             if (uploadImageDataBean.getRecords().size() < 10) {
@@ -625,48 +626,19 @@ public class PhotoSelectorActivity extends BaseActivity {
         }
     }
 
-    private void downLoad(String name, String filePath, boolean isFresh) {
-        //Log.e("nb", name + ":" + filePath);
+    private void downLoad(String name, String filePath, int position) {
         RetrofitManager.getInstance()
                 .download(name, filePath, "mobileAppFileOperServiceImpl/appDownload", localfilePath)
                 .compose(RxSchedulers.io_main())
                 .subscribe(new DownLoadObserver() {
                     @Override
                     public void _onNext(String result) {
-                        UploadImageDataBean.RecordsBean recordsBean = new UploadImageDataBean.RecordsBean();
-                        recordsBean.setFilePath(result);
-                        LocalMedia localMedia = new LocalMedia();
-                        localMedia.setPath(result);
-                        remoteFileList.add(localMedia);
                         Utils.scanMediaFile(PhotoSelectorActivity.this, new File(result));
-                        number++;
-                        if (number == remoteImageNum) {
-
-                            if (isFresh) {
-                                hideLoading();
-                            }
-
-                            if (number > 0) {
-
-                                mRemoteImageAdapter.setNewData(remoteFileList);
-                                saveDataToDb();
-                            }
-                        }
-
+                        mRemoteImageAdapter.notifyItemChanged(position);
                     }
-
 
                     @Override
                     public void _onError(Throwable e) {
-                       number++;
-                        if (isFresh) {
-                            hideLoading();
-                        }
-                        if (number > 0) {
-                            mRemoteImageAdapter.setNewData(remoteFileList);
-                            saveDataToDb();
-
-                        }
                     }
                 });
 

@@ -22,7 +22,7 @@ import com.huateng.collection.base.BaseFragment;
 import com.huateng.collection.ui.caseInfo.contract.CaseDetailContract;
 import com.huateng.collection.ui.caseInfo.presenter.CaseDetailPresenter;
 import com.huateng.collection.ui.dialog.BottomDialogView;
-import com.huateng.collection.ui.fragment.casebox.casefill.PhotoSelectorActivity2;
+import com.huateng.collection.ui.fragment.casebox.casefill.PhotoSelectorActivity;
 import com.huateng.collection.ui.fragment.casebox.casefill.RecordSelectorActivity;
 import com.huateng.collection.ui.fragment.casebox.casefill.RecordSelectorActivity2;
 import com.huateng.collection.ui.fragment.casebox.info.CreditCardMsgFragment;
@@ -238,7 +238,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
                     @Override
                     public void hasPermission(List<String> granted, boolean all) {
 
-                        Intent intent1 = new Intent(CaseDetailActivity.this, PhotoSelectorActivity2.class);
+                        Intent intent1 = new Intent(CaseDetailActivity.this, PhotoSelectorActivity.class);
                         intent1.putExtra(Constants.CASE_ID, caseId);
                         intent1.putExtra(Constants.CUST_ID, custId);
                         intent1.putExtra(Constants.CUST_NAME, custName);

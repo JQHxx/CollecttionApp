@@ -184,9 +184,10 @@ public class RecordSelectorActivity2 extends BaseActivity implements View.OnClic
         }, mRecyclerRemote);
 
         //长按删除
-        mRemoteAudioAdapter.setOnItemChildLongClickListener(new BaseQuickAdapter.OnItemChildLongClickListener() {
+        mRemoteAudioAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
             @Override
-            public boolean onItemChildLongClick(BaseQuickAdapter adapter, View view, int position) {
+            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+                Log.e("nb","position:"+position);
                 AudioSectionBean data = (AudioSectionBean) adapter.getData().get(position);
                 if (!data.isHeader && data.t.isLocal()) {
                     //删除
@@ -199,8 +200,8 @@ public class RecordSelectorActivity2 extends BaseActivity implements View.OnClic
 
                     dialog.setOnOperItemClickL(new OnOperItemClickL() {
                         @Override
-                        public void onOperItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            switch (position) {
+                        public void onOperItemClick(AdapterView<?> parent, View view, int index, long id) {
+                            switch (index) {
                                 case 0:
                                     //删除文件
                                     //删除文件
@@ -215,13 +216,13 @@ public class RecordSelectorActivity2 extends BaseActivity implements View.OnClic
                 return false;
             }
         });
+
     }
 
 
     private void initStandardModel(List<LocalMedia> localMedias) {
-        Log.e("nb", "initStandardModel ");
         dataList.clear();
-        dataList.add(new AudioSectionBean(true, "未上传图片", false));
+        dataList.add(new AudioSectionBean(true, "未上传录音", false));
         List<FileData> fileDatas = CaseManager.obtainRecordDatas(caseId);
         for (LocalMedia localMedia : localMedias) {
             //过滤掉已上传的文件和下载的文件
@@ -241,14 +242,13 @@ public class RecordSelectorActivity2 extends BaseActivity implements View.OnClic
                 recorderBean.setFileTime(new File(localMedia.getPath()).lastModified());
                 recorderBean.setFilePath(localMedia.getPath());
                 dataList.add(new AudioSectionBean(recorderBean));
-                Log.e("nb", "11111");
                 localData.add(localMedia);
 
             }
 
         }
         dataList.add(new AudioSectionBean(true, "", true));
-        dataList.add(new AudioSectionBean(true, "已上传图片", false));
+        dataList.add(new AudioSectionBean(true, "已上传录音", false));
         // mRemoteAudioAdapter.setNewData(dataList);
         //对文件进行同步
         Utils.mediaFileSync(RecordSelectorActivity2.this, filePath, fileDatas, localData, FileData.TYPE_AUDIO, caseId, caseId);
@@ -669,18 +669,10 @@ public class RecordSelectorActivity2 extends BaseActivity implements View.OnClic
                                 }
                             }
 
-
-/*
-                            for (int i = 1; i < addNum; i++) {
-                                dataList.add(addNum + 2, dataList.get(i));
-
-                            }*/
-
                             for (int i = addNum - 1; i >= 1; i--) {
                                 dataList.add(addNum + 2, dataList.get(i));
 
                             }
-
 
                             for (; 1 < addNum; ) {
 
@@ -723,6 +715,7 @@ public class RecordSelectorActivity2 extends BaseActivity implements View.OnClic
      * 将数据库中FileData 数据 Exist 项改为false 让count能递增
      */
     private void showDeleteDialog(final Context context, final int index) {
+        Log.e("nb","index:"+index);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("提示");
         builder.setMessage("要删除此文件吗？");

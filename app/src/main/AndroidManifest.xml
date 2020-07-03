@@ -95,10 +95,6 @@
             android:name=".ui.fragment.casebox.casefill.PhotoSelectorActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".ui.fragment.casebox.casefill.PhotoSelectorActivity2"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="adjustPan" />
         <meta-data
             android:name="TencentMapSDK"
             android:value="O6GBZ-UZXCQ-7SE5M-GZOLD-PDOKO-EAFNR" />
