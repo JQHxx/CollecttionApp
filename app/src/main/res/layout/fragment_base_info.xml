@@ -386,7 +386,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="家庭电话："
+                        android:text="家庭电话 ："
                         android:textColor="@color/black_43"
                         android:textSize="16sp" />
 
@@ -411,7 +411,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="家庭地址："
+                        android:text="家庭地址 ："
                         android:textColor="@color/black_43"
                         android:textSize="16sp" />
 
@@ -437,7 +437,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="工作单位名称："
+                        android:text="工作单位名称 ："
                         android:textColor="@color/black_43"
                         android:textSize="16sp" />
 
@@ -465,7 +465,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="top"
-                        android:text="工作单位地址："
+                        android:text="工作单位地址 ："
                         android:textColor="@color/black_43"
                         android:textSize="16sp" />
 
@@ -492,7 +492,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="工作单位联系电话："
+                        android:text="工作单位联系电话 ："
                         android:textColor="@color/black_43"
                         android:textSize="16sp" />
 
@@ -524,7 +524,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="单位编制："
+                            android:text="单位编制 ："
                             android:textColor="@color/black_43"
                             android:textSize="16sp" />
 
@@ -552,7 +552,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="任职部门："
+                        android:text="任职部门 ："
                         android:textColor="@color/black_43"
                         android:textSize="16sp" />
 
@@ -585,7 +585,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="职务："
+                            android:text="职务 ："
                             android:textColor="@color/black_43"
                             android:textSize="16sp" />
 
@@ -614,7 +614,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="电子邮箱："
+                        android:text="电子邮箱 ："
                         android:textColor="@color/black_43"
                         android:textSize="16sp" />
 
@@ -642,7 +642,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="是否信用卡黑名单："
+                        android:text="是否信用卡黑名单 ："
                         android:textColor="@color/black_43"
                         android:textSize="16sp" />
 
@@ -668,7 +668,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="配偶姓名："
+                        android:text="配偶姓名 ："
                         android:textColor="@color/black_43"
                         android:textSize="16sp" />
 
@@ -694,7 +694,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="配偶证件类型："
+                        android:text="配偶证件类型 ："
                         android:textColor="@color/black_43"
                         android:textSize="16sp" />
 
@@ -720,7 +720,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="配偶证件号码："
+                        android:text="配偶证件号码 ："
                         android:textColor="@color/black_43"
                         android:textSize="16sp" />
 
@@ -746,7 +746,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="配偶联系方式："
+                        android:text="配偶联系方式 ："
                         android:textColor="@color/black_43"
                         android:textSize="16sp" />
 
