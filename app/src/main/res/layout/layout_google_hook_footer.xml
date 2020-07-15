@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.huateng.collection.widget.pulltoload.footer.GoogleCircleHookLoadMoreFooterView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.huateng.phone.collection.widget.pulltoload.footer.GoogleCircleHookLoadMoreFooterView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/load_more_footer_height_google"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/transparent"
     android:orientation="vertical">
 
-    <com.huateng.collection.widget.pulltoload.GoogleCircleProgressView
+    <com.huateng.phone.collection.widget.pulltoload.GoogleCircleProgressView
         android:id="@+id/googleProgress"
         app:gcp_show_arrow="true"
         app:gcp_progress_stoke_width="2dp"
@@ -15,4 +15,4 @@
         android:layout_width="@dimen/refresh_drawable_size_google"
         android:layout_height="@dimen/refresh_drawable_size_google"
         android:layout_gravity="center" />
-</com.huateng.collection.widget.pulltoload.footer.GoogleCircleHookLoadMoreFooterView>
+</com.huateng.phone.collection.widget.pulltoload.footer.GoogleCircleHookLoadMoreFooterView>

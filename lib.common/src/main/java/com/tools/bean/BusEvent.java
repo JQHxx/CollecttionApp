@@ -17,7 +17,9 @@ public class BusEvent {
     public static final int BIZ_ACCT_REDUCE_INFO = 100000012;
     public static final int REFRESH_HISTORY_ACTIONS = 100000013;
 
-    public static final int STOP_AUDIO = 100000014;
+    public static final int ADD_CASE_TO_WAIT_LIST = 100000014;//添加案件到待清收列表
+
+    public static final int  SELECT_OPTIONS_HIDE = 100000015;//隐藏多选框
 
     public static final int TOKEN_OVERDUE = 302;
 

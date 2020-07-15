@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -64,11 +65,13 @@ public class UpdateDialogFragment extends DialogFragment implements View.OnClick
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.e("nb","onServiceConnected onServiceConnected");
             startDownloadApp((DownloadService.DownloadBinder) service);
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
+            Log.e("nb","onServiceDisconnected onServiceDisconnected");
         }
     };
     private LinearLayout mLlClose;
@@ -369,6 +372,7 @@ public class UpdateDialogFragment extends DialogFragment implements View.OnClick
      */
     private void downloadApp() {
         //使用ApplicationContext延长他的生命周期
+        Log.e("nb","downloadApp downloadApp downloadApp ");
         DownloadService.bindService(getActivity().getApplicationContext(), conn);
     }
 

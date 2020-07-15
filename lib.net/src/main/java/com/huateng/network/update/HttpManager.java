@@ -18,7 +18,7 @@ public interface HttpManager extends Serializable {
      * @param params   get参数
      * @param callBack 回调
      */
-    void asyncGet(@NonNull String url, @NonNull Map<String, String> params, @NonNull Callback callBack);
+    void asyncGet(@NonNull String url, @NonNull Map<String, Object> params, @NonNull Callback callBack);
 
 
     /**
@@ -28,7 +28,7 @@ public interface HttpManager extends Serializable {
      * @param params   post请求参数
      * @param callBack 回调
      */
-    void asyncPost(@NonNull String url, @NonNull Map<String, String> params, @NonNull Callback callBack);
+    void asyncPost(@NonNull String url, @NonNull Map<String, Object> params, @NonNull Callback callBack);
 
     /**
      * 下载

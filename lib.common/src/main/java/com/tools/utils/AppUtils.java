@@ -657,6 +657,7 @@ public final class AppUtils {
         return getAppVersionCode(getApp().getPackageName());
     }
 
+
     /**
      * Return the application's version code.
      *

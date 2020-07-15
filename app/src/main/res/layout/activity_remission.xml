@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context="com.huateng.collection.ui.activity.StopUrgingActivity">
+    tools:context="com.huateng.phone.collection.ui.activity.StopUrgingActivity">
 
     <com.tools.view.RxTitle
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -18,7 +18,7 @@
         app:rxRightTextVisibility="false"
         app:rxTitleVisibility="true" />
 
-    <com.huateng.collection.widget.recyclerview.RecyclerScrollView
+    <com.huateng.phone.collection.widget.recyclerview.RecyclerScrollView
         android:layout_below="@+id/rx_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -371,7 +371,7 @@
 
         </LinearLayout>
 
-    </com.huateng.collection.widget.recyclerview.RecyclerScrollView>
+    </com.huateng.phone.collection.widget.recyclerview.RecyclerScrollView>
 
 
     <LinearLayout

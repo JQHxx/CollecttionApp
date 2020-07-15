@@ -29,7 +29,7 @@
         android:layout_marginTop="80dp"
         android:orientation="vertical">
 
-        <com.huateng.collection.widget.NoScrollViewPager
+        <com.huateng.phone.collection.widget.NoScrollViewPager
             android:id="@+id/fl_container"
             android:layout_width="match_parent"
             android:layout_marginLeft="8dp"
@@ -61,7 +61,7 @@
         android:layout_marginBottom="80dp"
         android:layout_marginRight="40dp"/>
 
-    <com.huateng.collection.ui.dialog.BottomDialogView
+    <com.huateng.phone.collection.ui.dialog.BottomDialogView
         android:visibility="gone"
         android:id="@+id/bottom_dialog"
         android:layout_width="match_parent"

@@ -20,11 +20,13 @@ public class UpdateCallback {
             updateAppBean.setUpdate(jsonObject.optString("update"))
                     //存放json，方便自定义解析
                     .setOriginRes(json)
-                    .setNewVersion(jsonObject.optString("new_version"))
-                    .setApkFileUrl(jsonObject.optString("apk_file_url"))
+                    .setNewVersion(jsonObject.optString("versionCode"))
+                    .setApkFileUrl(jsonObject.optString("appUrl"))
+                    .setAppType(jsonObject.optString("appType"))
+                    .setUpdate(jsonObject.optString("isNewVersion"))
                     .setTargetSize(jsonObject.optString("target_size"))
                     .setUpdateLog(jsonObject.optString("update_log"))
-                    .setConstraint(jsonObject.optBoolean("constraint"))
+                    .setConstraint(jsonObject.optString("isConstraint"))
                     .setNewMd5(jsonObject.optString("new_md5"));
         } catch (Exception e) {
             e.printStackTrace();

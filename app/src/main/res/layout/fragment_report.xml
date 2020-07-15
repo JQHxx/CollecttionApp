@@ -14,13 +14,13 @@
         app:rxRightTextVisibility="true"
         app:rxTitleVisibility="true" />
 
-    <com.huateng.collection.widget.NoScrollViewPager
+    <com.huateng.phone.collection.widget.NoScrollViewPager
         android:id="@+id/fl_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-    </com.huateng.collection.widget.NoScrollViewPager>
+    </com.huateng.phone.collection.widget.NoScrollViewPager>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
         android:background="@color/gray_bg_lighter"
         android:orientation="vertical">
 
-        <com.huateng.collection.widget.tab.RecyclerTabLayout
+        <com.huateng.phone.collection.widget.tab.RecyclerTabLayout
             android:id="@+id/recycler_tab_layout"
             android:layout_width="match_parent"
             android:layout_height="56dp"

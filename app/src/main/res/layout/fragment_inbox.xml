@@ -5,7 +5,7 @@
     android:orientation="horizontal"
     android:background="@color/white"
     >
-    <com.huateng.collection.module.inbox.TodoCasesChooser
+    <com.huateng.phone.collection.module.inbox.TodoCasesChooser
         android:id="@+id/csv_todoCasesChooser"
         android:layout_width="@dimen/middle_area_reference_width"
         android:layout_height="match_parent"

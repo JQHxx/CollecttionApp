@@ -35,7 +35,7 @@
             android:textColor="@color/black"
             android:textSize="20sp" />
 
-        <com.huateng.collection.widget.CaseFillReminder
+        <com.huateng.phone.collection.widget.CaseFillReminder
             android:id="@+id/csv_fillReminder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.huateng.collection.ui.activity.AboutActivity">
+    tools:context="com.huateng.phone.collection.ui.activity.AboutActivity">
 
     <com.tools.view.RxTitle
         android:id="@+id/rx_title"

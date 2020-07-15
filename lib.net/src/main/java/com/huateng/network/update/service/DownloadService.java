@@ -10,6 +10,7 @@ import android.content.ServiceConnection;
 import android.os.Binder;
 import android.os.IBinder;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.huateng.network.R;
@@ -50,6 +51,7 @@ public class DownloadService extends Service {
     private boolean mDismissNotificationProgress = false;
 
     public static void bindService(Context context, ServiceConnection connection) {
+        Log.e("nb","bindService");
         Intent intent = new Intent(context, DownloadService.class);
         context.startService(intent);
         context.bindService(intent, connection, Context.BIND_AUTO_CREATE);
@@ -65,12 +67,14 @@ public class DownloadService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.e("nb","onCreate onCreate onCreate");
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         // 返回自定义的DownloadBinder实例
+        Log.e("nb","onBind onBind onBind");
         return binder;
     }
 
@@ -78,6 +82,7 @@ public class DownloadService extends Service {
     public void onDestroy() {
         mNotificationManager = null;
         super.onDestroy();
+        Log.e("nb","onDestroy onDestroy onDestroy");
     }
 
     /**
@@ -122,7 +127,7 @@ public class DownloadService extends Service {
      * 下载模块
      */
     private void startDownload(UpdateAppBean updateApp, final DownloadCallback callback) {
-
+        Log.e("nb","startDownload startDownload startDownload");
         mDismissNotificationProgress = updateApp.isDismissNotificationProgress();
 
         String apkUrl = updateApp.getApkFileUrl();

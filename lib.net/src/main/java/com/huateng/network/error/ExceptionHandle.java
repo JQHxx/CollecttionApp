@@ -1,5 +1,7 @@
 package com.huateng.network.error;
 
+import android.util.Log;
+
 import com.google.gson.JsonParseException;
 import com.tools.utils.NetworkUtils;
 
@@ -27,6 +29,7 @@ public class ExceptionHandle {
 
 
     public static ResponeThrowable handleException(Throwable e) {
+        Log.e("nb","error:"+e.getLocalizedMessage());
         ResponeThrowable ex;
       //  Logger.i("e.toString = " + e.toString()+":");
 

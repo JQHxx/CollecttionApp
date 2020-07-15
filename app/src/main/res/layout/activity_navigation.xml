@@ -15,7 +15,7 @@
         android:orientation="vertical"
         tools:context=".MainActivity">
 
-        <com.huateng.collection.widget.NoScrollViewPager
+        <com.huateng.phone.collection.widget.NoScrollViewPager
             android:id="@+id/id_viewpager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -41,19 +41,48 @@
                 android:orientation="vertical"
                 android:padding="5dp">
 
-                <com.huateng.collection.widget.gradientuilibrary.GradientIconView
+                <com.huateng.phone.collection.widget.gradientuilibrary.GradientIconView
                     android:id="@+id/id_iconfont_chat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:bottom_icon="@drawable/icon_tab_main_normal"
                     app:top_icon="@drawable/icon_tab_main" />
 
-                <com.huateng.collection.widget.gradientuilibrary.GradientTextView
+                <com.huateng.phone.collection.widget.gradientuilibrary.GradientTextView
                     android:id="@+id/id_chats_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:bottom_text_color="@color/text_color_969696"
                     app:text="案件列表"
+                    app:text_size="12sp"
+                    app:top_text_color="@color/text_color_ff8701" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_tab_wait_cast"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tabmenu_bkg"
+                android:baselineAligned="false"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <com.huateng.phone.collection.widget.gradientuilibrary.GradientIconView
+                    android:id="@+id/iv_wait_cast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:bottom_icon="@drawable/icon_history_action"
+                    app:top_icon="@drawable/icon_history_action_selected" />
+
+                <com.huateng.phone.collection.widget.gradientuilibrary.GradientTextView
+                    android:id="@+id/tv_wait_cast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:bottom_text_color="@color/text_color_969696"
+                    app:text="待清收列表"
                     app:text_size="12sp"
                     app:top_text_color="@color/text_color_ff8701" />
 
@@ -69,18 +98,18 @@
                 android:orientation="vertical"
                 android:padding="5dp">
 
-                <com.huateng.collection.widget.gradientuilibrary.GradientIconView
+                <com.huateng.phone.collection.widget.gradientuilibrary.GradientIconView
                     android:id="@+id/id_iconfont_faxian"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:bottom_icon="@drawable/icon_tab_customer_normal"
                     app:top_icon="@drawable/icon_tab_customer" />
 
-                <com.huateng.collection.widget.gradientuilibrary.GradientTextView
+                <com.huateng.phone.collection.widget.gradientuilibrary.GradientTextView
                     android:id="@+id/id_discover_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:bottom_text_color="@color/text_color_666666"
+                    app:bottom_text_color="@color/text_color_969696"
                     app:text="外访统计"
                     app:text_size="12sp"
                     app:top_text_color="@color/text_color_ff8701" />
@@ -97,14 +126,14 @@
                 android:orientation="vertical"
                 android:padding="5dp">
 
-                <com.huateng.collection.widget.gradientuilibrary.GradientIconView
+                <com.huateng.phone.collection.widget.gradientuilibrary.GradientIconView
                     android:id="@+id/id_iconfont_me"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:bottom_icon="@drawable/icon_tab_guiji_normal"
                     app:top_icon="@drawable/icon_tab_guiji" />
 
-                <com.huateng.collection.widget.gradientuilibrary.GradientTextView
+                <com.huateng.phone.collection.widget.gradientuilibrary.GradientTextView
                     android:id="@+id/id_about_me_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -125,14 +154,14 @@
                 android:orientation="vertical"
                 android:padding="5dp">
 
-                <com.huateng.collection.widget.gradientuilibrary.GradientIconView
+                <com.huateng.phone.collection.widget.gradientuilibrary.GradientIconView
                     android:id="@+id/id_iconfont_mine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:bottom_icon="@drawable/icon_tab_mine_normal"
                     app:top_icon="@drawable/icon_tab_mine" />
 
-                <com.huateng.collection.widget.gradientuilibrary.GradientTextView
+                <com.huateng.phone.collection.widget.gradientuilibrary.GradientTextView
                     android:id="@+id/id_about_mine_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

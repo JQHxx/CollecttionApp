@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.huateng.collection">
+    package="com.huateng.phone.collection">
     <!-- 用于申请调用A-GPS模块 -->
     <application
         android:requestLegacyExternalStorage="true"
@@ -21,6 +21,13 @@
             android:name=".ui.activity.ChangePasswordActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name=".ui.activity.CheckVersionActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustPan" />
+
+
         <activity
             android:name=".ui.report.view.ReportActivity"
             android:configChanges="orientation|screenSize"/>
@@ -113,7 +120,7 @@
             android:value="true" />
         <meta-data
             android:name="DOMAIN_PACKAGE_NAME"
-            android:value="com.huateng.collection.bean" />
+            android:value="com.huateng.phone.collection.bean" />
 
         <provider
             android:name=".provider.ImagePickerProvider"
@@ -124,7 +131,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/img_provider_paths" />
         </provider>
-        <provider
+
+
+
+          <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
@@ -132,7 +142,18 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
-        </provider> <!-- Sugar Orm configration -->
+        </provider>
+
+        <provider
+            android:name="com.huateng.network.update.UpdateFileProvider"
+            android:authorities="${applicationId}.updatefileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/update_cache_path"/>
+        </provider>
+
         <receiver android:name=".network.events.NotificationActionsReceiver">
             <intent-filter>
                 <action android:name="com.huateng.phone.collection.notification.action" />

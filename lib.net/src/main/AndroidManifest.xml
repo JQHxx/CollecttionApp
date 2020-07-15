@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         tools:replace="android:allowBackup,android:supportsRtl">
 
+        <service android:name=".update.service.DownloadService">
+        </service>
+
     </application>
 
 </manifest>

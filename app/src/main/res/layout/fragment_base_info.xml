@@ -6,7 +6,7 @@
     android:background="@color/transparent"
     android:gravity="center_horizontal">
 
-    <com.huateng.collection.widget.recyclerview.RecyclerScrollView
+    <com.huateng.phone.collection.widget.recyclerview.RecyclerScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -788,7 +788,7 @@
 
         </LinearLayout>
 
-    </com.huateng.collection.widget.recyclerview.RecyclerScrollView>
+    </com.huateng.phone.collection.widget.recyclerview.RecyclerScrollView>
 
 
 </LinearLayout>

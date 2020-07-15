@@ -7,7 +7,7 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <com.huateng.collection.widget.UniversalInput
+    <com.huateng.phone.collection.widget.UniversalInput
         android:id="@+id/csv_visitAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,28 +16,28 @@
         app:inputType="text"
         app:labelText="外访地址：" />
 
-    <com.huateng.collection.widget.UniversalInput
+    <com.huateng.phone.collection.widget.UniversalInput
         android:id="@+id/csv_visitDate"
         style="@style/CommonInputItem"
         app:inputType="date"
         app:labelText="外访时间："
         app:required="true" />
 
-    <com.huateng.collection.widget.UniversalInput
+    <com.huateng.phone.collection.widget.UniversalInput
         android:id="@+id/csv_visitOfficer"
         style="@style/CommonInputItem"
         android:singleLine="true"
         app:inputType="text"
         app:labelText="催收员：" />
 
-    <com.huateng.collection.widget.UniversalInput
+    <com.huateng.phone.collection.widget.UniversalInput
         android:id="@+id/csv_visitResult"
         style="@style/CommonInputItem"
         app:inputType="spinner"
         app:labelText="外访结论："
         app:required="true" />
 
-    <com.huateng.collection.widget.UniversalInput
+    <com.huateng.phone.collection.widget.UniversalInput
         android:id="@+id/csv_visitOhterOfficer"
         style="@style/CommonInputItem"
         app:inputType="editText"
@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="120dp">
 
-        <com.huateng.collection.widget.UniversalInput
+        <com.huateng.phone.collection.widget.UniversalInput
             android:id="@+id/csv_visitInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

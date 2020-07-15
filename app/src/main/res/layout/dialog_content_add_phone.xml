@@ -8,7 +8,7 @@
     android:gravity="center"
     android:orientation="vertical">
 
-        <com.huateng.collection.widget.UniversalInput
+        <com.huateng.phone.collection.widget.UniversalInput
             android:id="@+id/csv_caseNo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -17,31 +17,31 @@
             app:inputType="text"
             app:labelText="案件号：" />
 
-        <com.huateng.collection.widget.UniversalInput
+        <com.huateng.phone.collection.widget.UniversalInput
             android:id="@+id/csv_custNo"
             style="@style/CommonInputItem"
             app:inputType="text"
             app:labelText="客户号：" />
 
-        <com.huateng.collection.widget.UniversalInput
+        <com.huateng.phone.collection.widget.UniversalInput
             android:id="@+id/csv_custName"
             style="@style/CommonInputItem"
             app:inputType="editText"
             app:labelText="姓名：" />
 
-        <com.huateng.collection.widget.UniversalInput
+        <com.huateng.phone.collection.widget.UniversalInput
             android:id="@+id/csv_phoneType"
             style="@style/CommonInputItem"
             app:inputType="spinner"
             app:labelText="电话类型：" />
 
-        <com.huateng.collection.widget.UniversalInput
+        <com.huateng.phone.collection.widget.UniversalInput
             android:id="@+id/csv_custRel"
             style="@style/CommonInputItem"
             app:inputType="spinner"
             app:labelText="与客户关系：" />
 
-        <com.huateng.collection.widget.UniversalInput
+        <com.huateng.phone.collection.widget.UniversalInput
             android:id="@+id/csv_phone"
             style="@style/CommonInputItem"
             app:inputType="editText"

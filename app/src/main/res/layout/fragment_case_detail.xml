@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/page_gray_bg">
-    <com.huateng.collection.widget.loadingball.BallView
+    <com.huateng.phone.collection.widget.loadingball.BallView
         android:id="@+id/loadingBall"
         android:layout_width="100dp"
         android:layout_height="100dp"
@@ -35,7 +35,7 @@
             android:background="@color/gray_listitem"
             android:layout_gravity="left"
             />
-        <com.huateng.collection.widget.SegmentControl
+        <com.huateng.phone.collection.widget.SegmentControl
             android:id="@+id/csv_segmentControl"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

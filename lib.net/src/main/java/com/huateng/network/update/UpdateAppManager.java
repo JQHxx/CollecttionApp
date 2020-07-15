@@ -11,11 +11,17 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.huateng.network.ApiConstants;
+import com.huateng.network.BaseObserver2;
+import com.huateng.network.RetrofitManager;
+import com.huateng.network.bean.UpdateBean;
 import com.huateng.network.update.listener.ExceptionHandler;
 import com.huateng.network.update.listener.ExceptionHandlerHelper;
 import com.huateng.network.update.listener.IUpdateDialogFragmentListener;
 import com.huateng.network.update.service.DownloadService;
 import com.huateng.network.update.utils.AppUpdateUtils;
+import com.orhanobut.logger.Logger;
+import com.tools.utils.GsonUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +30,8 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 版本更新管理器
@@ -34,7 +42,7 @@ public class UpdateAppManager {
     final static String TOP_IMAGE_KEY = "top_resId";
     private final static String UPDATE_APP_KEY = "UPDATE_APP_KEY";
     private static final String TAG = UpdateAppManager.class.getSimpleName();
-    private Map<String, String> mParams;
+    private Map<String, Object> mParams;
     // 是否忽略默认参数，解决
     private boolean mIgnoreDefParams = false;
     private Activity mActivity;
@@ -64,7 +72,7 @@ public class UpdateAppManager {
         mTopPic = builder.getTopPic();
 
         mIgnoreDefParams = builder.isIgnoreDefParams();
-        if(!mIgnoreDefParams) {
+        if (!mIgnoreDefParams) {
             mAppKey = builder.getAppKey();
         }
         mTargetPath = builder.getTargetPath();
@@ -107,28 +115,6 @@ public class UpdateAppManager {
         return mActivity;
     }
 
-    /**
-     * 跳转到更新页面
-     */
-//    public void showDialog() {
-//        if (verify()) return;
-//
-//
-//        if (mActivity != null && !mActivity.isFinishing()) {
-//            Intent updateIntent = new Intent(mActivity, DialogActivity.class);
-//            fillUpdateAppData();
-//            updateIntent.putExtra(INTENT_KEY, mUpdateApp);
-//            if (mThemeColor != 0) {
-//                updateIntent.putExtra(THEME_KEY, mThemeColor);
-//            }
-//
-//            if (mTopPic != 0) {
-//                updateIntent.putExtra(TOP_IMAGE_KEY, mTopPic);
-//            }
-//            mActivity.startActivity(updateIntent);
-//        }
-//
-//    }
 
     /**
      * @return 新版本信息
@@ -154,11 +140,11 @@ public class UpdateAppManager {
             return true;
         }
 
-//        String preSuffix = "/storage/emulated";
+        //        String preSuffix = "/storage/emulated";
 
         if (TextUtils.isEmpty(mTargetPath)
-//                || !mTargetPath.startsWith(preSuffix)
-                ) {
+            //                || !mTargetPath.startsWith(preSuffix)
+        ) {
             Log.e(TAG, "下载路径错误:" + mTargetPath);
             return true;
         }
@@ -171,7 +157,8 @@ public class UpdateAppManager {
     public void showDialogFragment() {
 
         //校验
-        if (verify()) return;
+        if (verify())
+            return;
 
         if (mActivity != null && !mActivity.isFinishing()) {
             Bundle bundle = new Bundle();
@@ -228,8 +215,8 @@ public class UpdateAppManager {
         }
 
         //拼接参数
-        Map<String, String> params = new HashMap<String, String>();
-        if(!mIgnoreDefParams) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        if (!mIgnoreDefParams) {
             if (!TextUtils.isEmpty(mAppKey)) {
                 params.put("appKey", mAppKey);
             }
@@ -241,6 +228,9 @@ public class UpdateAppManager {
             if (!TextUtils.isEmpty(versionName)) {
                 params.put("version", versionName);
             }
+            params.put("appVersion", "Android-" + ApiConstants.APP_VERSION);
+            params.put("versionNum", "1.0.0");
+
         }
 
         //添加自定义参数，其实可以实现HttManager中添加
@@ -250,9 +240,70 @@ public class UpdateAppManager {
             params.putAll(mParams);
         }
 
+        params.put("appVersion", "Android-" + ApiConstants.APP_VERSION);
+        params.put("versionNum", "1.0.0");
+
+        RetrofitManager.getInstance()
+                .request(ApiConstants.MOBILE_APP_OPER_INTERFACE, ApiConstants.METHOD_VERSION_UPDATE, params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver2<UpdateBean>() {
+                    @Override
+                    public void onError(String code, String msg) {
+                        if (TextUtils.isEmpty(msg)) {
+                            return;
+                        }
+                        callback.noNewApp(code + ":" + msg);
+                    }
+
+                    @Override
+                    public void onNextData(UpdateBean response) {
+                        Logger.i("版本更新信息:%s", response.toString());
+                        callback.parseJson(GsonUtils.toJson(response));
+                        mUpdateApp = new UpdateAppBean();
+                        mUpdateApp.setUpdate(response.getIsNewVersion());
+                        mUpdateApp.setNewVersion(response.getVersionCode());
+                        mUpdateApp.setAppType(response.getAppType());
+                        mUpdateApp.setApkFileUrl(response.getAppUrl());
+                        mUpdateApp.setConstraint(response.getIsConstraint());
+
+                        if (mUpdateApp.isUpdate()) {
+                            callback.hasNewApp(mUpdateApp, UpdateAppManager.this);
+                            //假如是静默下载，可能需要判断，
+                            //是否wifi,
+                            //是否已经下载，如果已经下载直接提示安装
+                            //没有则进行下载，监听下载完成，弹出安装对话框
+
+                        } else {
+                            callback.noNewApp("没有新版本");
+                        }
+
+                        callback.onAfter();
+                    }
+                });
+
         //网络请求
-        if (isPost) {
-            mHttpManager.asyncPost(mUpdateUrl, params, new HttpManager.Callback() {
+        //     if (isPost) {
+
+           /* mHttpManager.asyncPost(mUpdateUrl, params, new HttpManager.Callback() {
+                @Override
+                public void onResponse(String result) {
+                    Log.e("nb","onResponse onResponse onResponse");
+                    callback.onAfter();
+                    if (result != null) {
+                        processData(result, callback);
+                    }
+                }
+
+                @Override
+                public void onError(String error) {
+                    Log.e("nb","onError onError onError");
+                    callback.onAfter();
+                    callback.noNewApp(error);
+                }
+            });*/
+        //   } else {
+          /*  mHttpManager.asyncGet(mUpdateUrl, params, new HttpManager.Callback() {
                 @Override
                 public void onResponse(String result) {
                     callback.onAfter();
@@ -267,23 +318,7 @@ public class UpdateAppManager {
                     callback.noNewApp(error);
                 }
             });
-        } else {
-            mHttpManager.asyncGet(mUpdateUrl, params, new HttpManager.Callback() {
-                @Override
-                public void onResponse(String result) {
-                    callback.onAfter();
-                    if (result != null) {
-                        processData(result, callback);
-                    }
-                }
-
-                @Override
-                public void onError(String error) {
-                    callback.onAfter();
-                    callback.noNewApp(error);
-                }
-            });
-        }
+        }*/
     }
 
     /**
@@ -324,6 +359,7 @@ public class UpdateAppManager {
      * @param callback
      */
     private void processData(String result, @NonNull UpdateCallback callback) {
+        Log.e("nb", "processData");
         try {
             mUpdateApp = callback.parseJson(result);
             if (mUpdateApp.isUpdate()) {
@@ -363,7 +399,7 @@ public class UpdateAppManager {
         //5,是否是post请求，默认是get
         private boolean isPost;
         //6,自定义参数
-        private Map<String, String> params;
+        private Map<String, Object> params;
         // 是否忽略默认参数，解决
         private boolean mIgnoreDefParams = false;
         //7,是否隐藏对话框下载进度条
@@ -373,7 +409,7 @@ public class UpdateAppManager {
         private boolean mOnlyWifi;
         private IUpdateDialogFragmentListener mUpdateDialogFragmentListener;
 
-        public Map<String, String> getParams() {
+        public Map<String, Object> getParams() {
             return params;
         }
 
@@ -383,7 +419,7 @@ public class UpdateAppManager {
          * @param params 自定义请求参数
          * @return Builder
          */
-        public Builder setParams(Map<String, String> params) {
+        public Builder setParams(Map<String, Object> params) {
             this.params = params;
             return this;
         }
@@ -526,7 +562,8 @@ public class UpdateAppManager {
         }
 
         /**
-         *  设置默认的UpdateDialogFragment监听器
+         * 设置默认的UpdateDialogFragment监听器
+         *
          * @param updateDialogFragmentListener updateDialogFragmentListener 更新对话框关闭监听
          * @return Builder
          */
@@ -571,7 +608,6 @@ public class UpdateAppManager {
 
         /**
          * 是否隐藏对话框下载进度条
-         *
          *
          * @return Builder
          */

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.huateng.collection.widget.titlebar.Titlebar
+    <com.huateng.phone.collection.widget.titlebar.Titlebar
         android:id="@+id/csv_titlebar"
         android:layout_width="match_parent"
         android:layout_height="60dp" />

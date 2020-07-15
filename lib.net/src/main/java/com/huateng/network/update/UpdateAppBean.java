@@ -9,22 +9,15 @@ import java.io.Serializable;
  */
 public class UpdateAppBean implements Serializable {
     private static final long serialVersionUID = 1L;
+    //   {"appType":"Android","appUrl":"http://cdn.nbcb.com.cn/waifangqingshouapp/外访清收-v1.0.0.apk","versionCode":"1.0.0"}
+    private String appType;//ios or android
 
-    /**
-     * update : Yes
-     * new_version : xxxxx
-     * apk_url : http://cdn.the.url.of.apk/or/patch
-     * update_log : xxxx
-     * delta : false
-     * new_md5 : xxxxxxxxxxxxxx
-     * target_size : 601132
-     */
     //是否有新版本
-    private String update;
+    private String isNewVersion;
     //新版本号
-    private String new_version;
+    private String versionCode;
     //新app下载地址
-    private String apk_file_url;
+    private String appUrl;
     //更新日志
     private String update_log;
     //配置默认更新dialog 的title
@@ -32,7 +25,7 @@ public class UpdateAppBean implements Serializable {
     //新app大小
     private String target_size;
     //是否强制更新
-    private boolean constraint;
+    private String isConstraint;
     //md5
     private String new_md5;
     //是否增量 暂时不用
@@ -59,7 +52,7 @@ public class UpdateAppBean implements Serializable {
     }
 
     public boolean isUpdate() {
-        return !TextUtils.isEmpty(this.update) && "Yes".equals(this.update);
+        return !TextUtils.isEmpty(this.isNewVersion) && "1".equals(this.isNewVersion);
     }
 
     public HttpManager getHttpManager() {
@@ -79,39 +72,41 @@ public class UpdateAppBean implements Serializable {
     }
 
     public boolean isConstraint() {
-        return constraint;
+        //return ;
+        return !TextUtils.isEmpty(this.isConstraint) && "1".equals(this.isConstraint);
+
     }
 
-    public UpdateAppBean setConstraint(boolean constraint) {
-        this.constraint = constraint;
+    public UpdateAppBean setConstraint(String constraint) {
+        this.isConstraint = constraint;
         return this;
     }
 
     public String getUpdate() {
-        return update;
+        return isNewVersion;
     }
 
     public UpdateAppBean setUpdate(String update) {
-        this.update = update;
+        this.isNewVersion = update;
         return this;
     }
 
     public String getNewVersion() {
-        return new_version;
+        return versionCode;
     }
 
     public UpdateAppBean setNewVersion(String new_version) {
-        this.new_version = new_version;
+        this.versionCode = new_version;
         return this;
     }
 
     public String getApkFileUrl() {
-        return apk_file_url;
+        return appUrl;
     }
 
 
     public UpdateAppBean setApkFileUrl(String apk_file_url) {
-        this.apk_file_url = apk_file_url;
+        this.appUrl = apk_file_url;
         return this;
     }
 
@@ -145,10 +140,16 @@ public class UpdateAppBean implements Serializable {
         return new_md5;
     }
 
+    public UpdateAppBean setAppType(String appType) {
+        this.appType = appType;
+        return this;
+    }
+
     public UpdateAppBean setNewMd5(String new_md5) {
         this.new_md5 = new_md5;
         return this;
     }
+
 
     public String getTargetSize() {
         return target_size;

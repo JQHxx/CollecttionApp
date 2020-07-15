@@ -14,6 +14,8 @@
         app:rxLeftTextVisibility="false"
         app:rxRightIcon="@drawable/ic_download"
         app:rxRightIconVisibility="false"
+        app:rxRightText = "编辑"
+        app:rxRightTextVisibility = "true"
         app:rxTitle="任务清单"
         app:rxTitleSize="18sp"
         app:rxTitleIconVisibility="false"
@@ -27,6 +29,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:visibility="visible"
             android:id="@+id/layout_head"
             android:layout_width="match_parent"
             android:layout_height="65dp"
@@ -91,6 +94,52 @@
 
             </RelativeLayout>
 
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/v_selectOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tv_selAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:drawableLeft="@drawable/all_sel"
+                android:drawablePadding="5dp"
+                android:text="全选"
+                android:textColor="@color/theme_color"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/tv_selNone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19dp"
+                android:drawableLeft="@drawable/reverse_sel"
+                android:drawablePadding="5dp"
+                android:text="反选"
+                android:textColor="@color/theme_color"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/tv_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="19dp"
+                android:drawableLeft="@drawable/cancel_sel"
+                android:drawablePadding="5dp"
+                android:text="取消"
+                android:textColor="@color/theme_color"
+                android:textSize="17sp" />
         </LinearLayout>
 
 

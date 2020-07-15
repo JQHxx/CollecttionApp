@@ -19,7 +19,7 @@
         app:rxTitleIconVisibility="false"
         app:rxTitleVisibility="true" />
 
-    <com.huateng.collection.widget.recyclerview.RecyclerScrollView
+    <com.huateng.phone.collection.widget.recyclerview.RecyclerScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -551,7 +551,7 @@
 
 
         </LinearLayout>
-    </com.huateng.collection.widget.recyclerview.RecyclerScrollView>
+    </com.huateng.phone.collection.widget.recyclerview.RecyclerScrollView>
 
 
 </LinearLayout>

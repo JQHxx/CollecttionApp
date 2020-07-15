@@ -6,239 +6,297 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/selector"
     android:descendantFocusability="blocksDescendants"
-    android:id="@+id/ll_layout"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <LinearLayout
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_marginTop="15dp"
-                android:src="@drawable/icon_app_logo"/>
+        android:orientation="vertical">
 
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="12dp"
-            android:layout_marginLeft="10dp"
+
+        <com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout
+            android:id="@+id/es"
+
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <LinearLayout
-                android:id="@+id/ll_hostName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_alignParentLeft="true"
-                android:orientation="horizontal">
+            app:contentView="@+id/content"
 
-                <TextView
-                    android:id="@+id/tv_hostName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    tools:text="@string/test_title"
-                    android:textColor="@color/text_color_343434"
-                    android:textSize="20sp" />
+            app:rightMenuView="@+id/right">
 
-            </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/v_caseNo"
+                android:id="@+id/content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:gravity="center_vertical"
-                android:layout_alignParentLeft="true"
+                android:layout_height="200dp"
                 android:orientation="horizontal">
 
-                <TextView
+                <RelativeLayout
+                    android:id="@+id/rl_check"
+                    android:padding="8dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="产品名称 : "
-                    android:textColor="@color/text_color_666666"
-                    android:textSize="16sp" />
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/tv_product_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text=" 白领融"
-                    android:textColor="@color/text_color_666666"
-                    android:textSize="16sp" />
-            </LinearLayout>
+                    <CheckBox
+                        android:id="@+id/iv_check"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="center"
+                        android:button="@null"
+                        android:checked="false"
+                        android:background="@drawable/checkbox_selected_bg"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"/>
 
-            <LinearLayout
-                android:id="@+id/v_caseAmt"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_alignParentLeft="true"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:text="身份证号 : "
-                    android:textColor="@color/text_color_666666"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/tv_id_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="@string/test_title"
-                    android:textColor="@color/text_color_666666"
-                    android:textSize="15sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:gravity="center_vertical"
-                android:layout_alignParentLeft="true"
-                android:orientation="horizontal">
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/ll_hostName"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:gravity="center_vertical"
                         android:layout_alignParentLeft="true"
-                        android:text="逾期天数 : "
-                        android:textColor="@color/text_color_666666"
-                        android:textSize="16sp"  />
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tv_overdue_days"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="200天"
-                        android:textColor="@color/text_color_666666"
-                        android:textSize="16sp" />
+                        <TextView
+                            android:id="@+id/tv_hostName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="@string/test_title"
+                            android:textColor="@color/text_color_343434"
+                            android:textSize="20sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/v_caseNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:layout_alignParentLeft="true"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="产品名称 : "
+                            android:textColor="@color/text_color_666666"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tv_product_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text=" 白领融"
+                            android:textColor="@color/text_color_666666"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/v_caseAmt"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_alignParentLeft="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:text="身份证号 : "
+                            android:textColor="@color/text_color_666666"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/tv_id_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="@string/test_title"
+                            android:textColor="@color/text_color_666666"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:layout_alignParentLeft="true"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                android:text="逾期天数 : "
+                                android:textColor="@color/text_color_666666"
+                                android:textSize="16sp"  />
+
+                            <TextView
+                                android:id="@+id/tv_overdue_days"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                tools:text="200天"
+                                android:textColor="@color/text_color_666666"
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:layout_alignParentLeft="true"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="逾期金额 : "
+                                android:textColor="@color/text_color_666666"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/tv_overdue_amt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                tools:text="5000元"
+                                android:textColor="@color/text_color_666666"
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:layout_alignParentLeft="true"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="处理状态 : "
+                                android:textColor="@color/text_color_666666"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/tv_case_status"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentLeft="true"
+                                tools:text=""
+                                android:textColor="@color/text_color_666666"
+                                android:textSize="16sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
+                <RelativeLayout
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/icon_back"/>
+                    <ImageView
+                        android:id="@+id/iv_call_phone"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="20dp"
+                        android:src="@drawable/icon_phone"/>
 
+
+
+
+
+
+
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:gravity="center_vertical"
-                android:layout_alignParentLeft="true"
+                android:id="@+id/right"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/holo_red_light"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="逾期金额 : "
-                        android:textColor="@color/text_color_666666"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/tv_overdue_amt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        tools:text="5000元"
-                        android:textColor="@color/text_color_666666"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/right_menu_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                   android:clickable="true"
+                    android:textSize="15sp"
+                    android:padding="20dp"
+                    android:text="添加至\n待清收" />
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:gravity="center_vertical"
-                android:layout_alignParentLeft="true"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="处理状态 : "
-                        android:textColor="@color/text_color_666666"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/tv_case_status"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        tools:text=""
-                        android:textColor="@color/text_color_666666"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <RelativeLayout
-            android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/icon_back"/>
-            <ImageView
-                android:id="@+id/iv_call_phone"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="20dp"
-                android:src="@drawable/icon_phone"/>
+        </com.guanaj.easyswipemenulibrary.EasySwipeMenuLayout>
 
 
-
-
-
-
-
-        </RelativeLayout>
     </LinearLayout>
+
+
 
    <View
        android:layout_width="match_parent"
        android:layout_height="1dp"
        android:background="#E7E7E7"/>
+
+
 
 
 </LinearLayout>

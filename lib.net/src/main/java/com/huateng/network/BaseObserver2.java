@@ -1,13 +1,13 @@
 package com.huateng.network;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.aes_util.AESUtils;
 import com.huateng.network.bean.ErrorMsgBean;
 import com.huateng.network.bean.ResponseDataBean;
 import com.huateng.network.bean.ResponseStructure;
 import com.huateng.network.error.ExceptionHandle;
-import com.orhanobut.logger.Logger;
 import com.tools.CommonUtils;
 import com.tools.bean.BusEvent;
 import com.tools.bean.EventBean;
@@ -69,14 +69,16 @@ public abstract class BaseObserver2<T> implements Observer<ResponseStructure> {
                         onNextData(null);
                     } else {
                         if(CommonUtils.isJson(data)) {
-                            Logger.i(data);
+                           // Logger.i(data);
                             Type type = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
                             T t = GsonUtils.fromJson(data, type);
                             if(null != t) {
                                 onNextData(t);
+                            }else {
+                                Log.e("nb","null data");
                             }
                         }else {
-                            Logger.i(data);
+                          //  Logger.i(data);
                             onNextData((T) data);
                         }
 

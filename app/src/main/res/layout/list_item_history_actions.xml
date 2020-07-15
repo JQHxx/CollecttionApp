@@ -38,8 +38,8 @@
 
 
 
-    <!--  com.huateng.collection.widget.ShrinkableTextView -->
-    <com.huateng.collection.widget.AlwaysMarqueeTextView
+    <!--  com.huateng.phone.collection.widget.ShrinkableTextView -->
+    <com.huateng.phone.collection.widget.AlwaysMarqueeTextView
         android:id="@+id/tv_actionNote"
         android:layout_width="0dp"
         android:layout_weight="1.5"

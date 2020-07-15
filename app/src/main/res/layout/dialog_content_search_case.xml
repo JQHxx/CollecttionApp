@@ -8,7 +8,7 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <com.huateng.collection.widget.UniversalInput
+    <com.huateng.phone.collection.widget.UniversalInput
         android:id="@+id/csv_custName"
         style="@style/CommonInputItem"
         app:inputType="editText"

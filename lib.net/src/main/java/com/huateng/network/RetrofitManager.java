@@ -54,7 +54,14 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
  * 请求 响应数据都是json
  **/
 public class RetrofitManager {
-
+    /**
+     * 请求方法-GET
+     */
+    private static final String REQUEST_METHOD_GET = "GET";
+    /**
+     * 请求方法POST
+     */
+    private static final String REQUEST_METHOD_POST = "POST";
     //设缓存有效期为两天
     private static final int CACHE_STALE_SEC = 60 * 60 * 24 * 2;
     //查询缓存的Cache-Control设置，为if-only-cache时只查询缓存而不会请求服务器，max-stale可以配合设置缓存失效时间
@@ -151,7 +158,7 @@ public class RetrofitManager {
                 throw new RuntimeException("tokenOverdue");
             }
             Headers responseHeaders = response.headers();
-            if (requestHeaders != null) {
+            if (responseHeaders != null) {
                 Logger.i("responseHeaders: %s", responseHeaders.toString());
             }
 
@@ -227,9 +234,9 @@ public class RetrofitManager {
 
 
     //带token 请求
-    public Observable<ResponseStructure> request(String root, String method, Object obj) {
+    public Observable<ResponseStructure> request(String root, String method, Map<String, Object> map ) {
         String uri = ApiConstants.format(root, method);
-        String request = generateRequestJson(uri, obj);
+        String request = generateRequestJson(uri, map);
         //  Log.e("nb", "request-->" + request);
         okhttp3.RequestBody body = okhttp3.RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), request);
         return commonApiService.authRequest(NetworkConfig.C.getAuth(), body);
@@ -237,9 +244,9 @@ public class RetrofitManager {
     }
 
     //不带token请求
-    public Observable<ResponseStructure> loginRequest(Object obj) {
+    public Observable<ResponseStructure> loginRequest(Map<String, Object> map ) {
         String uri = ApiConstants.format("mobileAppInterface", "login");
-        String request = generateRequestJson(uri, obj);
+        String request = generateRequestJson(uri, map);
         okhttp3.RequestBody body = okhttp3.RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), request);
         return commonApiService.request(body);
     }
@@ -293,6 +300,7 @@ public class RetrofitManager {
                             //                            .hostnameVerifier(OkHttpsUtils.getAllHostnameVerify())
                             .cache(cache)
                             .addNetworkInterceptor(mRewriteCacheControlInterceptor)
+                          //  .addInterceptor(new CommonInterceptor())
                             .addNetworkInterceptor(mLoggingInterceptor)
                             //                            .addInterceptor(new ReceivedCookiesInterceptor())
                             //                            .addInterceptor(new AddCookiesInterceptor())
@@ -337,7 +345,7 @@ public class RetrofitManager {
                     if (param.getFile() == null || !param.getFile().exists()) {
                         break;
                     }
-                  UploadRequestBody uploadRequestBody = new UploadRequestBody(param.getFile());
+                    UploadRequestBody uploadRequestBody = new UploadRequestBody(param.getFile());
                     //       设置总长度
                     uploadOnSubscribe.addSumLength(param.getFile().length());
                     uploadRequestBody.setUploadOnSubscribe(uploadOnSubscribe);
