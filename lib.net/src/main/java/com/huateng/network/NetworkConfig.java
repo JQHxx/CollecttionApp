@@ -101,9 +101,6 @@ public final class NetworkConfig {
         return sp.getString(SP_KEY_CUSTOM_ROOT, "ccms-app");
     }
 
-    public String getCustomURL() {
-        return sp.getString(SP_KEY_CUSOMT_URL, ApiConstants.MOCKDATA_BASE_URL);
-    }
 
     public String getDomain() {
         return sp.getString(SP_KEY_DOMAIN, ApiConstants.DOMAIN);

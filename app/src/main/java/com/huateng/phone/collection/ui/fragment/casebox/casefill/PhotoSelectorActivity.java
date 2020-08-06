@@ -223,15 +223,18 @@ public class PhotoSelectorActivity extends BaseActivity {
             public void run() {
                 TencentLocation location = mLocationHelper.getLastLocation();
 
-                //保存定位 地址
-                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                if (latLng != null) {
-                    Config.setLastLocation(latLng);
+                if (location != null) {
+                    //保存定位 地址
+                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    if (latLng != null) {
+                        Config.setLastLocation(latLng);
+                    }
+
+                    if (!TextUtils.isEmpty(location.getAddress())) {
+                        Config.setLastAddress(location.getAddress());
+                    }
                 }
-                if (!TextUtils.isEmpty(location.getAddress())) {
-                    Config.setLastAddress(location.getAddress());
-                }
-                //  Log.e("nb",location.getAddress()+":"+latLng.getLatitude()+":"+latLng.getLongitude());
+
             }
         });
 
@@ -282,6 +285,7 @@ public class PhotoSelectorActivity extends BaseActivity {
      * 保存拍照文件到后台
      */
     private void sendData() {
+        // NetworkConfig.C.setAuth("123");
         String fileDate = "";
         isUpload = true;
         showLoading();
@@ -462,7 +466,7 @@ public class PhotoSelectorActivity extends BaseActivity {
                                     longitude = lastLocation.getLongitude();
                                 }
 
-                              WatermarkSettings.getmInstance(this);
+                                WatermarkSettings.getmInstance(this);
 
                                 Bitmap bitmap2 = WatermarkSettings.createWatermark(tempFile.getPath(), Perference.getUserId(), custName, lastAddress, String.format("( %s,%s)", latitude, longitude), DateUtil.getDate2(System.currentTimeMillis()));
                                 boolean saved = ImageUtils.save(bitmap2, newFile.getPath(), Bitmap.CompressFormat.JPEG);

@@ -18,7 +18,7 @@
         app:rxRightTextVisibility="false"
         app:rxTitleVisibility="true" />
 
-    <com.huateng.phone.collection.widget.recyclerview.RecyclerScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_below="@+id/rx_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -371,8 +371,7 @@
 
         </LinearLayout>
 
-    </com.huateng.phone.collection.widget.recyclerview.RecyclerScrollView>
-
+    </androidx.core.widget.NestedScrollView>
 
     <LinearLayout
         android:id="@+id/ll_send"

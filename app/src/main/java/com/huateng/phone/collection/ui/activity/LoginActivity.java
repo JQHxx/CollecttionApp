@@ -1,6 +1,5 @@
 package com.huateng.phone.collection.ui.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -17,6 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.flyco.systembar.SystemBarHelper;
+import com.hjq.permissions.OnPermission;
+import com.hjq.permissions.Permission;
+import com.hjq.permissions.XXPermissions;
 import com.huateng.fm.ui.widget.FmButton;
 import com.huateng.network.ApiConstants;
 import com.huateng.network.BaseObserver2;
@@ -47,31 +49,19 @@ import com.trello.rxlifecycle3.LifecycleTransformer;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import butterknife.BindView;
 import butterknife.OnClick;
-import permissions.dispatcher.NeedsPermission;
-import permissions.dispatcher.OnPermissionDenied;
-import permissions.dispatcher.OnShowRationale;
-import permissions.dispatcher.PermissionRequest;
-import permissions.dispatcher.RuntimePermissions;
 import rx.functions.Action1;
-
-import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.Manifest.permission.READ_PHONE_STATE;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 /**
  * Created by shanyong on 2016/12/13.
  */
 
-@RuntimePermissions
+
 public class LoginActivity extends BaseActivity implements TextView.OnEditorActionListener {
     @BindView(R.id.iv_setting)
     ImageView mIvSetting;
@@ -108,10 +98,6 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
         ActivityUtils.getAppManager().finishAllActivity();
         init();
         initListener();
-        LoginActivityPermissionsDispatcher.initSDcardPermissionsWithPermissionCheck(this);
-        LoginActivityPermissionsDispatcher.initLocationPermissionsWithPermissionCheck(this);
-
-
     }
 
     /**
@@ -134,6 +120,36 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
             mRxTitle.setLeftIconVisibility(true);
             mRxTitle.setLeftTextVisibility(true);
         }
+
+        initPermissions();
+
+
+    }
+
+    private void initPermissions() {
+        XXPermissions.with(this)
+                // 可设置被拒绝后继续申请，直到用户授权或者永久拒绝
+                //.constantRequest()
+                // 支持请求6.0悬浮窗权限8.0请求安装权限
+                //.permission(Permission.SYSTEM_ALERT_WINDOW, Permission.REQUEST_INSTALL_PACKAGES)
+                // 不指定权限则自动获取清单中的危险权限
+                //定位 存取
+                .permission(Permission.Group.LOCATION,Permission.Group.STORAGE)
+                .request(new OnPermission() {
+
+                    @Override
+                    public void hasPermission(List<String> granted, boolean all) {
+
+                    }
+
+                    @Override
+                    public void noPermission(List<String> denied, boolean quick) {
+                        Log.e("nb", denied + ":" + quick);
+                        // RxToast.showToast("读写存储卡权限被禁止，应用将无法正常使用");
+                        //        mBtnLogin.setEnabled(false);
+                    }
+                });
+
     }
 
     /**
@@ -289,7 +305,6 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
                                 Perference.setBoolean(Perference.OUT_SOURCE_FLAG, respLoginInfo.isOutsourceFlag());
                                 Perference.set(Perference.PASSWORD_OVERDUE_INFO,respLoginInfo.getPasswordOverdueInfo());
 
-
                                 //用户登录信息
                                 UserLoginInfo info = new UserLoginInfo();
                                 info.setAuthorization(ssouserBean.getToken());
@@ -319,72 +334,13 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
 
                         } else if ("9999".equals(respLoginInfo.getResultCode())) {
                             RxToast.showToast(respLoginInfo.getResultDesc());
+                            hideLoading();
                         }
                     }
                 });
     }
 
 
-    //权限设置
-    // 1.存储权限
-    @NeedsPermission({READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE})
-    public void initSDcardPermissions() {
-        // btnLogin.setEnabled(true);
-        //权限同意时调用
-    }
-
-    @OnPermissionDenied({READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE})
-    public void onPermissionsDenied() {
-        RxToast.showToast("读写存储卡权限被禁止，应用将无法正常使用");
-        mBtnLogin.setEnabled(false);
-    }
-
-    @OnShowRationale({READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE})
-    public void showRationaleForPermission(final PermissionRequest request) {
-        new AlertDialog.Builder(this)
-                .setMessage("应用需要读写储存卡权限才能正常运行，是否申请？")
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        request.proceed();
-                    }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        request.cancel();
-                    }
-                }).show();
-    }
-
-
-    // 定位权限
-    @NeedsPermission({ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, READ_PHONE_STATE})
-    public void initLocationPermissions() {
-    }
-
-    @OnPermissionDenied({ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, READ_PHONE_STATE})
-    public void onLocationPermissionsDenied() {
-        RxToast.showToast("定位权限被禁止，将无法获取定位信息");
-    }
-
-    @OnShowRationale({ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, READ_PHONE_STATE})
-    public void showLocationRationaleForPermission(final PermissionRequest request) {
-        new AlertDialog.Builder(this)
-                .setMessage("外访报告上传图片需要定位权限，是否申请？")
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        request.proceed();
-                    }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        request.cancel();
-                    }
-                }).show();
-    }
 
 
     private void startToMain() {
@@ -394,13 +350,6 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
         finish();
     }
 
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        // NOTE: delegate the permission handling to generated method
-        LoginActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
-    }
 
     @Override
     public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {

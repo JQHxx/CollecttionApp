@@ -19,7 +19,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created on: 2020-05-13 20:09
  * description:
  */
-public class RemissionPresenter extends BasePresenter<RemissionContract .View> implements RemissionContract.Presenter{
+public class RemissionPresenter extends BasePresenter<RemissionContract.View> implements RemissionContract.Presenter {
 
     public RemissionPresenter(RemissionContract.View view) {
         super(view);
@@ -27,13 +27,14 @@ public class RemissionPresenter extends BasePresenter<RemissionContract .View> i
 
     /**
      * 查询减免申请信用卡贷款信息账号
+     *
      * @param custId
      */
     @Override
-    public void loadData(String custId,String caseId) {
-        Map<String,Object> map = new HashMap<>();
-        map.put("custNo",custId);
-        map.put("caseId",caseId);
+    public void loadData(String custId, String caseId) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("custNo", custId);
+        map.put("caseId", caseId);
         request(ApiConstants.MOBILE_APP_INTERFACE, ApiConstants.SELECT_APPLICATION_RELIEF, map)
                 .subscribe(new BaseObserver2<BizAcctInfoBean>() {
                     @Override
@@ -43,11 +44,11 @@ public class RemissionPresenter extends BasePresenter<RemissionContract .View> i
 
                     @Override
                     public void onNextData(BizAcctInfoBean bizAcctInfoBean) {
-                        if(mView == null) {
+                        if (mView == null) {
                             return;
                         }
 
-                        if(bizAcctInfoBean == null) {
+                        if (bizAcctInfoBean == null) {
                             return;
                         }
                         mView.setBizAcctInfo(bizAcctInfoBean);
@@ -66,8 +67,6 @@ public class RemissionPresenter extends BasePresenter<RemissionContract .View> i
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver2<CustInfoBean>() {
-
-
                     @Override
                     public void onError(String code, String msg) {
 
@@ -80,13 +79,12 @@ public class RemissionPresenter extends BasePresenter<RemissionContract .View> i
                         }
                         mView.setCustData(custInfoBean);
                     }
-
-
                 });
     }
 
     /**
      * 减免申请
+     *
      * @param custId
      */
     @Override

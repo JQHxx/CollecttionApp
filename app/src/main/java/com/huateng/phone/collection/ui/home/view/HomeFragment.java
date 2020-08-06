@@ -218,6 +218,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
 
             @Override
             public void callPhone(int position) {
+                //检测是否有权限 拨打电话
                 CaseBeanData.RecordsBean bean = mAdapter.getData().get(position);
 
                 if (TextUtils.isEmpty(bean.getPhoneNo())) {
@@ -317,8 +318,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
                 if (mAdapter.getSelectType()) {
                     List<Integer> selectedPositions = mAdapter.getSelectedPositions();
                     List<CaseIdBean> caseIds = new ArrayList<>();
-
-                    mPresenter.addToWaitCast(caseIds);
                     if (selectedPositions.size() > 0) {
                         for (int i = 0; i < selectedPositions.size(); i++) {
                             CaseBeanData.RecordsBean recordsBean = mAdapter.getData().get(selectedPositions.get(i));
@@ -356,7 +355,10 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
         } else {
             if (mAdapter != null) {
                 mAdapter.setSelectType(false);
-                mAdapter.setEnableLoadMore(true);
+                if(mAdapter.getData().size()>10) {
+                    mAdapter.setEnableLoadMore(true);
+                }
+
             }
             if (rxTitle != null) {
                 rxTitle.setRightText("编辑");
@@ -497,6 +499,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
         mAdapter.loadMoreEnd(true);
     }
 
+
     @Override
     public void onError(String msg) {
         showEmpty();
@@ -510,6 +513,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements SwipeRe
         RxToast.showToast("添加成功");
         EventBus.getDefault().post(new EventBean(BusEvent.ADD_CASE_TO_WAIT_LIST));
 
+    }
+
+    @Override
+    public void setLoadMoreEnd() {
+        mAdapter.setEnableLoadMore(false);
     }
 
     @Override

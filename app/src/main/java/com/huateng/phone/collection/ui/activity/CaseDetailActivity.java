@@ -23,7 +23,6 @@ import com.huateng.phone.collection.ui.caseInfo.contract.CaseDetailContract;
 import com.huateng.phone.collection.ui.caseInfo.presenter.CaseDetailPresenter;
 import com.huateng.phone.collection.ui.dialog.BottomDialogView;
 import com.huateng.phone.collection.ui.fragment.casebox.casefill.PhotoSelectorActivity;
-import com.huateng.phone.collection.ui.fragment.casebox.casefill.RecordSelectorActivity;
 import com.huateng.phone.collection.ui.fragment.casebox.casefill.RecordSelectorActivity2;
 import com.huateng.phone.collection.ui.fragment.casebox.info.CreditCardMsgFragment;
 import com.huateng.phone.collection.ui.fragment.casebox.info.FragmentAccountInfo;
@@ -73,7 +72,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
     private int[] mIconSelectIds;
     private String[] mInfoTitles;
 
-    private String[] mCaseMoreFillTitles = {"录音", "拍照", "调查报告", "结束处理", "停催", "留案", "退案", "申请减免"};
+    private String[] mCaseMoreFillTitles ;
     private int[] mCaseMoreFillIcons = {R.drawable.icon_voice, R.drawable.icon_photo,
             R.drawable.icon_report_list, R.drawable.icon_report_end, R.drawable.icon_stop_urging
             , R.drawable.icon_leave_case, R.drawable.icon_case_back, R.drawable.icon_remission};
@@ -108,7 +107,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
         } else {
             mCaseMoreFillTitles = new String[]{"录音", "拍照", "调查报告", "结束处理"};
         }
-        // mCaseMoreFillTitles = new String[]{"录音", "拍照", "调查报告", "结束处理", "停催", "留案", "退案", "申请减免"};
+       // mCaseMoreFillTitles = new String[]{"录音", "拍照", "调查报告", "结束处理", "停催", "留案", "退案", "申请减免"};
 
         //删除临时文件夹里的文件
         //        FileUtils.deleteFilesInDir(AttachmentProcesser.getInstance(mContext).getTempsDir());
@@ -203,17 +202,23 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
                     @Override
                     public void hasPermission(List<String> granted, boolean all) {
 
-                        Log.e("nb", granted + ":" + all);
-                        Intent intent = new Intent(CaseDetailActivity.this, RecordSelectorActivity2.class);
-                        intent.putExtra(Constants.CASE_ID, caseId);
-                        intent.putExtra(Constants.CUST_ID, custId);
-                        intent.putExtra(Constants.CUST_NAME, custName);
-                        startActivity(intent);
+                        //Log.e("nb", granted + ":" + all);
+                        if (all) {
+                            Intent intent = new Intent(CaseDetailActivity.this, RecordSelectorActivity2.class);
+                            intent.putExtra(Constants.CASE_ID, caseId);
+                            intent.putExtra(Constants.CUST_ID, custId);
+                            intent.putExtra(Constants.CUST_NAME, custName);
+                            startActivity(intent);
+                        } else {
+                            RxToast.showToast("权限被拒绝，请授权后操作");
+                        }
+
                     }
 
                     @Override
                     public void noPermission(List<String> denied, boolean quick) {
                         Log.e("nb", denied + ":" + quick);
+                        RxToast.showToast("权限被拒绝，请授权后操作");
                     }
                 });
 
@@ -230,6 +235,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
                 // 不指定权限则自动获取清单中的危险权限
                 .permission(new String[]{
                         Permission.CAMERA,
+                        Permission.ACCESS_FINE_LOCATION,
                         Permission.ACCESS_COARSE_LOCATION,
                         Permission.READ_EXTERNAL_STORAGE,
                         Permission.WRITE_EXTERNAL_STORAGE})
@@ -237,12 +243,16 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
 
                     @Override
                     public void hasPermission(List<String> granted, boolean all) {
+                        if (all) {
+                            Intent intent1 = new Intent(CaseDetailActivity.this, PhotoSelectorActivity.class);
+                            intent1.putExtra(Constants.CASE_ID, caseId);
+                            intent1.putExtra(Constants.CUST_ID, custId);
+                            intent1.putExtra(Constants.CUST_NAME, custName);
+                            startActivity(intent1);
+                        } else {
+                            RxToast.showToast("权限被拒绝，请授权后操作");
+                        }
 
-                        Intent intent1 = new Intent(CaseDetailActivity.this, PhotoSelectorActivity.class);
-                        intent1.putExtra(Constants.CASE_ID, caseId);
-                        intent1.putExtra(Constants.CUST_ID, custId);
-                        intent1.putExtra(Constants.CUST_NAME, custName);
-                        startActivity(intent1);
                     }
 
                     @Override
@@ -461,7 +471,7 @@ public class CaseDetailActivity extends BaseActivity<CaseDetailPresenter> implem
             case PictureConfig.APPLY_RECORD_AUDIO_PERMISSIONS_CODE:
                 // 录音权限
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Intent intent = new Intent(CaseDetailActivity.this, RecordSelectorActivity.class);
+                    Intent intent = new Intent(CaseDetailActivity.this, RecordSelectorActivity2.class);
                     intent.putExtra(Constants.CASE_ID, caseId);
                     intent.putExtra(Constants.CUST_ID, custId);
                     intent.putExtra(Constants.CUST_NAME, custName);

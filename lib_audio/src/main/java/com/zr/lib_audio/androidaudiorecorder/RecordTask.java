@@ -60,8 +60,7 @@ public class RecordTask implements PullTransport.OnAudioChunkPulledListener {
         isRecording = true;
         Log.e("nb", "filePath:" + filePath);
         if (recorder == null) {
-            Log.e("nb","resumeRecording resumeRecording resumeRecording");
-            recorder = OmRecorder.wav(
+           recorder = OmRecorder.wav(
                     new PullTransport.Default(mic(), this), new File(filePath));
             recorder.startRecording();
         }else {
@@ -77,7 +76,7 @@ public class RecordTask implements PullTransport.OnAudioChunkPulledListener {
         return new PullableSource.Default(
                 new AudioRecordConfig.Default(
                         MediaRecorder.AudioSource.MIC, AudioFormat.ENCODING_PCM_16BIT,
-                        AudioFormat.CHANNEL_IN_MONO, 44100
+                        AudioFormat.CHANNEL_IN_MONO, sampleRate.getSampleRate()
                 )
         );
     }
@@ -148,7 +147,7 @@ public class RecordTask implements PullTransport.OnAudioChunkPulledListener {
 
     @Override
     public void onAudioChunkPulled(AudioChunk audioChunk) {
-        Log.e("nb","audioChunk audioChunk audioChunk");
+      //  Log.e("nb","audioChunk audioChunk audioChunk");
         float amplitude = isRecording ? (float) audioChunk.maxAmplitude() : 0f;
         if (mDelegate != null) {
             mDelegate.onAudioChunkPull(amplitude);

@@ -8,7 +8,8 @@ public enum AudioSampleRate {
     HZ_16000,
     HZ_11025,
     //低采样率
-    HZ_8000;
+    HZ_8000,
+   HZ_4000;
 
     public int getSampleRate() {
         return Integer.parseInt(name().replace("HZ_", ""));

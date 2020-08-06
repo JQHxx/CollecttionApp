@@ -14,6 +14,10 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.flyco.systembar.SystemBarHelper;
+import com.huateng.fm.ui.widget.FmButton;
+import com.huateng.network.ApiConstants;
+import com.huateng.network.BaseObserver2;
+import com.huateng.network.RetrofitManager;
 import com.huateng.phone.collection.R;
 import com.huateng.phone.collection.app.Constants;
 import com.huateng.phone.collection.app.Perference;
@@ -34,10 +38,6 @@ import com.huateng.phone.collection.ui.remission.presenter.RemissionPresenter;
 import com.huateng.phone.collection.utils.DateUtil;
 import com.huateng.phone.collection.utils.SoftKeyBoardListener;
 import com.huateng.phone.collection.widget.Watermark;
-import com.huateng.fm.ui.widget.FmButton;
-import com.huateng.network.ApiConstants;
-import com.huateng.network.BaseObserver2;
-import com.huateng.network.RetrofitManager;
 import com.orm.SugarRecord;
 import com.tools.bean.BusEvent;
 import com.tools.bean.EventBean;
@@ -62,7 +62,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -116,6 +115,7 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
     private String businessType;
     List<BizAcctItemBean> mList = new ArrayList();
     private String caseId;
+    private boolean isRemission;
 
     @Override
     protected RemissionPresenter createPresenter() {
@@ -180,7 +180,6 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
             }
         });
 
-
     }
 
     private void initRecyclerview() {
@@ -202,14 +201,22 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
                                 .setDialogItemClicklistener(new BottomDialogFragment.DialogItemClick() {
                                     @Override
                                     public void onItemClick(BottomDialogBean bottomDialogBean) {
-                                        // mTvIsSelf.setText(bottomDialogBean.getTitle());
                                         mList.get(position).setIsEarSettlement(bottomDialogBean.getId());
+                                        if ("Y".equals(bottomDialogBean.getId())) {
+                                            Double aDouble = mList.get(position).getPeriodRestPri() * 0.03;
+                                            long l = Math.round(aDouble * 100);
+                                            double result = l / 100.0;
+                                            mList.get(position).setInputPenalAmt(String.valueOf(result));
+                                            resutReduce(position, String.valueOf(result), "2");
+                                        } else if ("N".equals(bottomDialogBean.getId())) {
+                                            mList.get(position).setInputPenalAmt("");
+                                            resutReduce(position, String.valueOf(mList.get(position).getPenalAmt()), "2");
+                                        }
                                         mBizAcctCardAdapter.notifyItemChanged(position);
+
                                     }
                                 })
                                 .show(getSupportFragmentManager());
-
-
                     }
                 }
             });
@@ -219,6 +226,7 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
             mAdapter = new BizAcctAdapter();
             mRecyclerviewCard.setAdapter(mAdapter);
         }
+        mRecyclerviewCard.setNestedScrollingEnabled(false);
     }
 
     /**
@@ -236,14 +244,13 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
      */
     @Override
     protected void initData() {
-
         //获取当前时间
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         mTvDate.setText(formatter.format(new Date()));
 
         initDictData();
         mPresenter.loadCustInfo(custId);
-        mPresenter.loadData(custId,caseId);
+        mPresenter.loadData(custId, caseId);
 
         if ("03".equals(businessType)) {
             //信用卡
@@ -273,13 +280,18 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
     }
 
 
-    @OnClick({R.id.btn_save,R.id.btn_send2})
+    @OnClick({R.id.btn_save, R.id.btn_send2})
     public void onClick(View view) {
         switch (view.getId()) {
 
             case R.id.btn_save:
             case R.id.btn_send2:
-                reliefBatchExcute();
+
+                if (!isRemission) {
+                    isRemission = true;
+                    reliefBatchExcute();
+                }
+
                 break;
         }
     }
@@ -289,11 +301,13 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
         String applyReason = mEdtOverdueCause.getText().toString();
         if (TextUtils.isEmpty(applyReason)) {
             RxToast.showToast("减免原因不能为空");
+            isRemission = false;
             return;
         }
 
         if (applyReason.length() > 200) {
             RxToast.showToast("减免原因不能超过200字");
+            isRemission = false;
             return;
         }
         Map<String, Object> map = new HashMap<>();
@@ -308,12 +322,12 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
         String reduceTotal = mTvReduceTotal.getText().toString();
 
         map.put("reducePri", reducePri);
-        map.put("reduceInt", reduceInt);
+        map.put("reduceInt", reduceInt);//合计减免利罚息
         map.put("reduceTotal", reduceTotal);
         if ("03".equals(businessType)) {
             //信用卡
             map.put("reducePriCard", reducePri);
-            map.put("reduceIntCard", reduceInt);
+            map.put("reduceIntCard", reduceInt);//卡合计减免利罚息
             map.put("reduceTotalCard", reduceTotal);
 
             map.put("reducePriLoan", "0");
@@ -340,16 +354,23 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
                     RxToast.showToast("计划归还金额不能为空");
                     return;
                 }
-                if (TextUtils.isEmpty(bizAcctItemBean.getIsEarSettlement()) || "请选择".equals(bizAcctItemBean.getIsEarSettlement())) {
-                    RxToast.showToast("是否申请分期提前结清不能为空");
-                    return;
+
+                if ("Y".equals(bizAcctItemBean.getIsEarSettlement())) {
+                    reduceRequestBean.setIsEarsettlement("Y");
+                } else {
+                    reduceRequestBean.setIsEarsettlement("N");
                 }
 
-                reduceRequestBean.setIsEarsettlement(bizAcctItemBean.getIsEarSettlement());
                 reduceRequestBean.setPlanRepayTotal(planRepayTotal);
                 reduceRequestBean.setAcctNo(bizAcctItemBean.getAcctNo());
                 reduceRequestBean.setShouldBreach(String.valueOf(bizAcctItemBean.getShouldBreach()));
-                reduceRequestBean.setPenalAmt(bizAcctItemBean.getPenalAmt());
+                //分期提前结清手续费
+                if (TextUtils.isEmpty(bizAcctItemBean.getInputPenalAmt())) {
+                    reduceRequestBean.setPenalAmt(Double.valueOf(TextUtils.isEmpty(bizAcctItemBean.getPenalAmt()) ? "0" : bizAcctItemBean.getPenalAmt()));
+                } else {
+                    reduceRequestBean.setPenalAmt(Double.valueOf(TextUtils.isEmpty(bizAcctItemBean.getInputPenalAmt()) ? "0" : bizAcctItemBean.getInputPenalAmt()));
+                }
+
                 reduceRequestBean.setReduceFee(bizAcctItemBean.getReduceFee());
                 reduceRequestBean.setReduceOth(bizAcctItemBean.getReduceOth());
 
@@ -357,10 +378,13 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
                 reduceRequestBean.setOverdueDays(bizAcctItemBean.getOverdueDays());
                 reduceRequestBean.setLoanPri(String.valueOf(bizAcctItemBean.getLoanPri()));
                 reduceRequestBean.setLoanInt(String.valueOf(bizAcctItemBean.getLoanInt()));
+
                 reduceRequestBean.setLoanTotal(String.valueOf(bizAcctItemBean.getLoanTotal()));
                 reduceRequestBean.setReducePri(String.valueOf(bizAcctItemBean.getReducePri()));
-                reduceRequestBean.setReduceInt(String.valueOf(bizAcctItemBean.getReduceInt()));
+                reduceRequestBean.setReduceInt(String.valueOf(bizAcctItemBean.getReduceAccrual()));
                 reduceRequestBean.setReduceTotal(String.valueOf(bizAcctItemBean.getReduceTotal()));
+                reduceRequestBean.setProductNo(bizAcctItemBean.getCardType());
+                reduceRequestBean.setLoanNo("");
 
                 reduceRequestBeans.add(reduceRequestBean);
             }
@@ -373,7 +397,6 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
                     RxToast.showToast("计划归还金额不能为空");
                     return;
                 }
-
                 reduceRequestBean.setProductNo(bizAcctItemBean.getProductNo());
                 reduceRequestBean.setLoanNo(bizAcctItemBean.getLoanNo());
                 reduceRequestBean.setLoanAmt(String.valueOf(bizAcctItemBean.getLoanAmt()));
@@ -383,9 +406,10 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
                 reduceRequestBean.setLoanInt(String.valueOf(bizAcctItemBean.getLoanInt()));
                 reduceRequestBean.setLoanTotal(String.valueOf(bizAcctItemBean.getLoanTotal()));
                 reduceRequestBean.setReducePri(String.valueOf(bizAcctItemBean.getReducePri()));
-                reduceRequestBean.setReduceInt(String.valueOf(bizAcctItemBean.getReduceInt()));
+                reduceRequestBean.setReduceInt(String.valueOf(bizAcctItemBean.getReduceAccrual()));
                 reduceRequestBean.setReduceTotal(String.valueOf(bizAcctItemBean.getReduceTotal()));
                 reduceRequestBean.setPlanRepayTotal(planRepayTotal);
+                // reduceRequestBean.setBusinessType("04".equals(bizAcctItemBean.getBusinessType())?"01":bizAcctItemBean.getBusinessType());
                 reduceRequestBean.setBusinessType(bizAcctItemBean.getBusinessType());
                 reduceRequestBeans.add(reduceRequestBean);
             }
@@ -409,12 +433,14 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
                 .subscribe(new BaseObserver2<String>() {
                     @Override
                     public void onError(String code, String msg) {
+                        isRemission = false;
                         hideLoading();
                         RxToast.showToast(msg);
                     }
 
                     @Override
                     public void onNextData(String s) {
+                        isRemission = false;
                         hideLoading();
                         RxToast.showToast("减免申请操作成功");
                         finish();
@@ -444,19 +470,23 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
                 bizAcctItemBean.setOverdueDays(bizAcctCardBean.getOvduMonth());
                 bizAcctItemBean.setShouldBreach(bizAcctCardBean.getPenalAmt());
                 bizAcctItemBean.setLoanInt(bizAcctCardBean.getInterestAmt());
-                bizAcctItemBean.setPenalAmt(bizAcctCardBean.getPeriodRestFee());
-                bizAcctItemBean.setLoanTotal(bizAcctCardBean.getCurrAcctBalance());
+                bizAcctItemBean.setPenalAmt(bizAcctCardBean.getPeriodRestFee() + "");//分期提前结清手续费
                 bizAcctItemBean.setBusinessType(bizAcctCardBean.getBusinessType());//
                 bizAcctItemBean.setCardType(bizAcctCardBean.getCardType());
+                bizAcctItemBean.setPeriodRestPri(bizAcctCardBean.getPeriodRestPri());
                 bizAcctItemBean.setReducePri(0.0);//
                 bizAcctItemBean.setReduceInt(0.0);//
                 bizAcctItemBean.setReduceTotal(0.0);//
                 bizAcctItemBean.setPlanRepayTotal("");//
                 bizAcctItemBean.setReduceOth(0.0);
                 bizAcctItemBean.setReduceFee(0.0);
+                //逾期金额
+                double loanTotal = ArithUtil.add(ArithUtil.add(bizAcctItemBean.getLoanPri(), bizAcctItemBean.getShouldBreach()), ArithUtil.add(bizAcctItemBean.getLoanInt(), Double.valueOf(bizAcctItemBean.getPeriodRestPri())));
+                bizAcctItemBean.setLoanTotal(ArithUtil.add(loanTotal, Double.valueOf(TextUtils.isEmpty(bizAcctItemBean.getPenalAmt()) ? "0" : bizAcctItemBean.getPenalAmt())));
                 mList.add(bizAcctItemBean);
-                mBizAcctCardAdapter.setNewData(mList);
+
             }
+            mBizAcctCardAdapter.setNewData(mList);
 
         } else {
             //贷款账户信息
@@ -478,8 +508,11 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
                 bizAcctItemBean.setReduceTotal(0.0);
                 bizAcctItemBean.setPlanRepayTotal("");
                 mList.add(bizAcctItemBean);
-                mAdapter.setNewData(mList);
+
             }
+
+            Log.e("nb", "mList:" + mList.size());
+            mAdapter.setNewData(mList);
 
         }
 
@@ -493,7 +526,7 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
         }
         mTvCustName.setText(custInfoBean.getCustName());
         mTvCustIdCard.setText(custInfoBean.getCertNo());
-        mTvUserName.setText(Perference.get(Perference.NICK_NAME));
+        mTvUserName.setText(Perference.getUserId() + "-" + Perference.get(Perference.NICK_NAME));
 
     }
 
@@ -508,14 +541,27 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
             return;
         }
         if (bean.getCode() == BusEvent.BIZ_ACCT_REDUCE_INFO) {
+            //减免申请
             BizAcctEventBean bizAcctEventBean = (BizAcctEventBean) bean.getObject();
-            if (mHandler.hasMessages(MESSAGE_CHANGE)) {
-                mHandler.removeMessages(MESSAGE_CHANGE);
+            if ("2".equals(bizAcctEventBean.getType())) {
+                if (mHandler.hasMessages(MESSAGE_CHANGE2)) {
+                    mHandler.removeMessages(MESSAGE_CHANGE2);
+                }
+                Message message = new Message();
+                message.obj = bizAcctEventBean;
+                message.what = MESSAGE_CHANGE2;
+                mHandler.sendMessageDelayed(message, INTERVAL);
+
+            } else {
+                if (mHandler.hasMessages(MESSAGE_CHANGE)) {
+                    mHandler.removeMessages(MESSAGE_CHANGE);
+                }
+                Message message = new Message();
+                message.obj = bizAcctEventBean;
+                message.what = MESSAGE_CHANGE;
+                mHandler.sendMessageDelayed(message, INTERVAL);
+
             }
-            Message message = new Message();
-            message.obj = bizAcctEventBean;
-            message.what = MESSAGE_CHANGE;
-            mHandler.sendMessageDelayed(message, INTERVAL);
 
         }
 
@@ -531,10 +577,10 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
         double reduceTotal;//申请减免总额
         double reduceFee;// 申请减免违约金
         double reduceOth;//申请减免分期提前结清手续费
-        double loanTotal;//欠款总额
+        double loanTotal = 0;//欠款总额
         double loanInt;//欠款利罚息/透支利息
         double shouldBreach;//违约金
-        double penalAmt;//分期提前结清手续费
+        double penalAmt = 0;//分期提前结清手续费
 
         //计划归还总金额
 
@@ -593,6 +639,8 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
         } else if ("1".equals(type)) {
             //1 信用卡
             BizAcctItemBean bizAcctItemBean = mList.get(position);
+
+
             if (TextUtils.isEmpty(planRepayTotal)) {
                 reduceOth = 0;
                 reduceFee = 0;
@@ -603,14 +651,20 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
             } else {
                 loanInt = bizAcctItemBean.getLoanInt();//透支利息
                 shouldBreach = bizAcctItemBean.getShouldBreach();//违约金
-                penalAmt = bizAcctItemBean.getPenalAmt();//分期提前结清手续费
+
+                if (TextUtils.isEmpty(bizAcctItemBean.getInputPenalAmt())) {
+                    penalAmt = Double.valueOf(TextUtils.isEmpty(bizAcctItemBean.getPenalAmt()) ? "0" : bizAcctItemBean.getPenalAmt());//分期提前结清手续费
+                } else {
+                    penalAmt = Double.valueOf(TextUtils.isEmpty(bizAcctItemBean.getInputPenalAmt()) ? "0" : bizAcctItemBean.getInputPenalAmt());//分期提前结清手续费
+                }
+
                 double loanPri = bizAcctItemBean.getLoanPri();//欠款本金
 
-                //  欠款总额 = 欠款本金 + 违约金 + 分期提前结清手续费 + 透支利息
+                //逾期金额 = 欠款本金 + 违约金 + 分期提前结清手续费 + 透支利息+分期剩余本金
                 //  loanTotal = loanPri + shouldBreach +penalAmt +loanInt ;//欠款总额
-                loanTotal = ArithUtil.add(ArithUtil.add(loanPri, shouldBreach), ArithUtil.add(penalAmt, loanInt));
+                loanTotal = ArithUtil.add(ArithUtil.add(ArithUtil.add(loanPri, shouldBreach), ArithUtil.add(penalAmt, loanInt)), Double.valueOf(bizAcctItemBean.getPeriodRestPri()));
                 //申请减免总金额 = 欠款总金额 - 计划归还金额
-                reduceTotal = ArithUtil.sub(loanTotal, Double.valueOf(TextUtils.isEmpty(planRepayTotal) ? "0" : planRepayTotal));
+                reduceTotal = ArithUtil.sub(ArithUtil.sub(loanTotal, Double.valueOf(TextUtils.isEmpty(planRepayTotal) ? "0" : planRepayTotal)), Double.valueOf(bizAcctItemBean.getPeriodRestPri()));
 
                 if (reduceTotal <= 0) {
                     //计划归还总额 大于等于总欠款
@@ -642,7 +696,7 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
 
                         } else {
                             //3 减免分期提前结清手续费
-                            reduceAccrual  = loanInt;
+                            reduceAccrual = loanInt;
                             reduceInt = reduceAccrual;
                             double sub = ArithUtil.sub(totalSubShould, loanInt);
                             if (sub <= penalAmt) {
@@ -667,11 +721,115 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
             mList.get(position).setReducePri(reducePri);//减免本金
             mList.get(position).setReduceInt(mainReduceInt);//申请减免利罚息
             mList.get(position).setReduceTotal(reduceTotal);//申请减免总额
-            mList.get(position).setReduceAccrual(reduceAccrual);
+            mList.get(position).setReduceAccrual(reduceAccrual);//透支利息
             mList.get(position).setPlanRepayTotal(planRepayTotal);
+            mList.get(position).setLoanTotal(loanTotal);
+            mBizAcctCardAdapter.notifyItemChanged(position);
+
+        } else if ("2".equals(type)) {
+
+            BizAcctItemBean bizAcctItemBean = mList.get(position);
+
+            loanInt = bizAcctItemBean.getLoanInt();//透支利息
+            shouldBreach = bizAcctItemBean.getShouldBreach();//违约金
+            // Log.e("nb", ":" + bizAcctItemBean.getIsEarSettlement());
+            if (TextUtils.isEmpty(planRepayTotal)) {
+                if ("Y".equals(bizAcctItemBean.getIsEarSettlement())) {
+                    Double aDouble = Double.valueOf(mList.get(position).getPeriodRestPri()) * 0.03;
+                    long l = Math.round(aDouble * 100);
+                    penalAmt = l / 100.0;
+                } else {
+                    penalAmt = Double.valueOf(TextUtils.isEmpty(bizAcctItemBean.getPenalAmt()) ? "0" : bizAcctItemBean.getPenalAmt());
+                }
+                bizAcctItemBean.setInputPenalAmt(String.valueOf(penalAmt));
+
+            } else {
+
+                penalAmt = Double.valueOf(planRepayTotal);
+                bizAcctItemBean.setInputPenalAmt(planRepayTotal);
+            }
+
+
+            double loanPri = bizAcctItemBean.getLoanPri();//欠款本金
+
+            //逾期金额 = 欠款本金 + 违约金 + 分期提前结清手续费 + 透支利息+分期剩余本金
+            //  loanTotal = loanPri + shouldBreach +penalAmt +loanInt ;//欠款总额
+            loanTotal = ArithUtil.add(ArithUtil.add(ArithUtil.add(loanPri, shouldBreach), ArithUtil.add(penalAmt, loanInt)), Double.valueOf(bizAcctItemBean.getPeriodRestPri()));
+
+            if (TextUtils.isEmpty(bizAcctItemBean.getPlanRepayTotal())) {
+                reduceOth = 0;
+                reduceFee = 0;
+                reducePri = 0;
+                reduceInt = 0;
+                reduceTotal = 0;
+                reduceAccrual = 0;
+            } else {
+                //分期提前结清手续费输入
+
+                //申请减免总金额 = 欠款总金额 - 计划归还金额
+                reduceTotal = ArithUtil.sub(ArithUtil.sub(loanTotal, Double.valueOf(TextUtils.isEmpty(bizAcctItemBean.getPlanRepayTotal()) ? "0" : bizAcctItemBean.getPlanRepayTotal())), Double.valueOf(bizAcctItemBean.getPeriodRestPri()));
+
+                if (reduceTotal <= 0) {
+                    //计划归还总额 大于等于总欠款
+                    reduceInt = 0.00;
+                    reduceAccrual = 0.00;
+                    reducePri = 0.00;
+                    reduceTotal = 0.00;
+                    reduceFee = 0.00;
+                    reduceOth = 0.00;
+                } else {
+                    //1 减免违约金
+                    // 申请减免总金额 < 违约金      全是减免违约金
+                    if (reduceTotal < shouldBreach) {
+                        reduceFee = reduceTotal;
+                        reduceInt = 0.00;
+                        reduceAccrual = 0.00;
+                        reducePri = 0.00;
+                        reduceOth = 0.00;
+
+                    } else {
+                        reduceFee = shouldBreach;//申请减免违约金
+                        //2 减免透支利息
+                        double totalSubShould = ArithUtil.sub(reduceTotal, shouldBreach);
+                        if (totalSubShould <= loanInt) {
+                            reduceAccrual = ArithUtil.sub(reduceTotal, shouldBreach);
+                            reduceInt = reduceAccrual;
+                            reducePri = 0.00;
+                            reduceOth = 0.00;
+
+                        } else {
+                            //3 减免分期提前结清手续费
+                            reduceAccrual = loanInt;
+                            reduceInt = reduceAccrual;
+                            double sub = ArithUtil.sub(totalSubShould, loanInt);
+                            if (sub <= penalAmt) {
+                                // 分期提前结清手续费
+                                reduceOth = sub;
+                                reducePri = 0.00;
+                            } else {
+                                //4 减免本金
+                                reduceOth = penalAmt;
+                                reducePri = ArithUtil.sub(sub, penalAmt);
+
+                            }
+
+                        }
+                    }
+
+                }
+            }
+            double mainReduceInt = ArithUtil.add(ArithUtil.add(reduceInt, reduceFee), reduceOth);
+            bizAcctItemBean.setReduceOth(reduceOth);
+            bizAcctItemBean.setReduceFee(reduceFee);
+            mList.get(position).setReducePri(reducePri);//减免本金
+            mList.get(position).setReduceInt(mainReduceInt);//申请减免利罚息
+            mList.get(position).setReduceTotal(reduceTotal);//申请减免总额
+            mList.get(position).setReduceAccrual(reduceAccrual);//透支利息
+            mList.get(position).setLoanTotal(loanTotal);
             mBizAcctCardAdapter.notifyItemChanged(position);
 
         }
+
 
         //总的减免计算
 
@@ -705,15 +863,9 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
 
 
     private static final int MESSAGE_CHANGE = 0x1;
+    private static final int MESSAGE_CHANGE2 = 0x2;
     private static long INTERVAL = 2000; // 输入变化时间间隔
     MyHandler mHandler = new MyHandler(this);
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 
 
     private static class MyHandler extends Handler {
@@ -742,6 +894,10 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
             String planRepayTotal = bizAcctEventBean.getPlanRepayTotal();
             String type = bizAcctEventBean.getType();
             BizAcctItemBean bizAcctItemBean = mList.get(position);
+            if(planRepayTotal.equals(bizAcctItemBean.getPlanRepayTotal())) {
+
+                return;
+            }
             if (TextUtils.isEmpty(planRepayTotal)) {
                 dialogHintShow = false;
 
@@ -752,10 +908,10 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
                 mList.get(position).setReducePri(0);//减免本金
                 mList.get(position).setReduceInt(0);//申请减免利罚息
                 mList.get(position).setReduceTotal(0);//申请减免总额
-                mList.get(position).setPenalAmt(0);//分期提前结清手续费
+                // mList.get(position).setPenalAmt("");//分期提前结清手续费
                 mList.get(position).setReduceFee(0);//申请减免违约金
                 mList.get(position).setReduceOth(0);//申请减免分期提前结清手续费
-
+                mList.get(position).setReduceAccrual(0);
                 mList.get(position).setPlanRepayTotal("");
                 mTvReducePri.setText(String.valueOf(reducePri));
                 mTvReduceInt.setText(String.valueOf(reduceInt));
@@ -767,8 +923,7 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
 
                     mAdapter.notifyItemChanged(position);
                 }
-
-
+                // +bizAcctItemBean.getPeriodRestPri()
             } else if (Double.valueOf(planRepayTotal) < bizAcctItemBean.getLoanPri()) {
                 if (!dialogHintShow) {
                     dialogHintShow = true;
@@ -783,10 +938,12 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
                             mList.get(position).setReducePri(0);//减免本金
                             mList.get(position).setReduceInt(0);//申请减免利罚息
                             mList.get(position).setReduceTotal(0);//申请减免总额
-                            mList.get(position).setPenalAmt(0);//分期提前结清手续费
+                            // mList.get(position).setPenalAmt(0);//分期提前结清手续费
                             mList.get(position).setReduceFee(0);//申请减免违约金
                             mList.get(position).setReduceOth(0);//申请减免分期提前结清手续费
                             mList.get(position).setPlanRepayTotal("");
+                            mList.get(position).setReduceAccrual(0);//申请减免透支利息
+                            // reduceAccrual
 
                             mTvReducePri.setText(String.valueOf(reducePri));
                             mTvReduceInt.setText(String.valueOf(reduceInt));
@@ -813,6 +970,12 @@ public class RemissionActivity extends BaseActivity<RemissionPresenter> implemen
             }
 
 
+        } else if (message.what == MESSAGE_CHANGE2) {
+            BizAcctEventBean bizAcctEventBean = (BizAcctEventBean) message.obj;
+            int position = bizAcctEventBean.getPosition();
+            String planRepayTotal = bizAcctEventBean.getPlanRepayTotal();
+            String type = bizAcctEventBean.getType();
+            resutReduce(position, planRepayTotal, type);
         }
     }
 

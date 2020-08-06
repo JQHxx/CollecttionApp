@@ -12,6 +12,15 @@ import com.aes_util.AESUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.flyco.dialog.listener.OnOperItemClickL;
 import com.flyco.dialog.widget.ActionSheetDialog;
+import com.huateng.network.ApiConstants;
+import com.huateng.network.BaseObserver2;
+import com.huateng.network.DownLoadObserver;
+import com.huateng.network.NetworkConfig;
+import com.huateng.network.RetrofitManager;
+import com.huateng.network.RxSchedulers;
+import com.huateng.network.UploadObserver;
+import com.huateng.network.bean.ResponseStructure;
+import com.huateng.network.upload.UploadParam;
 import com.huateng.phone.collection.R;
 import com.huateng.phone.collection.app.Constants;
 import com.huateng.phone.collection.app.Perference;
@@ -28,15 +37,6 @@ import com.huateng.phone.collection.utils.Utils;
 import com.huateng.phone.collection.utils.cases.AttachmentProcesser;
 import com.huateng.phone.collection.utils.cases.CaseManager;
 import com.huateng.phone.collection.widget.Watermark;
-import com.huateng.network.ApiConstants;
-import com.huateng.network.BaseObserver2;
-import com.huateng.network.DownLoadObserver;
-import com.huateng.network.NetworkConfig;
-import com.huateng.network.RetrofitManager;
-import com.huateng.network.RxSchedulers;
-import com.huateng.network.UploadObserver;
-import com.huateng.network.bean.ResponseStructure;
-import com.huateng.network.upload.UploadParam;
 import com.luck.picture.lib.config.PictureSelectionConfig;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.model.LocalMediaLoader;
@@ -66,6 +66,9 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
+import cafe.adriel.androidaudioconverter.AndroidAudioConverter;
+import cafe.adriel.androidaudioconverter.callback.IConvertCallback;
+import cafe.adriel.androidaudioconverter.model.AudioFormat;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -87,8 +90,6 @@ public class RecordSelectorActivity2 extends BaseActivity implements View.OnClic
     RxTitle rxTitle;
     @BindView(R.id.recycler_remote)
     RecyclerView mRecyclerRemote;
-    @BindView(R.id.recycler)
-    RecyclerView recyclerView;
     private boolean isUpload;//是否在上传文件
 
     private int imageSize = 0;
@@ -109,10 +110,7 @@ public class RecordSelectorActivity2 extends BaseActivity implements View.OnClic
         custName = getIntent().getStringExtra(Constants.CUST_NAME);
         immersiveStatusBar(rxTitle);
         filePath = AttachmentProcesser.getInstance(RecordSelectorActivity2.this).getVoicePath(caseId);
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(llm);
+
         mRemoteAudioAdapter = new RemoteAudioAdapter2();
         mRecyclerRemote.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerRemote.setAdapter(mRemoteAudioAdapter);
@@ -145,7 +143,7 @@ public class RecordSelectorActivity2 extends BaseActivity implements View.OnClic
         mRemoteAudioAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Log.e("nb",dataList.get(position).isHeader +":"+dataList.get(position).isAdd());
+                Log.e("nb", dataList.get(position).isHeader + ":" + dataList.get(position).isAdd());
                 if (dataList.get(position).isHeader && dataList.get(position).isAdd()) {
                     //查看是否有录音和存储权限
                     //获取权限
@@ -187,7 +185,7 @@ public class RecordSelectorActivity2 extends BaseActivity implements View.OnClic
         mRemoteAudioAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
-                Log.e("nb","position:"+position);
+                Log.e("nb", "position:" + position);
                 AudioSectionBean data = (AudioSectionBean) adapter.getData().get(position);
                 if (!data.isHeader && data.t.isLocal()) {
                     //删除
@@ -258,7 +256,6 @@ public class RecordSelectorActivity2 extends BaseActivity implements View.OnClic
 
     private void record() {
         //存在录音任务时判断  如果任务id相同则进入，不同的话提示有任务在进行请结束当前录音任务后再进行新的录音任务
-
         if (RecordService.isRecording()) {
             Intent taskIntent = RecordService.getTaskIntent();
             Log.e("nb", "id->" + taskIntent.getStringExtra(EXTRA_RECORD_TASK_ID));
@@ -295,51 +292,103 @@ public class RecordSelectorActivity2 extends BaseActivity implements View.OnClic
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e("nb", requestCode + ":" + resultCode);
-
         if (requestCode == REQUEST_RECORD_AUDIO) {
+
             if (resultCode == RESULT_OK) {
+                showLoading();
                 int duration = data.getIntExtra("duration", 0);
-                Log.e("nb", "time:" + duration + ":" + audioUrl);
+
                 File newFile = new File(audioUrl);
-                if (newFile.exists()) {
-                    File file = new File(audioUrl);
-                    if (!file.exists()) {
-                        Log.e("nb", "exists not");
-                        return;
+                if (!newFile.exists()) {
+                    Log.e("nb", "exists not");
+                    return;
+                }
+
+                //录音文件转码操作
+                IConvertCallback callback = new IConvertCallback() {
+                    @Override
+                    public void onSuccess(File convertedFile) {
+                        //转码成功删除旧文件 使用新的录音文件
+                        LocalMedia localMedia = new LocalMedia();
+                        localMedia.setDuration(Long.valueOf(duration) * 1000);
+                        localMedia.setFileName(convertedFile.getName());
+                        localMedia.setPath(convertedFile.getPath());
+                        localData.add(localMedia);
+
+                        RecorderBean recorderBean = new RecorderBean();
+                        recorderBean.setLocal(true);
+                        recorderBean.setFileName(convertedFile.getName());
+                        recorderBean.setFileType("1");
+                        recorderBean.setFileSize(String.valueOf(duration));
+                        recorderBean.setFileTime(convertedFile.lastModified());
+                        recorderBean.setFilePath(convertedFile.getPath());
+                        dataList.add(1, new AudioSectionBean(recorderBean));
+
+                        FileData fileData = new FileData();
+                        fileData.setBizId(caseId);
+                        fileData.setCaseId(caseId);
+                        fileData.setExist(true);
+                        fileData.setType(FileData.TYPE_AUDIO);
+                        fileData.setFileType(2);
+                        fileData.setRealPath(convertedFile.getPath());
+                        fileData.setFileName(convertedFile.getName());
+                        SugarRecord.save(fileData);
+                        hideLoading();
+                        Utils.scanMediaFile(RecordSelectorActivity2.this, convertedFile);
+                        Utils.deleteAudioFile(RecordSelectorActivity2.this, newFile);
+                        mRemoteAudioAdapter.notifyDataSetChanged();
                     }
 
-                    LocalMedia localMedia = new LocalMedia();
-                    localMedia.setDuration(Long.valueOf(duration) * 1000);
-                    localMedia.setFileName(newFile.getName());
-                    localMedia.setPath(newFile.getPath());
-                    localData.add(localMedia);
+                    @Override
+                    public void onFailure(Exception error) {
+                        //转码失败 依旧上传原始录音文件
+                        LocalMedia localMedia = new LocalMedia();
+                        localMedia.setDuration(Long.valueOf(duration) * 1000);
+                        localMedia.setFileName(newFile.getName());
+                        localMedia.setPath(newFile.getPath());
+                        localData.add(localMedia);
 
-                    RecorderBean recorderBean = new RecorderBean();
-                    recorderBean.setLocal(true);
-                    recorderBean.setFileName(newFile.getName());
-                    recorderBean.setFileType("1");
-                    recorderBean.setFileSize(String.valueOf(duration));
-                    recorderBean.setFileTime(newFile.lastModified());
-                    recorderBean.setFilePath(newFile.getPath());
+                        RecorderBean recorderBean = new RecorderBean();
+                        recorderBean.setLocal(true);
+                        recorderBean.setFileName(newFile.getName());
+                        recorderBean.setFileType("1");
+                        recorderBean.setFileSize(String.valueOf(duration));
+                        recorderBean.setFileTime(newFile.lastModified());
+                        recorderBean.setFilePath(newFile.getPath());
+                        dataList.add(1, new AudioSectionBean(recorderBean));
 
-                    dataList.add(1, new AudioSectionBean(recorderBean));
+                        FileData fileData = new FileData();
+                        fileData.setBizId(caseId);
+                        fileData.setCaseId(caseId);
+                        fileData.setExist(true);
+                        fileData.setType(FileData.TYPE_AUDIO);
+                        fileData.setFileType(2);
+                        fileData.setRealPath(newFile.getPath());
+                        fileData.setFileName(newFile.getName());
+                        SugarRecord.save(fileData);
+                        Utils.scanMediaFile(RecordSelectorActivity2.this, newFile);
+                        mRemoteAudioAdapter.notifyDataSetChanged();
+                        hideLoading();
+                    }
+                };
+                AndroidAudioConverter.with(this)
+                        // Your current audio file
+                        .setFile(newFile)
 
-                    FileData fileData = new FileData();
-                    fileData.setBizId(caseId);
-                    fileData.setCaseId(caseId);
-                    fileData.setExist(true);
-                    fileData.setType(FileData.TYPE_AUDIO);
-                    fileData.setFileType(2);
-                    fileData.setRealPath(newFile.getPath());
-                    fileData.setFileName(newFile.getName());
-                    SugarRecord.save(fileData);
-                    Utils.scanMediaFile(RecordSelectorActivity2.this, newFile);
-                    mRemoteAudioAdapter.notifyDataSetChanged();
-                }
+                        // Your desired audio format
+                        .setFormat(AudioFormat.MP3)
+
+                        // An callback to know when conversion is finished
+                        .setCallback(callback)
+
+                        // Start conversion
+                        .convert();
+
+
             }
         }
     }
+
 
     @Override
     public void onClick(View v) {
@@ -715,7 +764,7 @@ public class RecordSelectorActivity2 extends BaseActivity implements View.OnClic
      * 将数据库中FileData 数据 Exist 项改为false 让count能递增
      */
     private void showDeleteDialog(final Context context, final int index) {
-        Log.e("nb","index:"+index);
+        Log.e("nb", "index:" + index);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("提示");
         builder.setMessage("要删除此文件吗？");
@@ -743,7 +792,7 @@ public class RecordSelectorActivity2 extends BaseActivity implements View.OnClic
                         }
 
                         Utils.scanDirMedia(context, file.getParentFile());
-                       // Logger.i("delete position: %s", index + "--->remove after:" + list.size());
+                        // Logger.i("delete position: %s", index + "--->remove after:" + list.size());
                     } else {
                         RxToast.showToast("文件删除失败,请稍后重试");
                     }

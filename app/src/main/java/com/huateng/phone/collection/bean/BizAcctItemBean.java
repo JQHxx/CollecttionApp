@@ -15,21 +15,39 @@ public class BizAcctItemBean {
     private String overdueDays;//逾期天数
     private double loanPri;//尚欠本金
     private double loanInt;//尚欠利罚息
-    private double loanTotal;//尚欠总额
+    private double loanTotal;//逾期金额
     private double reducePri;//申请减免本金
     private double reduceInt;//申请减免利罚息
     private double reduceAccrual;//申请减免利息
     private double reduceTotal;//申请减免总额
-    private String planRepayTotal;//计划归还总额
+    private String planRepayTotal;//计划归还总额getReduceAccrual
     private String acctNo;//卡号
     private double shouldBreach;//违约金
-    private double penalAmt;// 分期提前结清手续费
+    private String penalAmt;// 分期提前结清手续费
+    private String inputPenalAmt;//手动输入的分期提前结清手续费
     private double reduceFee;//申请减免违约金
     private double reduceOth;//申请减免分期提前结清手续费
     private String isEarSettlement;//是否申请分期提前结清
     private String currency;//币种
     private String businessType;//业务类型
     private String cardType;//卡种
+    private double periodRestPri;//分期剩余本金
+
+    public double getPeriodRestPri() {
+        return periodRestPri;
+    }
+
+    public void setPeriodRestPri(double periodRestPri) {
+        this.periodRestPri = periodRestPri;
+    }
+
+    public String getInputPenalAmt() {
+        return inputPenalAmt;
+    }
+
+    public void setInputPenalAmt(String inputPenalAmt) {
+        this.inputPenalAmt = inputPenalAmt;
+    }
 
     public String getBusinessType() {
         return businessType;
@@ -159,11 +177,11 @@ public class BizAcctItemBean {
         this.shouldBreach = shouldBreach;
     }
 
-    public double getPenalAmt() {
+    public String getPenalAmt() {
         return penalAmt;
     }
 
-    public void setPenalAmt(double penalAmt) {
+    public void setPenalAmt(String penalAmt) {
         this.penalAmt = penalAmt;
     }
 

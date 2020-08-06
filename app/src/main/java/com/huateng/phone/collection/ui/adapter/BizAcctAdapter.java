@@ -36,15 +36,15 @@ public class BizAcctAdapter extends BaseQuickAdapter<BizAcctItemBean, BaseViewHo
 
         helper.setText(R.id.tv_product_name, item.getProductName())
                 .setText(R.id.tv_loan_no, item.getLoanNo())
-                .setText(R.id.tv_loan_amt, item.getLoanAmt() + "元")
-                .setText(R.id.tv_loan_int, item.getLoanInt() + "元")
-                .setText(R.id.tv_loan_total, item.getLoanTotal() + "元")
-                .setText(R.id.tv_overdue_days, item.getOverdueDays() + "天")//逾期天数
-                .setText(R.id.tv_reduce_pri, item.getReducePri() + "元")//申请减免本金
-                .setText(R.id.tv_reduce_int, item.getReduceInt() + "元")//申请减免利罚息
-                .setText(R.id.tv_loan_pri, item.getLoanPri() + "元")//逾期本金
+                .setText(R.id.tv_loan_amt, item.getLoanAmt() + "")
+                .setText(R.id.tv_loan_int, item.getLoanInt() + "")
+                .setText(R.id.tv_loan_total, item.getLoanTotal() + "")
+                .setText(R.id.tv_overdue_days, item.getOverdueDays() + "")//逾期天数
+                .setText(R.id.tv_reduce_pri, item.getReducePri() + "")//申请减免本金
+                .setText(R.id.tv_reduce_int, item.getReduceInt() + "")//申请减免利罚息
+                .setText(R.id.tv_loan_pri, item.getLoanPri() + "")//逾期本金
                 .setText(R.id.tv_end_date, DateUtil.getDate(item.getEndDate()))//结束日期
-                .setText(R.id.tv_reduce_total, item.getReduceTotal() + "元");
+                .setText(R.id.tv_reduce_total, item.getReduceTotal() + "");
         helper .setText(R.id.tv_account_num, "第" + (helper.getAdapterPosition() + 1) + "条零售个人贷款");
         helper.setText(R.id.edt_plan_repay_total, item.getPlanRepayTotal());
         if (map != null) {
@@ -82,16 +82,20 @@ public class BizAcctAdapter extends BaseQuickAdapter<BizAcctItemBean, BaseViewHo
                 if (TextUtils.isEmpty(s) && TextUtils.isEmpty(item.getPlanRepayTotal())) {
                    return;
                 }
+
+                if(s.endsWith(".")) {
+                    return;
+                }
                 if (item.getPlanRepayTotal().equals(s)) {
                    return;
 
                 }
+
+
                if (!item.getPlanRepayTotal().equals(editable.toString())) {
                     EventBus.getDefault().post(new EventBean(BusEvent.BIZ_ACCT_REDUCE_INFO, new BizAcctEventBean(helper.getAdapterPosition(), editable.toString(), "0")));
 
                 }
-
-                s = editable.toString();
             }
         });
 

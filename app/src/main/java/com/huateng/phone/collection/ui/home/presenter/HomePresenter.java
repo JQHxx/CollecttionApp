@@ -50,7 +50,6 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                .subscribe(new BaseObserver2<CaseBeanData>() {
                     @Override
                     public void onError(String code, String msg) {
-                        Log.e("nb","222");
                         if (mView == null) {
                             return;
                         }
@@ -71,6 +70,9 @@ public class HomePresenter extends BasePresenter<HomeContract.View> implements H
                         if (caseBeanData == null || caseBeanData.getRecords().size() ==0) {
                             if (status == Constants.REFRESH) {
                                 mView.showEmpty();
+                            }else {
+                                Log.e("nb","setLoadMoreEnd");
+                                mView.setLoadMoreEnd();
                             }
                             return;
                         }

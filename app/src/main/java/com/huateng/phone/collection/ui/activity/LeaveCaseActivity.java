@@ -55,6 +55,8 @@ public class LeaveCaseActivity extends BaseActivity {
 
     private String caseId;
 
+    private boolean leaveCase = false;
+
     @Override
     protected BasePresenter createPresenter() {
         return null;
@@ -155,9 +157,10 @@ public class LeaveCaseActivity extends BaseActivity {
                 }).build().show();
                 break;
             case R.id.btn_save:
-
-                saveData();
-
+                if(!leaveCase) {
+                    leaveCase = true;
+                    saveData();
+                }
                 break;
         }
     }
@@ -167,19 +170,23 @@ public class LeaveCaseActivity extends BaseActivity {
         String applyReason = mEdtApplyReason.getText().toString();//留案理由
         if (TextUtils.isEmpty(caseId)) {
             RxToast.showToast("案件ID不能为空");
+            leaveCase = false;
             return;
         }
         if ("请选择".equals(stayEndDate)) {
             RxToast.showToast("留案截止日期不能为空");
+            leaveCase = false;
             return;
         }
 
         if (TextUtils.isEmpty(applyReason)) {
             RxToast.showToast("留案原因说明不能为空");
+            leaveCase = false;
             return;
         }
         if (applyReason.length() > 200) {
             RxToast.showToast("留案原因说明大于200字");
+            leaveCase = false;
             return;
         }
 
@@ -206,12 +213,14 @@ public class LeaveCaseActivity extends BaseActivity {
                     @Override
                     public void onError(String code, String msg) {
                         hideLoading();
+                        leaveCase = false;
                         RxToast.showToast(msg);
                     }
 
                     @Override
                     public void onNextData(String respBase) {
                         hideLoading();
+                        leaveCase = false;
                         RxToast.showToast("留案申请操作成功");
                         finish();
                     }

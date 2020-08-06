@@ -445,10 +445,11 @@
                         android:id="@+id/edt_home_msg"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textSize="14sp"
                         android:padding="5dp"
-                        android:scrollbars="vertical"
+                        android:textSize="14sp"
+                        android:maxLength="200"
                         android:gravity="top|left"
+                        android:scrollbars="vertical"
                         android:textColor="@color/text_color_343434"
                         android:hint=" 200字以内"
                         android:background="@null"/>
@@ -471,12 +472,12 @@
                     android:textColor="@color/text_color_343434"
                     android:text="公积金信息"/>
 
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:background="#fafafa"
                     android:layout_marginRight="16dp"
                     android:layout_marginLeft="16dp"
-                    android:orientation="vertical"
                     android:minHeight="75dp"
                     android:layout_height="wrap_content">
                     <EditText
@@ -484,13 +485,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:textSize="14sp"
-                        android:padding="5dp"
-                        android:scrollbars="vertical"
                         android:gravity="top|left"
+                        android:scrollbars="vertical"
+                        android:maxLength="200"
+                        android:padding="5dp"
                         android:textColor="@color/text_color_343434"
                         android:hint=" 200字以内"
                         android:background="@null"/>
                 </LinearLayout>
+
 
             </LinearLayout>
 

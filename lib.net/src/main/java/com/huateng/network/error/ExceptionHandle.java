@@ -42,6 +42,7 @@ public class ExceptionHandle {
         if (e instanceof HttpException) {
             HttpException httpException = (HttpException) e;
             ex = new ResponeThrowable(e, ERROR.HTTP_ERROR);
+            Log.e("nb","ex:"+ex.code+":"+ex.message);
             switch (httpException.code()) {
                 case UNAUTHORIZED:
 

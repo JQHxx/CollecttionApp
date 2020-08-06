@@ -1,199 +1,203 @@
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>案件分布图</title>
-		
-		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-		<link rel="stylesheet" href="http://uat-onlinemap.nbcb.com.cn:30283/optimove/css/weui.min.css" />
-		<script type="text/javascript" src="http://uat-onlinemap.nbcb.com.cn:30283/optimove/mapInformation/getScript.do?appid=APMSDT_PN&transcode=1001&transchannel=01&type=0"></script>
-		<script type="text/javascript" language="javascript" src="http://uat-onlinemap.nbcb.com.cn:30283/optimove/js/zTree/jquery-1.8.3.min.js"></script>
-  
-		<!--
-		<link rel="stylesheet" href="http://onlinemap.nbcb.com.cn:8080/optimove/css/weui.min.css" />
-		<script type="text/javascript" src="http://onlinemap.nbcb.com.cn:8080/optimove/mapInformation/getScript.do?appid=APMSDT_PN&transcode=1001&transchannel=01&type=0"></script>
-		<script type="text/javascript" language="javascript" src="http://onlinemap.nbcb.com.cn:8080/optimove/js/zTree/jquery-1.8.3.min.js"></script>
-      -->
-	</head>
-	<body>
+<head>
+    <meta charset="UTF-8">
+    <title>案件分布图</title>
 
-		<div id="mapDiv" style="width: 100%;height: 100%; overflow: hidden; margin:0; font-family: '微软雅黑';"></div>
-	</body>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+<link rel="stylesheet" href="http://uat-onlinemap.nbcb.com.cn:30283/optimove/css/weui.min.css" />
+<script type="text/javascript" src="http://uat-onlinemap.nbcb.com.cn:30283/optimove/mapInformation/getScript.do?appid=APMSDT_PN&transcode=1001&transchannel=01&type=0"></script>
+<script type="text/javascript" language="javascript" src="http://uat-onlinemap.nbcb.com.cn:30283/optimove/js/zTree/jquery-1.8.3.min.js"></script>
 
-	<script type="text/javascript">
-		//新建地图
-		var map = new MapCore("mapDiv");
-		//初始化中心点
-		var point = new MapCore.Point([121.5418, 29.80963]); //  [112.16786,32.052849]//宁波[121.5418, 29.80963]
-		map.setCenterAndZoom(point, 9);
-		//设置可缩放
-		map.enableZoom(true);
-		//添加地图类型控件
-		map.addMapTypeControl();
-		//添加比例尺控件
-		map.addScaleControl();
-		map.setZoom(16);
+    <!--
+       <link rel="stylesheet" href="http://onlinemap.nbcb.com.cn:8080/optimove/css/weui.min.css"/>
+       <script type="text/javascript"
+               src="http://onlinemap.nbcb.com.cn:8080/optimove/mapInformation/getScript.do?appid=APMSDT_PN&transcode=1001&transchannel=01&type=0"></script>
+       <script type="text/javascript" language="javascript"
+               src="http://onlinemap.nbcb.com.cn:8080/optimove/js/zTree/jquery-1.8.3.min.js"></script>
+   -->
+   </head>
+   <body>
 
-		var viewPortPoint = [];
-		var viewMarkerPort = [];
-		//marker自定义图标方式2：图标偏移可设置
-		var point = new MapCore.Point([121.5418, 29.80963]);
-		//ICON对象 //"http://uat-onlinemap.nbcb.com.cn:30283/nbcbimages/car_03.png"
+   <div id="mapDiv"
+        style="width: 100%;height: 100%; overflow: hidden; margin:0; font-family: '微软雅黑';"></div>
+   </body>
 
-		var myIcon = new MapCore.Icon({
-			image: "./image/commute_icon_home.png",
-			size: new MapCore.Size([57, 69]) //设置图标大小后，marker会用图标中心点作为定点
-		});
+   <script type="text/javascript">
+           //新建地图
+           var map = new MapCore("mapDiv");
+           //初始化中心点
+           var point = new MapCore.Point([121.5418, 29.80963]); //  [112.16786,32.052849]//宁波[121.5418, 29.80963]
+           map.setCenterAndZoom(point, 9);
+           //设置可缩放
+           map.enableZoom(true);
+           //添加地图类型控件
+           map.addMapTypeControl();
+           //添加比例尺控件
+           map.addScaleControl();
+           map.setZoom(16);
 
+           var viewPortPoint = [];
+           var viewMarkerPort = [];
+           //marker自定义图标方式2：图标偏移可设置
+           var point = new MapCore.Point([121.5418, 29.80963]);
+           //ICON对象 //"http://uat-onlinemap.nbcb.com.cn:30283/nbcbimages/car_03.png"
 
-		//参考图标
-		var markerDefault = new MapCore.Marker(point); // 创建标注
-
-		map.addMarker(markerDefault); //添加marker 标志
-
-		viewPortPoint.push(point);
-
-		map.setViewport(viewPortPoint); //让多点自适应在当前窗口中
-
-		//清除标记
-		function clearAllmark() {
-			//删除指定marker点
-			map.removeOverlay(viewMarkerPort);
-		}
-
-		console.log("地图开始加载")
-
-		//添加一个mark点
-		function addmark() {
+           var myIcon = new MapCore.Icon({
+               image: "./image/commute_icon_home.png",
+               size: new MapCore.Size([57, 69]) //设置图标大小后，marker会用图标中心点作为定点
+           });
 
 
-			//marker自定义图标方式2：图标偏移可设置
-			var point2 = new MapCore.Point([121.5468, 29.80993]);
-			//ICON对象
-			var myIcon = new MapCore.Icon({
-				image: "./image/commute_icon_home.png",
-				size: new MapCore.Size([57, 69]) //设置图标大小后，marker会用图标中心点作为定点
-			});
+           //参考图标
+           var markerDefault = new MapCore.Marker(point); // 创建标注
 
-			marker2 = new MapCore.Marker({
-				autoOptions: 1,
-				point: point2,
-				icon: myIcon,
-				offset: new MapCore.Pixel([-25, -32])
-			}); // 创建标注
+           map.addMarker(markerDefault); //添加marker 标志
 
-			map.addMarker(marker2); //添加marker 标志
+           viewPortPoint.push(point);
 
-			//标记点单击鼠标触发事件
-			var myWindow2 = map.addTextInfoWindow("阿苏噶快速发给", null);
+           map.setViewport(viewPortPoint); //让多点自适应在当前窗口中
 
+           //清除标记
+           function clearAllmark() {
+               //删除指定marker点
+               map.removeOverlay(viewMarkerPort);
+           }
 
+           console.log("地图开始加载")
 
-			marker2.addEvent('click', function(e) {
-				console.log(e);
-				map.openInfoWindow(myWindow2, point2); // //打开信息窗口
+           //添加一个mark点
+           function addmark() {
 
 
-			});
-			//参考图标
-			/*  markerDefault2 =new MapCore.Marker(point2);	// 创建标注
-			 map.addMarker(markerDefault2); //添加marker 标志 */
+               //marker自定义图标方式2：图标偏移可设置
+               var point2 = new MapCore.Point([121.5468, 29.80993]);
+               //ICON对象
+               var myIcon = new MapCore.Icon({
+                   image: "./image/commute_icon_home.png",
+                   size: new MapCore.Size([57, 69]) //设置图标大小后，marker会用图标中心点作为定点
+               });
 
-		}
+               marker2 = new MapCore.Marker({
+                   autoOptions: 1,
+                   point: point2,
+                   icon: myIcon,
+                   offset: new MapCore.Pixel([-25, -32])
+               }); // 创建标注
 
+               map.addMarker(marker2); //添加marker 标志
 
-		// Android需要调用的方法
-		function AndroidcallJS() {
-			alert("Android调用了JS的AndroidcallJS方法");
-
-		}
-
-		window.JsCallNative.addMark('');
-
-
-		function setData(str) {
-			/* 	if (viewMarkerPort != undefined && viewMarkerPort.length > 0) {
-				for (i = 0; i < viewMarkerPort.length; i++) {
-					map.removeOverlay(viewMarkerPort[i]);
-				}
-			}
- */
-			var iconArr = ["./image/commute_icon_home.png", "./image/commute_icon_company.png", "./image/play_scenic.png"];
-
-			for (var i = 0; i < str.length; i++) {
-				//marker自定义图标方式2：图标偏移可设置
-				var point = new MapCore.Point([str[i].lon, str[i].lat]);
-				//ICON对象
-				var myImage;
-				if (str[i].addressType == 0) {
-					myImage = iconArr[0];
-				} else if (str[i].addressType == 1) {
-					myImage = iconArr[1];
-				} else if (str[i].addressType == 2) {
-					myImage = iconArr[2];
-				}
-
-				var myIcon = new MapCore.Icon({
-					image: myImage,
-					size: new MapCore.Size([57, 69]) //设置图标大小后，marker会用图标中心点作为定点
-				});
-				var marker = new MapCore.Marker({
-					autoOptions: 1,
-					point: point,
-					icon: myIcon,
-					offset: new MapCore.Pixel([-25, -32])
-				}); // 创建标注
-				var custName = str[i].custName
-				marker.name = custName;
-				//marker.number= i;
-				marker.address = str[i].address;
-
-				map.addMarker(marker); //添加marker 标志
-				viewPortPoint.push(point);
-				viewMarkerPort.push(marker);
-				//标记点单击鼠标触发事件
-
-					marker.addEvent('click', function(e) {
-					var lon_e = e.lnglat.lng;
-					var lat_e = e.lnglat.lat;
-					var selectPointLocatin = lon_e + "-" + lat_e;
-					var ht = '<div><div onclick=jumpOtherMap("' + lon_e + '","' + lat_e + '","' + e.target.address + '")><div>' + e.target
-						.name + '</div><div>' + e.target.address + '</div></div></div>'
-					var t_window = map.addTextInfoWindow(ht, null);
-					map.openInfoWindow(t_window, e.lnglat);
-
-				});
+               //标记点单击鼠标触发事件
+               var myWindow2 = map.addTextInfoWindow("阿苏噶快速发给", null);
 
 
-			}
+
+               marker2.addEvent('click', function(e) {
+                   console.log(e);
+                   map.openInfoWindow(myWindow2, point2); // //打开信息窗口
 
 
-			map.setViewport(viewPortPoint); //让多点自适应在当前窗口中
+               });
+               //参考图标
+               /*  markerDefault2 =new MapCore.Marker(point2);	// 创建标注
+                map.addMarker(markerDefault2); //添加marker 标志 */
+
+           }
 
 
-		}
+           // Android需要调用的方法
+           function AndroidcallJS() {
+               alert("Android调用了JS的AndroidcallJS方法");
+
+           }
+
+           window.JsCallNative.addMark('');
 
 
-		//清除所有点
-		function clearAllMarker() {
-			if (viewMarkerPort == undefined || viewMarkerPort.length == 0) {
-				return;
-			}
-			for (i = 0; i < viewMarkerPort.length; i++) {
-				map.removeOverlay(viewMarkerPort[i]);
-			}
-			viewMarkerPort = [];
-		}
+           function setData(str) {
+               /* 	if (viewMarkerPort != undefined && viewMarkerPort.length > 0) {
+                   for (i = 0; i < viewMarkerPort.length; i++) {
+                       map.removeOverlay(viewMarkerPort[i]);
+                   }
+               }
+    */
+               var iconArr = ["./image/commute_icon_home.png", "./image/commute_icon_company.png", "./image/play_scenic.png"];
 
-		//传参给原生，原生跳转第三方地图
-		function jumpOtherMap(lon, lat, address) {
-			//alert(address);
-			window.JsCallNative.jumpAppOtherMap(lon, lat, address);
-		}
+               for (var i = 0; i < str.length; i++) {
+                   //marker自定义图标方式2：图标偏移可设置
+                   var point = new MapCore.Point([str[i].lon, str[i].lat]);
+                   //ICON对象
+                   var myImage;
+                   if (str[i].addressType == 0) {
+                       myImage = iconArr[0];
+                   } else if (str[i].addressType == 1) {
+                       myImage = iconArr[1];
+                   } else if (str[i].addressType == 2) {
+                       myImage = iconArr[2];
+                   }
+
+                   var myIcon = new MapCore.Icon({
+                       image: myImage,
+                       size: new MapCore.Size([57, 69]) //设置图标大小后，marker会用图标中心点作为定点
+                   });
+                   var marker = new MapCore.Marker({
+                       autoOptions: 1,
+                       point: point,
+                       icon: myIcon,
+                       offset: new MapCore.Pixel([-25, -32])
+                   }); // 创建标注
+                   var custName = str[i].custName
+                   marker.name = custName;
+                   //marker.number= i;
+                   marker.address = str[i].address;
+
+                   map.addMarker(marker); //添加marker 标志
+                   viewPortPoint.push(point);
+                   viewMarkerPort.push(marker);
+                   //标记点单击鼠标触发事件
+
+                       marker.addEvent('click', function(e) {
+                       var lon_e = e.lnglat.lng;
+                       var lat_e = e.lnglat.lat;
+                       var selectPointLocatin = lon_e + "-" + lat_e;
+                       var ht = '<div><div onclick=jumpOtherMap("' + lon_e + '","' + lat_e + '","' + e.target.address + '")><div>' + e.target
+                           .name + '</div><div>' + e.target.address + '</div></div></div>'
+                       var t_window = map.addTextInfoWindow(ht, null);
+                       map.openInfoWindow(t_window, e.lnglat);
+
+                   });
 
 
-		//关闭信息窗体
-		function closeInfoWindow() {
-			map.clearInfoWindow();
-		}
-	</script>
-</html>
+               }
+
+
+               map.setViewport(viewPortPoint); //让多点自适应在当前窗口中
+
+
+           }
+
+
+           //清除所有点
+           function clearAllMarker() {
+               if (viewMarkerPort == undefined || viewMarkerPort.length == 0) {
+                   return;
+               }
+               for (i = 0; i < viewMarkerPort.length; i++) {
+                   map.removeOverlay(viewMarkerPort[i]);
+               }
+               viewMarkerPort = [];
+           }
+
+           //传参给原生，原生跳转第三方地图
+           function jumpOtherMap(lon, lat, address) {
+               //alert(address);
+               window.JsCallNative.jumpAppOtherMap(lon, lat, address);
+           }
+
+
+           //关闭信息窗体
+           function closeInfoWindow() {
+               map.clearInfoWindow();
+           }
+
+   </script>
+   </html>

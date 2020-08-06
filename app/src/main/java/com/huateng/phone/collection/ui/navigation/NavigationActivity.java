@@ -11,18 +11,17 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.flyco.systembar.SystemBarHelper;
-import com.huateng.network.update.UpdateAppManager;
 import com.huateng.phone.collection.R;
 import com.huateng.phone.collection.app.Config;
 import com.huateng.phone.collection.app.Perference;
 import com.huateng.phone.collection.base.BaseFragment;
 import com.huateng.phone.collection.network.UpdateHelper;
-import com.huateng.phone.collection.network.UpdateManager;
 import com.huateng.phone.collection.ui.activity.ChangePasswordActivity;
 import com.huateng.phone.collection.ui.activity.LoginActivity;
 import com.huateng.phone.collection.ui.dialog.AlertDialogFragment;
 import com.huateng.phone.collection.ui.dialog.AlertFragmentUtil;
 import com.huateng.phone.collection.ui.home.view.HomeFragment;
+import com.huateng.phone.collection.utils.DateUtil;
 import com.huateng.phone.collection.utils.cases.AttachmentProcesser;
 import com.huateng.phone.collection.widget.Watermark;
 import com.huateng.phone.collection.widget.gradientuilibrary.GradientIconView;
@@ -134,7 +133,7 @@ public class NavigationActivity extends AppCompatActivity implements ViewPager.O
         Config.setBoolean(Config.FIRST_OPEN, false);
 
         String passwordOverdueInfo = Perference.get(Perference.PASSWORD_OVERDUE_INFO);
-        //是否是强制更新
+        //是否提醒密码快过期
         if (!TextUtils.isEmpty(passwordOverdueInfo)) {
             AlertFragmentUtil.showAlertDialog(NavigationActivity.this, passwordOverdueInfo + ",去修改密码？", new AlertDialogFragment.OnDialogButtonClickListener() {
                 @Override
@@ -154,9 +153,11 @@ public class NavigationActivity extends AppCompatActivity implements ViewPager.O
             });
         }
 
+        String updateDate = Perference.get("update_data");
+        if (!TextUtils.isEmpty(updateDate) && !DateUtil.getDate(System.currentTimeMillis()).equals(updateDate)) {
+            UpdateHelper.checkupdate(NavigationActivity.this, false);
 
-        UpdateHelper.checkupdate(NavigationActivity.this, true);
-
+        }
     }
 
 
@@ -390,13 +391,4 @@ public class NavigationActivity extends AppCompatActivity implements ViewPager.O
         EventBus.getDefault().unregister(this);
     }
 
-    private void updateApp() {
-        new UpdateAppManager.Builder()
-                .setActivity(NavigationActivity.this)
-                .setUpdateUrl("http://cdn.nbcb.com.cn/waifangqingshouapp/外访清收-v1.0.0.apk")
-                .setHttpManager(new UpdateManager())
-                .build()
-                .update();
-
-    }
 }

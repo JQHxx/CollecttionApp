@@ -85,6 +85,8 @@ public class StopUrgingActivity extends BaseActivity {
 
     private String stopCallReason;//停催原因
 
+    private boolean stopUrging = false;
+
 
     @Override
     protected BasePresenter createPresenter() {
@@ -260,8 +262,12 @@ public class StopUrgingActivity extends BaseActivity {
                 break;
             case R.id.btn_send:
             case R.id.btn_send2:
-                sendData();
-                //finish();
+                if (!stopUrging) {
+                    stopUrging = true;
+                    sendData();
+                }
+
+
                 break;
 
             case R.id.ll_for_ever_stop:
@@ -308,22 +314,26 @@ public class StopUrgingActivity extends BaseActivity {
         }
         if (TextUtils.isEmpty(stopCallReason)) {
             RxToast.showToast("停催原因不能为空");
+            stopUrging = false;
             return;
         }
 
         if (TextUtils.isEmpty(applyReason)) {
             RxToast.showToast("停催原因说明不能为空");
+            stopUrging = false;
             return;
         }
 
         if (!TextUtils.isEmpty(applyReason) && applyReason.length() > 200) {
             RxToast.showToast("停催原因说明不能大于200字");
+            stopUrging = false;
             return;
         }
 
         if ("0".equals(foreverStopCall) && "请选择".equals(stopCallEndDate)) {
             //不是永久停催
             RxToast.showToast("案件结束日期不能为空");
+            stopUrging = false;
             return;
         }
 
@@ -357,11 +367,13 @@ public class StopUrgingActivity extends BaseActivity {
                     public void onError(String code, String msg) {
                         hideLoading();
                         RxToast.showToast(msg);
+                        stopUrging = false;
                     }
 
                     @Override
                     public void onNextData(String s) {
                         hideLoading();
+                        stopUrging = false;
                         RxToast.showToast("停催申请操作成功");
                         finish();
                     }

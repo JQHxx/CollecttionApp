@@ -88,6 +88,54 @@ public class WaitCasePresenter extends BasePresenter<WaitCaseContract.View> impl
     }
 
 
+    /**
+     * 加载搜索案件
+     *
+     * @param custName
+     */
+    @Override
+    public void loadSearchCase(String custName) {
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("tlrNo", Perference.getUserId());
+        map.put("orgId", Perference.get(Perference.ORG_ID));
+        map.put("operFlag","0");
+        map.put("pageNo", "0");
+        map.put("pageSize", "20");
+        map.put("condition", custName);
+
+        request(ApiConstants.MOBILE_APP_INTERFACE, ApiConstants.METHOD_QUERY_TODO_CASE_LIST, map)
+                .subscribe(new BaseObserver2<CaseBeanData>() {
+
+
+                    @Override
+                    public void onError(String code, String msg) {
+                        if (mView == null) {
+                            return;
+                        }
+
+                        if (TextUtils.isEmpty(msg)) {
+                            return;
+                        }
+
+                        mView.showToast(msg);
+                    }
+
+                    @Override
+                    public void onNextData(CaseBeanData caseBeanData) {
+                        if (mView == null) {
+                            return;
+                        }
+                        pageNum = caseBeanData.getNextPage();
+                        mView.setSearchCase(caseBeanData.getRecords());
+                    }
+                });
+
+
+    }
+
+
+
     @Override
     public void removeWaitCast(List<CaseIdBean> caseIds,int position) {
         Map<String, Object> map = new HashMap<>();

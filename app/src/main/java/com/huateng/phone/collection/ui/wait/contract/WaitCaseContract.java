@@ -21,6 +21,13 @@ public interface WaitCaseContract {
         void showEmptyView();
 
         void removeWaitCaseSucess(int position);
+
+        /**
+         * 展示搜索数据
+         * @param respCaseSummaries
+         */
+        void setSearchCase(List<CaseBeanData.RecordsBean> respCaseSummaries);
+
     }
 
     interface Presenter {
@@ -32,6 +39,11 @@ public interface WaitCaseContract {
          */
         void loadData(int status);
 
+        /**
+         * 加载搜索案件
+         * @param custName
+         */
+        void loadSearchCase(String custName);
 
         void removeWaitCast(List<CaseIdBean> caseIds,int position);
     }

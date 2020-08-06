@@ -15,7 +15,7 @@ public class ReduceRequestBean {
     private String loanInt;
     private String loanTotal;
     private String reducePri;
-    private String reduceInt;
+    private String reduceInt;//申请减免透支利息
     private String reduceTotal;
     private String planRepayTotal;
     private String acctNo;

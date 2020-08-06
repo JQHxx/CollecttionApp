@@ -25,6 +25,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
@@ -75,6 +76,8 @@ public class CreditCardDetailActivity extends BaseActivity {
     TextView mTvOverdrawAmtType;
     @BindView(R.id.tv_current_loan_cash_amount_type)
     TextView mTvCurrentLoanCashAmountType;
+    @BindView(R.id.tv_overdue_periods_type)
+    TextView mTvOverduePeriodsType;
     private CreditCardBean.RecordsBean recordsBean;
 
     @Override
@@ -173,11 +176,14 @@ public class CreditCardDetailActivity extends BaseActivity {
             mTvOvduPrincipalAmtsType.setText("美元逾期总本金:");
             mTvOverdrawAmtType.setText("美元当前透支本金:");
             mTvCurrentLoanCashAmountType.setText("美元当前透支金额:");
+            mTvOverduePeriodsType.setText("美元逾期期数:");
+
         } else {
             mTvOvduAmtsType.setText("人民币逾期总金额:");
             mTvOvduPrincipalAmtsType.setText("人民币逾期总本金:");
             mTvOverdrawAmtType.setText("人民币当前透支本金:");
             mTvCurrentLoanCashAmountType.setText("人民币当前透支金额:");
+            mTvOverduePeriodsType.setText("人民币逾期期数:");
         }
 
 
@@ -230,4 +236,10 @@ public class CreditCardDetailActivity extends BaseActivity {
         return bindToLifecycle();
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

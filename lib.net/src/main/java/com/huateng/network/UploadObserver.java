@@ -3,7 +3,11 @@ package com.huateng.network;
 import android.util.Log;
 import android.util.Pair;
 
+import com.tools.bean.BusEvent;
+import com.tools.bean.EventBean;
 import com.tools.utils.GsonUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -64,6 +68,12 @@ public abstract class UploadObserver<T> implements Observer<Object> {
 
     @Override
     public void onError(Throwable e) {
+        Log.e("nb",e.getLocalizedMessage()+":"+e.getMessage());
+        if("tokenOverdue".equals(e.getMessage())) {
+            //token过期了
+            EventBus.getDefault().post(new EventBean(BusEvent.TOKEN_OVERDUE));
+            return;
+        }
         _onError(e);
     }
 

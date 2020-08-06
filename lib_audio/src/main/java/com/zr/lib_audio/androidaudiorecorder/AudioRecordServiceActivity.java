@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -341,7 +340,6 @@ public class AudioRecordServiceActivity extends AppCompatActivity {
                     /**
                      * 录音超过30分钟停止录音
                      */
-                    Log.e("nb", "recordLength:" + recordLength);
                     if (recordLength >= 30 * 60) {
                         toggleRecording(null);
                         RxToast.showToast("录音时长不能超过30分钟");

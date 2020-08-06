@@ -1,6 +1,7 @@
 package com.huateng.phone.collection.ui.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,6 +10,7 @@ import com.flyco.systembar.SystemBarHelper;
 import com.huateng.phone.collection.R;
 import com.huateng.phone.collection.base.BaseActivity;
 import com.huateng.phone.collection.base.BasePresenter;
+import com.tools.utils.AppUtils;
 import com.tools.view.RxTitle;
 import com.trello.rxlifecycle3.LifecycleTransformer;
 
@@ -56,7 +58,10 @@ public class AboutActivity extends BaseActivity {
      */
     @Override
     protected void initData() {
-
+        String appVersionName = AppUtils.getAppVersionName();
+        if(!TextUtils.isEmpty(appVersionName)) {
+            mTvVersion.setText("V"+appVersionName);
+        }
     }
 
     /**

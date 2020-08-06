@@ -146,7 +146,15 @@ public class BizAcctInfoBean {
         private double periodRestFee;//分期提前结清手续费
         private String businessType;
         private String cardType;
+        private double periodRestPri;//分期剩余本金
 
+        public double getPeriodRestPri() {
+            return periodRestPri;
+        }
+
+        public void setPeriodRestPri(double periodRestPri) {
+            this.periodRestPri = periodRestPri;
+        }
 
         public String getCardType() {
             return cardType;

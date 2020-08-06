@@ -282,23 +282,75 @@
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-
         <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="分期剩余本金"
+            android:textColor="@color/text_color_333333"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_period_rest_pri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:textColor="@color/text_color_666666"
+            android:textSize="15sp" />
+
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_period_rest_pri_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:textSize="14sp"
+        android:text="申请减免前需先结清分期剩余本金"
+        android:layout_marginBottom="5dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/line_color"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_color_333333"
             android:textSize="14sp"
             android:text="分期提前结清手续费"/>
 
-        <TextView
+
+        <EditText
             android:id="@+id/tv_penal_amt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:textSize="15sp"
-            android:textColor="@color/text_color_666666"
+            android:gravity="right|center_vertical"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            android:imeOptions="actionSearch"
+            android:maxLines="1"
+            android:hint="请输入分期提前结清手续费"
+            android:paddingRight="5dp"
+            android:background="@color/text_color_e3e3e3"
+            android:textColor="@color/text_color_343434"
             />
+
     </LinearLayout>
 
     <View
@@ -551,9 +603,5 @@
             android:textColor="@color/text_color_343434"
             />
     </LinearLayout>
-<!--
-      android:background="@color/text_color_e3e3e3"
- -->
-
 
 </LinearLayout>

@@ -3,10 +3,10 @@ package com.huateng.phone.collection.app;
 import android.content.Context;
 
 import com.facebook.stetho.Stetho;
-import com.huateng.phone.collection.BuildConfig;
 import com.huateng.fm.app.FmAttributeValues;
 import com.huateng.fm.core.app.FmApplication;
 import com.huateng.network.NetworkConfig;
+import com.huateng.phone.collection.BuildConfig;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.orm.SugarContext;
@@ -14,6 +14,8 @@ import com.tools.utils.SDCardUtils;
 import com.tools.utils.Utils;
 
 import androidx.multidex.MultiDex;
+import cafe.adriel.androidaudioconverter.AndroidAudioConverter;
+import cafe.adriel.androidaudioconverter.callback.ILoadCallback;
 
 import static com.facebook.stetho.Stetho.newInitializerBuilder;
 
@@ -27,7 +29,16 @@ public class MainApplication extends FmApplication {
     public void onCreate(Context context) throws Exception {
         application = this;
         mContext = getApplicationContext();
-
+        AndroidAudioConverter.load(this, new ILoadCallback() {
+            @Override
+            public void onSuccess() {
+                // Great!
+            }
+            @Override
+            public void onFailure(Exception error) {
+                // FFmpeg is not supported by device
+            }
+        });
         FmAttributeValues.init(this);
         //工具类库
         Utils.init(this);

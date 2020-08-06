@@ -3,11 +3,20 @@ package com.huateng.phone.collection.ui.navigation;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.flyco.dialog.listener.OnOperItemClickL;
@@ -26,6 +35,7 @@ import com.huateng.phone.collection.ui.wait.contract.WaitCaseContract;
 import com.huateng.phone.collection.ui.wait.presenter.WaitCasePresenter;
 import com.huateng.phone.collection.widget.DividerItemDecoration;
 import com.orm.SugarRecord;
+import com.tools.SystemUtils;
 import com.tools.bean.BusEvent;
 import com.tools.bean.EventBean;
 import com.tools.view.RxTitle;
@@ -64,6 +74,16 @@ public class WaitCastFragment extends BaseFragment<WaitCasePresenter> implements
     RecyclerView mRecyclerview;
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.iv_search)
+    ImageView mIvSearch;
+    @BindView(R.id.edt_search)
+    EditText mEdtSearch;
+    @BindView(R.id.ll_clear_search)
+    LinearLayout mLlClearSearch;
+    @BindView(R.id.layout_search)
+    RelativeLayout mLayoutSearch;
+    @BindView(R.id.layout_head)
+    LinearLayout mLayoutHead;
     private WaitCasesAdapter mAdapter;
     private View emptyView;
     private String[] stringItems = {"拨号"};
@@ -136,7 +156,7 @@ public class WaitCastFragment extends BaseFragment<WaitCasePresenter> implements
 
                 List<CaseIdBean> caseIds = new ArrayList<>();
                 caseIds.add(new CaseIdBean(recordsBean.getCaseId()));
-                  mPresenter.removeWaitCast(caseIds,position);
+                mPresenter.removeWaitCast(caseIds, position);
             }
 
             @Override
@@ -186,64 +206,69 @@ public class WaitCastFragment extends BaseFragment<WaitCasePresenter> implements
             }
         });
 
-
-      /*  mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+        mLlClearSearch.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+            public void onClick(View view) {
+                mEdtSearch.setText("");
+                //  mPresenter.loadSearchCase(mEdtSearch.getText().toString().trim());
+            }
+        });
 
-                Log.e("nb",view.getId()+":");
-                if (view.getId() == R.id.content) {
+        mEdtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
-                    Intent intent = new Intent(mContext, CaseDetailActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString(Constants.BUSINESS_TYPE, bean.getBusinessType());
-                    bundle.putString(Constants.CASE_ID, bean.getCaseId());
-                    bundle.putString(Constants.CUST_ID, bean.getCustNo());
-                    bundle.putString(Constants.CUST_NAME, bean.getCustName());
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                    if (stateCache != null && stateCache == RIGHTOPEN) {
-                        easySwipeMenuLayout.resetStatus();
+            @Override
+
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                if ((actionId == EditorInfo.IME_ACTION_SEARCH)) {//如果是搜索按钮
+                    String search = mEdtSearch.getText().toString();
+
+                    //点击搜索要做的操作       
+                    if (!TextUtils.isEmpty(search)) {
+                        mPresenter.loadSearchCase(search);
+
+                    } else {
+                        RxToast.showToast("查询条件不能为空");
                     }
-
-                } else if (view.getId() == R.id.iv_call_phone) {
-
-                    if (TextUtils.isEmpty(bean.getPhoneNo())) {
-                        RxToast.showToast("手机号码不能未空");
-                        return;
-                    }
-                    String tiltle = String.format("拨打%s电话\r\n%s", bean.getCustName(), bean.getPhoneNo());
-                    dialog = new ActionSheetDialog(mContext, stringItems, null);
-                    dialog.title(tiltle)
-                            .titleTextSize_SP(14.5f)
-                            .show();
-
-                    dialog.setOnOperItemClickL(new OnOperItemClickL() {
-                        @Override
-                        public void onOperItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            String phoneNumber = bean.getPhoneNo();
-
-                            Perference.setPrepareCallRecording(true);
-                            Perference.setPrepareRecordingPhoneNumber(phoneNumber);
-
-                            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phoneNumber));
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            mContext.startActivity(intent);
-
-                            dialog.dismiss();
-                        }
-                    });
-                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + bean.getPhoneNo()));
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mContext.startActivity(intent);
-                } else if (view.getId() == R.id.right) {
+                    mEdtSearch.setText("");
+                    SystemUtils.hideInputmethod(mEdtSearch);
+                    return true;
 
                 }
 
+                return false;
+
+            }
+
+        });
+
+        mEdtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                if (charSequence.length() > 0) {
+                    if (mLlClearSearch != null) {
+                        mLlClearSearch.setVisibility(View.VISIBLE);
+                    }
+
+                } else {
+                    if (mLlClearSearch != null) {
+                        mLlClearSearch.setVisibility(View.INVISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
 
             }
         });
-*/
+
 
     }
 
@@ -328,6 +353,28 @@ public class WaitCastFragment extends BaseFragment<WaitCasePresenter> implements
         mAdapter.remove(position);
 
     }
+
+    /**
+     * 展示搜索数据
+     *
+     * @param respCaseSummaries
+     */
+    @Override
+    public void setSearchCase(List<CaseBeanData.RecordsBean> respCaseSummaries) {
+        if (respCaseSummaries == null || respCaseSummaries.size() == 0) {
+
+            if (Perference.getBoolean(Perference.OUT_SOURCE_FLAG)) {
+                mAdapter.getData().clear();
+                mAdapter.notifyDataSetChanged();
+            }
+            RxToast.showToast("没有查询到相关案件信息");
+
+            return;
+        }
+        mAdapter.setNewData(respCaseSummaries);
+        mAdapter.loadMoreEnd(true);
+    }
+
 
     /**
      * Called when a swipe gesture triggers a refresh.

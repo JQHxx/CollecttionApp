@@ -31,6 +31,8 @@ public interface HomeContract {
         void onError(String msg);
 
         void addToWaitCaseSucess();
+
+        void setLoadMoreEnd();
     }
 
     interface Presenter {

@@ -58,6 +58,7 @@ public class CaseBackActivity extends BaseActivity {
     private String caseId;
     private String applyReason;
     private List<DictItemBean> mDictItemBeanList;
+    private boolean caseBack = false;
     @Override
     protected BasePresenter createPresenter() {
         return null;
@@ -189,7 +190,11 @@ public class CaseBackActivity extends BaseActivity {
                 break;
             case R.id.btn_save:
                 //提交
-                sendRequest();
+                if(!caseBack) {
+                    caseBack = true;
+                    sendRequest();
+                }
+
                 break;
 
         }
@@ -198,20 +203,24 @@ public class CaseBackActivity extends BaseActivity {
     private void sendRequest() {
         String applyReasonDesc = mEdtApplyReasonDesc.getText().toString();//退案原因说明
         if (TextUtils.isEmpty(caseId)) {
+            caseBack = false;
             RxToast.showToast("案件ID不能为空");
             return;
         }
         if (TextUtils.isEmpty(applyReason)) {
             RxToast.showToast("退案原因不能为空");
+            caseBack = false;
             return;
         }
         if (TextUtils.isEmpty(applyReasonDesc)) {
             RxToast.showToast("退案原因说明不能为空");
+            caseBack = false;
             return;
         }
 
         if (applyReasonDesc.length()>200) {
             RxToast.showToast("退案原因说明不大于200字");
+            caseBack = false;
             return;
         }
 
@@ -241,6 +250,7 @@ public class CaseBackActivity extends BaseActivity {
                     public void onError(String code, String msg) {
                         hideLoading();
                         RxToast.showToast(msg);
+                        caseBack = false;
 
                     }
 
@@ -248,6 +258,7 @@ public class CaseBackActivity extends BaseActivity {
                     public void onNextData(String respBase) {
                         hideLoading();
                         RxToast.showToast("退案申请操作成功");
+                        caseBack = false;
                         finish();
                     }
                 });

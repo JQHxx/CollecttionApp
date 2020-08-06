@@ -5,8 +5,6 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.huateng.phone.collection.R;
-import com.huateng.phone.collection.bean.api.RespVersion;
 import com.huateng.network.ApiConstants;
 import com.huateng.network.NetworkConfig;
 import com.huateng.network.update.UpdateAppBean;
@@ -14,6 +12,10 @@ import com.huateng.network.update.UpdateAppManager;
 import com.huateng.network.update.UpdateCallback;
 import com.huateng.network.update.listener.ExceptionHandler;
 import com.huateng.network.update.listener.IUpdateDialogFragmentListener;
+import com.huateng.phone.collection.R;
+import com.huateng.phone.collection.app.Perference;
+import com.huateng.phone.collection.bean.api.RespVersion;
+import com.huateng.phone.collection.utils.DateUtil;
 import com.tools.bean.BusEvent;
 import com.tools.bean.EventBean;
 import com.tools.utils.AppUtils;
@@ -90,7 +92,8 @@ public class UpdateHelper {
                     @Override
                     public void onUpdateNotifyDialogCancel(UpdateAppBean updateApp) {
                         //用户点击关闭按钮，取消了更新，如果是下载完，用户取消了安装，则可以在 onActivityResult 监听到。
-
+                    //关闭更新页面 每天提醒一次
+                        Perference.set("update_data", DateUtil.getDate(System.currentTimeMillis()));
                     }
                 })
                 //忽略 参数appkey
@@ -208,9 +211,9 @@ public class UpdateHelper {
                      */
                     @Override
                     public void noNewApp(String error) {
-                        if (isActive) {
-                            RxToast.showToast("没有新版本");
-                        }
+                         if (isActive) {
+                           RxToast.showToast("没有新版本");
+                          }
                     }
                 });
 

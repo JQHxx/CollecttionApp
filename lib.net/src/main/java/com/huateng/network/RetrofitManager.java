@@ -3,7 +3,6 @@ package com.huateng.network;
 
 import android.os.Environment;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.aes_util.AESUtils;
 import com.baronzhang.retrofit2.converter.FastJsonConverterFactory;
@@ -120,6 +119,7 @@ public class RetrofitManager {
             Headers requestHeaders = request.headers();
             if (requestHeaders != null) {
                 Logger.i("headers: %s", requestHeaders.toString());
+
             }
 
             RequestBody requestBody = request.body();
@@ -147,21 +147,21 @@ public class RetrofitManager {
             }
 
             Logger.v(sb.toString());
-
             //响应部分
             final Response response = chain.proceed(request);
             final ResponseBody responseBody = response.body();
             final long contentLength = responseBody.contentLength();
 
             String httpStatus = response.header("GW_BACK_HTTP_STATUS");
-            if (!TextUtils.isEmpty(httpStatus) && "302".equals(httpStatus)) {
-                throw new RuntimeException("tokenOverdue");
-            }
+
             Headers responseHeaders = response.headers();
             if (responseHeaders != null) {
                 Logger.i("responseHeaders: %s", responseHeaders.toString());
             }
 
+            if (!TextUtils.isEmpty(httpStatus) && "302".equals(httpStatus)) {
+                throw new RuntimeException("tokenOverdue");
+            }
             BufferedSource source = responseBody.source();
             source.request(Long.MAX_VALUE); // Buffer the entire body.
             Buffer buffer = source.buffer();
@@ -180,9 +180,9 @@ public class RetrofitManager {
             if (contentLength != 0) {
                 String key = sb.toString();
                 String data = buffer.clone().readString(charset);
-                Log.e("nb", "data--->" + data);
+            //    Log.e("nb", "data--->" + data);
                 if (CommonUtils.isJson(data)) {
-                    Logger.json(data);
+                   // Logger.json(data);
                     CacheManager.getInstance().putCache(key, data);
                 } else {
                     // Logger.w(data);
@@ -234,7 +234,7 @@ public class RetrofitManager {
 
 
     //带token 请求
-    public Observable<ResponseStructure> request(String root, String method, Map<String, Object> map ) {
+    public Observable<ResponseStructure> request(String root, String method, Map<String, Object> map) {
         String uri = ApiConstants.format(root, method);
         String request = generateRequestJson(uri, map);
         //  Log.e("nb", "request-->" + request);
@@ -244,7 +244,7 @@ public class RetrofitManager {
     }
 
     //不带token请求
-    public Observable<ResponseStructure> loginRequest(Map<String, Object> map ) {
+    public Observable<ResponseStructure> loginRequest(Map<String, Object> map) {
         String uri = ApiConstants.format("mobileAppInterface", "login");
         String request = generateRequestJson(uri, map);
         okhttp3.RequestBody body = okhttp3.RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), request);
@@ -300,7 +300,7 @@ public class RetrofitManager {
                             //                            .hostnameVerifier(OkHttpsUtils.getAllHostnameVerify())
                             .cache(cache)
                             .addNetworkInterceptor(mRewriteCacheControlInterceptor)
-                          //  .addInterceptor(new CommonInterceptor())
+                            //  .addInterceptor(new CommonInterceptor())
                             .addNetworkInterceptor(mLoggingInterceptor)
                             //                            .addInterceptor(new ReceivedCookiesInterceptor())
                             //                            .addInterceptor(new AddCookiesInterceptor())
